@@ -22,9 +22,6 @@ maafw/
 agent/
 agent-beta/
 
-# ===== OCR 模型（大文件，从 PaddleOCR 官方下载，见 resource/model/ocr/README.md）=====
-resource/model/ocr/*.onnx
-
 # ===== CMake 生成 =====
 compile_commands.json
 CMakeCache.txt
