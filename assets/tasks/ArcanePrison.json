@@ -1,0 +1,65 @@
+{
+    "task": [
+        {
+            "name": "ArcanePrison",
+            "label": "⛓️奥术监牢",
+            "entry": "ArcaneCellBattleStart",
+            "group": [
+                "other_tasks"
+            ],
+            "option": [
+                "StopFailReduce",
+                "StopFailCount"
+            ]
+        }
+    ],
+    "option": {
+        "StopFailReduce": {
+            "type": "switch",
+            "label": "连续失败后停止",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "ArcaneCellBattleQuit": {
+                            "attach": {
+                                "stop_fail_reduce": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                        "ArcaneCellBattleQuit": {
+                            "attach": {
+                                "stop_fail_reduce": false
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        "StopFailCount": {
+            "type": "input",
+            "label": "连续失败次数",
+            "inputs": [
+                {
+                    "name": "StopFailCountValue",
+                    "label": "连续失败次数",
+                    "pipeline_type": "int",
+                    "verify": "^[1-9]\\d{0,2}$",
+                    "default": "3"
+                }
+            ],
+            "pipeline_override": {
+                "ArcaneCellBattleQuit": {
+                    "attach": {
+                        "stop_fail_count": "{StopFailCountValue}"
+                    }
+                }
+            }
+        }
+    }
+}

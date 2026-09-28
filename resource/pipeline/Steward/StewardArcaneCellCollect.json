@@ -1,0 +1,181 @@
+{
+	"StewardArcaneCellCollectSub": {
+		"desc": "奥术灰烬收集",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"ArcaneCellCollectEntry",
+			"[JumpBack]__ScenePrivateStewardFindArcaneCell",
+			"[JumpBack]__SceneStewardEntryArcaneCell",
+			"__ScenePrivateStewardArcaneCellDone",
+			"[JumpBack]SceneEnterSteward"
+		],
+		"focus": {"Node.Recognition.Succeeded": "开始任务:奥术灰烬收集"}
+	},
+	"__SceneStewarHasYellowArcaneCell": {
+		"desc": "在管家页面识别黄色的奥术灰烬",
+		"recognition": "And",
+		"all_of": [
+			"InStewardPage",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 50, 50],
+				"upper": [35, 255, 255],
+				"roi": "__ScenePrivateStewardHasArcaneCell",
+				"count": 20
+			}
+		],
+		"box_index": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"__SceneStewardEntryArcaneCell": {
+		"desc": "在管家页面进入奥术监牢",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["__SceneStewarHasYellowArcaneCell"],
+		"next": [
+			"__ScenePrivateStewardGotoArcaneCell"
+		]
+	},
+	"__ScenePrivateStewardArcaneCellDone": {
+		"desc": "管家页面未找到奥术监牢或任务已完成",
+		"recognition": "And",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"all_of": ["InStewardPage"]
+	},
+	"__ScenePrivateStewardGotoArcaneCell": {
+		"desc": "点击奥术灰烬后面的前往进入",
+		"recognition": "OCR",
+		"expected": "前往",
+		"roi": "__SceneStewarHasYellowArcaneCell",
+		"roi_offset": [0, -20, 400, 40],
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InArcaneCellPage"
+		]
+	},
+	"__ScenePrivateStewardFindArcaneCell": {
+		"recognition": "And",
+		"all_of": ["InStewardPage"],
+		"next": [
+			"__ScenePrivateStewardHasArcaneCell",
+			"[JumpBack]__ArcaneCellSwipeDownRetry",
+			"[JumpBack]__ArcaneCellSwipeUpRetry"
+		],
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"__ScenePrivateStewardHasArcaneCell": {
+		"desc": "管家页面识别奥术灰烬",
+		"recognition": "OCR",
+		"expected": "奥术灰烬",
+		"roi": [94, 261, 525, 748],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"__ArcaneCellSwipeDownRetry": {
+		"max_hit": 1,
+		"action": "Swipe",
+		"begin": [450, 400],
+		"end": [450, 800],
+		"duration": 200,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [104, 272, 515, 733],
+			"timeout": 5000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"__ArcaneCellSwipeUpRetry": {
+		"max_hit": 1,
+		"action": "Swipe",
+		"begin": [450, 800],
+		"end": [450, 400],
+		"duration": 200,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [104, 272, 515, 733],
+			"timeout": 5000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ArcaneCellCollectEntry": {
+		"desc": "收集奥术灰烬",
+		"recognition": "And",
+		"all_of": ["InArcaneCellPage"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"next": [
+			"[JumpBack]ArcaneCellCollect",
+			"[JumpBack]ArcaneCellCloseTipBox",
+			"SceneBack"
+		]
+	},
+	"ArcaneCellCollect": {
+		"desc": "收集奥术灰烬",
+		"recognition": "And",
+		"all_of": [
+			"ArcaneCellHasWarpedSoul",
+			{
+				"recognition": "TemplateMatch",
+				"template": "material/arcane_ashes.png",
+				"roi": [91, 814, 116, 145]
+			}
+		],
+		"max_hit": 1,
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [220, 466, 295, 529],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"ArcaneCellCollectFail"
+		]
+	},
+	"ArcaneCellCollectFail": {"desc": "收集奥术灰烬失败"},
+	"ArcaneCellHasWarpedSoul": {
+		"desc": "奥术监牢页面识别扭动之魂",
+		"recognition": "TemplateMatch",
+		"template": "material/warped_soul.png",
+		"roi": [183, 507, 360, 148],
+		"pre_delay": 0,
+		"post_delay": 0
+	},
+	"ArcaneCellCloseTipBox": {
+		"desc": "奥术监牢关闭弹框",
+		"recognition": "And",
+		"all_of": ["ArcaneCellHasWarpedSoul"],
+		"inverse": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"action": "Click",
+		"target": [277, 185, 66, 38],
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [239, 492, 240, 421],
+			"timeout": 2000
+		}
+	}
+}

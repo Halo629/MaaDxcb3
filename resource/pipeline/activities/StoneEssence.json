@@ -1,0 +1,310 @@
+{
+    "StoneEssenceStart": {
+        "desc": "萃石成英",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "StoneEssenceEntry",
+            "[JumpBack]SceneEnterGamePlayLimited"
+        ]
+    },
+    "StoneEssenceEntry": {
+        "desc": "萃石成英入口",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "recognition": "And",
+        "all_of": [
+            "InGamePlayLimitedPage"
+        ],
+        "next": [
+            "StoneEssenceCollect",
+            "[JumpBack]__SceneGamePlayLimitedPageGotoStoneEssence",
+            "[JumpBack]StoneEssenceSwipeToTop",
+            "[JumpBack]StoneEssenceSwipe",
+            "ActivityNotEnabled"
+        ]
+    },
+    "StoneEssenceCollect": {
+        "desc": "萃石成英页面领取奖励",
+        "recognition": "And",
+        "all_of": [
+            "InStoneEssencePage"
+        ],
+        "pre_delay": 1000,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]StoneEssenceGiftCollect",
+            "StoneEssenceAlchemyObjectNotSelected",
+            "[JumpBack]StoneEssenceAlchemy",
+            "[JumpBack]StoneEssenceFeedBackCollect",
+            "ActivityCommonQuit"
+        ]
+    },
+    "SelectAlchemyObject": {
+        "desc": "选择炼金目标",
+        "recognition": "OCR",
+        "expected": "请先选择炼金目标|选择|炼金|目标",
+        "roi": [
+            244,
+            514,
+            221,
+            143
+        ]
+    },
+    "StoneEssenceAlchemyObjectNotSelected": {
+        "desc": "炼金目标未选择",
+        "recognition": "And",
+        "all_of": [
+            "SelectAlchemyObject"
+        ],
+        "next": [
+            "[JumpBack]ConfirmButton",
+            "ActivityCommonQuit"
+        ]
+    },
+    "StoneEssenceGiftCollect": {
+        "desc": "礼包页面领取",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "max_hit": 1,
+        "next": [
+            "[JumpBack]StoneEssenceGotoGiftPage",
+            "[JumpBack]ActivityCommonFreeCollect",
+            "StoneEssenceGotoAlchemyPage"
+        ]
+    },
+    "StoneEssenceFeedBackCollect": {
+        "desc": "回馈页面领取",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "max_hit": 1,
+        "next": [
+            "[JumpBack]StoneEssenceGotoFeedbackPage",
+            "[JumpBack]ActivityCommonCollect",
+            "StoneEssenceGotoAlchemyPage"
+        ]
+    },
+    "StoneEssenceGotoGiftPage": {
+        "desc": "前往礼包页面",
+        "recognition": "OCR",
+        "expected": "礼包",
+        "roi": [
+            163,
+            1163,
+            475,
+            106
+        ],
+        "max_hit": 1,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                177,
+                334,
+                365,
+                588
+            ],
+            "timeout": 2000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "StoneEssenceGotoAlchemyPage": {
+        "desc": "前往炼金页面",
+        "recognition": "OCR",
+        "expected": "炼金",
+        "roi": [
+            163,
+            1163,
+            475,
+            106
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                177,
+                334,
+                365,
+                588
+            ],
+            "timeout": 2000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "StoneEssenceGotoFeedbackPage": {
+        "desc": "前往回馈页面",
+        "recognition": "OCR",
+        "expected": "回馈",
+        "roi": [
+            163,
+            1163,
+            475,
+            106
+        ],
+        "max_hit": 1,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                177,
+                334,
+                365,
+                588
+            ],
+            "timeout": 2000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "StoneEssenceAlchemy": {
+        "desc": "炼金",
+        "recognition": "And",
+        "all_of": [
+            "StoneEssenceHasAlchemy",
+            {
+                "recognition": "ColorMatch",
+                "method": 40,
+                "lower": [
+                    20,
+                    80,
+                    80
+                ],
+                "upper": [
+                    35,
+                    255,
+                    255
+                ],
+                "roi": "StoneEssenceHasAlchemy",
+                "count": 200
+            }
+        ],
+        "action": "Click",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                177,
+                334,
+                365,
+                588
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "HandleRewardDialog",
+            "SelectAlchemyObject"
+        ]
+    },
+    "StoneEssenceHasAlchemy": {
+        "recognition": "OCR",
+        "expected": "炼金",
+        "roi": [
+            132,
+            937,
+            138,
+            56
+        ]
+    },
+    "__SceneGamePlayLimitedPageGotoStoneEssence": {
+        "desc": "点击前往萃石成英",
+        "recognition": "And",
+        "all_of": [
+            "__SceneGamePlayLimitedPageHasStoneEssence"
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                256,
+                503,
+                281,
+                451
+            ],
+            "timeout": 2000
+        }
+    },
+    "__SceneGamePlayLimitedPageHasStoneEssence": {
+        "desc": "限时页面识别到萃石成英",
+        "recognition": "TemplateMatch",
+        "template": "activities/StoneEssence/StoneEssenceIcon.png",
+        "roi": [
+            15,
+            69,
+            701,
+            997
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "StoneEssenceSwipeToTop": {
+        "desc": "快速滑到最上方",
+        "action": "Swipe",
+        "begin": [
+            400,
+            200
+        ],
+        "end": [
+            400,
+            900
+        ],
+        "duration": 100,
+        "max_hit": 1,
+        "pre_delay": 0,
+        "post_delay": 200,
+        "rate_limit": 0
+    },
+    "StoneEssenceSwipe": {
+        "desc": "向上滑动查找",
+        "action": "Swipe",
+        "begin": [
+            400,
+            800
+        ],
+        "end": [
+            400,
+            600
+        ],
+        "duration": 200,
+        "max_hit": 3,
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                353,
+                192,
+                328,
+                732
+            ],
+            "timeout": 3000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "InStoneEssencePage": {
+        "desc": "在萃石成英页面",
+        "recognition": "OCR",
+        "expected": "炼金",
+        "roi": [
+            160,
+            1175,
+            72,
+            90
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    }
+}

@@ -1,0 +1,678 @@
+{
+	"HasFreeSandNotice": {
+		"desc": "主页免费沙提示",
+		"recognition": "TemplateMatch",
+		"roi": [3, 245, 116, 810],
+		"template": "main_page_icon/free_sand_notice.png",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasGoddessIcon": {
+		"desc": "主页女神像图标",
+		"recognition": "Or",
+		"any_of": [
+			{
+				"recognition": "TemplateMatch",
+				"roi": [2, 135, 131, 911],
+				"template": "main_page_icon/goddess.png"
+			},
+			{
+				"recognition": "TemplateMatch",
+				"roi": [2, 135, 131, 911],
+				"template": "main_page_icon/goddess_gold.png"
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasEmailIcon": {
+		"desc": "主页邮件图标",
+		"recognition": "TemplateMatch",
+		"roi": [2, 135, 131, 911],
+		"template": "email.png",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasFarmIcon": {
+		"desc": "主页农场图标",
+		"recognition": "TemplateMatch",
+		"roi": [2, 135, 131, 911],
+		"template": "main_page_icon/farm.png",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasFoodIcon": {
+		"desc": "主页食物图标",
+		"recognition": "TemplateMatch",
+		"roi": [8, 796, 117, 389],
+		"template": "main_page_icon/FoodPage.png",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasExpandIcon": {
+		"desc": "主页侧边栏展开图标",
+		"recognition": "TemplateMatch",
+		"template": "main_page_icon/expand.png",
+		"roi": [604, 261, 100, 108],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasCollapseIcon": {
+		"desc": "主页侧边栏收起图标",
+		"recognition": "TemplateMatch",
+		"template": "main_page_icon/collapse.png",
+		"roi": [602, 244, 103, 873],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasGamePlayIcon": {
+		"desc": "主页更多玩法图标",
+		"recognition": "TemplateMatch",
+		"template": "main_page_icon/gameplay.png",
+		"roi": [605, 140, 99, 135],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasStewardIcon": {
+		"desc": "主页管家图标",
+		"recognition": "TemplateMatch",
+		"template": "main_page_icon/steward.png",
+		"roi": [606, 135, 104, 1039],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasSpiritSummonTomeIcon": {
+		"desc": "主页唤灵之典图标",
+		"recognition": "TemplateMatch",
+		"template": "main_page_icon/spirit_summon_tome.png",
+		"roi": [606, 135, 104, 1039],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasSoulMasterGuideIcon": {
+		"desc": "主页魂师指南图标",
+		"recognition": "TemplateMatch",
+		"template": "main_page_icon/soul_master_guide.png",
+		"roi": [606, 135, 104, 1039],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasTreasureMapIcon": {
+		"desc": "主页藏宝图图标",
+		"recognition": "TemplateMatch",
+		"template": "main_page_icon/treasure_map.png",
+		"roi": [606, 135, 104, 1039],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasGuildIcon": {
+		"desc": "主页公会图标",
+		"recognition": "TemplateMatch",
+		"template": "main_page_icon/guild.png",
+		"roi": [606, 135, 104, 1039],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"CarriageShopHasItemTab": {
+		"desc": "马车商店页面是否有物品栏",
+		"recognition": "And",
+		"all_of": [
+			"InCarriageShop",
+			{
+				"recognition": "OCR",
+				"expected": "物品",
+				"roi": [132, 1189, 545, 87]
+			}
+		],
+		"box_index": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"CarriageShopHasFoodTab": {
+		"desc": "马车商店页面是否有食物栏",
+		"recognition": "And",
+		"all_of": [
+			"InCarriageShop",
+			{
+				"recognition": "OCR",
+				"expected": "食物",
+				"roi": [132, 1189, 545, 87]
+			}
+		],
+		"box_index": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"CarriageShopHasEquipmentTab": {
+		"desc": "马车商店页面是否有装备栏",
+		"recognition": "And",
+		"all_of": [
+			"InCarriageShop",
+			{
+				"recognition": "OCR",
+				"expected": "装备",
+				"roi": [132, 1189, 545, 87]
+			}
+		],
+		"box_index": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"CarriageShopHasGuildTab": {
+		"desc": "马车商店页面是否有公会栏",
+		"recognition": "And",
+		"all_of": [
+			"InCarriageShop",
+			{
+				"recognition": "OCR",
+				"expected": "公会",
+				"roi": [132, 1189, 545, 87]
+			}
+		],
+		"box_index": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"CarriageShopHasSoulTombTab": {
+		"desc": "马车商店页面是否有魂墓栏",
+		"recognition": "And",
+		"all_of": [
+			"InCarriageShop",
+			{
+				"recognition": "OCR",
+				"expected": "魂墓",
+				"roi": [152, 1204, 548, 65]
+			}
+		],
+		"box_index": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"CarriageShopHasAscensionTab": {
+		"desc": "马车商店页面是否有升格之路栏",
+		"recognition": "And",
+		"all_of": [
+			"InCarriageShop",
+			{
+				"recognition": "OCR",
+				"expected": "升格之路|升格",
+				"roi": [152, 1204, 548, 65]
+			}
+		],
+		"box_index": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"AlchemyLabHasFreeJadeNotice": {
+		"desc": "炼金室页面有免费玉提醒",
+		"recognition": "TemplateMatch",
+		"template": "common/notice.png",
+		"roi": [407, 364, 114, 215],
+		"threshold": 0.4,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasTreasureShop": {
+		"desc": "检查是否有珍藏商店",
+		"recognition": "TemplateMatch",
+		"roi": [444, 807, 269, 207],
+		"template": "treasure_shop/treasure_shop.png",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasCarriageShop": {
+		"desc": "检查是否有马车商店",
+		"recognition": "TemplateMatch",
+		"roi": [159, 885, 239, 254],
+		"template": "carriage_shop/carriage.png",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasAlchemyLab": {
+		"desc": "检查是否有炼金室",
+		"recognition": "TemplateMatch",
+		"roi": [576, 1182, 143, 97],
+		"template": "alchemy_lab/alchemy_lab.png"
+	},
+	"HasFerdinand": {
+		"desc": "识别费迪南德,仅在可点击区域识别",
+		"recognition": "OCR",
+		"expected": ["费迪南德", "费迪", "南德"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasColdstoneFortress": {
+		"desc": "识别寒石堡垒",
+		"recognition": "OCR",
+		"expected": ["寒石堡垒", "堡垒", "寒石"],
+		"roi": [137, 286, 454, 851],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasAlbedo": {
+		"desc": "识别雅儿贝德",
+		"recognition": "TemplateMatch",
+		"template": "main_page_icon/albedo.png",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasSecretRealm": {
+		"desc": "识别招魂师的秘境",
+		"recognition": "TemplateMatch",
+		"template": "main_page_icon/SecretRealm.png",
+		"roi": [1, 4, 285, 164],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasExpeditionTeam": {
+		"desc": "识别远征队",
+		"recognition": "TemplateMatch",
+		"template": "main_page_icon/ExpeditionTeam.png",
+		"roi": [10, 1179, 133, 101],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasBag": {
+		"desc": "识别背包",
+		"recognition": "TemplateMatch",
+		"template": "main_page_icon/bag.png",
+		"roi": [312, 1186, 103, 94],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"NoHelmet": {
+		"desc": "识别到没有穿戴头盔",
+		"recognition": "TemplateMatch",
+		"template": "reforge/no_helmet.png",
+		"roi": [536, 837, 76, 83],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"NoArmor": {
+		"desc": "识别到没有穿戴盔甲",
+		"recognition": "TemplateMatch",
+		"template": "reforge/no_armor.png",
+		"roi": [622, 843, 75, 77],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"NoHands": {
+		"desc": "识别到没有穿戴手套",
+		"recognition": "TemplateMatch",
+		"template": "reforge/no_hands.png",
+		"roi": [534, 916, 80, 95],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"NoBelt": {
+		"desc": "识别到没有穿戴腰带",
+		"recognition": "TemplateMatch",
+		"template": "reforge/no_belt.png",
+		"roi": [619, 924, 81, 87],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"NoRing": {
+		"desc": "识别到没有穿戴戒指",
+		"recognition": "TemplateMatch",
+		"template": "reforge/no_ring.png",
+		"roi": [534, 1012, 81, 84],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"NoBoot": {
+		"desc": "识别到没有穿戴靴子",
+		"recognition": "TemplateMatch",
+		"template": "reforge/no_boot.png",
+		"roi": [619, 1006, 81, 92],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasTenScroll": {
+		"recognition": "TemplateMatch",
+		"roi": [483, 859, 92, 68],
+		"template": "spirit_summon_tome/scroll_ten.png",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasOneScroll": {
+		"recognition": "TemplateMatch",
+		"roi": [133, 857, 113, 120],
+		"template": "spirit_summon_tome/scroll_once.png",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasMonsterSoul": {
+		"desc": "识别魔物之魂",
+		"recognition": "OCR",
+		"expected": ["魔物之魂", "之魂"],
+		"roi": [536, 1072, 115, 69],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasMonsterSoul-wugu": {
+		"desc": "识别魔物之魂-巫蛊之魂",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/wugu.png",
+		"roi": [51, 162, 620, 838],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"threshold": [0.9]
+	},
+	"HasMonsterSoul-baolue": {
+		"desc": "识别魔物之魂-暴虐之魂",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/baolue.png",
+		"roi": [51, 162, 620, 838],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"threshold": [0.9]
+	},
+	"HasMonsterSoul-baopo": {
+		"desc": "识别魔物之魂-爆破之魂",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/baopo.png",
+		"roi": [103, 155, 509, 852],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"threshold": [0.9]
+	},
+	"HasMonsterSoul-bingjing": {
+		"desc": "识别魔物之魂-冰晶之魂",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/bingjing.png",
+		"roi": [51, 162, 620, 838],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"threshold": [0.9]
+	},
+	"HasMonsterSoul-chenyuan": {
+		"desc": "识别魔物之魂-沉渊之魂",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/chenyuan.png",
+		"roi": [51, 162, 620, 838],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"threshold": [0.9]
+	},
+	"HasMonsterSoul-jiaozhi": {
+		"desc": "识别魔物之魂-狡智之魂",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/jiaozhi.png",
+		"roi": [51, 162, 620, 838],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"threshold": [0.9]
+	},
+	"HasMonsterSoul-jielue": {
+		"desc": "识别魔物之魂-劫掠之魂",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/jielue.png",
+		"roi": [51, 162, 620, 838],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"threshold": [0.9]
+	},
+	"HasMonsterSoul-jihan": {
+		"desc": "识别魔物之魂-极寒之魂",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/jihan.png",
+		"roi": [51, 162, 620, 838],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"threshold": [0.9]
+	},
+	"HasMonsterSoul-kuangnu": {
+		"desc": "识别魔物之魂-狂怒之魂",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/kuangnu.png",
+		"roi": [51, 162, 620, 838],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"threshold": [0.9]
+	},
+	"HasMonsterSoul-kuangre": {
+		"desc": "识别魔物之魂-狂热之魂",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/kuangre.png",
+		"roi": [51, 162, 620, 838],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"threshold": [0.9]
+	},
+	"HasMonsterSoul-lingdong": {
+		"desc": "识别魔物之魂-林动之魂",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/lingdong.png",
+		"roi": [51, 162, 620, 838],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"threshold": [0.9]
+	},
+	"HasMonsterSoul-linye": {
+		"desc": "识别魔物之魂-林野之魂",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/linye.png",
+		"roi": [51, 162, 620, 838],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"threshold": [0.9]
+	},
+	"HasMonsterSoul-manhuang": {
+		"desc": "识别魔物之魂-蛮荒之魂",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/manhuang.png",
+		"roi": [51, 162, 620, 838],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"threshold": [0.9]
+	},
+	"HasMonsterSoul-shuangxue": {
+		"desc": "识别魔物之魂-霜雪之魂",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/shuangxue.png",
+		"roi": [51, 162, 620, 838],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"threshold": [0.9]
+	},
+	"HasMonsterSoul-tianyun": {
+		"desc": "识别魔物之魂-天陨之魂",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/tianyun.png",
+		"roi": [51, 162, 620, 838],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"threshold": [0.9]
+	},
+	"HasMonsterSoul-xianzu": {
+		"desc": "识别魔物之魂-先祖之魂",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/xianzu.png",
+		"roi": [51, 162, 620, 838],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"threshold": [0.9]
+	},
+	"HasMonsterSoul-xiedian": {
+		"desc": "识别魔物之魂-邪典之魂",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/xiedian.png",
+		"roi": [51, 162, 620, 838],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"threshold": [0.9]
+	},
+	"HasMonsterSoul-xiongsha": {
+		"desc": "识别魔物之魂-凶煞之魂",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/xiongsha.png",
+		"roi": [51, 162, 620, 838],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"threshold": [0.9]
+	},
+	"HasMonsterSoul-xiongshi": {
+		"desc": "识别魔物之魂-雄狮之魂",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/xiongshi.png",
+		"roi": [51, 162, 620, 838],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"threshold": [0.9]
+	},
+	"HasMonsterSoul-yexing": {
+		"desc": "识别魔物之魂-野性之魂",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/yexing.png",
+		"roi": [51, 162, 620, 838],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"threshold": [0.9]
+	},
+	"HasWheelOfDream": {
+		"desc": "判断是否有梦境之轮每日奖励弹窗",
+		"recognition": "OCR",
+		"roi": [232, 352, 253, 49],
+		"expected": "梦境之轮每日奖励|梦境之轮|梦境",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasMonsterSoulTab": {
+		"desc": "判断是否有魔物标签",
+		"recognition": "OCR",
+		"expected": "魔物",
+		"roi": [406, 1088, 109, 85]
+	},
+	"HasBagItemTab": {
+		"desc": "判断是否有道具标签",
+		"recognition": "OCR",
+		"expected": "道具",
+		"roi": [146, 1100, 504, 69]
+	},
+	"HasEquipmentTab": {
+		"desc": "判断是否有装备标签",
+		"recognition": "OCR",
+		"expected": "装备",
+		"roi": [406, 1088, 109, 85]
+	},
+	"HasConfirmDialog": {
+		"desc": "判断是否有确认按钮弹窗",
+		"recognition": "TemplateMatch",
+		"roi": [157, 665, 427, 163],
+		"template": "button/confirm_btn.png",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasCancelDialog": {
+		"desc": "判断是否有取消按钮弹窗",
+		"recognition": "TemplateMatch",
+		"template": "button/cancel_btn.png",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasCloseDialog": {
+		"desc": "判断是否有关闭按钮弹窗",
+		"recognition": "TemplateMatch",
+		"template": "button/close_btn.png",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasReturnButton": {
+		"desc": "判断是否有返回按钮",
+		"recognition": "TemplateMatch",
+		"roi": [4, 756, 140, 524],
+		"template": "button/return_btn.png",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasQuitGameDialog": {
+		"desc": "判断是否在退出游戏确认弹窗",
+		"recognition": "OCR",
+		"roi": [240, 539, 225, 106],
+		"expected": "确认退出",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasEndExploreDialog": {
+		"desc": "判断是否在结束探索弹窗",
+		"recognition": "OCR",
+		"roi": [160, 667, 402, 143],
+		"expected": "结束探索",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasJadeNotEnoughDialog": {
+		"desc": "判断是否有宝玉不足弹窗",
+		"recognition": "OCR",
+		"roi": [295, 544, 126, 93],
+		"expected": "宝玉不足",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	}
+}

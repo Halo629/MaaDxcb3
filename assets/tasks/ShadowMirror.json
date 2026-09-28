@@ -1,0 +1,12 @@
+{
+    "task": [
+        {
+            "name": "ShadowMirror",
+            "label": "🪞掠影之境",
+            "entry": "ShadowMirrorStart",
+            "group": [
+                "activity_tasks"
+            ]
+        }
+    ]
+}

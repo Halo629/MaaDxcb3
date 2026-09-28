@@ -1,0 +1,12 @@
+{
+    "task": [
+        {
+            "name": "ChosenRadiance",
+            "label": "✨天选曜惠",
+            "entry": "ChosenRadianceStart",
+            "group": [
+                "activity_tasks"
+            ]
+        }
+    ]
+}

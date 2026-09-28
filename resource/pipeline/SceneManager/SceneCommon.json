@@ -1,0 +1,49 @@
+{
+	"__ScenePrivateNextTrue": {"desc": "识别结果永远为真，用于退出next循环"},
+	"__ScenePrivatePressEscUntilExitGame": {
+		"desc": "按直到退出游戏弹框出现",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"__ScenePrivateCloseADBExit",
+			"[JumpBack]__ScenePrivateAnyExit"
+		]
+	},
+	"__ScenePrivateCloseADBExit": {
+		"desc": "关闭ADB控制器的退出游戏界面",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"roi": [240, 539, 225, 106],
+				"expected": "确认退出"
+			},
+			"CancelButton"
+		],
+		"box_index": 1,
+		"pre_delay": 0,
+		"action": "Click",
+		"post_delay": 500
+	},
+	"__ScenePrivateAnyExit": {
+		"desc": "按 ESC 键退出当前界面",
+		"pre_delay": 0,
+		"action": {
+			"type": "ClickKey",
+			"param": {"key": 111}
+		},
+		"post_delay": 200
+	},
+	"__ScenePrivateWaitBlackScreen": {
+		"recognition": {
+			"type": "ColorMatch",
+			"param": {
+				"roi": [0, 0, 200, 200],
+				"lower": [0, 0, 0],
+				"upper": [0, 0, 0],
+				"count": 20000
+			}
+		}
+	}
+}

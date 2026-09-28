@@ -1,0 +1,291 @@
+{
+    "BlacksmithEventEntry": {
+        "desc": "铁匠铺事件入口",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "max_hit": 1,
+        "next": [
+            "[JumpBack]SwipeDownToFindHouse",
+            "BlacksmithEntry",
+            "RuinedHouseEntry",
+            "[JumpBack]SwipeLeftToFindHouse"
+        ]
+    },
+    "BlacksmithEntry": {
+        "recognition": "OCR",
+        "expected": "铁匠铺|铁匠",
+        "action": "Click",
+        "target_offset": [
+            0,
+            -50,
+            0,
+            0
+        ],
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                215,
+                260,
+                383,
+                438
+            ],
+            "timeout": 10000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]SearchBlacksmith",
+            "[JumpBack]ProduceWindInBottle",
+            "BlacksmithExit",
+            "BlacksmithEntry"
+        ]
+    },
+    "SearchBlacksmith": {
+        "desc": "搜索铁匠铺",
+        "recognition": "OCR",
+        "expected": "搜索铁匠铺|搜索|铁匠铺",
+        "roi": [
+            274,
+            684,
+            174,
+            339
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                274,
+                684,
+                174,
+                339
+            ],
+            "timeout": 2000
+        },
+        "post_delay": 3000,
+        "next": [
+            "HandleRewardDialog",
+            "[JumpBack]SearchBlacksmithLeave"
+        ]
+    },
+    "SearchBlacksmithLeave": {
+        "desc": "搜索后离开选项",
+        "recognition": "And",
+        "all_of": [
+            "BlacksmithExit"
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                274,
+                684,
+                174,
+                339
+            ],
+            "timeout": 2000
+        }
+    },
+    "ProduceWindInBottle": {
+        "desc": "制作瓶中之风",
+        "recognition": "OCR",
+        "expected": "瓶中之风|瓶中|之风",
+        "roi": [
+            250,
+            645,
+            224,
+            387
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                215,
+                260,
+                383,
+                438
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "CenterScreenMagnetNotEnoughAndExit",
+            "ProduceWindInBottleEnter"
+        ]
+    },
+    "ProduceWindInBottleEnter": {
+        "desc": "点击拘束风暴制作瓶中之风",
+        "recognition": "OCR",
+        "expected": "拘束风暴|拘束|风暴",
+        "roi": [
+            281,
+            727,
+            151,
+            120
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                215,
+                260,
+                383,
+                438
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "HandleRewardDialog"
+        ]
+    },
+    "BlacksmithExit": {
+        "desc": "离开铁匠铺",
+        "recognition": "OCR",
+        "expected": "离开",
+        "roi": [
+            273,
+            663,
+            181,
+            394
+        ],
+        "action": "Click"
+    },
+    "RuinedHouseEntry": {
+        "desc": "进入废弃房屋",
+        "recognition": "OCR",
+        "expected": "房屋废墟|房屋|废墟",
+        "roi": [
+            154,
+            327,
+            528,
+            751
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                215,
+                260,
+                383,
+                438
+            ],
+            "timeout": 10000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]ClearRuinedHouse",
+            "[JumpBack]RebuildBlacksmith",
+            "CenterScreenMagnetNotEnoughAndExit",
+            "BuildBlacksmith"
+        ]
+    },
+    "RebuildBlacksmith": {
+        "desc": "重建铁匠铺",
+        "recognition": "OCR",
+        "expected": "重建",
+        "roi": [
+            295,
+            740,
+            145,
+            219
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                215,
+                260,
+                383,
+                438
+            ],
+            "timeout": 2000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "BuildBlacksmith": {
+        "desc": "修建铁匠铺",
+        "recognition": "OCR",
+        "expected": "修建|铁匠",
+        "roi": [
+            287,
+            713,
+            155,
+            129
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                215,
+                260,
+                383,
+                438
+            ],
+            "timeout": 2000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "BlacksmithEntry"
+        ]
+    },
+    "SwipeDownToFindHouse": {
+        "desc": "向下滑动找铁匠铺",
+        "action": "Swipe",
+        "begin": [
+            500,
+            450
+        ],
+        "end": [
+            500,
+            850
+        ],
+        "duration": 100,
+        "max_hit": 2,
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                122,
+                279,
+                477,
+                602
+            ],
+            "timeout": 5000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "SwipeLeftToFindHouse": {
+        "desc": "向左滑动找铁匠铺",
+        "action": "Swipe",
+        "begin": [
+            500,
+            450
+        ],
+        "end": [
+            300,
+            450
+        ],
+        "duration": 200,
+        "max_hit": 2,
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                122,
+                279,
+                477,
+                602
+            ],
+            "timeout": 5000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    }
+}

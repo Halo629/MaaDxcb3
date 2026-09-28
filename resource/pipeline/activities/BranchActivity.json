@@ -1,0 +1,236 @@
+{
+	"BranchActivityStart": {
+		"desc": "树枝活动入口",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "DirectHit",
+		"anchor": {"ActivityGoto": "BranchActivityEntry"},
+		"next": [
+			"BranchActivityPageNotSelectReward",
+			"[JumpBack]BranchActivityTaskPageHandle",
+			"BranchActivityCelebrationPageCollectEntry",
+			"[JumpBack]ActivityLimitedEnter"
+		]
+	},
+	"BranchActivityTaskPageHandle": {
+		"desc": "活动任务页面处理",
+		"max_hit": 1,
+		"recognition": "Or",
+		"any_of": [
+			"InBranchActivityPage",
+			"InBranchActivityTaskPage"
+		],
+		"anchor": {"ActivityGoto": "BranchActivityEntry"},
+		"next": [
+			"[JumpBack]BranchActivityTaskPageCollect",
+			"BranchActivityTaskEnable",
+			"[JumpBack]BranchActivityThisTermEntry",
+			"BranchActivityTaskPageDone",
+			"[JumpBack]BranchActivityTaskPageEntry"
+		]
+	},
+	"BranchActivityTaskPageDone": {
+		"desc": "活动任务页面处理完成",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InBranchActivityTaskPage"]
+	},
+	"BranchActivityEntry": {
+		"desc": "限时页面识别树枝活动支持的任务",
+		"recognition": "TemplateMatch",
+		"template": [
+			"activities/BranchActivity/SummerLotusPondIcon.png",
+			"activities/BranchActivity/OdeFulSecludedCorridorIcon.png"
+		],
+		"roi": [15, 69, 701, 997],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [15, 69, 701, 997],
+			"timeout": 2000
+		}
+	},
+	"BranchActivityTaskEnable": {
+		"desc": "活动未完成任务激活",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": [
+			"InBranchActivityTaskPage",
+			"ActivityCommonHasNotCompleteTasks"
+		],
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["BranchActivityTaskPageHandle"]
+		},
+		"next": [
+			"ActivityCommonNotCompletedTaskEnable"
+		]
+	},
+	"BranchActivityCelebrationPageCollectEntry": {
+		"desc": "树枝活动庆典页面奖励领取",
+		"max_hit": 1,
+		"recognition": "Or",
+		"any_of": [
+			"InBranchActivityPage",
+			"InBranchActivityTaskPage"
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"BranchActivityCelebrationPageCollect",
+			"[JumpBack]BranchActivityGotoCelebrationPage"
+		]
+	},
+	"BranchActivityGotoCelebrationPage": {
+		"desc": "树枝活动前往庆典页面",
+		"recognition": "OCR",
+		"expected": "庆典",
+		"roi": [238, 1211, 244, 57],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [256, 503, 281, 451],
+			"timeout": 2000
+		}
+	},
+	"BranchActivityCelebrationPageCollect": {
+		"desc": "庆典页面领取奖励",
+		"recognition": "And",
+		"all_of": ["InBranchActivityCelebrationPage"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"next": [
+			"[JumpBack]BranchActivityClickYellowCollect",
+			"BranchActivityDone"
+		]
+	},
+	"BranchActivityClickYellowCollect": {
+		"desc": "识别黄色领取并点击",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"expected": "一键领取|键领取|领取",
+				"roi": [105, 1093, 197, 58]
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 80, 80],
+				"upper": [35, 255, 255],
+				"roi": [105, 1093, 197, 58],
+				"count": 50
+			}
+		],
+		"max_hit": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [256, 503, 281, 451],
+			"timeout": 3000
+		},
+		"next": [
+			"HandleRewardDialog"
+		]
+	},
+	"BranchActivityTaskPageEntry": {
+		"desc": "前往活动任务页面",
+		"recognition": "And",
+		"all_of": [
+			"InBranchActivityPage",
+			{
+				"recognition": "OCR",
+				"expected": "任务",
+				"roi": [238, 1211, 244, 57]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [256, 503, 281, 451],
+			"timeout": 2000
+		}
+	},
+	"InBranchActivityTaskPage": {
+		"desc": "在树枝活动任务页面",
+		"recognition": "OCR",
+		"expected": "任务",
+		"roi": [313, 33, 88, 47],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InBranchActivityCelebrationPage": {
+		"desc": "在树枝活动庆典页面",
+		"recognition": "OCR",
+		"expected": "庆典",
+		"roi": [326, 30, 68, 51],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"BranchActivityTaskPageCollect": {
+		"desc": "任务页面领取奖励",
+		"recognition": "And",
+		"all_of": [
+			"InBranchActivityTaskPage",
+			"ActivityCommonCollect"
+		],
+		"next": [
+			"ActivityCommonCollect"
+		]
+	},
+	"BranchActivityThisTermEntry": {
+		"desc": "前往活动任务本期页面",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": [
+			"InBranchActivityTaskPage",
+			{
+				"recognition": "OCR",
+				"expected": "本期",
+				"roi": [161, 996, 396, 136]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [256, 503, 281, 451],
+			"timeout": 2000
+		}
+	},
+	"BranchActivityCollectDone": {"desc": "树枝活动领取完成"},
+	"BranchActivityDone": {
+		"desc": "树枝活动已完成",
+		"next": [
+			"SceneBack"
+		]
+	},
+	"InBranchActivityPage": {
+		"desc": "在树枝活动页面",
+		"recognition": "OCR",
+		"expected": "庆典",
+		"roi": [314, 33, 88, 46]
+	},
+	"BranchActivityPageNotSelectReward": {
+		"desc": "树枝活动界面未选择奖励",
+		"recognition": "And",
+		"all_of": [
+			"InBranchActivityPage",
+			{
+				"recognition": "OCR",
+				"expected": "免费总计可得|总计",
+				"roi": [272, 145, 183, 42]
+			}
+		],
+		"next": [
+			"CancelButton"
+		],
+		"focus": {"Node.Recognition.Succeeded": "活动提醒:请选择奖励后再开始任务"}
+	}
+}

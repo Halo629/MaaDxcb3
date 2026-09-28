@@ -1,0 +1,18 @@
+{
+	"DailyRewardsStart": {
+		"desc": "日常奖励领取（按开关顺序执行各子任务）",
+		"next": [
+			"[JumpBack]DailyRewardsEmailSub",
+			"[JumpBack]DailyRewardsFreeJadeSub",
+			"[JumpBack]DailyRewardsMonthlyCardCollectSub",
+			"[JumpBack]DailyRewardsTreasureShopSub",
+			"[JumpBack]DailyRewardsGuildSub",
+			"[JumpBack]DailyRewardsMonsterSoulSub",
+			"DailyRewardsDone"
+		]
+	},
+	"DailyRewardsDone": {
+		"desc": "日常奖励领取完成"
+		
+	}
+}

@@ -1,0 +1,47 @@
+{
+    "task": [
+        {
+            "name": "RuneUpgrade",
+            "label": "🔣升级符文",
+            "entry": "ShatteredRealmStart",
+            "group": [
+                "other_tasks"
+            ],
+            "option": [
+                "Mode",
+                "Runes"
+            ],
+            "pipeline_override": {
+                "ShatteredRealmRuneUpgradeStart": {
+                    "enabled": true
+                }
+            }
+        }
+    ],
+    "option": {
+        "Mode": {
+            "type": "input",
+            "label": "模式",
+            "inputs": [
+                {
+                    "name": "ModeValue",
+                    "label": "模式",
+                    "pipeline_type": "string",
+                    "default": "all"
+                }
+            ]
+        },
+        "Runes": {
+            "type": "input",
+            "label": "符文(JSON 数组)",
+            "inputs": [
+                {
+                    "name": "RunesValue",
+                    "label": "符文(JSON 数组)",
+                    "pipeline_type": "string",
+                    "default": "[]"
+                }
+            ]
+        }
+    }
+}

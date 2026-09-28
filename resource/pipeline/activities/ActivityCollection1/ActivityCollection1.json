@@ -1,0 +1,108 @@
+{
+	"ActivityCollection1": {
+		"desc": "活动合集1(荣光复铸,桂影长歌)",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "DirectHit",
+		"anchor": {"ActivityGoto": "ActivityCollection1Entry"},
+		"next": [
+			"[JumpBack]ActivityCollection1BountyPageCollect",
+			"[JumpBack]ActivityCollection1TaskEnable",
+			"ActivityCollection1Collect",
+			"[JumpBack]ActivityLimitedEnter"
+		]
+	},
+	"ActivityCollection1TaskEnable": {
+		"desc": "活动未完成任务激活",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": [
+			"InActivityCollection1BountyPage",
+			"ActivityCommonHasNotCompleteTasks"
+		],
+		"next": [
+			"ActivityCommonNotCompletedTaskEnable"
+		]
+	},
+	"ActivityCollection1Entry": {
+		"desc": "限时页面识别合集支持的任务",
+		"recognition": "TemplateMatch",
+		"template": [
+			"activities/ActivityCollection1/GloryRecastIcon.png",
+			"activities/ActivityCollection1/MoonlitBalladIcon.png"
+		],
+		"roi": [15, 69, 701, 997],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [15, 69, 701, 997],
+			"timeout": 2000
+		}
+	},
+	"ActivityCollection1Collect": {
+		"desc": "奖励领取",
+		"recognition": "And",
+		"all_of": ["InActivityCollection1BountyPage"],
+		"next": [
+			"[JumpBack]ActivityCollection1ThisTermPageCollectEntry",
+			"ActivityCollection1Done"
+		]
+	},
+	"ActivityCollection1BountyPageCollect": {
+		"desc": "悬赏页面领取奖励",
+		"recognition": "And",
+		"all_of": [
+			"InActivityCollection1BountyPage",
+			"ActivityCommonCollect"
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"next": [
+			"ActivityCommonCollect"
+		]
+	},
+	"InActivityCollection1BountyPage": {
+		"desc": "在活动悬赏页面",
+		"recognition": "OCR",
+		"expected": "悬赏",
+		"roi": [325, 160, 70, 54],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ActivityCollection1ThisTermPageCollectEntry": {
+		"desc": "本期页面领取入口",
+		"recognition": "OCR",
+		"expected": "本期",
+		"roi": [161, 996, 396, 136],
+		"max_hit": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [256, 503, 281, 451],
+			"timeout": 2000
+		},
+		"next": [
+			"ActivityCollection1ThisTermPageCollect"
+		]
+	},
+	"ActivityCollection1ThisTermPageCollect": {
+		"desc": "本期页面领取奖励",
+		"recognition": "And",
+		"all_of": ["InActivityCollection1BountyPage"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"next": [
+			"[JumpBack]ActivityCommonCollect",
+			"ActivityCollection1CollectDone"
+		]
+	},
+	"ActivityCollection1CollectDone": {"desc": "活动领取完成"},
+	"ActivityCollection1Done": {
+		"desc": "活动已完成",
+		"next": [
+			"SceneBack"
+		]
+	}
+}

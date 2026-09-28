@@ -1,0 +1,36 @@
+{
+    "task": [
+        {
+            "name": "PetrifySpirit",
+            "label": "🪨引石化灵",
+            "entry": "AlchemyActivityStart",
+            "group": [
+                "activity_tasks"
+            ]
+        },
+        {
+              "name": "TransmutationCircle",
+            "label": "⚗️点石成金",
+            "entry": "AlchemyActivityStart",
+            "group": [
+                "activity_tasks"
+            ]
+        }, 
+        {
+            "name": "StoneEssence",
+            "label": "💎萃石成英",
+            "entry": "AlchemyActivityStart",
+            "group": [
+                "activity_tasks"
+            ]
+        },
+        {
+            "name": "StarWeaveGlory",
+            "label": "🌟织星成辉",
+            "entry": "AlchemyActivityStart",
+            "group": [
+                "activity_tasks"
+            ]
+        }
+    ]
+}

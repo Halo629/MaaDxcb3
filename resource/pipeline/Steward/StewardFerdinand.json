@@ -1,0 +1,43 @@
+{
+	"StewardFerdinandSub": {
+		"pre_delay": 0,
+		"post_delay": 0,
+		"max_hit": 1,
+		"desc": "费迪南德挑战",
+		"next": [
+			"FerdinandBattleEntry",
+			"[JumpBack]SceneCollapseSideBar",
+			"[JumpBack]SceneClickCampFire",
+			"[JumpBack]SceneEnterMainPage"
+		],
+		"focus": {"Node.Recognition.Succeeded": "开始任务:费迪南德挑战"}
+	},
+	"FerdinandBattleEntry": {
+		"recognition": "And",
+		"all_of": ["InSelectDestinationPage"],
+		"next": [
+			"[JumpBack]SwitchMapListAscendingSort",
+			"[JumpBack]FindFerdinandSwipe",
+			"FindFerdinandAndAttack",
+			"SceneBack"
+		]
+	},
+	"FindFerdinandAndAttack": {
+		"desc": "寻找费迪南德并攻击",
+		"recognition": "And",
+		"all_of": ["FerdinandPos"],
+		"action": "Custom",
+		"custom_action": "FindFerdinand",
+		"next": [
+			"BattleAI"
+		]
+	},
+	"FindFerdinandSwipe": {
+		"desc": "地图列表向下滑动一次寻找费迪南德",
+		"max_hit": 1,
+		"action": "Swipe",
+		"begin": [360, 400],
+		"end": [360, 600],
+		"duration": 100
+	}
+}

@@ -1,0 +1,136 @@
+{
+	"StewardSkyreachTowerCollectSub": {
+		"desc": "通天塔每日收益领取",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"[JumpBack]SkyreachTowerCollect",
+			"SkyreachTowerCollectDone",
+			"[JumpBack]__ScenePrivateStewardFindSkyreachTower",
+			"[JumpBack]__SceneStewardEntrySkyreachTower",
+			"__ScenePrivateStewardSkyreachTowerDone",
+			"[JumpBack]SceneEnterSteward"
+		],
+		"focus": {"Node.Recognition.Succeeded": "开始任务:通天塔每日收益领取"}
+	},
+	"__SceneStewarHasYellowSkyreachTower": {
+		"desc": "在管家页面识别黄色的通天塔",
+		"recognition": "And",
+		"all_of": [
+			"InStewardPage",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 50, 50],
+				"upper": [35, 255, 255],
+				"roi": "__ScenePrivateStewardHasSkyreachTower",
+				"count": 20
+			}
+		],
+		"box_index": 1
+	},
+	"__SceneStewardEntrySkyreachTower": {
+		"desc": "在管家页面进入通天塔",
+		"recognition": "And",
+		"all_of": ["__SceneStewarHasYellowSkyreachTower"],
+		"next": [
+			"__ScenePrivateStewardGotoSkyreachTower"
+		]
+	},
+	"__ScenePrivateStewardSkyreachTowerDone": {
+		"desc": "管家页面未找到通天塔或任务已完成",
+		"recognition": "And",
+		"all_of": ["InStewardPage"]
+	},
+	"__ScenePrivateStewardGotoSkyreachTower": {
+		"desc": "点击通天塔后面的前往进入",
+		"recognition": "OCR",
+		"expected": "前往",
+		"roi": "__SceneStewarHasYellowSkyreachTower",
+		"roi_offset": [0, -20, 400, 40],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [260, 540, 200, 200],
+			"timeout": 5000
+		}
+	},
+	"__ScenePrivateStewardFindSkyreachTower": {
+		"recognition": "And",
+		"all_of": ["InStewardPage"],
+		"next": [
+			"__ScenePrivateStewardHasSkyreachTower",
+			"[JumpBack]__SkyreachTowerSwipeDownRetry",
+			"[JumpBack]__SkyreachTowerSwipeUpRetry"
+		],
+		"max_hit": 1
+	},
+	"__ScenePrivateStewardHasSkyreachTower": {
+		"desc": "管家页面识别通天塔",
+		"recognition": "OCR",
+		"expected": "通天塔",
+		"roi": [94, 261, 525, 748]
+	},
+	"__SkyreachTowerSwipeDownRetry": {
+		"max_hit": 1,
+		"action": "Swipe",
+		"begin": [450, 400],
+		"end": [450, 800],
+		"duration": 200,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [104, 272, 515, 733],
+			"timeout": 5000
+		}
+	},
+	"__SkyreachTowerSwipeUpRetry": {
+		"max_hit": 1,
+		"action": "Swipe",
+		"begin": [450, 800],
+		"end": [450, 400],
+		"duration": 200,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [104, 272, 515, 733],
+			"timeout": 5000
+		}
+	},
+	"SkyreachTowerHasFreeCollect": {
+		"desc": "有免费领取按钮",
+		"recognition": "OCR",
+		"expected": "免费领取",
+		"roi": [116, 1095, 193, 47]
+	},
+	"SkyreachTowerCollect": {
+		"desc": "免费领取凡尘意志",
+		"recognition": "And",
+		"all_of": [
+			"InSkyreachTowerPage",
+			"SkyreachTowerHasFreeCollect"
+		],
+		"box_index": 1,
+		"max_hit": 1,
+		"action": "Click",
+		"post_delay": 2000,
+		"next": [
+			"HandleRewardDialog"
+		]
+	},
+	"SkyreachTowerCollectDone": {
+		"desc": "已领取凡尘意志",
+		"recognition": "And",
+		"all_of": [
+			"InSkyreachTowerPage",
+			{
+				"recognition": "OCR",
+				"expected": "已领取",
+				"roi": [116, 1095, 193, 47]
+			}
+		],
+		"next": [
+			"SceneBack"
+		]
+	}
+}

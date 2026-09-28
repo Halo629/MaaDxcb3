@@ -1,0 +1,166 @@
+{
+    "SummerExpeditionStart": {
+        "desc": "永夏远征",
+        "next": [
+            "SummerExpeditionCollect",
+            "[JumpBack]__SceneGamePlayLimitedEntrySummerExpedition",
+            "[JumpBack]SceneEnterGamePlayLimited"
+        ]
+    },
+    "SummerExpeditionCollect": {
+        "desc": "永夏远征页面领取奖励",
+        "recognition": "And",
+        "all_of": [
+            "InSummerExpeditionPage"
+        ],
+        "next": [
+            "SummerExpeditionDone",
+            "[JumpBack]__SummerExpeditionCollect",
+            "[JumpBack]HandleRewardDialog",
+            "[JumpBack]__SummerExpeditionGotoPeriodPage",
+            "SceneBack"
+        ]
+    },
+    "__SummerExpeditionGotoPeriodPage": {
+        "desc": "点击前往本期页面",
+        "recognition": "OCR",
+        "expected": "本期",
+        "roi": [
+            405,
+            1180,
+            76,
+            81
+        ],
+        "max_hit": 1,
+        "action": "Click"
+    },
+    "__SummerExpeditionCollect": {
+        "desc": "领取奖励",
+        "recognition": "TemplateMatch",
+        "template": "activities/SummerExpedition/collect.png",
+        "roi": [
+            532,
+            645,
+            173,
+            442
+        ],
+        "action": "Click"
+    },
+    "SummerExpeditionDone": {
+        "desc": "活动奖励已领取完",
+        "recognition": "OCR",
+        "expected": "已开启宝箱|已开启",
+        "roi": [
+            29,
+            212,
+            130,
+            54
+        ],
+        "next": [
+            "SceneBack"
+        ]
+    },
+    "__SceneGamePlayLimitedEntrySummerExpedition": {
+        "desc": "在限时页面进入永夏远征",
+        "recognition": "And",
+        "all_of": [
+            "InGamePlayLimitedPage"
+        ],
+        "next": [
+            "__SceneGamePlayLimitedPageGotoSummerExpedition",
+            "[JumpBack]SummerExpeditionSwipeToTop",
+            "[JumpBack]SummerExpeditionSwipe"
+        ]
+    },
+    "__SceneGamePlayLimitedPageGotoSummerExpedition": {
+        "desc": "点击前往永夏远征",
+        "recognition": "And",
+        "all_of": [
+            "__SceneGamePlayLimitedPageHasSummerExpedition"
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                260,
+                540,
+                200,
+                200
+            ],
+            "timeout": 5000
+        },
+        "next": [
+            "InSummerExpeditionPage"
+        ]
+    },
+    "__SceneGamePlayLimitedPageHasSummerExpedition": {
+        "desc": "限时页面识别到永夏远征",
+        "recognition": "TemplateMatch",
+        "template": "activities/SummerExpedition/SummerExpeditionIcon.png",
+        "roi": [
+            15,
+            69,
+            701,
+            997
+        ]
+    },
+    "InSummerExpeditionPage": {
+        "desc": "判断是否在永夏远征页面",
+        "recognition": "TemplateMatch",
+        "template": "activities/SummerExpedition/SummerExpeditionLogo.png",
+        "roi": [
+            16,
+            46,
+            367,
+            172
+        ]
+    },
+    "SummerExpeditionSwipeToTop": {
+        "desc": "快速滑到最上方",
+        "action": "Swipe",
+        "begin": [
+            400,
+            200
+        ],
+        "end": [
+            400,
+            900
+        ],
+        "duration": 100,
+        "max_hit": 1,
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                353,
+                192,
+                328,
+                732
+            ],
+            "timeout": 5000
+        }
+    },
+    "SummerExpeditionSwipe": {
+        "desc": "向上滑动查找",
+        "action": "Swipe",
+        "begin": [
+            400,
+            800
+        ],
+        "end": [
+            400,
+            600
+        ],
+        "duration": 200,
+        "max_hit": 10,
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                353,
+                192,
+                328,
+                732
+            ],
+            "timeout": 5000
+        }
+    }
+}

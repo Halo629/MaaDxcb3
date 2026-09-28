@@ -1,0 +1,50 @@
+{
+    "StewardSwipUp": {
+        "desc": "管家页面上滑",
+        "max_hit": 5,
+        "action": "Swipe",
+        "begin": [
+            450,
+            800
+        ],
+        "end": [
+            450,
+            600
+        ],
+        "duration": 200,
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "timeout": 5000
+        }
+    },
+    "GamePlaySwipUp": {
+        "desc": "玩法页面上滑",
+        "max_hit": 5,
+        "action": "Swipe",
+        "begin": [
+            450,
+            800
+        ],
+        "end": [
+            450,
+            600
+        ],
+        "duration": 200,
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "timeout": 5000
+        }
+    }
+}

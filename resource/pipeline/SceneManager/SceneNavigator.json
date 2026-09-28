@@ -1,0 +1,900 @@
+{
+	"SceneEnterMainPage": {
+		"desc": "从任意界面回到主页面营火旁",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InMainPage",
+			"[JumpBack]__ScenePrivateCurrentEventExit",
+			"[JumpBack]SceneBack",
+			"[JumpBack]__ScenePrivateReturnSecretRealm",
+			"[JumpBack]__ScenePrivateReturnRisk",
+			"[JumpBack]LoginPageClickStartGameButton",
+			"[JumpBack]LoginPageEventsHandle",
+			"[JumpBack]__ScenePrivatePressEscUntilExitGame"
+		]
+	},
+	"SceneEnterAlchemyLab": {
+		"desc": "从任意界面进入无弹窗的炼金页面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InAlchemyLabClean",
+			"[JumpBack]_SceneAlchemyLabEntry",
+			"[JumpBack]_SceneEnterAlchemyLabHandlePopup",
+			"[JumpBack]SceneEnterMainPage"
+		]
+	},
+	"RefineFormationEntry": {
+		"desc": "从任意界面进入炼成阵页面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InRefineFormationPage",
+			"[JumpBack]_SceneRefineFormationEntry",
+			"[JumpBack]SceneEnterAlchemyLab"
+		]
+	},
+	"SceneEnterTreasurehop": {
+		"desc": "从任意界面进入超值珍藏商店",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InTreasureShop",
+			"[JumpBack]_SceneTreasureShopEntry",
+			"[JumpBack]SceneEnterAlchemyLab"
+		]
+	},
+	"SceneEnterCarriageShop": {
+		"desc": "从任意界面进入马车商店",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InCarriageShop",
+			"[JumpBack]_SceneCarriageShopEntry",
+			"[JumpBack]SceneEnterAlchemyLab"
+		]
+	},
+	"_SceneCarriageShopEntry": {
+		"desc": "在炼金室进入马车商店",
+		"recognition": "And",
+		"all_of": ["InAlchemyLabClean", "HasCarriageShop"],
+		"box_index": 1,
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InCarriageShop"
+		]
+	},
+	"_SceneTreasureShopEntry": {
+		"desc": "在炼金室进入超值珍藏商店",
+		"recognition": "And",
+		"all_of": ["InAlchemyLabClean", "HasTreasureShop"],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [0, 0, 0, -50],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InTreasureShop"
+		]
+	},
+	"_SceneAlchemyLabEntry": {
+		"desc": "点击炼金室图标进入",
+		"recognition": "And",
+		"all_of": ["HasAlchemyLab"],
+		"action": "Click",
+		"next": [
+			"InAlchemyLab",
+			"_SceneAlchemyLabEntry"
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"post_wait_freezes": {
+			"time": 400,
+			"timeout": 2000,
+			"target": [0, 0, 200, 200]
+		}
+	},
+	"_SceneEnterAlchemyLabHandlePopup": {
+		"desc": "关闭炼金室页面的弹窗",
+		"recognition": "And",
+		"all_of": ["InAlchemyLab"],
+		"action": "Click",
+		"target": [697, 1109, 17, 53],
+		"max_hit": 10,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"post_wait_freezes": {
+			"time": 300,
+			"timeout": 2000,
+			"target": [0, 0, 200, 200]
+		}
+	},
+	"_SceneRefineFormationEntry": {
+		"desc": "点击炼成阵图进入",
+		"recognition": "OCR",
+		"expected": "炼成阵|炼成",
+		"roi": [306, 197, 121, 145],
+		"action": "Click",
+		"target_offset": [0, -50, 0, 0],
+		"post_wait_freezes": {
+			"time": 300,
+			"timeout": 2000,
+			"target": [0, 0, 200, 200]
+		}
+	},
+	"SceneEnterShatteredRealm": {
+		"desc": "从任意界面回到破碎之境界面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InShatteredRealm",
+			"[JumpBack]__SceneEnterShatteredRealm",
+			"[JumpBack]ShatteredRealmSwipeUp",
+			"[JumpBack]SceneEnterGamePlayPermanent"
+		]
+	},
+	"__SceneEnterShatteredRealm": {
+		"desc": "点击破碎之境图标进入",
+		"recognition": "And",
+		"all_of": [
+			"InGamePlayPermanentPage",
+			{
+				"recognition": "TemplateMatch",
+				"template": "ShatteredRealm/ShatteredRealmIcon.png",
+				"roi": [345, 139, 369, 833]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [260, 540, 200, 200],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ShatteredRealmSwipeUp": {
+		"desc": "向上滑动查找",
+		"action": "Swipe",
+		"begin": [400, 800],
+		"end": [400, 600],
+		"duration": 200,
+		"max_hit": 3,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 5000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"SceneEnterGuild": {
+		"desc": "从任意界面回到公会挑战界面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InGuildChallengePage",
+			"InNoGuildPage",
+			"[JumpBack]_SceneEnterGuildPage",
+			"[JumpBack]_SceneExpandSideBar",
+			"[JumpBack]_SceneEnterGuildHandlePopup",
+			"[JumpBack]SceneEnterMainPage"
+		]
+	},
+	"_SceneEnterGuildPage": {
+		"desc": "点击公会图标进入",
+		"recognition": "And",
+		"all_of": ["HasGuildIcon"],
+		"action": "Click",
+		"next": [
+			"InGuildPage",
+			"InNoGuildPage",
+			"_SceneEnterGuildPage"
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"post_wait_freezes": {
+			"time": 400,
+			"timeout": 2000,
+			"target": [0, 0, 200, 200]
+		}
+	},
+	"_SceneExpandSideBar": {
+		"desc": "展开侧边栏",
+		"recognition": "And",
+		"all_of": ["HasExpandIcon"],
+		"action": "Click",
+		"pre_delay": 0,
+		"post_wait_freezes": 300
+	},
+	"_SceneEnterGuildHandlePopup": {
+		"desc": "关闭公会页面的弹窗",
+		"recognition": "And",
+		"all_of": ["InGuildPage"],
+		"next": [
+			"PressEsc"
+		],
+		"max_hit": 10,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"SceneEnterGamePlay": {
+		"desc": "从任意界面回到更多玩法界面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InGamePlayPage",
+			"[JumpBack]SceneBack",
+			"[JumpBack]_SceneEnterGamePlayPage",
+			"[JumpBack]_SceneExpandSideBar",
+			"[JumpBack]SceneEnterMainPage"
+		]
+	},
+	"_SceneEnterGamePlayPage": {
+		"desc": "点击更多玩法进入",
+		"recognition": "And",
+		"all_of": ["HasGamePlayIcon"],
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"post_wait_freezes": {
+			"time": 400,
+			"timeout": 2000,
+			"target": [0, 0, 200, 200]
+		},
+		"next": [
+			"[JumpBack]HandlePastActivitySettlement",
+			"InGamePlayPage",
+			"SceneEnterGamePlay"
+		]
+	},
+	"SceneEnterGamePlayGrowth": {
+		"desc": "从任意界面回到更多玩法-养成界面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InGamePlayGrowthPage",
+			"[JumpBack]_SceneEnterGamePlayGrowthPage",
+			"[JumpBack]SceneEnterGamePlay"
+		]
+	},
+	"_SceneEnterGamePlayGrowthPage": {
+		"desc": "点击更多玩法中的养成进入",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InGamePlayPage",
+			{
+				"recognition": "OCR",
+				"expected": "养成",
+				"roi": [129, 1058, 110, 104]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"next": [
+			"InGamePlayGrowthPage"
+		]
+	},
+	"SceneEnterGamePlayLimited": {
+		"desc": "从任意界面回到更多玩法-限时界面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InGamePlayLimitedPage",
+			"[JumpBack]_SceneEnterGamePlayLimitedPage",
+			"[JumpBack]SceneEnterGamePlay"
+		]
+	},
+	"_SceneEnterGamePlayLimitedPage": {
+		"desc": "点击更多玩法中的限时进入",
+		"recognition": "And",
+		"all_of": [
+			"InGamePlayPage",
+			{
+				"recognition": "OCR",
+				"expected": "限时",
+				"roi": [284, 1051, 105, 114]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InGamePlayLimitedPage"
+		]
+	},
+	"SceneEnterGamePlayDaily": {
+		"desc": "从任意界面回到更多玩法-日常界面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InGamePlayDailyPage",
+			"[JumpBack]_SceneEnterGamePlayDailyPage",
+			"[JumpBack]SceneEnterGamePlay"
+		]
+	},
+	"_SceneEnterGamePlayDailyPage": {
+		"desc": "点击更多玩法中的日常进入",
+		"recognition": "And",
+		"all_of": [
+			"InGamePlayPage",
+			{
+				"recognition": "OCR",
+				"expected": "日常",
+				"roi": [434, 1040, 117, 127]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InGamePlayDailyPage"
+		]
+	},
+	"SceneEnterSoulTomb": {
+		"desc": "从任意界面回灵魂之墓界面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"SoulTombEntry",
+			"[JumpBack]SceneEnterGamePlayPermanent"
+		]
+	},
+	"SoulTombEntry": {
+		"desc": "在常驻页面查找魂墓",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InGamePlayPermanentPage"],
+		"next": [
+			"InSoulTomb",
+			"[JumpBack]HandleRewardDialog",
+			"[JumpBack]SoulTombCloseTipBox",
+			"[JumpBack]OpenSoulTomb",
+			"[JumpBack]SoulTombSwipeUp",
+			"SoulTombNotFound"
+		]
+	},
+	"SoulTombNotFound": {"desc": "未找到魂墓"},
+	"SoulTombSwipeUp": {
+		"desc": "上滑查找魂墓",
+		"action": "Swipe",
+		"begin": [400, 800],
+		"end": [400, 600],
+		"duration": 200,
+		"max_hit": 2,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 5000
+		}
+	},
+	"OpenSoulTomb": {
+		"desc": "点击魂墓图标进入",
+		"recognition": "TemplateMatch",
+		"template": "soul_tomb/soul_tomb_entry.png",
+		"roi": [345, 139, 369, 833],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [345, 139, 369, 833],
+			"timeout": 5000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"SoulTombCloseTipBox": {
+		"desc": "处理弹框",
+		"recognition": "OCR",
+		"expected": "排名",
+		"roi": [329, 300, 64, 58],
+		"action": "Click",
+		"target": [227, 149, 29, 35],
+		"post_delay": 3000
+	},
+	"SceneEnterGamePlayPermanent": {
+		"desc": "从任意界面回到更多玩法-常驻界面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InGamePlayPermanentPage",
+			"[JumpBack]_SceneEnterGamePlayPermanentPage",
+			"[JumpBack]SceneEnterGamePlay"
+		]
+	},
+	"_SceneEnterGamePlayPermanentPage": {
+		"desc": "点击更多玩法中的常驻进入",
+		"recognition": "And",
+		"all_of": [
+			"InGamePlayPage",
+			{
+				"recognition": "OCR",
+				"expected": "常驻",
+				"roi": [587, 1068, 101, 90]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"next": [
+			"InGamePlayPermanentPage"
+		]
+	},
+	"SceneEnterSteward": {
+		"desc": "从任意界面回到管家界面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InStewardPage",
+			"[JumpBack]_SceneEnterStewardPage",
+			"[JumpBack]_SceneExpandSideBar",
+			"[JumpBack]SceneEnterMainPage"
+		]
+	},
+	"_SceneEnterStewardPage": {
+		"desc": "点击管家进入",
+		"recognition": "And",
+		"all_of": ["HasStewardIcon"],
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"post_wait_freezes": {
+			"time": 300,
+			"timeout": 2000,
+			"target": [262, 265, 243, 255]
+		},
+		"next": [
+			"InStewardPage",
+			"_SceneEnterStewardPage"
+		]
+	},
+	"SceneEnterSpiritSummonTome": {
+		"desc": "从任意界面回到唤灵之典卷轴界面",
+		"next": [
+			"InSpiritScrollSummonPage",
+			"[JumpBack]SwitchToScrollSummonPage",
+			"[JumpBack]_SceneEnterSpiritSummonTomePage",
+			"[JumpBack]_SceneExpandSideBar",
+			"[JumpBack]SceneEnterMainPage"
+		]
+	},
+	"SwitchToScrollSummonPage": {
+		"desc": "从荒魂搜索页面切换到卷轴召唤页面",
+		"recognition": "And",
+		"all_of": ["InWildSoulPage"],
+		"action": "Swipe",
+		"begin": [218, 1077],
+		"end": [666, 1065],
+		"duration": 100,
+		"post_wait_freezes": {
+			"time": 200,
+			"target": [162, 1026, 390, 152],
+			"timeout": 2000
+		}
+	},
+	"_SceneEnterSpiritSummonTomePage": {
+		"desc": "点击唤灵之典进入",
+		"recognition": "And",
+		"all_of": ["HasSpiritSummonTomeIcon"],
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 500,
+		"rate_limit": 0
+	},
+	"SceneEnterSoulMasterGuide": {
+		"desc": "从任意界面回到魂师指南界面",
+		"next": [
+			"InSoulMasterGuidePage",
+			"[JumpBack]_SceneEnterSoulMasterGuidePage",
+			"[JumpBack]_SceneExpandSideBar",
+			"[JumpBack]SceneEnterMainPage"
+		]
+	},
+	"SceneEnterSoulMasterGuideDailyPage": {
+		"desc": "从任意界面回到魂师指南本日界面",
+		"next": [
+			"InSoulMasterGuideDailyPage",
+			"[JumpBack]SoulMasterGuideGotoDailyPage",
+			"[JumpBack]SceneEnterSoulMasterGuide"
+		]
+	},
+	"SceneEnterSoulMasterGuideWeeklyPage": {
+		"desc": "从任意界面回到魂师指南本周界面",
+		"next": [
+			"InSoulMasterGuideWeeklyPage",
+			"[JumpBack]SoulMasterGuideGotoWeeklyPage",
+			"[JumpBack]SceneEnterSoulMasterGuide"
+		]
+	},
+	"SoulMasterGuideGotoDailyPage": {
+		"desc": "切换到魂师指南每日页面",
+		"recognition": "And",
+		"all_of": ["InSoulMasterGuidePage"],
+		"action": "Click",
+		"target": [273, 1141, 25, 21],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [186, 403, 326, 569],
+			"timeout": 5000
+		}
+	},
+	"SoulMasterGuideGotoWeeklyPage": {
+		"desc": "切换到魂师指南每周页面",
+		"recognition": "And",
+		"all_of": ["InSoulMasterGuidePage"],
+		"action": "Click",
+		"target": [408, 1142, 29, 18],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [186, 403, 326, 569],
+			"timeout": 5000
+		}
+	},
+	"_SceneEnterSoulMasterGuidePage": {
+		"desc": "点击魂师指南进入",
+		"recognition": "And",
+		"all_of": ["HasSoulMasterGuideIcon"],
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InSoulMasterGuidePage"
+		]
+	},
+	"SceneEnterTreasureMapPage": {
+		"desc": "从任意界面回到藏宝图界面",
+		"next": [
+			"InTreasureMapPage",
+			"[JumpBack]_SceneEnterTreasureMapPage",
+			"[JumpBack]_SceneExpandSideBar",
+			"[JumpBack]SceneEnterMainPage"
+		]
+	},
+	"_SceneEnterTreasureMapPage": {
+		"desc": "点击藏宝图进入",
+		"recognition": "And",
+		"all_of": ["HasTreasureMapIcon"],
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InTreasureMapPage"
+		]
+	},
+	"SceneEnterSelectDestination": {
+		"desc": "从任意界面进入选择目的地界面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"[JumpBack]SceneCollapseSideBar",
+			"SceneSelectDestination",
+			"[JumpBack]SceneClickCampFire",
+			"[JumpBack]SceneEnterMainPage"
+		]
+	},
+	"SceneSelectDestination": {
+		"desc": "选择目的地",
+		"recognition": "And",
+		"all_of": ["InSelectDestinationPage"],
+		"next": [
+			"[JumpBack]SwitchMapListAscendingSort",
+			"[Anchor]ResetMiniMapAnchor",
+			"[Anchor]SelectMiniMapAnchor",
+			"[JumpBack][Anchor]SelectWorldMapAnchor",
+			"[JumpBack]DestinationPageSwipeUp",
+			"SceneSelectDestinationError"
+		]
+	},
+	"SceneSelectDestinationError": {
+		"desc": "进入地图失败,未找到地图",
+		"next": [
+			"SceneBack"
+		],
+		"focus": {"Node.Recognition.Succeeded": "进入地图失败,未找到地图"}
+	},
+	"CheckRoleInTargetMap": {
+		"desc": "判断角色是否在目标地图",
+		"recognition": "Custom",
+		"custom_recognition": "CheckRoleInTargetMap",
+		"custom_recognition_param": {"map_name": ""}
+	},
+	"DestinationPageSwipeUp": {
+		"desc": "选择目的地页面向上滑",
+		"recognition": "And",
+		"all_of": ["MapListSwipePos"],
+		"action": "Swipe",
+		"begin": "MapListSwipePos",
+		"end": "MapListSwipePos",
+		"begin_offset": [50, 0, 0, 0],
+		"end_offset": [50, -200, 0, 0],
+		"duration": 200,
+		"max_hit": 10,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [179, 224, 369, 732],
+			"timeout": 5000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"OriginWorldMap": {
+		"desc": "源世界地图",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["SelectDestinationPageHasOriginWorld"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [45, 1023, 639, 29],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ClearOriginWorldMapMaxHit": {
+		"desc": "清除OriginWorldMap的max_hit,在重置源世界地图时调用",
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["OriginWorldMap"]
+		}
+	},
+	"SceneCollapseSideBar": {
+		"desc": "出发前往地图前收起侧边栏",
+		"recognition": "And",
+		"all_of": ["InCampfire", "HasCollapseIcon"],
+		"box_index": 1,
+		"action": "Click",
+		"post_delay": 500
+	},
+	"SceneClickCampFire": {
+		"desc": "点击营火",
+		"recognition": "TemplateMatch",
+		"template": "main_page_icon/campfire.png",
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [193, 198, 371, 771],
+			"timeout": 8000
+		}
+	},
+	"SceneEnterMonsterSoulBag": {
+		"desc": "进入魔魂背包",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InMonsterSoulListPage",
+			"[JumpBack]MonsterSoulPageEntry",
+			"[JumpBack]SceneEnterBag"
+		]
+	},
+	"SceneEnterBag": {
+		"desc": "进入背包",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InBagItemPage",
+			"[JumpBack]__ScenePrivateClickBag",
+			"[JumpBack]SceneEnterMainPage"
+		]
+	},
+	"__ScenePrivateClickBag": {
+		"desc": "进入背包",
+		"recognition": "And",
+		"all_of": ["HasBag"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [276, 587, 189, 402],
+			"timeout": 5000
+		}
+	},
+	"MonsterSoulPageEntry": {
+		"desc": "进入魔物页面",
+		"recognition": "OCR",
+		"expected": "魔物",
+		"roi": [155, 1083, 529, 98],
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [276, 587, 189, 402],
+			"timeout": 5000
+		}
+	},
+	"SceneEnterMonthlyCardPage": {
+		"desc": "从任意界面进入月卡页面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InMonthlyCardPage",
+			"SceneClickWheelOfDream",
+			"[JumpBack]SceneEnterAlchemyLab"
+		]
+	},
+	"SceneClickWheelOfDream": {
+		"desc": "在炼金室直接点击梦境之轮",
+		"recognition": "And",
+		"all_of": ["InAlchemyLabClean"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"action": "Click",
+		"target": [179, 729, 64, 68],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [276, 587, 189, 402],
+			"timeout": 2000
+		}
+	},
+	"SceneEnterCookingPot": {
+		"desc": "从任意界面回到烹饪锅",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InCookingPotPage",
+			"[JumpBack]CookingPotEntry",
+			"[JumpBack]SwipeLeftToFindCookingPot",
+			"[JumpBack]SceneEnterMainPage"
+		]
+	},
+	"CookingPotEntry": {
+		"desc": "烹饪锅",
+		"recognition": "OCR",
+		"expected": "烹饪锅|烹饪",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"target_offset": [0, -50, 0, 0],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [208, 427, 318, 541],
+			"timeout": 3000
+		}
+	},
+	"SwipeLeftToFindCookingPot": {
+		"desc": "左滑找烹饪锅",
+		"recognition": "And",
+		"all_of": ["InCampfire"],
+		"action": "Swipe",
+		"begin": [550, 900],
+		"end": [450, 900],
+		"duration": 100,
+		"max_hit": 2,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [122, 279, 477, 602],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"MainPageHasBarrelManEntry": {
+		"desc": "营火旁点击桶中人进入活动",
+		"recognition": "And",
+		"all_of": ["InCampfire", "MainPageHasBarrelMan"],
+		"box_index": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"target_offset": [0, -50, 0, 0],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [344, 681, 277, 287],
+			"timeout": 3000
+		}
+	},
+	"FoodFestivalNotEnabled": {
+		"desc": "美食祭活动未开启",
+		"recognition": "And",
+		"all_of": ["InCampfire"],
+		"focus": {"Node.Recognition.Succeeded": "美食祭活动未开启"}
+	},
+	"SceneEnterBarrelMan": {
+		"desc": "从任意界面回到主页桶中人界面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InBarrelManDialogPage",
+			"[JumpBack]MainPageHasBarrelManEntry",
+			"FoodFestivalNotEnabled",
+			"[JumpBack]SceneEnterMainPage"
+		]
+	},
+	"InNightmareMirrorPage": {
+		"desc": "在咒魇水鉴页面",
+		"recognition": "OCR",
+		"expected": "咒魇水鉴|水鉴",
+		"roi": [87, 41, 159, 47]
+	},
+	"SceneEnterNightmareMirror": {
+		"desc": "从任意界面回到咒魇水鉴界面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InNightmareMirrorPage",
+			"[JumpBack]GrowthPageNightmareMirrorEntry",
+			"[JumpBack]GamePlayGrowthPageSwipUp",
+			"[JumpBack]SceneEnterGamePlayGrowth"
+		]
+	},
+	"GrowthPageNightmareMirrorEntry": {
+		"desc": "养成界面进入咒魇水鉴",
+		"recognition": "TemplateMatch",
+		"template": "activities/NightmareMirror.png",
+		"roi": [15, 69, 701, 997],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [15, 69, 701, 997],
+			"timeout": 2000
+		}
+	},
+	"GamePlayGrowthPageSwipUp": {
+		"desc": "养成界面向上滑动",
+		"recognition": "And",
+		"all_of": ["InGamePlayGrowthPage"],
+		"action": "Swipe",
+		"begin": [400, 800],
+		"end": [400, 600],
+		"duration": 200,
+		"max_hit": 3,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 5000
+		}
+	}
+}

@@ -1,0 +1,180 @@
+{
+	"StewardBibiqiSub": {
+		"desc": "比比奇的坩埚",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"BibiqiPrayLoop",
+			"[JumpBack]__ScenePrivateStewardFindBibiqi",
+			"[JumpBack]__SceneStewardEntryBibiqi",
+			"__ScenePrivateStewardBibiqiDone",
+			"[JumpBack]SceneEnterSteward"
+		],
+		"focus": {"Node.Recognition.Succeeded": "开始任务:比比奇的坩埚"}
+	},
+	"__SceneStewarHasYellowBibiqi": {
+		"desc": "在管家页面识别黄色的比比奇",
+		"recognition": "And",
+		"all_of": [
+			"InStewardPage",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 50, 50],
+				"upper": [35, 255, 255],
+				"roi": "__ScenePrivateStewardHasBibiqi",
+				"count": 20
+			}
+		],
+		"box_index": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"__SceneStewardEntryBibiqi": {
+		"desc": "在管家页面进入比比奇",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["__SceneStewarHasYellowBibiqi"],
+		"next": [
+			"__ScenePrivateStewardGotoBibiqi"
+		]
+	},
+	"__ScenePrivateStewardBibiqiDone": {
+		"desc": "管家页面未找到比比奇或者比比奇任务已经完成",
+		"recognition": "And",
+		"all_of": ["InStewardPage"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"__ScenePrivateStewardGotoBibiqi": {
+		"desc": "点击比比奇后面的前往进入比比奇页面",
+		"recognition": "OCR",
+		"expected": "前往",
+		"roi": "__SceneStewarHasYellowBibiqi",
+		"roi_offset": [0, -20, 400, 40],
+		"action": "Click",
+		"pre_delay": 0,
+		"post_wait_freezes": 200,
+		"rate_limit": 0,
+		"next": [
+			"InBibiqiPage"
+		]
+	},
+	"__ScenePrivateStewardFindBibiqi": {
+		"recognition": "And",
+		"all_of": ["InStewardPage"],
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"__ScenePrivateStewardHasBibiqi",
+			"[JumpBack]__BibiqiSwipeDownRetry",
+			"[JumpBack]__BibiqiSwipeUpRetry"
+		]
+	},
+	"__ScenePrivateStewardHasBibiqi": {
+		"desc": "管家页面识别比比奇",
+		"recognition": "OCR",
+		"expected": "比比奇",
+		"roi": [94, 261, 525, 748],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"__BibiqiSwipeDownRetry": {
+		"max_hit": 1,
+		"action": "Swipe",
+		"begin": [450, 400],
+		"end": [450, 800],
+		"duration": 200,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [104, 272, 515, 733],
+			"timeout": 5000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"__BibiqiSwipeUpRetry": {
+		"max_hit": 1,
+		"action": "Swipe",
+		"begin": [450, 800],
+		"end": [450, 400],
+		"duration": 200,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [104, 272, 515, 733],
+			"timeout": 5000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"BibiqiPrayLoop": {
+		"desc": "循环祈愿直到完成",
+		"recognition": "And",
+		"all_of": ["InBibiqiPage"],
+		"next": [
+			"[JumpBack]__BibiqiPrivatePray",
+			"[JumpBack]__BibiqiPrivateExtraReward",
+			"__BibiqiPrivatePrayDone"
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"__BibiqiPrivatePray": {
+		"desc": "比比奇祈愿",
+		"recognition": "OCR",
+		"expected": "祈愿",
+		"roi": [276, 772, 165, 63],
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 5000,
+		//等待祈愿动画
+		"rate_limit": 0,
+		"next": [
+			"HandleRewardDialog",
+			"__BibiqiPrivatePray"
+		]
+	},
+	"__BibiqiPrivateExtraReward": {
+		"desc": "比比奇祈愿次数奖励",
+		"recognition": "OCR",
+		"expected": "获取",
+		"roi": [283, 343, 151, 150],
+		"action": "Click",
+		"target_offset": [0, 0, 0, 100],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"pre_wait_freezes": {
+			"time": 500,
+			"target": [272, 231, 234, 680],
+			"timeout": 5000
+		},
+		"next": [
+			"HandleRewardDialog"
+		]
+	},
+	"__BibiqiPrivatePrayDone": {
+		"desc": "次数耗尽，点击退出",
+		"recognition": "OCR",
+		"expected": "次数耗尽",
+		"roi": [276, 772, 165, 63],
+		"next": [
+			"PressEsc"
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	}
+}

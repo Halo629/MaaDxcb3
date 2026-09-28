@@ -1,0 +1,319 @@
+{
+	"__ScenePrivateBattleExit": {
+		"desc": "退出战斗",
+		"recognition": {
+			"type": "And",
+			"param": {
+				"all_of": ["InBattle"]
+			}
+		},
+		"action": {"type": "Click"}
+	},
+	"__ScenePrivateBattleResultHandle": {
+		"desc": "处理战斗结算界面",
+		"recognition": "And",
+		"all_of": ["InBattleResult"],
+		"action": "Click"
+	},
+	"MazeExit": {
+		"desc": "退出迷宫",
+		"recognition": "And",
+		"all_of": ["InMaze"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [260, 540, 200, 200],
+			"timeout": 5000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InMap",
+			"InMainPageArea",
+			"[JumpBack]MazeExitBattleResult",
+			"[JumpBack]MazeExitEndExplore"
+		]
+	},
+	"MazeExitEndExplore": {
+		"desc": "关闭结束探索弹窗",
+		"recognition": "And",
+		"all_of": ["HasEndExploreDialog"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [84, 347, 543, 668],
+			"timeout": 3000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"MazeExitBattleResult": {
+		"desc": "处理战斗结算",
+		"recognition": "And",
+		"all_of": ["InBattleResult"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 1000,
+			"target": [84, 347, 543, 668],
+			"timeout": 3000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"PauseBattle": {
+		"desc": "暂停战斗",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"timeout": 1000,
+		"recognition": "TemplateMatch",
+		"template": "battle/PauseBattle.png",
+		"roi": [282, 1124, 159, 156],
+		"action": "Click",
+		"next": [
+			"BattlePaused"
+		]
+	},
+	"BattlePaused": {
+		"desc": "战斗已暂停",
+		"recognition": "TemplateMatch",
+		"template": "battle/ResumeBattle.png",
+		"roi": [282, 1124, 159, 156]
+	},
+	"ResumeBattle": {
+		"desc": "恢复战斗",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"timeout": 2000,
+		"recognition": "TemplateMatch",
+		"template": "battle/ResumeBattle.png",
+		"roi": [282, 1124, 159, 156],
+		"action": "Click"
+	},
+	"BattleFreeReviveCount": {
+		"desc": "战斗免费复活",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "剩余免费复生次数|剩余|免费|复生",
+		"roi": [496, 1148, 221, 73]
+	},
+	"RoleDead": {
+		"desc": "角色死亡",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "battle/Revive.png",
+		"roi": [43, 788, 638, 331],
+		"threshold": 0.8
+	},
+	"BattleFreeReviveRole": {
+		"desc": "战斗中免费复活角色",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RoleDead", "BattleFreeReviveCount"],
+		"timeout": 2000,
+		"next": [
+			"[JumpBack]PauseBattle",
+			"FreeReviveRole"
+		]
+	},
+	"FreeReviveRole": {
+		"desc": "复活角色",
+		"action": "Click",
+		"target": "RoleDead"
+	},
+	"InBattleRoleInfoPage": {
+		"desc": "在战斗中人物信息页面",
+		"recognition": "TemplateMatch",
+		"template": "battle/battle_role_info.png",
+		"roi": [73, 155, 95, 203]
+	},
+	"BattleRemainingTime": {
+		"desc": "战斗剩余时间",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"BattleRemainingTimeColor",
+			{
+				"recognition": "OCR",
+				"expected": "\\d{2}:\\d{2}",
+				"roi": [139, 29, 65, 20],
+				"only_rec": true
+			}
+		]
+	},
+	"BattleRemainingTimeColor": {
+		"desc": "战斗剩余时间红色区域",
+		"recognition": "ColorMatch",
+		"method": 40,
+		"lower": [0, 40, 20],
+		"upper": [10, 255, 255],
+		"roi": [139, 29, 65, 20],
+		"count": 30,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"Is2XSpeed": {
+		"desc": "判断是否处于2倍速",
+		"recognition": "ColorMatch",
+		"method": 40,
+		"lower": [10, 80, 80],
+		"upper": [35, 255, 255],
+		"roi": [11, 2, 56, 72],
+		"count": 250,
+		"connected": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"SwitchTo2XSpeed": {
+		"desc": "调整到2倍速",
+		"recognition": "And",
+		"all_of": ["Is2XSpeed"],
+		"inverse": true,
+		"action": "Click",
+		"target": [23, 23, 33, 32]
+	},
+	"HandleBattleEnd": {
+		"desc": "处理战斗结束",
+		"recognition": "And",
+		"all_of": ["InBattleResult"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [196, 1067, 335, 205],
+			"timeout": 3000
+		}
+	},
+	"BattleEnd": {
+		"desc": "战斗结束",
+		"recognition": "And",
+		"all_of": ["InBattleResult"],
+		"post_delay": 1000,
+		"next": [
+			"[Anchor]BattleVictoryAction",
+			"[Anchor]BattleFailedAction",
+			"[JumpBack]RaiseBattlePower",
+			"[JumpBack]HandleBattleEnd",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"AdventureEnd": {
+		"desc": "冒险结束",
+		"recognition": "And",
+		"all_of": ["InAdventureResult"],
+		"action": "Click"
+	},
+	"GoBattle": {
+		"desc": "战斗前出发页面",
+		"recognition": "TemplateMatch",
+		"template": "battle/go.png",
+		"roi": [253, 1065, 256, 168]
+	},
+	"RaiseBattlePower": {
+		"desc": "战败后如何提升战力弹框",
+		"recognition": "OCR",
+		"expected": "如何提升战力|提升战力|战力",
+		"roi": [269, 256, 179, 60],
+		"next": [
+			"PressEsc"
+		]
+	},
+	"BattleResultFail": {
+		"desc": "战斗失败",
+		"recognition": "OCR",
+		"expected": "失败",
+		"roi": [295, 263, 127, 118]
+	},
+	"XiaoqingSkill": {
+		"desc": "小青技能",
+		"recognition": "TemplateMatch",
+		"template": "battle/skill_xiaoqing.png",
+		"roi": [1, 1172, 274, 108]
+	},
+	"XiaoqingSkillReady": {
+		"desc": "小青技能就绪",
+		"recognition": "And",
+		"all_of": [
+			"XiaoqingSkill",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [0, 100, 100],
+				"upper": [10, 255, 255],
+				"roi": "XiaoqingSkill",
+				"count": 100
+			}
+		]
+	},
+	"UseSkill": {
+		"desc": "释放技能按钮",
+		"recognition": "TemplateMatch",
+		"template": "battle/use_skill.png",
+		"roi": [242, 773, 241, 119]
+	},
+	"BattleResultVictory": {
+		"desc": "战斗胜利",
+		"recognition": "OCR",
+		"expected": "胜利",
+		"roi": [295, 263, 127, 118]
+	},
+	"BattleStartOut": {
+		"desc": "战斗出发",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "出发",
+		"roi": [196, 1067, 335, 205],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [196, 1067, 335, 205],
+			"timeout": 3000
+		},
+		"next": [
+			"[JumpBack]CommonDisassembleEquipment",
+			"[JumpBack]CommonMonsterSoulBatchUpgrade",
+			"BattleAI"
+		]
+	},
+	"BattleAI": {
+		"desc": "战斗处理",
+		"recognition": "And",
+		"all_of": ["InBattle"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "BattleAI",
+		"attach": {"quit_immediately": false},
+		"next": [
+			"BattleEnd"
+		]
+	},
+	"QuitBattle": {
+		"desc": "退出战斗",
+		"recognition": "And",
+		"all_of": ["InBattle"],
+		"action": "Click",
+		"pre_delay": 500,
+		"post_delay": 500,
+		"next": [
+			"ConfirmButton",
+			"QuitBattle"
+		]
+	}
+}

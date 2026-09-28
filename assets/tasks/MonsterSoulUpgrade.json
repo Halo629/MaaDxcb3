@@ -1,0 +1,15 @@
+{
+    "task": [
+        {
+            "name": "MonsterSoulUpgrade",
+            "label": "👻升级魔魂",
+            "description":"须先配置启动游戏任务,并配置升级策略",
+            "entry": "MonsterSoulUpgradeStart",
+            "group": [
+                "other_tasks"
+            ],
+            "option": []
+        }
+    ],
+    "option": {}
+}

@@ -1,0 +1,12 @@
+{
+    "task": [
+        {
+            "name": "SummerExpedition",
+            "label": "☀️永夏远征",
+            "entry": "SummerExpeditionStart",
+            "group": [
+                "activity_tasks"
+            ]
+        }
+    ]
+}

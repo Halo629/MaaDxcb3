@@ -1,0 +1,373 @@
+{
+    "TransmutationCircleStart": {
+        "desc": "点石成金",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "TransmutationCircleCollect",
+            "[JumpBack]__SceneGamePlayLimitedEntryTransmutationCircle",
+            "[JumpBack]SceneEnterGamePlayLimited"
+        ]
+    },
+    "TransmutationCircleCollect": {
+        "desc": "点石成金页面点击礼包",
+        "recognition": "And",
+        "all_of": [
+            "InTransmutationCirclePage"
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]__TransmutationCircleClickGift",
+            "[JumpBack]__TransmutationCircleClickFeedback",
+            "TransmutationCircleDone"
+        ]
+    },
+    "TransmutationCircleDone": {
+        "desc": "点石成金已完成",
+        "next": [
+            "SceneBack"
+        ]
+    },
+    "__TransmutationCircleClickGift": {
+        "desc": "识别礼包并点击",
+        "recognition": "OCR",
+        "expected": "礼包",
+        "roi": [
+            417,
+            1164,
+            96,
+            106
+        ],
+        "max_hit": 1,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                256,
+                503,
+                281,
+                451
+            ],
+            "timeout": 5000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]__TransmutationCircleClickFreeCollect",
+            "__TransmutationCircleClickAlchemy"
+        ]
+    },
+    "__TransmutationCircleClickFreeCollect": {
+        "desc": "点击免费领取",
+        "recognition": "TemplateMatch",
+        "template": "activities/TransmutationCircle/FreeCollect.png",
+        "roi": [
+            497,
+            247,
+            160,
+            422
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                256,
+                503,
+                281,
+                451
+            ],
+            "timeout": 5000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "HandleRewardDialog"
+        ]
+    },
+    "__TransmutationCircleNoFreeCollect": {
+        "desc": "没有免费领取",
+        "recognition": "And",
+        "all_of": [
+            "InTransmutationCircleGiftPage"
+        ]
+    },
+    "__TransmutationCircleClickAlchemy": {
+        "desc": "点击炼金",
+        "recognition": "OCR",
+        "expected": "炼金",
+        "roi": [
+            152,
+            1163,
+            107,
+            102
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                177,
+                334,
+                365,
+                588
+            ],
+            "timeout": 3000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]__TransmutationCircleClickYellowAlchemy",
+            "__TransmutationCircleNoAlchemy"
+        ]
+    },
+    "__TransmutationCircleHasAlchemy": {
+        "recognition": "OCR",
+        "expected": "炼金",
+        "roi": [
+            105,
+            887,
+            183,
+            143
+        ]
+    },
+    "__TransmutationCircleClickYellowAlchemy": {
+        "desc": "识别黄色炼金并点击",
+        "recognition": "And",
+        "all_of": [
+            "__TransmutationCircleHasAlchemy",
+            {
+                "recognition": "ColorMatch",
+                "method": 40,
+                "lower": [
+                    20,
+                    80,
+                    80
+                ],
+                "upper": [
+                    35,
+                    255,
+                    255
+                ],
+                "roi": "__TransmutationCircleHasAlchemy",
+                "count": 200
+            }
+        ],
+        "action": "Click",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "HandleRewardDialog"
+        ]
+    },
+    "__TransmutationCircleNoAlchemy": {
+        "desc": "没有炼金次数",
+        "recognition": "And",
+        "all_of": [
+            "InTransmutationCirclePage"
+        ]
+    },
+    "__SceneGamePlayLimitedEntryTransmutationCircle": {
+        "desc": "在限时页面进入点石成金",
+        "recognition": "And",
+        "all_of": [
+            "InGamePlayLimitedPage"
+        ],
+        "next": [
+            "__SceneGamePlayLimitedPageGotoTransmutationCircle",
+            "[JumpBack]TransmutationCircleSwipeToTop",
+            "[JumpBack]TransmutationCircleSwipe"
+        ]
+    },
+    "__SceneGamePlayLimitedPageGotoTransmutationCircle": {
+        "desc": "点击前往点石成金",
+        "recognition": "And",
+        "all_of": [
+            "__SceneGamePlayLimitedPageHasTransmutationCircle"
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                256,
+                503,
+                281,
+                451
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "InTransmutationCirclePage"
+        ]
+    },
+    "__SceneGamePlayLimitedPageHasTransmutationCircle": {
+        "desc": "限时页面识别到点石成金",
+        "recognition": "TemplateMatch",
+        "template": "activities/TransmutationCircle/TransmutationCircleIcon.png",
+        "roi": [
+            15,
+            69,
+            701,
+            997
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "TransmutationCircleSwipeToTop": {
+        "desc": "快速滑到最上方",
+        "action": "Swipe",
+        "begin": [
+            400,
+            200
+        ],
+        "end": [
+            400,
+            900
+        ],
+        "duration": 100,
+        "max_hit": 1,
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                353,
+                192,
+                328,
+                732
+            ],
+            "timeout": 5000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "TransmutationCircleSwipe": {
+        "desc": "向上滑动查找",
+        "action": "Swipe",
+        "begin": [
+            400,
+            800
+        ],
+        "end": [
+            400,
+            600
+        ],
+        "duration": 200,
+        "max_hit": 5,
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                353,
+                192,
+                328,
+                732
+            ],
+            "timeout": 5000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "InTransmutationCircleGiftPage": {
+        "desc": "在点石成金礼包页面",
+        "recognition": "TemplateMatch",
+        "template": "activities/TransmutationCircle/SpecialPack.png",
+        "roi": [
+            287,
+            117,
+            142,
+            85
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "InTransmutationCirclePage": {
+        "desc": "在点石成金页面",
+        "recognition": "TemplateMatch",
+        "template": "activities/TransmutationCircle/TransmutationCirclePageLogo.png",
+        "roi": [
+            526,
+            12,
+            86,
+            112
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "__TransmutationCircleClickFeedback": {
+        "desc": "点击回馈",
+        "recognition": "OCR",
+        "expected": "回馈",
+        "roi": [
+            272,
+            1166,
+            116,
+            95
+        ],
+        "max_hit": 1,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                177,
+                334,
+                365,
+                588
+            ],
+            "timeout": 3000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]__TransmutationCircleClickYellowFeedback",
+            "__TransmutationCircleClickAlchemy"
+        ]
+    },
+    "__TransmutationCircleClickYellowFeedback": {
+        "desc": "识别黄色领取并点击",
+        "recognition": "TemplateMatch",
+        "template": "activities/Common/Collect.png",
+        "action": "Click",
+        "roi": [
+            467,
+            213,
+            197,
+            739
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "HandleRewardDialog"
+        ]
+    },
+    "__TransmutationCircleNoYellowFeedback": {
+        "desc": "没有回馈奖励",
+        "recognition": "And",
+        "all_of": [
+            "InTransmutationCircleFeedbackPage"
+        ]
+    },
+    "InTransmutationCircleFeedbackPage": {
+        "desc": "在点石成金回馈页面",
+        "recognition": "TemplateMatch",
+        "template": "activities/TransmutationCircle/FeedBack.png",
+        "roi": [
+            282,
+            103,
+            154,
+            102
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    }
+}

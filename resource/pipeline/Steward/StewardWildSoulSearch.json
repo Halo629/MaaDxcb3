@@ -1,0 +1,157 @@
+{
+	"StewardWildSoulSearchSub": {
+		"desc": "荒魂搜索",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"WildSoulSearchSummonLoop",
+			"[JumpBack]__ScenePrivateStewardFindWildSoulSearch",
+			"[JumpBack]__SceneStewardEntryWildSoulSearch",
+			"__ScenePrivateStewardWildSoulSearchDone",
+			"[JumpBack]SceneEnterSteward"
+		],
+		"focus": {"Node.Recognition.Succeeded": "开始任务:荒魂搜索"}
+	},
+	"__SceneStewarHasYellowWildSoulSearch": {
+		"desc": "在管家页面识别黄色的荒魂搜索",
+		"recognition": "And",
+		"all_of": [
+			"InStewardPage",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 50, 50],
+				"upper": [35, 255, 255],
+				"roi": "__ScenePrivateStewardHasWildSoulSearch",
+				"count": 20
+			}
+		],
+		"box_index": 1
+	},
+	"__SceneStewardEntryWildSoulSearch": {
+		"desc": "在管家页面进入荒魂搜索",
+		"recognition": "And",
+		"all_of": ["__SceneStewarHasYellowWildSoulSearch"],
+		"next": [
+			"__ScenePrivateStewardGotoWildSoulSearch"
+		]
+	},
+	"__ScenePrivateStewardWildSoulSearchDone": {
+		"desc": "管家页面未找到荒魂搜索或任务已完成",
+		"recognition": "And",
+		"all_of": ["InStewardPage"]
+	},
+	"__ScenePrivateStewardGotoWildSoulSearch": {
+		"desc": "点击荒魂搜索后面的前往进入",
+		"recognition": "OCR",
+		"expected": "前往",
+		"roi": "__SceneStewarHasYellowWildSoulSearch",
+		"roi_offset": [0, -20, 400, 40],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [260, 540, 200, 200],
+			"timeout": 5000
+		}
+	},
+	"__ScenePrivateStewardFindWildSoulSearch": {
+		"recognition": "And",
+		"all_of": ["InStewardPage"],
+		"next": [
+			"__ScenePrivateStewardHasWildSoulSearch",
+			"[JumpBack]__WildSoulSearchSwipeDownRetry",
+			"[JumpBack]__WildSoulSearchSwipeUpRetry"
+		],
+		"max_hit": 1
+	},
+	"__ScenePrivateStewardHasWildSoulSearch": {
+		"desc": "管家页面识别荒魂搜索",
+		"recognition": "OCR",
+		"expected": "荒魂搜索",
+		"roi": [94, 261, 525, 748]
+	},
+	"__WildSoulSearchSwipeDownRetry": {
+		"max_hit": 1,
+		"action": "Swipe",
+		"begin": [450, 400],
+		"end": [450, 800],
+		"duration": 200,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [104, 272, 515, 733],
+			"timeout": 5000
+		}
+	},
+	"__WildSoulSearchSwipeUpRetry": {
+		"max_hit": 1,
+		"action": "Swipe",
+		"begin": [450, 800],
+		"end": [450, 400],
+		"duration": 200,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [104, 272, 515, 733],
+			"timeout": 5000
+		}
+	},
+	"WildSoulSearchSummonLoop": {
+		"desc": "荒魂搜索召唤循环",
+		"recognition": "And",
+		"all_of": ["InWildSoulPage"],
+		"next": [
+			"WildSoulSearchHasSummon",
+			"WildSoulSearchStartSearch",
+			"WildSoulSearchComplete"
+		]
+	},
+	"WildSoulSearchHasSummon": {
+		"desc": "有召唤按钮",
+		"recognition": "And",
+		"all_of": [
+			"InWildSoulPage",
+			{
+				"recognition": "OCR",
+				"expected": "召唤",
+				"roi": [244, 875, 240, 109]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"next": [
+			"WildSoulSearchStartSearch",
+			"[JumpBack]WildSoulSearchClickToCompleteSummon"
+		]
+	},
+	"WildSoulSearchClickToCompleteSummon": {
+		"recognition": "DirectHit",
+		"action": "Click",
+		"target": [322, 364, 74, 115],
+		"post_delay": 600
+	},
+	"WildSoulSearchStartSearch": {
+		"desc": "点击开始搜索",
+		"recognition": "OCR",
+		"expected": "开始搜索",
+		"roi": [221, 868, 274, 121],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [260, 540, 200, 200],
+			"timeout": 5000
+		},
+		"next": [
+			"WildSoulSearchComplete"
+		]
+	},
+	"WildSoulSearchComplete": {
+		"desc": "放弃按钮出现，搜索已开始",
+		"recognition": "OCR",
+		"expected": "放弃",
+		"roi": [221, 868, 274, 121],
+		"next": [
+			"SceneBack"
+		]
+	}
+}

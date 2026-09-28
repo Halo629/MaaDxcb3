@@ -1,0 +1,91 @@
+{
+    "task": [
+        {
+            "name": "SummerLotusPond",
+            "label": "🪷夏夜荷塘",
+            "entry": "BranchActivityStart",
+            "group": [
+                "activity_tasks"
+            ],
+            "option": [
+                "BranchActivitySoulTomb",
+                "BranchActivityReforge"
+            ]
+        },
+        {
+            "name": "OdeFulSecludedCorridor",
+            "label": "🏮颂礼幽廊",
+            "entry": "BranchActivityStart",
+            "group": [
+                "activity_tasks"
+            ],
+            "option": [
+                "BranchActivitySoulTomb",
+                "BranchActivityReforge"
+            ]
+        }
+    ],
+    "option": { 
+        "BranchActivitySoulTomb": {
+            "type": "switch",
+            "label": "挑战1次魂墓",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "AdjustSoulTombStartLevel": {
+                           "enabled": false
+                        },
+                        "ActivityCommonNotCompletedTaskEnable": {
+                            "attach": {
+                                "SoulTombEnable": true
+                            }
+                        },
+                        "BattleAI": {
+                            "attach": {"quit_immediately": true}
+                        }
+                    }
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                        "ActivityCommonNotCompletedTaskEnable": {
+                            "attach": {
+                                "SoulTombEnable": false
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        "BranchActivityReforge": {
+            "type": "switch",
+            "label": "装备重铸1次",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "ActivityCommonNotCompletedTaskEnable": {
+                            "attach": {
+                                "ReforgeEquipmentEnable": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                        "ActivityCommonNotCompletedTaskEnable": {
+                            "attach": {
+                                "ReforgeEquipmentEnable": false
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    }
+   
+}

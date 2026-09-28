@@ -1,0 +1,12 @@
+{
+    "task": [
+        {
+            "name": "UnlockRecipe",
+            "label": "📖解锁食谱",
+            "entry": "LockAllRecipeStart",
+            "group": [
+                "other_tasks"
+            ]
+        }
+    ]
+}

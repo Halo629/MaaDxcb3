@@ -1,0 +1,178 @@
+{
+	"StewardCarriageShopSub": {
+		"desc": "马车商店购买商品",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"[JumpBack]CarriageShopBuyItem",
+			"[JumpBack]CarriageShopBuyFood",
+			"[JumpBack]CarriageShopBuyEquipment",
+			"[JumpBack]CarriageShopBuyEmblemChestEntry",
+			"[JumpBack]CarriageShopBuyTimeBondFragmentEntry",
+			"CarriageShopShoppingDone",
+			"[JumpBack]SceneEnterCarriageShop"
+		],
+		"focus": {"Node.Recognition.Succeeded": "开始任务:马车商店购买商品"}
+	},
+	"CarriageShopShoppingDone": {
+		"recognition": "And",
+		"all_of": ["InCarriageShop"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"[JumpBack]SceneBack",
+			"InMainPageArea"
+		]
+	},
+	"CarriageShopSwipeLeft": {
+		"desc": "向左滑动露出更多标签",
+		"recognition": "And",
+		"all_of": ["InCarriageShop"],
+		"action": "Swipe",
+		"begin": [600, 1230],
+		"end": [500, 1230],
+		"duration": 100,
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [138, 1184, 549, 92],
+			"timeout": 3000
+		},
+		"max_hit": 4,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"CarriageShopSwipeRight": {
+		"desc": "向右滑动露出更多标签",
+		"recognition": "And",
+		"all_of": ["InCarriageShop"],
+		"action": "Swipe",
+		"begin": [160, 1230],
+		"end": [700, 1230],
+		"duration": 100,
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [138, 1184, 549, 92],
+			"timeout": 3000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"CarriageShopSwipeUp": {
+		"desc": "向上滑动查看更多商品",
+		"action": "Swipe",
+		"begin": [450, 850],
+		"end": [450, 750],
+		"duration": 100,
+		"max_hit": 6,
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [97, 418, 532, 634],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"CarriageShopBuyCount": {
+		"desc": "识别购买数量",
+		"recognition": "OCR",
+		"expected": "购买数量|数量",
+		"roi": [300, 741, 127, 538]
+	},
+	"CarriageShopSlideBuy": {
+		"desc": "滑动购买",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["CarriageShopFindSlider"],
+		"action": "Swipe",
+		"begin": "CarriageShopFindSlider",
+		"end": [680, 900],
+		"duration": 200,
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [97, 418, 532, 634],
+			"timeout": 3000
+		},
+		"next": [
+			"CarriageShopSlideBuyConfirm",
+			"CarriageShopSlideBuy"
+		]
+	},
+	"CarriageShopSlideBuyConfirm": {
+		"desc": "滑动后点击购买",
+		"recognition": "And",
+		"all_of": ["CarriageShopSliderPosRight"],
+		"action": "Click",
+		"target": "CarriageShopBuyCount",
+		"target_offset": [0, 180, 0, 0],
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [97, 418, 532, 634],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"CarriageShopBuyItemDone"
+		]
+	},
+	"CarriageShopFindSlider": {
+		"desc": "识别数量滑块",
+		"recognition": "And",
+		"all_of": [
+			"CarriageShopBuyCount",
+			{
+				"recognition": "TemplateMatch",
+				"template": "carriage_shop/SliderBar.png",
+				"roi": "CarriageShopBuyCount",
+				"roi_offset": [-250, 0, 450, 110],
+				"threshold": 0.8
+			}
+		],
+		"box_index": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"CarriageShopSliderPosRight": {
+		"desc": "滑块位置在右边,滑动成功",
+		"recognition": "And",
+		"all_of": [
+			"CarriageShopBuyCount",
+			{
+				"recognition": "TemplateMatch",
+				"template": "carriage_shop/SliderBar.png",
+				"roi": "CarriageShopBuyCount",
+				"roi_offset": [150, 0, 450, 110],
+				"threshold": 0.8
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"CarriageShopSlideMax": {
+		"desc": "拖动滑块到最右边(最大数量)",
+		"recognition": "And",
+		"all_of": ["CarriageShopFindSlider"],
+		"action": "Swipe",
+		"begin": "CarriageShopFindSlider",
+		"end": [680, 900],
+		"duration": 200,
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [97, 418, 532, 634],
+			"timeout": 3000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"CarriageShopBuyItemDone": {"desc": "购买商品完成"}
+}

@@ -1,0 +1,383 @@
+{
+    "EnlightenBookEventEntry": {
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "max_hit": 1,
+        "desc": "启迪之书事件处理入口,开启免费传送点后才进",
+        "recognition": "And",
+        "all_of": [
+            "FreeTeleportAlreadyEnabled"
+        ],
+        "next": [
+            "EnlightenBookEntry",
+            "[JumpBack]SwipeLeftToFindEnlightenBook"
+        ]
+    },
+    "EnlightenBookEnd": {
+        "desc": "启迪之书完成"
+    },
+    "EnlightenBookEntry": {
+        "desc": "前往启迪之书",
+        "recognition": "OCR",
+        "expected": "启迪之书|启迪|之书",
+        "roi": [
+            124,
+            288,
+            590,
+            629
+        ],
+        "action": "Click",
+        "target_offset": [
+            0,
+            -50,
+            0,
+            0
+        ],
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                124,
+                288,
+                590,
+                629
+            ],
+            "timeout": 10000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]GlimpseEnemyCards",
+            "[JumpBack]TrialGroundDoorCannotPass",
+            "[JumpBack]GlimpseEnemyCardsUnlock",
+            "BackToTrialGround",
+            "EnlightenBookEnd",
+            "EnlightenBookEntry"
+        ]
+    },
+    "TrialGroundDoorCannotPass": {
+        "desc": "试炼场进不去门,优先解锁试炼场",
+        "recognition": "And",
+        "all_of": [
+            "TrialGroundDoorCanPass"
+        ],
+        "inverse": true,
+        "max_hit": 1,
+        "next": [
+            "SendMagnetToAnyaUntileConfidant",
+            "SendMagnetToAnyaUntileConfidantStart"
+        ]
+    },
+    "GlimpseEnemyCardsUnlock": {
+        "desc": "书灵安雅赠送磁石到熟识(前提与女王关系达到熟识,也就是先解锁海盗女王领卡牌，再开启窥探功能)",
+        "recognition": "And",
+        "all_of": [
+            "QueenFamiliarReached",
+            "EnemyCardNotRecord"
+        ],
+        "max_hit": 1,
+        "next": [
+            "SendMagnetToAnyaUntileFamiliar",
+            "SendMagnetToAnyaUntileFamiliarStart"
+        ]
+    },
+    "BackToTrialGround": {
+        "desc": "与书灵达到知己,返回试炼场",
+        "recognition": "And",
+        "all_of": [
+            "EnlightenmentConfidantReached"
+        ],
+        "next": [
+            "NeedBackToTrialGround",
+            "EnlightenBookEnd"
+        ]
+    },
+    "NeedBackToTrialGround": {
+        "desc": "确定需要返回试炼场",
+        "recognition": "And",
+        "all_of": [
+            "TrialGroundDoorCanPass"
+        ],
+        "inverse": true,
+        "max_hit": 1,
+        "next": [
+            "TrialGroundEventEntryFromEnlightenBook"
+        ]
+    },
+    "SendMagnetToAnyaUntileConfidantStart": {
+        "desc": "书灵安雅赠送磁石到知己",
+        "recognition": "OCR",
+        "expected": "启迪之书|启迪|之书",
+        "roi": [
+            124,
+            288,
+            590,
+            629
+        ],
+        "action": "Click",
+        "target_offset": [
+            0,
+            -50,
+            0,
+            0
+        ],
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                124,
+                288,
+                590,
+                629
+            ],
+            "timeout": 10000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "SendMagnetToAnyaUntileConfidant",
+            "SendMagnetToAnyaUntileConfidantStart"
+        ]
+    },
+    "SendMagnetToAnyaUntileConfidant": {
+        "desc": "书灵安雅赠送磁石到知己",
+        "recognition": "OCR",
+        "expected": "书灵|安雅",
+        "roi": [
+            285,
+            727,
+            146,
+            204
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                215,
+                260,
+                383,
+                438
+            ],
+            "timeout": 2000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "RelationshipConfidantWithAnya",
+            "[JumpBack]SendMagnet",
+            "RightDownScreenMagnetNotEnoughAndExit"
+        ]
+    },
+    "SendMagnetToAnyaUntileFamiliarStart": {
+        "desc": "书灵安雅赠送磁石到熟识",
+        "recognition": "OCR",
+        "expected": "启迪之书|启迪|之书",
+        "roi": [
+            124,
+            288,
+            590,
+            629
+        ],
+        "action": "Click",
+        "target_offset": [
+            0,
+            -50,
+            0,
+            0
+        ],
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                124,
+                288,
+                590,
+                629
+            ],
+            "timeout": 10000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "SendMagnetToAnyaUntileFamiliar",
+            "SendMagnetToAnyaUntileFamiliarStart"
+        ]
+    },
+    "SendMagnetToAnyaUntileFamiliar": {
+        "desc": "书灵安雅赠送磁石到熟识",
+        "recognition": "OCR",
+        "expected": "书灵|安雅",
+        "roi": [
+            285,
+            727,
+            146,
+            204
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                215,
+                260,
+                383,
+                438
+            ],
+            "timeout": 2000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "RelationshipFamiliarWithAnya",
+            "[JumpBack]SendMagnet",
+            "RightDownScreenMagnetNotEnoughAndExit",
+            "RightDownExitOption"
+        ]
+    },
+    "GlimpseEnemyCards": {
+        "desc": "窥探对手牌型",
+        "recognition": "OCR",
+        "expected": "窥探对手牌型|窥探|对手牌型|对手|牌型",
+        "roi": [
+            265,
+            663,
+            171,
+            298
+        ],
+        "max_hit": 1,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                215,
+                260,
+                383,
+                438
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "[JumpBack]RecordEnemyCard",
+            "RightDownExitOption"
+        ]
+    },
+    "RecordEnemyCard": {
+        "desc": "记录敌方卡牌数量",
+        "max_hit": 1,
+        "recognition": "Custom",
+        "custom_recognition": "RecordEnemyCard"
+    },
+    "RelationshipConfidantWithAnya": {
+        "desc": "与安雅的关系达到知己",
+        "recognition": "OCR",
+        "expected": "知己",
+        "roi": [
+            16,
+            1013,
+            221,
+            126
+        ],
+        "next": [
+            "[JumpBack]RelationshipConfidantWithAnyaRecord",
+            "RightDownExitOption"
+        ]
+    },
+    "RelationshipConfidantWithAnyaRecord": {
+        "desc": "记录与安雅的关系达到知己",
+        "max_hit": 1,
+        "action": "Custom",
+        "custom_action": "EnlightenmentConfidantRecord"
+    },
+    "RelationshipFamiliarWithAnya": {
+        "desc": "与安雅的关系达到熟识",
+        "recognition": "OCR",
+        "expected": "熟识",
+        "roi": [
+            16,
+            1013,
+            221,
+            126
+        ],
+        "next": [
+            "RightDownExitOption"
+        ]
+    },
+    "FirstEntryEnlightenBook": {
+        "desc": "第一次进入启迪之书对话",
+        "recognition": "OCR",
+        "expected": "靠近",
+        "roi": [
+            277,
+            727,
+            184,
+            222
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                215,
+                260,
+                383,
+                438
+            ],
+            "timeout": 2000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "EnlightenBookGoCheck"
+        ]
+    },
+    "EnlightenBookGoCheck": {
+        "desc": "启迪之书-过去看看",
+        "recognition": "And",
+        "all_of": [
+            "InDialoguePage"
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                215,
+                260,
+                383,
+                438
+            ],
+            "timeout": 2000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "SwipeLeftToFindEnlightenBook": {
+        "desc": "向左滑动找启迪之书",
+        "action": "Swipe",
+        "begin": [
+            500,
+            450
+        ],
+        "end": [
+            200,
+            450
+        ],
+        "duration": 100,
+        "max_hit": 3,
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                122,
+                279,
+                477,
+                602
+            ],
+            "timeout": 2000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    }
+}

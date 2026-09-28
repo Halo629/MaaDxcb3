@@ -1,0 +1,525 @@
+{
+	"CourtChessStart": {
+		"desc": "宫廷棋",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {"ActivityGoto": "ActivityCourtChessEntry"},
+		"next": [
+			"CourtChessEntry",
+			"[JumpBack]ActivityLimitedEnter"
+		]
+	},
+	"ActivityCourtChessEntry": {
+		"desc": "限时页面进入宫廷棋",
+		"recognition": "TemplateMatch",
+		"template": [
+			"activities/CourtChess/CourtChessIcon.png"
+		],
+		"roi": [15, 69, 701, 997],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [15, 69, 701, 997],
+			"timeout": 2000
+		}
+	},
+	"InCourtChess": {
+		"desc": "在宫廷棋页面",
+		"recognition": "OCR",
+		"expected": "宫廷棋|宫廷|廷棋|棋",
+		"roi": [313, 7, 95, 54]
+	},
+	"CourtChessEntry": {
+		"desc": "宫廷棋活动入口",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InCourtChess"],
+		"next": [
+			"[JumpBack]CourtChessCloseTipBox",
+			"[JumpBack]CourtChessThrowDice",
+			"[JumpBack]CourtChessChallenge",
+			"[JumpBack]CourtChessBountyReward",
+			"CourtChessDone"
+		]
+	},
+	"CourtChessCloseTipBox": {
+		"desc": "关闭弹框",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "行动规则|行动|规则",
+		"roi": [286, 180, 146, 63],
+		"action": "Click",
+		"target": [555, 1163, 41, 65],
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [198, 866, 341, 148],
+			"timeout": 2000
+		}
+	},
+	"CourtChessActionCountColor": {
+		"desc": "识别行动次数白色数字区域",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "ColorMatch",
+		"method": 40,
+		"roi": [323, 1185, 25, 25],
+		"lower": [0, 0, 200],
+		"upper": [255, 55, 255],
+		"count": 5
+	},
+	"CourtChessActionCount": {
+		"desc": "识别行动次数",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "[1-9]\\d*",
+		"roi": [323, 1185, 25, 25],
+		"only_rec": true
+	},
+	"CourtChessNoActionCount": {
+		"desc": "没有行动次数",
+		"pre_delay": 0,
+		"post_delay": 7000,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "^0$",
+		"roi": [323, 1185, 30, 24],
+		"only_rec": true,
+		"next": [
+			"HandleRewardDialog",
+			"CourtChessResourceStation",
+			"CourtChessBlessingPower",
+			"CourtChessCandyClash",
+			"CourtChessFruitTycoon",
+			"ActivityAlwaysTrue"
+		]
+	},
+	"CourtChessThrowDice": {
+		"desc": "投掷骰子",
+		"pre_delay": 0,
+		"post_delay": 2000,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["CourtChessActionCount"],
+		"action": "Click",
+		"target": [340, 1074, 41, 51],
+		"next": [
+			"HandleRewardDialog",
+			"CourtChessResourceStation",
+			"CourtChessBlessingPower",
+			"CourtChessCandyClash",
+			"CourtChessFruitTycoon",
+			"CourtChessThrowDice",
+			"CourtChessNoActionCount"
+		]
+	},
+	"CourtChessResourceStation": {
+		"desc": "资源站建造事件",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "资源站建造|资源站|建造",
+		"roi": [287, 181, 147, 55],
+		"next": [
+			"CourtChessResourceStationBuild"
+		]
+	},
+	"CourtChessResourceStationBuild": {
+		"desc": "资源站建造",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "建造",
+		"roi": [302, 980, 120, 47],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [209, 260, 300, 177],
+			"timeout": 2000
+		},
+		"next": [
+			"CourtChessResourceOutput"
+		]
+	},
+	"CourtChessResourceOutput": {
+		"desc": "资源站产出弹框",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "资源站产出|产出",
+		"roi": [282, 350, 158, 44],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [209, 260, 300, 177],
+			"timeout": 2000
+		}
+	},
+	"CourtChessBlessingPower": {
+		"desc": "庇护之力事件",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "庇护之力",
+		"roi": [272, 329, 176, 60],
+		"next": [
+			"CourtChessBlessingPowerFetchBuff"
+		]
+	},
+	"CourtChessBlessingPowerFetchBuff": {
+		"desc": "获取庇护之力",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "获取",
+		"roi": [174, 868, 94, 123],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [209, 260, 300, 177],
+			"timeout": 2000
+		},
+		"next": [
+			"CourtChessDiscardBuff",
+			"CourtChessBlessingPowerFetchBuffDone"
+		]
+	},
+	"CourtChessBlessingPowerFetchBuffDone": {"desc": "获取庇护之力buff完成"},
+	"CourtChessDiscardBuff": {
+		"desc": "丢弃已满的buff",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "丢弃",
+		"roi": [540, 121, 99, 963],
+		"order_by": "Vertical",
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [209, 260, 300, 177],
+			"timeout": 2000
+		}
+	},
+	"CourtChessCandyClash": {
+		"desc": "甜豆人大冲撞事件",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "甜豆人大冲撞",
+		"roi": [264, 338, 188, 65],
+		"next": [
+			"[JumpBack]CourtChessCandySelectPartner",
+			"[JumpBack]CourtChessCandySelectCandy",
+			"[JumpBack]CourtChessCandyStartMatch",
+			"[JumpBack]CourtChessCandyChallenge",
+			"HandleRewardDialog"
+		]
+	},
+	"CourtChessCandySelectPartner": {
+		"desc": "选择伙伴",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "选择伙伴",
+		"roi": [295, 759, 121, 298],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [209, 260, 300, 177],
+			"timeout": 2000
+		}
+	},
+	"CourtChessCandySelectCandy": {
+		"desc": "选择糖果",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "硬糖豆|软糖豆|跳跳糖|绵绵糖",
+		"roi": [254, 663, 203, 396],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [209, 260, 300, 177],
+			"timeout": 2000
+		}
+	},
+	"CourtChessCandyStartMatch": {
+		"desc": "开始比赛",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "开始比赛",
+		"roi": [407, 748, 161, 247],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [209, 260, 300, 177],
+			"timeout": 2000
+		}
+	},
+	"CourtChessCandyChallenge": {
+		"desc": "挑战|下一关|领取奖励",
+		"pre_delay": 0,
+		"post_delay": 1000,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "挑战|下一关|领取奖励",
+		"roi": [302, 704, 114, 284],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [209, 260, 300, 177],
+			"timeout": 2000
+		}
+	},
+	"CourtChessFruitTycoon": {
+		"desc": "果宝大亨事件",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "果宝大亨",
+		"roi": [295, 292, 130, 56],
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]CourtChessCastleReward",
+			"[JumpBack]CourtChessSuperPermitClick",
+			"[JumpBack]CourtChessNormalPermitClick",
+			"[JumpBack]CourtChessCastle",
+			"[JumpBack]CourtChessCastleOption"
+		]
+	},
+	"CourtChessSuperPermitClick": {
+		"desc": "特级拆迁许可证可用",
+		"pre_delay": 0,
+		"post_delay": 500,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "特级拆迁许可[:：][1-9][0-9]*/1",
+		"roi": [285, 903, 194, 65],
+		"action": "Click",
+		"target": [285, 903, 194, 65]
+	},
+	"CourtChessNormalPermitClick": {
+		"desc": "拆迁许可证可用",
+		"pre_delay": 0,
+		"post_delay": 500,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "拆迁许可[:：][1-9][0-9]*/1",
+		"roi": [307, 811, 157, 68],
+		"action": "Click",
+		"target": [307, 811, 157, 68]
+	},
+	"CourtChessCastle": {
+		"desc": "加盖糖果城堡",
+		"pre_delay": 0,
+		"post_delay": 4000,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "加盖糖果城堡|加盖|糖果城堡|糖果",
+		"roi": [255, 683, 202, 130],
+		"action": "Click"
+	},
+	"CourtChessCastleOption": {
+		"desc": "兜底选项,都没识别到后,点第一个选项",
+		"recognition": "TemplateMatch",
+		"template": "common/DialogBox.png",
+		"roi": [58, 693, 605, 357],
+		"order_by": "Vertical",
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [255, 683, 202, 130],
+			"timeout": 2000
+		},
+		"index": 0
+	},
+	"CourtChessCastleReward": {
+		"desc": "领取奖励",
+		"recognition": "OCR",
+		"expected": "领取奖励|领取|奖励",
+		"roi": [215, 681, 494, 582],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [199, 309, 334, 273],
+			"timeout": 2000
+		}
+	},
+	"CourtChessChallengeCountColor": {
+		"desc": "识别挑战次数白色数字区域",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"CourtChessChallengeCount",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"roi": "CourtChessChallengeCount",
+				"roi_offset": [100, 0, -50, 0],
+				"lower": [0, 0, 200],
+				"upper": [255, 55, 255],
+				"count": 10
+			}
+		],
+		"box_index": 1
+	},
+	"CourtChessChallengeCount": {
+		"desc": "识别挑战次数",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "挑战次数",
+		"roi": [190, 372, 416, 491]
+	},
+	"CourtChessHasChallengeCount": {
+		"desc": "还有挑战次数",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"CourtChessChallengeCountColor",
+			{
+				"recognition": "OCR",
+				"expected": "[1-5]/5",
+				"roi": "CourtChessChallengeCountColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		]
+	},
+	"CourtChessChallenge": {
+		"desc": "宫廷棋每日挑战",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["CourtChessHasChallengeCount"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [199, 309, 334, 273],
+			"timeout": 2000
+		},
+		"next": [
+			"[JumpBack]CourtChessStartChallenge",
+			"[JumpBack]ConfirmButton",
+			"BattleStartOut"
+		]
+	},
+	"CourtChessStartChallenge": {
+		"desc": "开始挑战",
+		"recognition": "OCR",
+		"expected": "开始挑战|开始|挑战",
+		"roi": [277, 873, 194, 118],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [158, 514, 413, 152],
+			"timeout": 2000
+		}
+	},
+	"InCourtChessBountyPage": {
+		"desc": "在宫廷棋悬赏页面",
+		"recognition": "OCR",
+		"expected": "宫廷悬赏|宫廷|悬赏",
+		"roi": [290, 233, 127, 49],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"CourtChessBountyIcon": {
+		"desc": "宫廷棋悬赏图标",
+		"recognition": "TemplateMatch",
+		"template": "activities/CourtChess/Bounty.png",
+		"roi": [627, 57, 93, 330]
+	},
+	"CourtChessBountyReward": {
+		"desc": "宫廷棋悬赏奖励",
+		"recognition": "And",
+		"all_of": ["CourtChessBountyIcon"],
+		"max_hit": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [138, 240, 499, 229],
+			"timeout": 2000
+		},
+		"next": [
+			"CourtChessBountyRewardCollect",
+			"ActivityAlwaysTrue"
+		]
+	},
+	"CourtChessBountyRewardCollect": {
+		"desc": "宫廷棋悬赏领取",
+		"recognition": "And",
+		"all_of": ["InCourtChessBountyPage"],
+		"next": [
+			"[JumpBack]ActivityCommonCollect",
+			"ActivityAlwaysTrue"
+		]
+	},
+	"CourtChessDone": {
+		"desc": "宫廷棋完成",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"SceneBack"
+		]
+	},
+	"CourtChessSwipeToTop": {
+		"desc": "快速滑到最上方",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Swipe",
+		"begin": [400, 200],
+		"end": [400, 900],
+		"duration": 100,
+		"max_hit": 1,
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [353, 192, 328, 732],
+			"timeout": 3000
+		}
+	},
+	"CourtChessSwipe": {
+		"desc": "向上滑动查找",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Swipe",
+		"begin": [400, 800],
+		"end": [400, 600],
+		"duration": 200,
+		"max_hit": 3,
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [353, 192, 328, 732],
+			"timeout": 5000
+		}
+	}
+}

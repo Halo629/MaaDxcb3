@@ -1,0 +1,549 @@
+{
+    "GreatMarshExpeditionStart": {
+        "desc": "工会活动大泽远征入口",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "GreatMarshExpeditionEntry",
+            "GreatMarshExpeditionNotActivated",
+            "NotJoinInGuild",
+            "[JumpBack]GreatMarshExpeditionPageEntry",
+            "[JumpBack]SceneEnterGuild"
+        ]
+    },
+    "InGreatMarshExpeditionPage": {
+        "desc": "在大泽远征页面",
+        "recognition": "TemplateMatch",
+        "template": "guild/GreatMarshExpeditionPageLogo.png",
+        "roi": [
+            519,
+            0,
+            64,
+            122
+        ]
+    },
+    "GreatMarshExpeditionPageEntry": {
+        "desc": "进入大泽远征页面",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "recognition": "And",
+        "all_of": [
+            "InGuildPage",
+            {
+                "recognition": "OCR",
+                "expected": "大泽远征|大泽|远征",
+                "roi": [
+                    82,
+                    784,
+                    228,
+                    134
+                ]
+            }
+        ],
+        "box_index": 1,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                84,
+                720,
+                493,
+                378
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "GreatMarshExpeditionCloseTips",
+            "__ScenePrivateNextTrue"
+        ]
+    },
+    "GreatMarshExpeditionNotActivated": {
+        "desc": "大泽远征活动未开始",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "recognition": "And",
+        "all_of": [
+            "InGuildPage",
+            {
+                "recognition": "OCR",
+                "expected": "开始",
+                "roi": [
+                    66,
+                    738,
+                    265,
+                    42
+                ]
+            }
+        ],
+        "next": [
+            "SceneBack"
+        ]
+    },
+    "GreatMarshExpeditionEntry": {
+        "desc": "大泽远征入口",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "recognition": "And",
+        "all_of": [
+            "InGreatMarshExpeditionPage"
+        ],
+        "next": [
+            "[JumpBack]HandleRewardDialog",
+            "[JumpBack]GreatMarshExpeditionGotoNextArea",
+            "[JumpBack]GreatMarshExpeditionBossChallenge",
+            "[JumpBack]GreatMarshExpeditionClaimBossReward",
+            "[JumpBack]GreatMarshExpeditionTalkWithScavengerOtto",
+            "[JumpBack]GreatMarshExpeditionExploreEvents",
+            "[JumpBack]GreatMarshExpeditionOption",
+            "[JumpBack]GreatMarshExpeditionExploreFar",
+            "[JumpBack]BattleAI",
+            "GreatMarshExpeditionFinalStageReached",
+            "[JumpBack]GreatMarshExpeditionChickenDrumstickEnough",
+            "SceneBack"
+        ]
+    },
+    "GreatMarshExpeditionFinalStageChallengeCount": {
+        "desc": "大泽远征最终阶段挑战次数",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "recognition": "OCR",
+        "expected": "^(10|[1-9])$",
+        "roi": [
+            469,
+            1001,
+            20,
+            33
+        ],
+        "only_rec": true
+    },
+    "GreatMarshExpeditionFinalStageReached": {
+        "desc": "大泽远征最终阶段已达成",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "recognition": "OCR",
+        "expected": "练习模式|练习",
+        "roi": [
+            215,
+            1042,
+            111,
+            47
+        ],
+        "next": [
+            "[JumpBack]GreatMarshExpeditionMeditation",
+            "[JumpBack]GreatMarshExpeditionFinalStageBossChallenge",
+            "SceneBack"
+        ]
+    },
+    "GreatMarshExpeditionChickenMeditationDrumstickEnough": {
+        "desc": "大泽远征冥想鸡腿数量足够",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "recognition": "OCR",
+        "expected": "^(5|6|7|8|9|[1-9]\\d+)$",
+        "roi": [
+            571,
+            21,
+            30,
+            30
+        ],
+        "only_rec": true
+    },
+    "GreatMarshExpeditionMeditation": {
+        "desc": "大泽远征冥想",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "recognition": "And",
+        "all_of": [
+            "GreatMarshExpeditionChickenMeditationDrumstickEnough",
+            {
+                "recognition": "OCR",
+                "expected": "冥想|冥|想",
+                "roi": [
+                    58,
+                    1036,
+                    68,
+                    58
+                ]
+            }
+        ],
+        "box_index": 1,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                84,
+                720,
+                493,
+                378
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "HandleRewardDialog"
+        ]
+    },
+    "GreatMarshExpeditionFinalStageBossChallenge": {
+        "desc": "大泽远征最终阶段",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "recognition": "And",
+        "all_of": [
+            "GreatMarshExpeditionFinalStageChallengeCount",
+            {
+                "recognition": "TemplateMatch",
+                "template": "guild/BossChallenge.png",
+                "roi": [
+                    385,
+                    1035,
+                    131,
+                    70
+                ]
+            }
+        ],
+        "box_index": 1,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                84,
+                720,
+                493,
+                378
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "BattleStartOut"
+        ]
+    },
+    "GreatMarshExpeditionOption": {
+        "desc": "兜底选项,都没识别到后,点第一个选项",
+        "recognition": "TemplateMatch",
+        "template": "common/DialogBox.png",
+        "roi": [
+            2,
+            462,
+            718,
+            549
+        ],
+        "order_by": "Vertical",
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                255,
+                683,
+                202,
+                130
+            ],
+            "timeout": 2000
+        },
+        "index": 0
+    },
+    "GreatMarshExpeditionCloseTips": {
+        "desc": "关闭提示",
+        "recognition": "OCR",
+        "expected": "确定",
+        "roi": [
+            246,
+            964,
+            233,
+            125
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                84,
+                720,
+                493,
+                378
+            ],
+            "timeout": 2000
+        }
+    },
+    "GreatMarshExpeditionChickenDrumstickEnough": {
+        "desc": "大泽远征鸡腿数量足够",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "recognition": "OCR",
+        "expected": "^(8|9|[1-9]\\d+)$",
+        "roi": [
+            571,
+            21,
+            30,
+            30
+        ],
+        "only_rec": true
+    },
+    "GreatMarshExpeditionChickenDrumstickNotEnough": {
+        "desc": "大泽远征鸡腿数量不够",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "recognition": "OCR",
+        "expected": "^[1-7]$",
+        "roi": [
+            571,
+            21,
+            30,
+            30
+        ],
+        "only_rec": true
+    },
+    "GreatMarshExpeditionBossChallengeCount": {
+        "desc": "挑战首领剩余次数",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "recognition": "OCR",
+        "expected": "^(10|[1-9])$",
+        "roi": [
+            502,
+            1001,
+            30,
+            35
+        ],
+        "only_rec": true
+    },
+    "GreatMarshExpeditionBossChallenge": {
+        "desc": "挑战首领",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "recognition": "And",
+        "all_of": [
+            "GreatMarshExpeditionBossChallengeCount",
+            {
+                "recognition": "TemplateMatch",
+                "template": "guild/BossChallenge.png",
+                "roi": [
+                    384,
+                    1035,
+                    185,
+                    61
+                ]
+            }
+        ],
+        "box_index": 1,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                84,
+                720,
+                493,
+                378
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "BattleStartOut"
+        ]
+    },
+    "GreatMarshExpeditionClaimBossReward": {
+        "desc": "领取首领奖励",
+        "recognition": "OCR",
+        "expected": "领取首领奖励|领取|首领|奖励",
+        "roi": [
+            273,
+            1036,
+            176,
+            60
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                84,
+                720,
+                493,
+                378
+            ],
+            "timeout": 2000
+        }
+    },
+    "GreatMarshExpeditionGotoNextArea": {
+        "desc": "前往下一个区域",
+        "recognition": "OCR",
+        "expected": "前往下一个区域|前往|下一个|区域",
+        "roi": [
+            264,
+            1036,
+            198,
+            58
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                84,
+                720,
+                493,
+                378
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "GreatMarshExpeditionClickMapEntry"
+        ]
+    },
+    "GreatMarshExpeditionClickMapEntry": {
+        "desc": "逐个点击地图入口进入",
+        "action": "Custom",
+        "custom_action": "GreatMarshExpeditionClickMapEntry"
+    },
+    "GreatMarshExpeditionExploreFar": {
+        "desc": "探索远处",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "recognition": "And",
+        "all_of": [
+            "GreatMarshExpeditionChickenDrumstickEnough",
+            {
+                "recognition": "OCR",
+                "expected": "探索远处|探索|远处",
+                "roi": [
+                    526,
+                    1036,
+                    124,
+                    51
+                ]
+            }
+        ],
+        "box_index": 1,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                84,
+                720,
+                493,
+                378
+            ],
+            "timeout": 2000
+        }
+    },
+    "GreatMarshExpeditionExploreEvents": {
+        "desc": "探索事件",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "recognition": "OCR",
+        "expected": "战斗|小憩|片刻|继续|探索|虔诚|祈求|离开|采集露珠|采集|露珠|跳过|绕路",
+        "roi": [
+            275,
+            630,
+            180,
+            420
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                84,
+                720,
+                493,
+                378
+            ],
+            "timeout": 2000
+        }
+    },
+    "GreatMarshExpeditionTalkWithScavengerOtto": {
+        "desc": "拾荒者奥拓事件",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "recognition": "OCR",
+        "expected": "拾荒者奥拓|拾荒|拾荒者|奥拓",
+        "roi": [
+            13,
+            942,
+            164,
+            67
+        ],
+        "action": "Click",
+        "target": [
+            642,
+            1166,
+            42,
+            69
+        ],
+        "post_wait_freezes": {
+            "time": 200,
+            "target": [
+                2,
+                939,
+                716,
+                330
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "[JumpBack]TalkToOtto",
+            "[JumpBack]GreatMarshExpeditionRightDownOption",
+            "GreatMarshExpeditionTalkWithScavengerOtto",
+            "ActivityAlwaysTrue"
+        ]
+    },
+    "TalkToOtto": {
+        "desc": "奥拓对话",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "recognition": "OCR",
+        "expected": "没有|干粮|再见",
+        "roi": [
+            356,
+            807,
+            297,
+            161
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 200,
+            "target": [
+                2,
+                939,
+                716,
+                330
+            ],
+            "timeout": 2000
+        }
+    },
+    "GreatMarshExpeditionRightDownOption": {
+        "desc": "右下角点第一个选项",
+        "recognition": "TemplateMatch",
+        "template": "common/DialogBox.png",
+        "roi": [
+            228,
+            745,
+            492,
+            264
+        ],
+        "order_by": "Vertical",
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                255,
+                683,
+                202,
+                130
+            ],
+            "timeout": 2000
+        },
+        "index": 0
+    }
+}

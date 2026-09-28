@@ -1,0 +1,337 @@
+{
+    "CableCarControlRoomEventEntry": {
+        "desc": "缆车控制间事件处理入口",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "max_hit": 1,
+        "next": [
+            "[JumpBack]SwipeDownToFindCableCarControlRoom",
+            "[JumpBack]SwipeRightToFindCableCarControlRoom",
+            "[JumpBack]GetMagnetRewardNearCableRoom",
+            "CableCarControlRoomEntry"
+        ]
+    },
+    "CableCarControlRoomEntry": {
+        "desc": "点击缆车控制间",
+        "recognition": "OCR",
+        "expected": "缆车控制间|缆车|控制间",
+        "roi": [
+            137,
+            334,
+            472,
+            426
+        ],
+        "action": "Click",
+        "target_offset": [
+            0,
+            -50,
+            0,
+            0
+        ],
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                215,
+                260,
+                383,
+                438
+            ],
+            "timeout": 10000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]ZipLineRaceWithMiner",
+            "TakeCableCar",
+            "ClickMiner",
+            "CableCarControlRoomEntry"
+        ]
+    },
+    "GetMagnetRewardNearCableRoom": {
+        "desc": "缆车控制间旁边地图磁石奖励",
+        "expected": "缆车|缆车控制间|控制间",
+        "roi": [
+            137,
+            334,
+            472,
+            426
+        ],
+        "max_hit": 1,
+        "action": "Click",
+        "target_offset": [
+            -170,
+            60,
+            -10,
+            -10
+        ],
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                137,
+                334,
+                472,
+                426
+            ],
+            "timeout": 10000
+        },
+        "next": [
+            "HandleRewardDialog",
+            "CenterScreenExitOption",
+            "NoMapMagnet"
+        ]
+    },
+    "TakeCableCar": {
+        "desc": "乘坐缆车",
+        "recognition": "OCR",
+        "expected": "乘坐缆车|缆车|乘坐",
+        "roi": [
+            274,
+            674,
+            173,
+            324
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                274,
+                674,
+                173,
+                324
+            ],
+            "timeout": 2000
+        }
+    },
+    "InCableCarControlRoom": {
+        "desc": "判断在缆车控制间",
+        "recognition": "OCR",
+        "expected": "缆车控制间|缆车|控制",
+        "roi": [
+            253,
+            146,
+            192,
+            257
+        ]
+    },
+    "ClickMiner": {
+        "desc": "点击矿工",
+        "recognition": "And",
+        "all_of": [
+            "InCableCarControlRoom",
+            {
+                "recognition": "OCR",
+                "expected": "矿工",
+                "roi": [
+                    260,
+                    629,
+                    192,
+                    382
+                ]
+            }
+        ],
+        "box_index": 1,
+        "max_hit": 1,
+        "action": "Click",
+        "next": [
+            "[JumpBack]SkipTalkWithMiner",
+            "[JumpBack]RightDownExitOption",
+            "CableCarControlRoomEntry"
+        ]
+    },
+    "ZipLineRaceWithMiner": {
+        "desc": "滑索竞速",
+        "recognition": "OCR",
+        "expected": "滑索竞速|滑索|竞速",
+        "roi": [
+            260,
+            629,
+            192,
+            382
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                31,
+                1040,
+                639,
+                216
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "CenterScreenMagnetNotEnoughAndExit",
+            "ZipLineRaceTry"
+        ]
+    },
+    "ZipLineRaceTry": {
+        "desc": "滑索竞速试试看",
+        "recognition": "OCR",
+        "expected": "试试看|试试",
+        "roi": [
+            287,
+            720,
+            138,
+            202
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                31,
+                1040,
+                639,
+                216
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "WaitForMiner"
+        ]
+    },
+    "WaitForMiner": {
+        "desc": "等候矿工",
+        "recognition": "OCR",
+        "expected": "等候他|等候",
+        "roi": [
+            298,
+            747,
+            124,
+            162
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                31,
+                1040,
+                639,
+                216
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "GiveWindBottle"
+        ]
+    },
+    "GiveWindBottle": {
+        "desc": "赠予瓶中之风",
+        "recognition": "OCR",
+        "expected": "赠予|瓶中之风|瓶中|之风",
+        "roi": [
+            246,
+            734,
+            222,
+            202
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                31,
+                1040,
+                639,
+                216
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "ZipLineRaceEndAndKeepGoing"
+        ]
+    },
+    "ZipLineRaceEndAndKeepGoing": {
+        "recognition": "OCR",
+        "expected": "继续前进|继续|前进",
+        "roi": [
+            274,
+            759,
+            168,
+            140
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                31,
+                1040,
+                639,
+                216
+            ],
+            "timeout": 2000
+        }
+    },
+    "SkipTalkWithMiner": {
+        "desc": "跳过与矿工的对话",
+        "recognition": "And",
+        "all_of": [
+            "InDialoguePage"
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                31,
+                1040,
+                639,
+                216
+            ],
+            "timeout": 2000
+        }
+    },
+    "SwipeDownToFindCableCarControlRoom": {
+        "desc": "向下滑动找缆车控制间",
+        "action": "Swipe",
+        "begin": [
+            500,
+            450
+        ],
+        "end": [
+            500,
+            650
+        ],
+        "duration": 200,
+        "max_hit": 1,
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                122,
+                279,
+                477,
+                602
+            ],
+            "timeout": 5000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "SwipeRightToFindCableCarControlRoom": {
+        "desc": "向右滑动找缆车控制间",
+        "action": "Swipe",
+        "begin": [
+            200,
+            800
+        ],
+        "end": [
+            500,
+            800
+        ],
+        "duration": 200,
+        "max_hit": 1,
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                122,
+                279,
+                477,
+                602
+            ],
+            "timeout": 5000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    }
+}

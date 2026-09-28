@@ -1,0 +1,43 @@
+{
+    "preset": [
+        {
+            "name": "SingleServer",
+            "label": "单服务器模板",
+            "description": "适合单服务器用户,活动任务需要自己勾选当期活动",
+            "task": [
+                {
+                    "name": "LaunchGame",
+                    "enabled": true
+                },
+                {
+                    "name": "SwitchServer",
+                    "enabled": true
+                },
+                {
+                    "name": "DailyRewards",
+                    "enabled": true
+                },
+                {
+                    "name": "StewardTasks",
+                    "enabled": true
+                },
+                {
+                    "name": "WeeklyTreasureShop",
+                    "enabled": true
+                },
+                {
+                    "name": "WeeklyFormation",
+                    "enabled": true
+                },
+                {
+                    "name": "WeeklyRealmHub",
+                    "enabled": true
+                },
+                {
+                    "name": "WeeklyNightmareMirror",
+                    "enabled": true
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,12 @@
+{
+    "task": [
+        {
+            "name": "CelestialIsle",
+            "label": "🏝️天界岛",
+            "entry": "CelestialIsleStart",
+            "group": [
+                "activity_tasks"
+            ]
+        }
+    ]
+}

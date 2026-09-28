@@ -1,0 +1,12 @@
+{
+    "task": [
+        {
+            "name": "RealmGate",
+            "label": "🚪诸界之门",
+            "entry": "RealmGateStart",
+            "group": [
+                "activity_tasks"
+            ]
+        }
+    ]
+}

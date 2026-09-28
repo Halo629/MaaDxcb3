@@ -1,0 +1,12 @@
+{
+    "task": [
+        {
+            "name": "HeartGift",
+            "label": "💝铭心礼遇",
+            "entry": "HeartGiftStart",
+            "group": [
+                "activity_tasks"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,235 @@
+{
+	"DailyRewardsGuildSub": {
+		"desc": "公会挑战&购买",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"max_hit": 1,
+		"next": [
+			"[JumpBack]GuildDailyChallengeEntry",
+			"[JumpBack]GuildEpicChallengeEntry",
+			"GuildShop",
+			"NotJoinInGuild",
+			"[JumpBack]SceneEnterGuild"
+		],
+		"focus": {"Node.Recognition.Succeeded": "开始任务:公会挑战&购买"}
+	},
+	"NotJoinInGuild": {
+		"desc": "未加入公会",
+		"recognition": "And",
+		"all_of": ["InNoGuildPage"],
+		"next": [
+			"SceneBack"
+		]
+	},
+	"GuildDailyChallengeNotice": {
+		"desc": "公会每日挑战提醒识别",
+		"recognition": "TemplateMatch",
+		"template": "common/red_notice.png",
+		"roi": [302, 484, 52, 79]
+	},
+	"GuildDailyChallengeEntry": {
+		"desc": "公会每日挑战入口",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": [
+			"InGuildChallengePage",
+			"GuildDailyChallengeNotice"
+		],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [72, 1076, 583, 109],
+			"timeout": 2000
+		},
+		"next": [
+			"[JumpBack]GuildChallengeQuickBattle",
+			"[JumpBack]GuildChallengeBattle",
+			"SceneBack"
+		]
+	},
+	"GuildChallengeQuickBattle": {
+		"desc": "公会挑战-快速战斗",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"expected": "快速战斗|快速|战斗",
+				"roi": [24, 1074, 195, 106]
+			},
+			{
+				"recognition": "TemplateMatch",
+				"template": "common/red_notice.png",
+				"roi": [24, 1074, 195, 106]
+			}
+		],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [72, 1076, 583, 109],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog"
+		]
+	},
+	"GuildChallengeBattle": {
+		"desc": "公会挑战-战斗",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"expected": "挑战",
+				"roi": [256, 1081, 211, 97]
+			},
+			{
+				"recognition": "TemplateMatch",
+				"template": "common/red_notice.png",
+				"roi": [256, 1081, 211, 97]
+			}
+		],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [72, 1076, 583, 109],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]BattleAI"
+		]
+	},
+	"GuildHasEpicChallengeNotice": {
+		"desc": "公会史诗挑战提醒识别",
+		"recognition": "TemplateMatch",
+		"template": "common/red_notice.png",
+		"roi": [646, 494, 40, 54]
+	},
+	"GuildHasEpicChallenge": {
+		"desc": "公会史诗挑战识别",
+		"recognition": "TemplateMatch",
+		"template": "guild_epic_challenge.png",
+		"roi": [372, 504, 307, 198]
+	},
+	"GuildEpicChallengeEntry": {
+		"desc": "公会史诗挑战入口",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": [
+			"InGuildChallengePage",
+			"GuildHasEpicChallenge",
+			"GuildHasEpicChallengeNotice"
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [53, 1077, 611, 165],
+			"timeout": 2000
+		},
+		"next": [
+			"[JumpBack]GuildChallengeQuickBattle",
+			"[JumpBack]GuildChallengeBattle",
+			"SceneBack"
+		]
+	},
+	"GuildShop": {
+		"desc": "公会商店",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": [
+			"InGuildChallengePage",
+			{
+				"recognition": "OCR",
+				"expected": "商店",
+				"roi": [430, 1116, 255, 144]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [53, 1077, 611, 165],
+			"timeout": 2000
+		},
+		"next": [
+			"[JumpBack]GuildShopSwipeUpToBottle",
+			"GuildShopBuyScroll",
+			"[JumpBack]GuildShopSwipeDown",
+			"SceneBack"
+		]
+	},
+	"GuildDoBuyItem": {
+		"desc": "购买公会商品",
+		"recognition": "Custom",
+		"custom_recognition": "BuyGuildItem",
+		"next": [
+			"[JumpBack]SceneBack",
+			"InMainPageArea"
+		]
+	},
+	"GuildShopHasScroll": {
+		"desc": "公会商店识别召唤师卷轴",
+		"recognition": "TemplateMatch",
+		"template": "guild/scroll_shop.png",
+		"roi": [67, 398, 611, 751],
+		"threshold": 0.8,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"GuildShopBuyScroll": {
+		"desc": "购买召唤师卷轴",
+		"recognition": "And",
+		"all_of": [
+			"GuildShopHasScroll",
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/guild_scroll_price.png",
+				"roi": "GuildShopHasScroll",
+				"roi_offset": [0, 160, 120, 45]
+			}
+		],
+		"box_index": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [250, 446, 218, 620],
+			"timeout": 2000
+		}
+	},
+	"GuildShopSwipeUpToBottle": {
+		"desc": "往上滑到底",
+		"action": "Swipe",
+		"begin": [450, 1050],
+		"end": [450, 200],
+		"duration": 100,
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [250, 446, 218, 620],
+			"timeout": 5000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 2
+	},
+	"GuildShopSwipeDown": {
+		"desc": "往下滑动",
+		"action": "Swipe",
+		"begin": [360, 650],
+		"end": [360, 800],
+		"duration": 100,
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [250, 446, 218, 620],
+			"timeout": 3000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 2
+	}
+}

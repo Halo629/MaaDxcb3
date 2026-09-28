@@ -1,0 +1,431 @@
+{
+    "TradeGuildEventEntry": {
+        "desc": "商会事件处理入口",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "max_hit": 1,
+        "next": [
+            "TradeGuildEntry",
+            "[JumpBack]TradeGuildRuinedHouseEntry",
+            "[JumpBack]SwipeUpToFindTradeGuild",
+            "[JumpBack]SwipeLeftToFindTradeGuild"
+        ]
+    },
+    "TradeGuildRuinedHouseEntry": {
+        "desc": "飞升者商会废墟",
+        "recognition": "TemplateMatch",
+        "template": "activities/CelestialIsle/TradeGuildRuinedHouse.png",
+        "roi": [
+            114,
+            251,
+            603,
+            929
+        ],
+        "threshold": 0.6,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                215,
+                260,
+                383,
+                438
+            ],
+            "timeout": 10000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "BuildTradeGuild",
+            "[JumpBack]ClearRuinedHouse",
+            "[JumpBack]RebuildTradeGuild",
+            "TradeGuildRuinedHouseEntry"
+        ]
+    },
+    "RebuildTradeGuild": {
+        "desc": "重建",
+        "recognition": "OCR",
+        "expected": "重建",
+        "roi": [
+            296,
+            738,
+            127,
+            191
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                215,
+                260,
+                383,
+                438
+            ],
+            "timeout": 10000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "BuildTradeGuild": {
+        "desc": "修建商会",
+        "recognition": "OCR",
+        "expected": "修建商会|修建|商会",
+        "roi": [
+            296,
+            738,
+            127,
+            191
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                215,
+                260,
+                383,
+                438
+            ],
+            "timeout": 10000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "TradeGuildEntry": {
+        "desc": "进入商会",
+        "recognition": "TemplateMatch",
+        "template": "activities/CelestialIsle/TradeGuild.png",
+        "roi": [
+            114,
+            251,
+            603,
+            929
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                215,
+                260,
+                383,
+                438
+            ],
+            "timeout": 10000
+        },
+        "threshold": 0.6,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "TradeGuildHandleEvent",
+            "TradeGuildEntry"
+        ]
+    },
+    "TradeGuildHandleEvent": {
+        "desc": "商会处理事务",
+        "recognition": "OCR",
+        "expected": "处理事务|处理|事务",
+        "roi": [
+            282,
+            720,
+            148,
+            213
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                215,
+                260,
+                383,
+                438
+            ],
+            "timeout": 2000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]UnknownOrder",
+            "[JumpBack]BarrelManOrder",
+            "[JumpBack]GiantOrder",
+            "CenterScreenExitOption"
+        ]
+    },
+    "UnknownOrder": {
+        "desc": "来历不明的订单",
+        "recognition": "OCR",
+        "expected": "来历不明",
+        "roi": [
+            263,
+            651,
+            191,
+            362
+        ],
+        "max_hit": 1,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                215,
+                260,
+                383,
+                438
+            ],
+            "timeout": 2000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]AcceptTrade",
+            "[JumpBack]TradeRewardTake",
+            "HandleRewardDialog",
+            "CenterScreenBackOption"
+        ]
+    },
+    "TradeRewardTake": {
+        "desc": "收下",
+        "recognition": "OCR",
+        "expected": "收下",
+        "roi": [
+            273,
+            770,
+            164,
+            187
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                215,
+                260,
+                383,
+                438
+            ],
+            "timeout": 2000
+        }
+    },
+    "BarrelManOrder": {
+        "desc": "桶中人的订单",
+        "recognition": "OCR",
+        "expected": "桶中人|桶|中人",
+        "roi": [
+            263,
+            651,
+            191,
+            362
+        ],
+        "max_hit": 1,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                215,
+                260,
+                383,
+                438
+            ],
+            "timeout": 2000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "SlimyFoodNotEnough",
+            "[JumpBack]AcceptTrade",
+            "HandleRewardDialog",
+            "CenterScreenBackOption"
+        ]
+    },
+    "SlimyFoodNotEnough": {
+        "desc": "黏糊糊的食物不足",
+        "recognition": "And",
+        "all_of": [
+            {
+                "recognition": "OCR",
+                "expected": "黏糊糊|食物",
+                "roi": [
+                    272,
+                    734,
+                    162,
+                    110
+                ]
+            },
+            {
+                "recognition": "ColorMatch",
+                "method": 40,
+                "lower": [
+                    0,
+                    80,
+                    80
+                ],
+                "upper": [
+                    10,
+                    255,
+                    255
+                ],
+                "roi": [
+                    272,
+                    734,
+                    162,
+                    110
+                ],
+                "count": 50
+            }
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "CenterScreenBackOption"
+        ]
+    },
+    "GiantOrder": {
+        "desc": "巨人的订单",
+        "recognition": "OCR",
+        "expected": "巨人的订单|巨人的",
+        "roi": [
+            263,
+            651,
+            191,
+            362
+        ],
+        "max_hit": 1,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                215,
+                260,
+                383,
+                438
+            ],
+            "timeout": 2000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "CorrosiveFluidNotEnough",
+            "[JumpBack]AcceptTrade",
+            "HandleRewardDialog",
+            "CenterScreenBackOption"
+        ]
+    },
+    "CorrosiveFluidNotEnough": {
+        "desc": "强效腐蚀液不足",
+        "recognition": "And",
+        "all_of": [
+            {
+                "recognition": "OCR",
+                "expected": "强效腐蚀液|强效|腐蚀液|腐蚀",
+                "roi": [
+                    272,
+                    734,
+                    162,
+                    110
+                ]
+            },
+            {
+                "recognition": "ColorMatch",
+                "method": 40,
+                "lower": [
+                    0,
+                    80,
+                    80
+                ],
+                "upper": [
+                    10,
+                    255,
+                    255
+                ],
+                "roi": [
+                    272,
+                    734,
+                    162,
+                    110
+                ],
+                "count": 50
+            }
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "CenterScreenBackOption"
+        ]
+    },
+    "AcceptTrade": {
+        "desc": "同意交易",
+        "recognition": "OCR",
+        "expected": "同意交易|同意|交易",
+        "roi": [
+            263,
+            651,
+            191,
+            362
+        ],
+        "action": "Click",
+        "pre_delay": 0,
+        "post_delay": 2000,
+        "rate_limit": 0
+    },
+    "SwipeUpToFindTradeGuild": {
+        "desc": "向上滑动找商会",
+        "action": "Swipe",
+        "begin": [
+            500,
+            450
+        ],
+        "end": [
+            500,
+            250
+        ],
+        "duration": 200,
+        "max_hit": 1,
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                122,
+                279,
+                477,
+                602
+            ],
+            "timeout": 5000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "SwipeLeftToFindTradeGuild": {
+        "desc": "向左滑动找商会",
+        "action": "Swipe",
+        "begin": [
+            500,
+            900
+        ],
+        "end": [
+            400,
+            900
+        ],
+        "duration": 200,
+        "max_hit": 2,
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                122,
+                279,
+                477,
+                602
+            ],
+            "timeout": 5000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    }
+}

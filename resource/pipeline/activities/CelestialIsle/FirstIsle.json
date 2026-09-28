@@ -1,0 +1,153 @@
+{
+    "FirstIsleEventEntry": {
+        "desc": "第一个岛屿事件处理入口",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "max_hit": 1,
+        "next": [
+            "[JumpBack]CollapseSideBar",
+            "BarrelManOutpost"
+        ]
+    },
+    "BarrelManOutpost": {
+        "desc": "桶中人据点",
+        "recognition": "OCR",
+        "expected": "桶中人据点|桶中人|据点",
+        "roi": [
+            17,
+            249,
+            430,
+            675
+        ],
+        "max_hit": 1,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "action": "Click",
+        "target_offset": [
+            0,
+            -50,
+            0,
+            0
+        ],
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                229,
+                732,
+                241,
+                192
+            ],
+            "timeout": 3000
+        },
+        "next": [
+            "BarrelManOutpostEventHandle"
+        ]
+    },
+    "BarrelManOutpostEventHandle": {
+        "desc": "桶中人据点事件处理,选对话框第一个",
+        "recognition": "And",
+        "all_of": [
+            "InBarrelManOutpost",
+            {
+                "recognition": "TemplateMatch",
+                "template": "common/DialogBox.png",
+                "roi": [
+                    58,
+                    693,
+                    605,
+                    357
+                ],
+                "order_by": "Vertical",
+                "index": 0
+            }
+        ],
+        "box_index": 1,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                158,
+                475,
+                300,
+                162
+            ],
+            "timeout": 3000
+        },
+        "next": [
+            "BarrelManOutpostEventHandle",
+            "[JumpBack]HandleRewardDialog",
+            "TeleportToSecondIsle"
+        ]
+    },
+    "InBarrelManOutpost": {
+        "desc": "在桶中人据点",
+        "recognition": "OCR",
+        "expected": "桶中人据点|桶中人|据点",
+        "roi": [
+            257,
+            268,
+            192,
+            233
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "TeleportToSecondIsle": {
+        "desc": "传送到右侧岛礁-第二个岛屿",
+        "recognition": "OCR",
+        "expected": "传送石|传送|石",
+        "roi": [
+            174,
+            297,
+            297,
+            520
+        ],
+        "action": "Click",
+        "target_offset": [
+            0,
+            -50,
+            0,
+            0
+        ],
+        "pre_delay": 0,
+        "post_delay": 2000,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]FreeTeleportCheck",
+            "GotoSecondIsle",
+            "TeleportToSecondIsle"
+        ]
+    },
+    "FreeTeleportCheck": {
+        "desc": "免费传送检查",
+        "recognition": "OCR",
+        "expected": "无偿使用|无偿|授意",
+        "roi": [
+            94,
+            556,
+            534,
+            115
+        ],
+        "max_hit": 1,
+        "action": "Custom",
+        "custom_action": "FreeTeleportRecord"
+    },
+    "GotoSecondIsle": {
+        "desc": "前往右侧岛礁-第二个岛屿",
+        "recognition": "OCR",
+        "expected": "前往|右侧|岛礁",
+        "roi": [
+            278,
+            764,
+            169,
+            64
+        ],
+        "action": "Click",
+        "pre_delay": 0,
+        "post_delay": 1500,
+        "rate_limit": 0
+    }
+}

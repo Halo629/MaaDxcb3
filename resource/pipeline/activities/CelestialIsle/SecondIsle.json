@@ -1,0 +1,221 @@
+{
+    "SecondIsleEventEntry": {
+        "desc": "第二个岛屿事件处理入口",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "max_hit": 1,
+        "next": [
+            "[JumpBack]QueenOfVengeance",
+            "TeleportToThirdIsle",
+            "[JumpBack]SwipeRightOnSecondIsle"
+        ]
+    },
+    "QueenOfVengeance": {
+        "desc": "复仇女王号",
+        "recognition": "OCR",
+        "expected": "复仇女王号|复仇|女王",
+        "roi": [
+            201,
+            770,
+            515,
+            406
+        ],
+        "max_hit": 1,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "action": "Click",
+        "target_offset": [
+            0,
+            -50,
+            0,
+            0
+        ],
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                238,
+                809,
+                357,
+                216
+            ],
+            "timeout": 3000
+        },
+        "next": [
+            "[JumpBack]QueenOfVengeanceCaptain",
+            "QueenOfVengeanceAskForStoneCard",
+            "[JumpBack]SendMagnetToQueenUntilFamiliar",
+            "RightDownExitOption"
+        ]
+    },
+    "InQueenOfVengeance": {
+        "desc": "在复仇女王号",
+        "recognition": "OCR",
+        "expected": "复仇女王号|复仇|女王",
+        "roi": [
+            258,
+            245,
+            193,
+            245
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "QueenOfVengeanceCaptain": {
+        "desc": "复仇女王号船长",
+        "recognition": "OCR",
+        "expected": "船长",
+        "roi": [
+            280,
+            716,
+            153,
+            195
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                158,
+                475,
+                300,
+                162
+            ],
+            "timeout": 3000
+        }
+    },
+    "QueenOfVengeanceAskForStoneCard": {
+        "desc": "复仇女王号索要石牌",
+        "recognition": "OCR",
+        "expected": "索要石牌|石牌",
+        "roi": [
+            407,
+            546,
+            163,
+            451
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                407,
+                546,
+                163,
+                451
+            ],
+            "timeout": 3000
+        },
+        "next": [
+            "[JumpBack]RightDownExitOption",
+            "[JumpBack]HandleRewardDialog",
+            "QueenFamiliarRecord"
+        ]
+    },
+    "SendMagnetToQueenUntilFamiliar": {
+        "desc": "向女王赠送磁石,免费传送点已开启,并且试炼场可以通过大门才会送",
+        "recognition": "And",
+        "all_of": [
+            "FreeTeleportAlreadyEnabled",
+            "TrialGroundDoorCanPass"
+        ],
+        "max_hit": 1,
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                407,
+                546,
+                163,
+                451
+            ],
+            "timeout": 3000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "RelationshipFamiliarWithQueen",
+            "[JumpBack]SendMagnet",
+            "RightDownScreenMagnetNotEnoughAndExit"
+        ]
+    },
+    "RelationshipFamiliarWithQueen": {
+        "desc": "与女王已达到熟识",
+        "recognition": "OCR",
+        "expected": "熟识|信赖|知己",
+        "roi": [
+            152,
+            1084,
+            92,
+            48
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "QueenFamiliarRecord"
+        ]
+    },
+    "QueenFamiliarRecord": {
+        "desc": "记录与女王已达到熟识",
+        "action": "Custom",
+        "custom_action": "QueenFamiliarRecord"
+    },
+    "TeleportToThirdIsle": {
+        "desc": "传送到右侧岛礁-第三个岛屿",
+        "recognition": "OCR",
+        "expected": "传送石|传送|石",
+        "roi": [
+            125,
+            764,
+            328,
+            348
+        ],
+        "action": "Click",
+        "target_offset": [
+            0,
+            -50,
+            0,
+            0
+        ],
+        "pre_delay": 0,
+        "post_delay": 2500,
+        "rate_limit": 0,
+        "next": [
+            "GotoThirdIsle",
+            "TeleportToThirdIsle"
+        ]
+    },
+    "GotoThirdIsle": {
+        "desc": "前往右侧岛礁-第三个岛屿",
+        "recognition": "OCR",
+        "expected": "前往右侧岛礁|右侧",
+        "roi": [
+            275,
+            658,
+            173,
+            330
+        ],
+        "action": "Click",
+        "pre_delay": 0,
+        "post_delay": 1500,
+        "rate_limit": 0
+    },
+    "SwipeRightOnSecondIsle": {
+        "desc": "向右滑动",
+        "action": "Swipe",
+        "begin": [
+            300,
+            400
+        ],
+        "end": [
+            400,
+            400
+        ],
+        "duration": 100,
+        "max_hit": 3,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    }
+}

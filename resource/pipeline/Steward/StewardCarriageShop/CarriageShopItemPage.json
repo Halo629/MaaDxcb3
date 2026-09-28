@@ -1,0 +1,548 @@
+{
+    "CarriageShopBuyItem": {
+        "desc": "物品页购买",
+        "recognition": "And",
+        "all_of": [
+            "InCarriageShop"
+        ],
+        "max_hit": 1,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "CarriageShopBuyOnItemPage",
+            "[JumpBack]CarriageShopClickItemTab",
+            "[JumpBack]CarriageShopSwipeRight"
+        ]
+    },
+    "CarriageShopBuyOnItemPage": {
+        "desc": "已在物品页直接购买",
+        "recognition": "And",
+        "all_of": [
+            "InCarriageShopItemPage"
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]CarriageShopBuyWandererHourglassStart",
+            "[JumpBack]CarriageShopBuyOreItemStart",
+            "[JumpBack]CarriageShopBuyFoodPointsItemStart",
+            "CarriageShopBuySilverItemStart",
+            "[JumpBack]CarriageShopSwipeUp"
+        ]
+    },
+    "CarriageShopClickItemTab": {
+        "desc": "点击物品标签",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "recognition": "And",
+        "all_of": [
+            "CarriageShopHasItemTab"
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                160,
+                580,
+                391,
+                473
+            ],
+            "timeout": 2000
+        }
+    },
+    "__FindSacredOre": {
+        "recognition": "TemplateMatch",
+        "template": "carriage_shop/SacredOre.png",
+        "roi": [
+            536,
+            5,
+            163,
+            204
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "__SacredOreWhiteText": {
+        "recognition": "ColorMatch",
+        "method": 40,
+        "lower": [
+            15,
+            20,
+            140
+        ],
+        "upper": [
+            35,
+            80,
+            255
+        ],
+        "roi": "__FindSacredOre",
+        "roi_offset": [
+            50,
+            0,
+            50,
+            0
+        ],
+        "count": 10,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "CarriageShopSacredOreEnough": {
+        "desc": "圣原石数量充足(>3)",
+        "recognition": "And",
+        "all_of": [
+            "__FindSacredOre",
+            "__SacredOreWhiteText",
+            {
+                "recognition": "OCR",
+                "expected": "[4-9]|[1-9][0-9][0-9]*",
+                "roi": "__SacredOreWhiteText",
+                "roi_offset": [
+                    -2,
+                    -2,
+                    4,
+                    4
+                ],
+                "only_rec": true
+            }
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "__CarriageShopFindSacredOre": {
+        "desc": "识别圣原石",
+        "recognition": "TemplateMatch",
+        "template": "carriage_shop/SacredOreItem.png",
+        "roi": [
+            97,
+            418,
+            532,
+            634
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "CarriageShopOreItemFound": {
+        "desc": "找到矿原石商品",
+        "recognition": "And",
+        "all_of": [
+            "__CarriageShopFindSacredOre",
+            {
+                "recognition": "OCR",
+                "expected": "矿原石|矿原|原石",
+                "roi": "__CarriageShopFindSacredOre",
+                "roi_offset": [
+                    -40,
+                    -65,
+                    120,
+                    20
+                ]
+            }
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "CarriageShopBuyWandererHourglassStart": {
+        "desc": "购买旅者沙钟商品入口",
+        "enabled": false,
+        "max_hit": 1,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "WandererHourglassSoldOut",
+            "[JumpBack]CarriageShopBuyWandererHourglass",
+            "CarriageShopBuyItemDone"
+        ]
+    },
+    "CarriageShopWandererHourglassFound": {
+        "desc": "找到旅者沙钟",
+        "recognition": "OCR",
+        "expected": "旅者沙钟|旅者|沙钟",
+        "roi": [
+            97,
+            418,
+            532,
+            634
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "__FindSoul": {
+        "recognition": "TemplateMatch",
+        "template": "carriage_shop/Soul.png",
+        "roi": [
+            537,
+            0,
+            162,
+            261
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "__SoulWhiteText": {
+        "recognition": "ColorMatch",
+        "method": 40,
+        "lower": [
+            15,
+            20,
+            140
+        ],
+        "upper": [
+            35,
+            80,
+            255
+        ],
+        "roi": "__FindSoul",
+        "roi_offset": [
+            50,
+            0,
+            50,
+            0
+        ],
+        "count": 10,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "CarriageShopSoulEnough": {
+        "desc": "魂充足(大于等于250万)",
+        "recognition": "And",
+        "all_of": [
+            "__FindSoul",
+            "__SoulWhiteText",
+            {
+                "recognition": "OCR",
+                "expected": "^((2[5-9][0-9]|[3-9][0-9]{2})|[1-9][0-9]{3,})万$",
+                "roi": "__SoulWhiteText",
+                "roi_offset": [
+                    -2,
+                    -2,
+                    4,
+                    4
+                ],
+                "only_rec": true
+            }
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "CarriageShopBuyWandererHourglass": {
+        "desc": "购买旅者沙钟",
+        "recognition": "And",
+        "all_of": [
+            "CarriageShopSoulEnough",
+            "CarriageShopWandererHourglassFound"
+        ],
+        "box_index": 1,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "CarriageShopTryBuyWandererHourglass"
+        ]
+    },
+    "CarriageShopTryBuyWandererHourglass": {
+        "desc": "购买旅者沙钟-点击",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "action": "Click",
+        "target": "CarriageShopWandererHourglassFound",
+        "target_offset": [
+            0,
+            -50,
+            0,
+            0
+        ],
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                97,
+                418,
+                532,
+                634
+            ],
+            "timeout": 3000
+        },
+        "next": [
+            "CarriageShopSlideBuy"
+        ]
+    },
+    "WandererHourglassSoldOut": {
+        "desc": "商品已售罄,完成购买",
+        "recognition": "And",
+        "all_of": [
+            "CarriageShopWandererHourglassFound",
+            {
+                "recognition": "TemplateMatch",
+                "template": "carriage_shop/sold_out.png",
+                "roi": "CarriageShopWandererHourglassFound",
+                "roi_offset": [
+                    -20,
+                    -180,
+                    100,
+                    180
+                ]
+            }
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "CarriageShopBuyOreItemStart": {
+        "desc": "购买矿原石商品入口",
+        "enabled": false,
+        "max_hit": 1,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "OreItemSoldOut",
+            "[JumpBack]CarriageShopBuyOreItem",
+            "CarriageShopBuyItemDone"
+        ]
+    },
+    "CarriageShopBuyOreItem": {
+        "desc": "购买矿原石商品",
+        "recognition": "And",
+        "all_of": [
+            "CarriageShopSacredOreEnough",
+            "CarriageShopOreItemFound"
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "CarriageShopTryBuyOreItem"
+        ]
+    },
+    "CarriageShopTryBuyOreItem": {
+        "desc": "购买矿原石",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "action": "Click",
+        "target": "CarriageShopOreItemFound",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                97,
+                418,
+                532,
+                634
+            ],
+            "timeout": 3000
+        }
+    },
+    "OreItemSoldOut": {
+        "desc": "商品已售罄,完成购买",
+        "recognition": "And",
+        "all_of": [
+            "CarriageShopOreItemFound",
+            {
+                "recognition": "TemplateMatch",
+                "template": "carriage_shop/sold_out.png",
+                "roi": "CarriageShopOreItemFound",
+                "roi_offset": [
+                    -20,
+                    -180,
+                    100,
+                    180
+                ]
+            }
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "CarriageShopFoodPointsItemFound": {
+        "desc": "找到美食积分商品",
+        "recognition": "TemplateMatch",
+        "template": "carriage_shop/FoodPointsItem.png",
+        "roi": [
+            97,
+            418,
+            532,
+            634
+        ],
+        "threshold": 0.8,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "__FindFoodPoints": {
+        "recognition": "TemplateMatch",
+        "template": "carriage_shop/FoodPoints.png",
+        "roi": [
+            537,
+            0,
+            162,
+            261
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "__FoodPointsWhiteText": {
+        "recognition": "ColorMatch",
+        "method": 40,
+        "lower": [
+            15,
+            20,
+            140
+        ],
+        "upper": [
+            35,
+            80,
+            255
+        ],
+        "roi": "__FindFoodPoints",
+        "roi_offset": [
+            50,
+            0,
+            50,
+            0
+        ],
+        "count": 10,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "CarriageShopFoodPointsEnough": {
+        "desc": "美食积分充足(>100)",
+        "recognition": "And",
+        "all_of": [
+            "__FindFoodPoints",
+            "__FoodPointsWhiteText",
+            {
+                "recognition": "OCR",
+                "expected": "[1-9][0-9][0-9][0-9]*",
+                "roi": "__FoodPointsWhiteText",
+                "roi_offset": [
+                    -2,
+                    -2,
+                    4,
+                    4
+                ],
+                "only_rec": true
+            }
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "CarriageShopBuyFoodPointsItemStart": {
+        "desc": "购买美食积分商品入口",
+        "enabled": false,
+        "max_hit": 1,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "FoodPointsItemSoldOut",
+            "[JumpBack]CarriageShopBuyFoodPointsItem",
+            "[JumpBack]CarriageShopItemPageSwipeUp",
+            "CarriageShopBuyItemDone"
+        ]
+    },
+    "CarriageShopBuyFoodPointsItem": {
+        "desc": "购买美食积分商品",
+        "recognition": "And",
+        "all_of": [
+            "CarriageShopFoodPointsEnough",
+            "CarriageShopFoodPointsItemFound"
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "CarriageShopTryBuyFoodItem"
+        ]
+    },
+    "CarriageShopTryBuyFoodItem": {
+        "desc": "购买美食积分商品-点击",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "action": "Click",
+        "target": "CarriageShopFoodPointsItemFound",
+        "target_offset": [
+            0,
+            -50,
+            0,
+            0
+        ],
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                97,
+                418,
+                532,
+                634
+            ],
+            "timeout": 3000
+        },
+        "next": [
+            "CarriageShopSlideBuy"
+        ]
+    },
+    "FoodPointsItemSoldOut": {
+        "desc": "商品已售罄,完成购买",
+        "recognition": "And",
+        "all_of": [
+            "CarriageShopFoodPointsItemFound",
+            {
+                "recognition": "TemplateMatch",
+                "template": "carriage_shop/sold_out.png",
+                "roi": "CarriageShopFoodPointsItemFound",
+                "roi_offset": [
+                    -20,
+                    -180,
+                    100,
+                    180
+                ]
+            }
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "CarriageShopItemPageSwipeUp": {
+        "desc": "向上滑动查看更多商品",
+        "action": "Swipe",
+        "begin": [
+            450,
+            850
+        ],
+        "end": [
+            450,
+            750
+        ],
+        "duration": 100,
+        "max_hit": 1,
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                97,
+                418,
+                532,
+                634
+            ],
+            "timeout": 3000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    }
+}

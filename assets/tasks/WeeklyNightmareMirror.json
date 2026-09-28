@@ -1,0 +1,13 @@
+{
+    "task": [
+        {
+            "name": "WeeklyNightmareMirror",
+            "label": "🔮每周咒魇水鉴",
+            "entry": "NightmareMirrorStart",
+            "description": "每周抽取两次",
+            "group": [
+                "weekly_tasks"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,178 @@
+{
+    "CarriageShopBuyTimeBondFragmentEntry": {
+        "desc": "羁时碎片-升格之路页面购买",
+        "recognition": "And",
+        "all_of": [
+            "InCarriageShop"
+        ],
+        "max_hit": 1,
+        "enabled": false,
+        "next": [
+            "CarriageShopBuyOnAscensionPage",
+            "[JumpBack]CarriageShopClickAscensionTab",
+            "[JumpBack]CarriageShopSwipeLeft",
+            "AscensionPageDone"
+        ]
+    },
+    "CarriageShopClickAscensionTab": {
+        "desc": "点击升格之路标签",
+        "recognition": "And",
+        "all_of": [
+            "CarriageShopHasAscensionTab"
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                160,
+                580,
+                391,
+                473
+            ],
+            "timeout": 2000
+        }
+    },
+    "CarriageShopBuyOnAscensionPage": {
+        "desc": "已在升格之路页面",
+        "recognition": "And",
+        "all_of": [
+            "InCarriageShopAscensionPage"
+        ],
+        "next": [
+            "CarriageShopBuyTimeBondFragmentItem",
+            "[JumpBack]__AscensionPageSwipeUp",
+            "AscensionPageDone"
+        ]
+    },
+    "AscensionPageDone": {
+        "desc": "升格之路页已完成",
+        "recognition": "And",
+        "all_of": [
+            "InCarriageShopAscensionPage"
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "CarriageShopTimeBondFragmentFound": {
+        "desc": "找到羁时碎片",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "recognition": "TemplateMatch",
+        "template": "carriage_shop/TimeBondFragment.png",
+        "roi": [
+            67,
+            395,
+            584,
+            580
+        ],
+        "threshold": 0.8
+    },
+    "OuroborosRingNotEnough": {
+        "desc": "衔尾之环不足",
+        "recognition": "And",
+        "all_of": [
+            "CarriageShopTimeBondFragmentFound",
+            {
+                "recognition": "ColorMatch",
+                "method": 40,
+                "lower": [
+                    0,
+                    80,
+                    80
+                ],
+                "upper": [
+                    10,
+                    255,
+                    255
+                ],
+                "roi": "CarriageShopTimeBondFragmentFound",
+                "roi_offset": [
+                    26,
+                    150,
+                    -10,
+                    -30
+                ],
+                "count": 10
+            }
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "CarriageShopBuyTimeBondFragmentItem": {
+        "desc": "购买羁时碎片",
+        "recognition": "And",
+        "all_of": [
+            "CarriageShopTimeBondFragmentFound"
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "OuroborosRingNotEnough",
+            "[JumpBack]CarriageShopTryBuyTimeBondFragmentItem",
+            "CarriageShopBuyItemDone"
+        ]
+    },
+    "CarriageShopTryBuyTimeBondFragmentItem": {
+        "desc": "购买羁时碎片",
+        "recognition": "And",
+        "all_of": [
+            "CarriageShopTimeBondFragmentFound"
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "action": "Click",
+        "target": "CarriageShopTimeBondFragmentFound",
+        "target_offset": [
+            26,
+            150,
+            -10,
+            -30
+        ],
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                236,
+                380,
+                259,
+                528
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "CarriageShopBatchPurchaseTipBoxHandle",
+            "CarriageShopBuyItemDone"
+        ]
+    },
+    "__AscensionPageSwipeUp": {
+        "desc": "升格之路页向上滑动查看更多",
+        "action": "Swipe",
+        "begin": [
+            450,
+            850
+        ],
+        "end": [
+            450,
+            700
+        ],
+        "duration": 100,
+        "max_hit": 5,
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                97,
+                418,
+                532,
+                634
+            ],
+            "timeout": 3000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    }
+}

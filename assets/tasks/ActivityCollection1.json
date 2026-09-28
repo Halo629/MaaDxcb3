@@ -1,0 +1,150 @@
+{
+    "task": [
+        {
+            "name": "GloryRecast",
+            "label": "⚒️荣光复铸",
+            "entry": "GloryRecastStart",
+            "group": [
+                "activity_tasks"
+            ],
+            "option": [
+                "ActivityCollection1SoulTomb",
+                "ActivityCollection1Engrave",
+                "ActivityCollection1Reforge",
+                "RetraceBanquetUseScroll"
+            ]
+        },
+        {
+            "name": "MoonlitBallad",
+            "label": "🥮桂影长歌",
+            "entry": "MoonlitBalladStart",
+            "group": [
+                "activity_tasks"
+            ],
+            "option": [
+                "ActivityCollection1SoulTomb",
+                "ActivityCollection1Engrave",
+                "ActivityCollection1Reforge",
+                "RetraceBanquetUseScroll"
+            ]
+        }
+    ],
+    "option": {
+        "ActivityCollection1Scroll": {
+            "type": "switch",
+            "label": "唤灵之典卷轴召唤10次",
+            "default_case": "No",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "ActivityCommonUseScrollSub": {
+                            "enabled": true
+                        },
+                        "ScrollTen": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                        "ActivityCommonUseScrollSub": {
+                            "enabled": false
+                        },
+                        "ScrollTen": {
+                            "enabled": false
+                        }
+                    }
+                }
+            ]
+        },
+        "ActivityCollection1Reforge": {
+            "type": "switch",
+            "label": "装备重铸10次",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "ActivityCommonNotCompletedTaskEnable": {
+                            "attach": {
+                                "ReforgeEquipmentEnable": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                        "ActivityCommonNotCompletedTaskEnable": {
+                            "attach": {
+                                "ReforgeEquipmentEnable": false
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        "ActivityCollection1Engrave": {
+            "type": "switch",
+            "label": "铭刻装备2次",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "ActivityCommonNotCompletedTaskEnable": {
+                            "attach": {
+                                "EngraveEquipmentEnable": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                        "ActivityCommonNotCompletedTaskEnable": {
+                            "attach": {
+                                "EngraveEquipmentEnable": false
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        "ActivityCollection1SoulTomb": {
+            "type": "switch",
+            "label": "挑战2次魂墓",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "AdjustSoulTombStartLevel": {
+                           "enabled": false
+                        },
+                        "ActivityCommonNotCompletedTaskEnable": {
+                            "attach": {
+                                "SoulTombEnable": true
+                            }
+                        },
+                        "BattleAI": {
+                            "attach": {"quit_immediately": true}
+                        }
+                    }
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                        "ActivityCommonNotCompletedTaskEnable": {
+                            "attach": {
+                                "SoulTombEnable": false
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}

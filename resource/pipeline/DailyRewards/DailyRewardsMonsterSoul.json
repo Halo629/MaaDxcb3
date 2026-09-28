@@ -1,0 +1,931 @@
+{
+	"DailyRewardsMonsterSoulSub": {
+		"desc": "魔物之魂",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"MonsterSoulEntry",
+			"[JumpBack]SceneEnterMainPage"
+		],
+		"focus": {"Node.Recognition.Succeeded": "开始任务:魔物之魂"}
+	},
+	"MonsterSoulEntry": {
+		"recognition": "And",
+		"all_of": ["InMainPage"],
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"GotoMonsterSoul"
+		]
+	},
+	"GotoMonsterSoul": {
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul"],
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"post_wait_freezes": 300,
+		"next": [
+			"MonsterSoulLoop"
+		]
+	},
+	"MonsterSoulLoop": {
+		"desc": "魔物之魂循环",
+		"recognition": "And",
+		"all_of": ["InMonsterSoulPage"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"[JumpBack]MonsterSoulSwipeToTop",
+			"MonsterSoulSelect"
+		]
+	},
+	"MonsterSoulSwipePosBottom": {
+		"desc": "swipe_pos 最下方坐标",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/swipe_pos.png",
+		"order_by": "Vertical",
+		"index": -1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"MonsterSoulSwipePosTop": {
+		"desc": "swipe_pos 最上方坐标",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/swipe_pos.png",
+		"order_by": "Vertical",
+		"index": 0,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"MonsterSoulSwipeToTop": {
+		"desc": "判断是否在魔物之魂页面顶部,不在需要滑动到顶部",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-wugu"],
+		"inverse": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"MonsterSoulSwipeDown"
+		]
+	},
+	"MonsterSoulSwipeDown": {
+		"desc": "魔物之魂页面向下滑动直到顶部(识别到巫蛊之魂)",
+		"recognition": "And",
+		"all_of": [
+			"MonsterSoulSwipePosTop",
+			"MonsterSoulSwipePosBottom"
+		],
+		"action": "Swipe",
+		"begin": "MonsterSoulSwipePosTop",
+		"end": "MonsterSoulSwipePosBottom",
+		"duration": 100,
+		"post_wait_freezes": 300,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"HasMonsterSoul-wugu",
+			"[JumpBack]MonsterSoulSwipeDown"
+		]
+	},
+	"MonsterSoulDone": {
+		"desc": "次数已用完",
+		"recognition": "And",
+		"all_of": ["MonsterSoulNoDropTimes"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"PressEsc"
+		]
+	},
+	"MonsterSoulSelect": {
+		"desc": "魔物之魂选择",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulDone",
+			"[JumpBack]MonsterSoulSelectWugu",
+			"[JumpBack]MonsterSoulSelectBaolue",
+			"[JumpBack]MonsterSoulSelectYexing",
+			"[JumpBack]MonsterSoulSelectXiongsha",
+			"[JumpBack]MonsterSoulSelectXiedian",
+			"[JumpBack]MonsterSoulSelectJielue",
+			"[JumpBack]MonsterSoulSelectJiaozhi",
+			"[JumpBack]MonsterSoulSelectManhuang",
+			"[JumpBack]MonsterSoulSelectXiongshi",
+			"[JumpBack]MonsterSoulSelectKuangnu",
+			"[JumpBack]MonsterSoulSelectShuangxue",
+			"[JumpBack]MonsterSoulSelectBingjing",
+			"[JumpBack]MonsterSoulSelectLinye",
+			"[JumpBack]MonsterSoulSelectLingdong",
+			"[JumpBack]MonsterSoulSelectJihan",
+			"[JumpBack]MonsterSoulSelectBaopo",
+			"[JumpBack]MonsterSoulSelectChenyuan",
+			"[JumpBack]MonsterSoulSelectKuangre",
+			"[JumpBack]MonsterSoulSelectTianyun",
+			"[JumpBack]MonsterSoulSelectXianzu"
+		]
+	},
+	"MonsterSoulSelectWugu": {
+		"desc": "巫蛊之魂",
+		"recognition": "And",
+		"all_of": ["MonsterSoulNoDropTimes"],
+		"inverse": true,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulWuguEntry",
+			"[JumpBack]MonsterSoulSwipeToFindWugu"
+		]
+	},
+	"MonsterSoulSelectBaolue": {
+		"desc": "暴虐之魂",
+		"recognition": "And",
+		"all_of": ["MonsterSoulNoDropTimes"],
+		"inverse": true,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulBaolueEntry",
+			"[JumpBack]MonsterSoulSwipeToFindBaolue"
+		]
+	},
+	"MonsterSoulSelectYexing": {
+		"desc": "野性之魂",
+		"recognition": "And",
+		"all_of": ["MonsterSoulNoDropTimes"],
+		"inverse": true,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulYexingEntry",
+			"[JumpBack]MonsterSoulSwipeToFindYexing"
+		]
+	},
+	"MonsterSoulSelectXiongsha": {
+		"desc": "凶煞之魂",
+		"recognition": "And",
+		"all_of": ["MonsterSoulNoDropTimes"],
+		"inverse": true,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulXiongshaEntry",
+			"[JumpBack]MonsterSoulSwipeToFindXiongsha"
+		]
+	},
+	"MonsterSoulSelectXiedian": {
+		"desc": "邪典之魂",
+		"recognition": "And",
+		"all_of": ["MonsterSoulNoDropTimes"],
+		"inverse": true,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulXiedianEntry",
+			"[JumpBack]MonsterSoulSwipeToFindXiedian"
+		]
+	},
+	"MonsterSoulSelectJielue": {
+		"desc": "劫掠之魂",
+		"recognition": "And",
+		"all_of": ["MonsterSoulNoDropTimes"],
+		"inverse": true,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulJielueEntry",
+			"[JumpBack]MonsterSoulSwipeToFindJielue"
+		]
+	},
+	"MonsterSoulSelectJiaozhi": {
+		"desc": "狡智之魂",
+		"recognition": "And",
+		"all_of": ["MonsterSoulNoDropTimes"],
+		"inverse": true,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulJiaozhiEntry",
+			"[JumpBack]MonsterSoulSwipeToFindJiaozhi"
+		]
+	},
+	"MonsterSoulSelectManhuang": {
+		"desc": "蛮荒之魂",
+		"recognition": "And",
+		"all_of": ["MonsterSoulNoDropTimes"],
+		"inverse": true,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulManhuangEntry",
+			"[JumpBack]MonsterSoulSwipeToFindManhuang"
+		]
+	},
+	"MonsterSoulSelectXiongshi": {
+		"desc": "雄狮之魂",
+		"recognition": "And",
+		"all_of": ["MonsterSoulNoDropTimes"],
+		"inverse": true,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulXiongshiEntry",
+			"[JumpBack]MonsterSoulSwipeToFindXiongshi"
+		]
+	},
+	"MonsterSoulSelectKuangnu": {
+		"desc": "狂怒之魂",
+		"recognition": "And",
+		"all_of": ["MonsterSoulNoDropTimes"],
+		"inverse": true,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulKuangnuEntry",
+			"[JumpBack]MonsterSoulSwipeToFindKuangnu"
+		]
+	},
+	"MonsterSoulSelectShuangxue": {
+		"desc": "霜雪之魂",
+		"recognition": "And",
+		"all_of": ["MonsterSoulNoDropTimes"],
+		"inverse": true,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulShuangxueEntry",
+			"[JumpBack]MonsterSoulSwipeToFindShuangxue"
+		]
+	},
+	"MonsterSoulSelectBingjing": {
+		"desc": "冰晶之魂",
+		"recognition": "And",
+		"all_of": ["MonsterSoulNoDropTimes"],
+		"inverse": true,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulBingjingEntry",
+			"[JumpBack]MonsterSoulSwipeToFindBingjing"
+		]
+	},
+	"MonsterSoulSelectLinye": {
+		"desc": "林野之魂",
+		"recognition": "And",
+		"all_of": ["MonsterSoulNoDropTimes"],
+		"inverse": true,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulLinyeEntry",
+			"[JumpBack]MonsterSoulSwipeToFindLinye"
+		]
+	},
+	"MonsterSoulSelectLingdong": {
+		"desc": "林动之魂",
+		"recognition": "And",
+		"all_of": ["MonsterSoulNoDropTimes"],
+		"inverse": true,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulLingdongEntry",
+			"[JumpBack]MonsterSoulSwipeToFindLingdong"
+		]
+	},
+	"MonsterSoulSelectJihan": {
+		"desc": "极寒之魂",
+		"recognition": "And",
+		"all_of": ["MonsterSoulNoDropTimes"],
+		"inverse": true,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulJihanEntry",
+			"[JumpBack]MonsterSoulSwipeToFindJihan"
+		]
+	},
+	"MonsterSoulSelectBaopo": {
+		"desc": "爆破之魂",
+		"recognition": "And",
+		"all_of": ["MonsterSoulNoDropTimes"],
+		"inverse": true,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulBaopoEntry",
+			"[JumpBack]MonsterSoulSwipeToFindBaopo"
+		]
+	},
+	"MonsterSoulSelectChenyuan": {
+		"desc": "沉渊之魂",
+		"recognition": "And",
+		"all_of": ["MonsterSoulNoDropTimes"],
+		"inverse": true,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulChenyuanEntry",
+			"[JumpBack]MonsterSoulSwipeToFindChenyuan"
+		]
+	},
+	"MonsterSoulSelectKuangre": {
+		"desc": "狂热之魂",
+		"recognition": "And",
+		"all_of": ["MonsterSoulNoDropTimes"],
+		"inverse": true,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulKuangreEntry",
+			"[JumpBack]MonsterSoulSwipeToFindKuangre"
+		]
+	},
+	"MonsterSoulSelectTianyun": {
+		"desc": "天陨之魂",
+		"recognition": "And",
+		"all_of": ["MonsterSoulNoDropTimes"],
+		"inverse": true,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulTianyunEntry",
+			"[JumpBack]MonsterSoulSwipeToFindTianyun"
+		]
+	},
+	"MonsterSoulSelectXianzu": {
+		"desc": "先祖之魂",
+		"recognition": "And",
+		"all_of": ["MonsterSoulNoDropTimes"],
+		"inverse": true,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulXianzuEntry",
+			"[JumpBack]MonsterSoulSwipeToFindXianzu"
+		]
+	},
+	"MonsterSoulSwipePosNeg3": {
+		"desc": "swipe_pos 倒数第三个坐标",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/swipe_pos.png",
+		"order_by": "Vertical",
+		"index": -3,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"MonsterSoulSwipeDownShort": {
+		"desc": "魔物之魂页面向下滑动一小段",
+		"recognition": "And",
+		"all_of": [
+			"MonsterSoulSwipePosNeg3",
+			"MonsterSoulSwipePosBottom"
+		],
+		"action": "Swipe",
+		"begin": "MonsterSoulSwipePosBottom",
+		"end": "MonsterSoulSwipePosNeg3",
+		"duration": 1000,
+		"post_wait_freezes": 300,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 10
+	},
+	"MonsterSoulSwipeToFindWugu": {
+		"desc": "巫蛊之魂查找",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-wugu"],
+		"inverse": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulSwipeDownShort"
+		]
+	},
+	"MonsterSoulWuguEntry": {
+		"desc": "巫蛊之魂",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-wugu"],
+		"action": "Click",
+		"pre_delay": 0,
+		"next": [
+			"MonsterSoulBattleComplete"
+		],
+		"target_offset": [0, 0, -200, 0]
+	},
+	"MonsterSoulBaolueEntry": {
+		"desc": "暴虐之魂",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-baolue"],
+		"action": "Click",
+		"pre_delay": 0,
+		"next": [
+			"MonsterSoulBattleComplete"
+		],
+		"target_offset": [0, 0, -200, 0]
+	},
+	"MonsterSoulSwipeToFindBaolue": {
+		"desc": "暴虐之魂查找",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-baolue"],
+		"inverse": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulSwipeDownShort"
+		]
+	},
+	"MonsterSoulYexingEntry": {
+		"desc": "野性之魂",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-yexing"],
+		"action": "Click",
+		"pre_delay": 0,
+		"next": [
+			"MonsterSoulBattleComplete"
+		],
+		"target_offset": [0, 0, -200, 0]
+	},
+	"MonsterSoulSwipeToFindYexing": {
+		"desc": "野性之魂查找",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-yexing"],
+		"inverse": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulSwipeDownShort"
+		]
+	},
+	"MonsterSoulXiongshaEntry": {
+		"desc": "凶煞之魂",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-xiongsha"],
+		"action": "Click",
+		"pre_delay": 0,
+		"next": [
+			"MonsterSoulBattleComplete"
+		],
+		"target_offset": [0, 0, -200, 0]
+	},
+	"MonsterSoulSwipeToFindXiongsha": {
+		"desc": "凶煞之魂查找",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-xiongsha"],
+		"inverse": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulSwipeDownShort"
+		]
+	},
+	"MonsterSoulXiedianEntry": {
+		"desc": "邪典之魂",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-xiedian"],
+		"action": "Click",
+		"pre_delay": 0,
+		"next": [
+			"MonsterSoulBattleComplete"
+		],
+		"target_offset": [0, 0, -200, 0]
+	},
+	"MonsterSoulSwipeToFindXiedian": {
+		"desc": "邪典之魂查找",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-xiedian"],
+		"inverse": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulSwipeDownShort"
+		]
+	},
+	"MonsterSoulJielueEntry": {
+		"desc": "劫掠之魂",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-jielue"],
+		"action": "Click",
+		"pre_delay": 0,
+		"next": [
+			"MonsterSoulBattleComplete"
+		],
+		"target_offset": [0, 0, -200, 0]
+	},
+	"MonsterSoulSwipeToFindJielue": {
+		"desc": "劫掠之魂查找",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-jielue"],
+		"inverse": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulSwipeDownShort"
+		]
+	},
+	"MonsterSoulJiaozhiEntry": {
+		"desc": "狡智之魂",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-jiaozhi"],
+		"action": "Click",
+		"pre_delay": 0,
+		"next": [
+			"MonsterSoulBattleComplete"
+		],
+		"target_offset": [0, 0, -200, 0]
+	},
+	"MonsterSoulSwipeToFindJiaozhi": {
+		"desc": "狡智之魂查找",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-jiaozhi"],
+		"inverse": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulSwipeDownShort"
+		]
+	},
+	"MonsterSoulManhuangEntry": {
+		"desc": "蛮荒之魂",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-manhuang"],
+		"action": "Click",
+		"pre_delay": 0,
+		"next": [
+			"MonsterSoulBattleComplete"
+		],
+		"target_offset": [0, 0, -200, 0]
+	},
+	"MonsterSoulSwipeToFindManhuang": {
+		"desc": "蛮荒之魂查找",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-manhuang"],
+		"inverse": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulSwipeDownShort"
+		]
+	},
+	"MonsterSoulXiongshiEntry": {
+		"desc": "雄狮之魂",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-xiongshi"],
+		"action": "Click",
+		"pre_delay": 0,
+		"next": [
+			"MonsterSoulBattleComplete"
+		],
+		"target_offset": [0, 0, -200, 0]
+	},
+	"MonsterSoulSwipeToFindXiongshi": {
+		"desc": "雄狮之魂查找",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-xiongshi"],
+		"inverse": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulSwipeDownShort"
+		]
+	},
+	"MonsterSoulKuangnuEntry": {
+		"desc": "狂怒之魂",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-kuangnu"],
+		"action": "Click",
+		"pre_delay": 0,
+		"next": [
+			"MonsterSoulBattleComplete"
+		],
+		"target_offset": [0, 0, -200, 0]
+	},
+	"MonsterSoulSwipeToFindKuangnu": {
+		"desc": "狂怒之魂查找",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-kuangnu"],
+		"inverse": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulSwipeDownShort"
+		]
+	},
+	"MonsterSoulShuangxueEntry": {
+		"desc": "霜雪之魂",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-shuangxue"],
+		"action": "Click",
+		"pre_delay": 0,
+		"next": [
+			"MonsterSoulBattleComplete"
+		],
+		"target_offset": [0, 0, -200, 0]
+	},
+	"MonsterSoulSwipeToFindShuangxue": {
+		"desc": "霜雪之魂查找",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-shuangxue"],
+		"inverse": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulSwipeDownShort"
+		]
+	},
+	"MonsterSoulBingjingEntry": {
+		"desc": "冰晶之魂",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-bingjing"],
+		"action": "Click",
+		"pre_delay": 0,
+		"next": [
+			"MonsterSoulBattleComplete"
+		],
+		"target_offset": [0, 0, -200, 0]
+	},
+	"MonsterSoulSwipeToFindBingjing": {
+		"desc": "冰晶之魂查找",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-bingjing"],
+		"inverse": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulSwipeDownShort"
+		]
+	},
+	"MonsterSoulLinyeEntry": {
+		"desc": "林野之魂",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-linye"],
+		"action": "Click",
+		"pre_delay": 0,
+		"next": [
+			"MonsterSoulBattleComplete"
+		],
+		"target_offset": [0, 0, -200, 0]
+	},
+	"MonsterSoulSwipeToFindLinye": {
+		"desc": "林野之魂查找",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-linye"],
+		"inverse": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulSwipeDownShort"
+		]
+	},
+	"MonsterSoulLingdongEntry": {
+		"desc": "林动之魂",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-lingdong"],
+		"action": "Click",
+		"pre_delay": 0,
+		"next": [
+			"MonsterSoulBattleComplete"
+		],
+		"target_offset": [0, 0, -200, 0]
+	},
+	"MonsterSoulSwipeToFindLingdong": {
+		"desc": "林动之魂查找",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-lingdong"],
+		"inverse": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulSwipeDownShort"
+		]
+	},
+	"MonsterSoulJihanEntry": {
+		"desc": "极寒之魂",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-jihan"],
+		"action": "Click",
+		"pre_delay": 0,
+		"next": [
+			"MonsterSoulBattleComplete"
+		],
+		"target_offset": [0, 0, -200, 0]
+	},
+	"MonsterSoulSwipeToFindJihan": {
+		"desc": "极寒之魂查找",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-jihan"],
+		"inverse": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulSwipeDownShort"
+		]
+	},
+	"MonsterSoulBaopoEntry": {
+		"desc": "爆破之魂",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-baopo"],
+		"action": "Click",
+		"pre_delay": 0,
+		"next": [
+			"MonsterSoulBattleComplete"
+		],
+		"target_offset": [0, 0, -200, 0]
+	},
+	"MonsterSoulSwipeToFindBaopo": {
+		"desc": "爆破之魂查找",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-baopo"],
+		"inverse": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulSwipeDownShort"
+		]
+	},
+	"MonsterSoulChenyuanEntry": {
+		"desc": "沉渊之魂",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-chenyuan"],
+		"action": "Click",
+		"pre_delay": 0,
+		"next": [
+			"MonsterSoulBattleComplete"
+		],
+		"target_offset": [0, 0, -200, 0]
+	},
+	"MonsterSoulSwipeToFindChenyuan": {
+		"desc": "沉渊之魂查找",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-chenyuan"],
+		"inverse": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulSwipeDownShort"
+		]
+	},
+	"MonsterSoulKuangreEntry": {
+		"desc": "狂热之魂",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-kuangre"],
+		"action": "Click",
+		"pre_delay": 0,
+		"next": [
+			"MonsterSoulBattleComplete"
+		],
+		"target_offset": [0, 0, -200, 0]
+	},
+	"MonsterSoulSwipeToFindKuangre": {
+		"desc": "狂热之魂查找",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-kuangre"],
+		"inverse": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulSwipeDownShort"
+		]
+	},
+	"MonsterSoulTianyunEntry": {
+		"desc": "天陨之魂",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-tianyun"],
+		"action": "Click",
+		"pre_delay": 0,
+		"next": [
+			"MonsterSoulBattleComplete"
+		],
+		"target_offset": [0, 0, -200, 0]
+	},
+	"MonsterSoulSwipeToFindTianyun": {
+		"desc": "天陨之魂查找",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-tianyun"],
+		"inverse": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulSwipeDownShort"
+		]
+	},
+	"MonsterSoulXianzuEntry": {
+		"desc": "先祖之魂",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-xianzu"],
+		"action": "Click",
+		"pre_delay": 0,
+		"next": [
+			"MonsterSoulBattleComplete"
+		],
+		"target_offset": [0, 0, -200, 0]
+	},
+	"MonsterSoulSwipeToFindXianzu": {
+		"desc": "先祖之魂查找",
+		"recognition": "And",
+		"all_of": ["HasMonsterSoul-xianzu"],
+		"inverse": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulSwipeDownShort"
+		]
+	},
+	"MonsterSoulBattleComplete": {
+		"desc": "魔物之魂战斗完成",
+		"recognition": "And",
+		"all_of": ["InBattleResult"],
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"post_wait_freezes": 200,
+		"rate_limit": 0,
+		"next": [
+			"HandleRewardDialog"
+		]
+	},
+	"MonsterSoulNoDropTimes": {
+		"desc": "没有剩余掉落次数",
+		"recognition": "OCR",
+		"expected": ["10/10", "10/"],
+		"roi": [216, 992, 303, 81],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	}
+}

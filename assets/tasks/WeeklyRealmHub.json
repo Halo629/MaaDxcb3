@@ -1,0 +1,12 @@
+{
+    "task": [
+        {
+            "name": "WeeklyRealmHub",
+            "label": "🌀诸界枢纽购买羁时碎片",
+            "entry": "RealmHubStart",
+            "group": [
+                "weekly_tasks"
+            ]
+        }
+    ]
+}

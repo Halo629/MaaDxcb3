@@ -1,0 +1,566 @@
+{
+    "HuntingGroundFeastStart": {
+        "desc": "猎场盛宴",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "HuntingGroundFeastEntry",
+            "[JumpBack]__SceneGamePlayLimitedEntryHuntingGroundFeast",
+            "[JumpBack]SceneEnterGamePlayLimited"
+        ]
+    },
+    "HuntingGroundFeastEntry": {
+        "desc": "猎场盛宴入口",
+        "recognition": "And",
+        "all_of": [
+            "InHuntingGroundFeastPage"
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]HuntingGroundFeastAddHuntingSkillEntry",
+            "[JumpBack]HuntingGroundFeastStartHuntingEntry",
+            "[JumpBack]HuntingGroundFeastLearnHuntingSkill",
+            "[JumpBack]HuntingGroundFeastHuntingCommission",
+            "HuntingGroundFeastDoneAndReturn"
+        ]
+    },
+    "HuntingGroundFeastLearnHuntingSkill": {
+        "desc": "学习狩猎技巧",
+        "recognition": "OCR",
+        "expected": "狩猎技巧|技巧",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "max_hit": 1,
+        "roi": [
+            588,
+            567,
+            126,
+            204
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                291,
+                1020,
+                137,
+                58
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "[JumpBack]HuntingGroundFeastOneClickLearn",
+            "SceneBack"
+        ]
+    },
+    "HuntingGroundFeastOneClickLearn": {
+        "desc": "识别黄色一键学习并点击",
+        "recognition": "And",
+        "all_of": [
+            {
+                "recognition": "OCR",
+                "expected": "一键学习|键学习|学习",
+                "roi": [
+                    291,
+                    1020,
+                    137,
+                    58
+                ]
+            },
+            {
+                "recognition": "ColorMatch",
+                "method": 40,
+                "lower": [
+                    20,
+                    50,
+                    50
+                ],
+                "upper": [
+                    35,
+                    255,
+                    255
+                ],
+                "roi": [
+                    291,
+                    1020,
+                    137,
+                    58
+                ],
+                "count": 50
+            }
+        ],
+        "action": "Click",
+        "post_delay": 2000,
+        "next": [
+            "SceneBack"
+        ]
+    },
+    "HuntingGroundFeastAddHuntingSkillEntry": {
+        "desc": "穿戴狩猎技巧入口",
+        "max_hit": 1,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "HuntingGroundFeastAddHuntingSkill",
+            "HuntingGroundFeastDone"
+        ]
+    },
+    "HuntingGroundFeastAddHuntingSkill": {
+        "desc": "穿戴狩猎技巧",
+        "recognition": "TemplateMatch",
+        "template": "activities/HuntingGroundFeast/AddHuntingSkill.png",
+        "roi": [
+            88,
+            770,
+            541,
+            163
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 200,
+            "target": [
+                217,
+                220,
+                285,
+                693
+            ],
+            "timeout": 2000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "HuntingGroundFeastNoHuntingSkill",
+            "HuntingGroundFeastWearHuntingSkill"
+        ]
+    },
+    "HuntingGroundFeastNoHuntingSkill": {
+        "desc": "没有可穿戴的狩猎技巧",
+        "recognition": "And",
+        "all_of": [
+            {
+                "recognition": "OCR",
+                "expected": "暂无可穿戴的狩猎技巧|暂无",
+                "roi": [
+                    189,
+                    706,
+                    341,
+                    95
+                ]
+            },
+            {
+                "recognition": "OCR",
+                "expected": "返回",
+                "roi": [
+                    150,
+                    953,
+                    129,
+                    202
+                ]
+            }
+        ],
+        "box_index": 1,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 200,
+            "target": [
+                217,
+                220,
+                285,
+                693
+            ],
+            "timeout": 2000
+        }
+    },
+    "HuntingGroundFeastWearHuntingSkill": {
+        "desc": "穿戴狩猎技巧",
+        "recognition": "OCR",
+        "expected": "穿戴|穿|戴",
+        "roi": [
+            422,
+            878,
+            153,
+            383
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 200,
+            "target": [
+                217,
+                220,
+                285,
+                693
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "HuntingGroundFeastAddHuntingSkill",
+            "HuntingGroundFeastDone"
+        ]
+    },
+    "HuntingGroundFeastDone": {
+        "desc": "完成"
+    },
+    "HuntingGroundFeastDoneAndReturn": {
+        "desc": "完成并退出",
+        "next": [
+            "SceneBack"
+        ]
+    },
+    "HuntingGroundFeastStartHuntingEntry": {
+        "desc": "开始狩猎入口",
+        "max_hit": 1,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]HuntingGroundFeastCurLevelRecord",
+            "HuntingGroundFeastStartHunting"
+        ]
+    },
+    "HuntingGroundFeastCurLevelRecord": {
+        "desc": "记录当前狩猎强度",
+        "max_hit": 1,
+        "action": "Custom",
+        "custom_action": "HuntingGroundFeastCurLevelRecord",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "HuntingGroundFeastCurLevel": {
+        "desc": "狩猎当前强度",
+        "recognition": "OCR",
+        "roi": [
+            297,
+            665,
+            130,
+            40
+        ]
+    },
+    "HuntingGroundFeastStartHunting": {
+        "desc": "开始狩猎",
+        "recognition": "OCR",
+        "expected": "开始狩猎|开始|狩猎",
+        "roi": [
+            289,
+            1033,
+            145,
+            92
+        ],
+        "action": "Click",
+        "next": [
+            "HuntingGroundFeastHuntingBattle"
+        ]
+    },
+    "HuntingGroundFeastHuntingBattle": {
+        "desc": "猎场盛宴战斗",
+        "action": "Custom",
+        "custom_action": "BattleAI",
+        "next": [
+            "HuntingGroundFeastHuntingBattleFailed",
+            "HuntingGroundFeastHuntingBattleVictory"
+        ]
+    },
+    "HuntingGroundFeastHuntingBattleFailed": {
+        "desc": "猎场盛宴战斗失败",
+        "recognition": "And",
+        "all_of": [
+            "BattleResultFail"
+        ],
+        "next": [
+            "[JumpBack]BattleEnd",
+            "HuntingGroundFeastLowerDifficulty"
+        ]
+    },
+    "HuntingGroundFeastLowerDifficulty": {
+        "desc": "降低难度直到低于当前难度",
+        "recognition": "Custom",
+        "custom_recognition": "HuntingGroundFeastLowerDifficulty",
+        "next": [
+            "HuntingGroundFeastStartHunting"
+        ]
+    },
+    "HuntingGroundFeastAdjustLevelToTarget": {
+        "desc": "调整难度到当前难度",
+        "recognition": "Custom",
+        "custom_recognition": "HuntingGroundFeastAdjustLevelToTarget",
+        "next": [
+            "HuntingGroundFeastStartHunting"
+        ]
+    },
+    "HuntingGroundFeastHuntingBattleVictory": {
+        "desc": "猎场盛宴战斗胜利",
+        "custom_action": "HuntingGroundFeastCurLevelRecord",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "recognition": "And",
+        "all_of": [
+            "BattleResultVictory"
+        ],
+        "next": [
+            "HuntingGroundFeastHuntingBattleResultHasReward",
+            "HuntingGroundFeastHuntingBattleResultNoReward"
+        ]
+    },
+    "HuntingGroundFeastHuntingSkillGot": {
+        "desc": "获得狩猎技巧",
+        "recognition": "OCR",
+        "expected": "技巧",
+        "roi": [
+            39,
+            469,
+            645,
+            551
+        ]
+    },
+    "HuntingGroundFeastHuntingSkillCountColor": {
+        "desc": "获得的狩猎技巧数量颜色识别",
+        "recognition": "ColorMatch",
+        "method": 40,
+        "roi": "HuntingGroundFeastHuntingSkillGot",
+        "roi_offset": [
+            0,
+            -30,
+            0,
+            0
+        ],
+        "lower": [
+            0,
+            0,
+            200
+        ],
+        "upper": [
+            255,
+            55,
+            255
+        ],
+        "count": 10
+    },
+    "HuntingGroundFeastHuntingSkillCount": {
+        "desc": "获得的狩猎技巧数量",
+        "recognition": "And",
+        "all_of": [
+            "HuntingGroundFeastHuntingSkillGot",
+            "HuntingGroundFeastHuntingSkillCountColor",
+            {
+                "recognition": "OCR",
+                "sub_name": "HuntingSkillCount",
+                "expected": "\\d+",
+                "roi": "HuntingGroundFeastHuntingSkillCountColor",
+                "roi_offset": [
+                    -2,
+                    -2,
+                    4,
+                    4
+                ]
+            }
+        ]
+    },
+    "HuntingGroundFeastHuntingBattleResultNoReward": {
+        "desc": "战斗结算页面没有获得狩猎技巧，任务结束",
+        "recognition": "And",
+        "all_of": [
+            "HuntingGroundFeastHuntingSkillGot"
+        ],
+        "inverse": true,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]BattleEnd",
+            "HuntingGroundFeastDone"
+        ]
+    },
+    "HuntingGroundFeastHuntingBattleResultHasReward": {
+        "desc": "战斗结算页面获得狩猎技巧",
+        "recognition": "And",
+        "all_of": [
+            "HuntingGroundFeastHuntingSkillGot"
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "HuntingGroundFeastHuntingSkillStatistics"
+        ]
+    },
+    "HuntingGroundFeastSkillLimitReached": {
+        "desc": "今日获取狩猎技巧已达上限",
+        "recognition": "Custom",
+        "custom_recognition": "HuntingGroundFeastSkillLimitReached",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "HuntingGroundFeastDone"
+        ]
+    },
+    "HuntingGroundFeastHuntingSkillStatistics": {
+        "desc": "统计获得的狩猎技巧数量",
+        "action": "Custom",
+        "custom_action": "HuntingGroundFeastSkillStatistics",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]BattleEnd",
+            "HuntingGroundFeastSkillLimitReached",
+            "HuntingGroundFeastAdjustLevelToTarget"
+        ]
+    },
+    "__SceneGamePlayLimitedEntryHuntingGroundFeast": {
+        "desc": "在限时页面进入猎场盛宴",
+        "recognition": "And",
+        "all_of": [
+            "InGamePlayLimitedPage"
+        ],
+        "next": [
+            "InHuntingGroundFeastPage",
+            "__SceneGamePlayLimitedPageGotoHuntingGroundFeast",
+            "[JumpBack]HuntingGroundFeastSwipeToTop",
+            "[JumpBack]HuntingGroundFeastSwipe"
+        ]
+    },
+    "__SceneGamePlayLimitedPageGotoHuntingGroundFeast": {
+        "desc": "点击前往猎场盛宴",
+        "recognition": "And",
+        "all_of": [
+            "__SceneGamePlayLimitedPageHasHuntingGroundFeast"
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                256,
+                503,
+                281,
+                451
+            ],
+            "timeout": 2000
+        }
+    },
+    "__SceneGamePlayLimitedPageHasHuntingGroundFeast": {
+        "desc": "限时页面识别到猎场盛宴",
+        "recognition": "TemplateMatch",
+        "template": "activities/HuntingGroundFeast/HuntingGroundFeastIcon.png",
+        "roi": [
+            15,
+            69,
+            701,
+            997
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "HuntingGroundFeastSwipeToTop": {
+        "desc": "快速滑到最上方",
+        "action": "Swipe",
+        "begin": [
+            400,
+            200
+        ],
+        "end": [
+            400,
+            900
+        ],
+        "duration": 100,
+        "max_hit": 1,
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                353,
+                192,
+                328,
+                732
+            ],
+            "timeout": 5000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "HuntingGroundFeastSwipe": {
+        "desc": "向上滑动查找",
+        "action": "Swipe",
+        "begin": [
+            400,
+            800
+        ],
+        "end": [
+            400,
+            600
+        ],
+        "duration": 200,
+        "max_hit": 3,
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                353,
+                192,
+                328,
+                732
+            ],
+            "timeout": 5000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "InHuntingGroundFeastPage": {
+        "desc": "在猎场盛宴页面",
+        "recognition": "OCR",
+        "expected": "猎场盛宴|猎场|盛宴",
+        "roi": [
+            297,
+            135,
+            125,
+            54
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "HuntingGroundFeastHuntingCommission": {
+        "desc": "狩猎委托",
+        "recognition": "OCR",
+        "pre_delay": 1000,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "max_hit": 1,
+        "expected": "狩猎委托|委托",
+        "roi": [
+            588,
+            567,
+            126,
+            204
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                217,
+                220,
+                285,
+                693
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "[JumpBack]ActivityCommonCollect",
+            "PressEsc"
+        ]
+    }
+}

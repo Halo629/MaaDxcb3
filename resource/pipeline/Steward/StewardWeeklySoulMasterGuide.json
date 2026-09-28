@@ -1,0 +1,65 @@
+{
+	"StewardWeeklySoulMasterGuideSub": {
+		"desc": "每周魂师指南",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"[JumpBack]SoulMasterGuideWeeklyCollect",
+			"[JumpBack]SoulMasterGuideWeeklyTaskEnable",
+			"SoulMasterGuideReward",
+			"SoulMasterGuideWeeklyDone",
+			"[JumpBack]SceneEnterSoulMasterGuideWeeklyPage"
+		],
+		"focus": {"Node.Recognition.Succeeded": "开始任务:每周魂师指南"}
+	},
+	"SoulMasterGuideWeeklyNotCompleteTask": {
+		"desc": "每周魂师指南未完成",
+		"recognition": "OCR",
+		"expected": "(?<!已)完成",
+		"roi": [509, 394, 154, 682],
+		"order_by": "Vertical"
+	},
+	"SoulMasterGuideWeeklyTaskEnable": {
+		"desc": "每周魂师指南任务激活",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["SoulMasterGuideWeeklyNotCompleteTask"],
+		"action": "Custom",
+		"custom_action": "SoulMasterGuideWeeklyTasks",
+		"attach": {
+			"ShatteredRealmEnable": false,
+			"SoulTombEnable": false,
+			"EngraveEquipmentEnable": false,
+			"ReforgeEquipmentEnable": false
+		},
+		"next": [
+			"[JumpBack]ShatteredRealmStart",
+			"[JumpBack]ActivityCommonSoulTombSub",
+			"[JumpBack]ActivityCommonEngraveSub",
+			"[JumpBack]ActivityCommonReforgeSub",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"SoulMasterGuideWeeklyDone": {
+		"desc": "魂师指南每周奖励已完成",
+		"recognition": "And",
+		"all_of": ["InSoulMasterGuideWeeklyPage"]
+	},
+	"SoulMasterGuideWeeklyCollect": {
+		"desc": "点击完成按钮领取每周奖励",
+		"recognition": "And",
+		"all_of": [
+			"InSoulMasterGuideWeeklyPage",
+			"SoulMasterGuideHasYellowComplete"
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [166, 301, 466, 670],
+			"timeout": 5000
+		}
+	}
+}

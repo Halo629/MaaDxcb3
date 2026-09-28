@@ -1,0 +1,188 @@
+{
+	"LockAllRecipeStart": {
+		"desc": "解锁所有食谱入口",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"LockAllRecipe",
+			"[JumpBack]SceneEnterCookingPot"
+		]
+	},
+	"CookingSpecifiedFoodStart": {
+		"desc": "生产指定食物入口",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"CookSpecifiedFoodEntry",
+			"[JumpBack]SceneEnterCookingPot"
+		]
+	},
+	"LockAllRecipe": {
+		"desc": "解锁所有食谱",
+		"recognition": "And",
+		"all_of": ["InCookingPotPage"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"[JumpBack]ReadLockedRecipe",
+			"CookingStart"
+		]
+	},
+	"CookingStart": {
+		"desc": "开始烹饪",
+		"next": [
+			"CookAllUnlockedRecipes",
+			"[JumpBack]GotoCookingPage"
+		]
+	},
+	"CookAllUnlockedRecipes": {
+		"desc": "烹饪所有未解锁食谱",
+		"recognition": "And",
+		"all_of": ["InCookingPotCookingPage"],
+		"action": "Custom",
+		"custom_action": "CookAllUnlockedRecipes",
+		"next": [
+			"SceneBack"
+		]
+	},
+	"ReadLockedRecipe": {
+		"desc": "获取已解锁食谱",
+		"max_hit": 1,
+		"next": [
+			"RecordLockedRecipe",
+			"[JumpBack]GotoRecipePage"
+		]
+	},
+	"RecordLockedRecipe": {
+		"desc": "记录已解锁食谱",
+		"recognition": "And",
+		"all_of": ["InCookingPotRecipePage"],
+		"action": "Custom",
+		"custom_action": "RecordLockedRecipe"
+	},
+	"AddFoodIngredientsBtn": {
+		"desc": "添加食材按钮",
+		"recognition": "TemplateMatch",
+		"template": "recipe/AddFoodIngredients.png",
+		"roi": [132, 542, 459, 172]
+	},
+	"CookSpecifiedFoodEntry": {
+		"desc": "烹饪指定食物,先到食谱页面",
+		"recognition": "And",
+		"all_of": ["InCookingPotPage"],
+		"next": [
+			"CookSpecifiedFood",
+			"[JumpBack]GotoRecipePage"
+		]
+	},
+	"GotoRecipePage": {
+		"desc": "到食谱页面",
+		"recognition": "And",
+		"all_of": ["RecipeTab"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [208, 427, 318, 541],
+			"timeout": 3000
+		}
+	},
+	"GotoCookingPage": {
+		"desc": "到烹饪页面",
+		"recognition": "And",
+		"all_of": ["CookingTab"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [208, 427, 318, 541],
+			"timeout": 3000
+		}
+	},
+	"CookSpecifiedFood": {
+		"desc": "烹饪指定食物",
+		"recognition": "And",
+		"all_of": ["InCookingPotRecipePage"],
+		"action": "Custom",
+		"custom_action": "CookSpecifiedFood",
+		"custom_action_param": ""
+	},
+	"RecipeQuantityMinus": {
+		"desc": "数量减1",
+		"roi": [119, 889, 27, 24],
+		"action": "Click"
+	},
+	"RecipeQuantityPlus": {
+		"desc": "数量加1",
+		"roi": [575, 882, 21, 35],
+		"action": "Click"
+	},
+	"RecipeQuantityOcr": {
+		"desc": "当前数量OCR",
+		"recognition": "OCR",
+		"roi": [180, 859, 359, 88],
+		"expected": ["\\d+"]
+	},
+	"CookingBtn": {
+		"desc": "烹饪按钮",
+		"recognition": "OCR",
+		"expected": "烹饪",
+		"roi": [298, 892, 123, 272],
+		"action": "Click",
+		"post_delay": 4000,
+		"next": [
+			"NewRecipeGet",
+			"RecipeLocked"
+		]
+	},
+	"RecipeLocked": {
+		"desc": "食谱已解锁,没有弹窗",
+		"action": "Click",
+		"target": [72, 1054, 80, 40],
+		"post_delay": 500
+	},
+	"NewRecipeGet": {
+		"desc": "获得新食谱",
+		"recognition": "OCR",
+		"expected": "新食谱",
+		"roi": [306, 324, 103, 47],
+		"next": [
+			"PressEsc"
+		]
+	},
+	"FoodIconMatcher": {
+		"desc": "匹配三种颜色食物图标",
+		"recognition": "Or",
+		"any_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "recipe/GrayFood.png",
+				"roi": [27, 334, 658, 817],
+				"order_by": "Vertical"
+			},
+			{
+				"recognition": "TemplateMatch",
+				"template": "recipe/PurpleFood.png",
+				"roi": [27, 334, 658, 817],
+				"order_by": "Vertical"
+			},
+			{
+				"recognition": "TemplateMatch",
+				"template": "recipe/BlueFood.png",
+				"roi": [27, 334, 658, 817],
+				"order_by": "Vertical"
+			}
+		]
+	},
+	"IngredientsOcrArea": {
+		"desc": "食材OCR识别区域",
+		"recognition": "OCR",
+		"roi": [65, 724, 598, 340]
+	},
+	"RecipeOcrArea": {
+		"desc": "食谱OCR识别区域",
+		"recognition": "OCR",
+		"roi": [27, 334, 658, 817]
+	}
+}

@@ -1,0 +1,258 @@
+{
+    "HuntingSeasonStart": {
+        "desc": "狩猎季|夜之狩猎",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "HuntingSeasonEntry",
+            "[JumpBack]__SceneGamePlayLimitedEntryHuntingSeason",
+            "[JumpBack]SceneEnterGamePlayLimited"
+        ]
+    },
+    "__SceneGamePlayLimitedEntryHuntingSeason": {
+        "desc": "在限时页面进入狩猎季",
+        "recognition": "And",
+        "all_of": [
+            "InGamePlayLimitedPage"
+        ],
+        "next": [
+            "InHuntingSeasonPage",
+            "[JumpBack]__SceneGamePlayLimitedPageGotoHuntingSeason",
+            "[JumpBack]HuntingSeasonSwipeToTop",
+            "[JumpBack]HuntingSeasonSwipe"
+        ]
+    },
+    "__SceneGamePlayLimitedPageGotoHuntingSeason": {
+        "desc": "点击前往狩猎季",
+        "recognition": "And",
+        "all_of": [
+            "__SceneGamePlayLimitedPageHasHuntingSeason"
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                25260,
+                852,
+                324,
+                241
+            ],
+            "timeout": 2000
+        }
+    },
+    "__SceneGamePlayLimitedPageHasHuntingSeason": {
+        "desc": "限时页面识别到狩猎季",
+        "recognition": "TemplateMatch",
+        "template": "activities/HuntingSeason/NightHuntIcon.png",
+        "roi": [
+            15,
+            69,
+            701,
+            997
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "InHuntingSeasonPage": {
+        "desc": "在狩猎季页面",
+        "recognition": "OCR",
+        "expected": "夜之狩猎|狩猎",
+        "roi": [
+            299,
+            78,
+            124,
+            47
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "HuntingSeasonEntry": {
+        "desc": "狩猎活动入口",
+        "recognition": "And",
+        "all_of": [
+            "InHuntingSeasonPage"
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]HuntingSeasonChallenge",
+            "[JumpBack]HuntingRewardCollect",
+            "HuntingSeasonDone"
+        ]
+    },
+    "HuntingSeasonRemainingCount": {
+        "desc": "剩余挑战次数不为0",
+        "recognition": "OCR",
+        "expected": "[1-3]/3",
+        "roi": [
+            434,
+            1141,
+            47,
+            37
+        ],
+        "only_rec": true,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "HuntingSeasonChallenge": {
+        "desc": "挑战",
+        "recognition": "And",
+        "all_of": [
+            "HuntingSeasonRemainingCount",
+            {
+                "recognition": "OCR",
+                "expected": "挑战",
+                "roi": [
+                    295,
+                    1182,
+                    119,
+                    63
+                ]
+            }
+        ],
+        "box_index": 1,
+        "action": "Click",
+        "pre_delay": 0,
+        "post_delay": 500,
+        "rate_limit": 0,
+        "next": [
+            "HuntingSeasonBattle"
+        ]
+    },
+    "HuntingSeasonBattle": {
+        "desc": "狩猎季战斗",
+        "action": "Custom",
+        "custom_action": "BattleAI",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]BattleEnd",
+            "ActivityAlwaysTrue"
+        ]
+    },
+    "HuntingRewardCollect": {
+        "desc": "狩猎进度奖励领取",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "max_hit": 1,
+        "next": [
+            "HuntingRewardCollectDone",
+            "HuntingReward"
+        ]
+    },
+    "HuntingRewardCollectDone": {
+        "desc": "狩猎进度奖励已领完",
+        "recognition": "OCR",
+        "expected": "已领取",
+        "roi": [
+            509,
+            1051,
+            76,
+            42
+        ]
+    },
+    "HuntingReward": {
+        "desc": "狩猎进度奖励",
+        "recognition": "ColorMatch",
+        "method": 40,
+        "lower": [
+            20,
+            50,
+            50
+        ],
+        "upper": [
+            35,
+            255,
+            255
+        ],
+        "roi": [
+            521,
+            1015,
+            51,
+            46
+        ],
+        "count": 50,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                260,
+                852,
+                324,
+                241
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "HandleRewardDialog",
+            "ActivityAlwaysTrue"
+        ]
+    },
+    "HuntingSeasonDone": {
+        "desc": "狩猎季完成",
+        "next": [
+            "SceneBack"
+        ]
+    },
+    "HuntingSeasonSwipeToTop": {
+        "desc": "快速滑到最上方",
+        "action": "Swipe",
+        "begin": [
+            400,
+            200
+        ],
+        "end": [
+            400,
+            900
+        ],
+        "duration": 100,
+        "max_hit": 1,
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                353,
+                192,
+                328,
+                732
+            ],
+            "timeout": 5000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "HuntingSeasonSwipe": {
+        "desc": "向上滑动查找",
+        "action": "Swipe",
+        "begin": [
+            400,
+            800
+        ],
+        "end": [
+            400,
+            600
+        ],
+        "duration": 200,
+        "max_hit": 3,
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                353,
+                192,
+                328,
+                732
+            ],
+            "timeout": 5000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    }
+}

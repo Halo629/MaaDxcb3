@@ -1,0 +1,12 @@
+{
+    "task": [
+        {
+            "name": "FoodFestival",
+            "label": "🍲美食祭",
+            "entry": "FoodFestivalStart",
+            "group": [
+                "activity_tasks"
+            ]
+        }
+    ]
+}

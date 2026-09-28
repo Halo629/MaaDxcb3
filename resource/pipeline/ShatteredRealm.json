@@ -1,0 +1,370 @@
+{
+	"ShatteredRealmStart": {
+		"desc": "破碎之境入口",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"[JumpBack]ShatteredRealmQuickChallenge",
+			"ShatteredRealmRuneUpgradeStart",
+			"ShatteredRealmDone",
+			"[JumpBack]SceneEnterShatteredRealm"
+		]
+	},
+	"ShatteredRealmAncientBugColor": {
+		"desc": "异域古虫数量白色区域",
+		"recognition": "ColorMatch",
+		"method": 40,
+		"lower": [0, 0, 100],
+		"upper": [255, 50, 255],
+		"roi": [592, 28, 74, 30],
+		"count": 3,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ShatteredRealmAncientBugCount": {
+		"desc": "异域古虫数量",
+		"recognition": "And",
+		"all_of": [
+			"ShatteredRealmAncientBugColor",
+			{
+				"recognition": "OCR",
+				"expected": ["[1-9]\\d*"],
+				"roi": "ShatteredRealmAncientBugColor",
+				"only_rec": true
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ShatteredRealmQuickChallenge": {
+		"desc": "破碎之境快速挑战",
+		"recognition": "And",
+		"all_of": [
+			"InShatteredRealm",
+			"ShatteredRealmHasQuickChallenge",
+			"ShatteredRealmAncientBugCount"
+		],
+		"box_index": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [136, 475, 444, 305],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]ConfirmButton"
+		]
+	},
+	"ShatteredRealmHasQuickChallenge": {
+		"desc": "有快速挑战",
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/QuickChallenge.png",
+		"roi": [560, 873, 103, 134],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ShatteredRealmRuneUpgradeStart": {
+		"desc": "符文升级",
+		"enabled": false,
+		"recognition": "And",
+		"all_of": ["InShatteredRealm"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"RuneWorkshopEntry"
+		]
+	},
+	"RuneWorkshopEntry": {
+		"desc": "符文工坊入口",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "符文工坊|符文|工坊",
+		"roi": [585, 1170, 105, 61],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [585, 1170, 105, 61],
+			"timeout": 2000
+		},
+		"next": [
+			"[JumpBack]HasRuneUnlock",
+			"[JumpBack]RunePageSwipeUp",
+			"RuneUpgradeEntry"
+		]
+	},
+	"RuneUpgradeEntry": {
+		"desc": "符文升级入口",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "符文升级|符文|升级",
+		"roi": [375, 1204, 128, 63],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [375, 1204, 128, 63],
+			"timeout": 2000
+		},
+		"next": [
+			"[JumpBack]RuneUpgradeSkipAnimEntry",
+			"FaloAidCountNotEnough",
+			"MagnetNotEnough",
+			"[JumpBack]RuneUpgradeAddRune",
+			"ShatteredRealmDone"
+		]
+	},
+	"InRuneUpgradePage": {
+		"desc": "在符文升级页面",
+		"recognition": "And",
+		"all_of": ["RuneUpgradeClickUpgrade"]
+	},
+	"RuneUpgradeAddRune": {
+		"desc": "添加符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InRuneUpgradePage"],
+		"action": "Click",
+		"target": [338, 379, 59, 77],
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [282, 315, 150, 203],
+			"timeout": 3000
+		},
+		"next": [
+			"RuneUpgradeSelectRuneAndUpgrade",
+			"ShatteredRealmDone"
+		]
+	},
+	"RuneUpgradeSelectRune": {
+		"desc": "选择需要升级的符文",
+		"recognition": "Custom",
+		"custom_recognition": "SelectRune"
+	},
+	"RuneUpgradeSelectRuneAndUpgrade": {
+		"desc": "选择符文并升级",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InRuneSelectPage", "RuneUpgradeSelectRune"],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [282, 315, 150, 203],
+			"timeout": 3000
+		},
+		"next": [
+			"RuneUpgradeDone",
+			"FaloAidCountNotEnough",
+			"MagnetNotEnough",
+			"[JumpBack]RuneUpgradeDirectly",
+			"[JumpBack]RuneUpgradeByMagnet"
+		]
+	},
+	"RuneUpgradeDone": {
+		"desc": "符文升级完成",
+		"recognition": "OCR",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"expected": "50",
+		"roi": [377, 603, 35, 38],
+		"only_rec": true
+	},
+	"RuneUpgradeDirectly": {
+		"desc": "直接升级符文(小于38级)",
+		"recognition": "OCR",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"expected": "^([0-9]|[12][0-9]|3[0-7])$",
+		"roi": [377, 603, 35, 38],
+		"only_rec": true,
+		"next": [
+			"RuneUpgradeClickUpgrade"
+		]
+	},
+	"RuneUpgradeByMagnet": {
+		"desc": "使用磁石(大于38级)",
+		"recognition": "OCR",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"expected": "^(3[89]|4[0-9])$",
+		"roi": [377, 603, 35, 38],
+		"only_rec": true,
+		"next": [
+			"RuneUpgradeDone",
+			"RuneUpgradeClickUpgradeAfterUseMagnet",
+			"[JumpBack]RuneUpgradeUseMagnet"
+		]
+	},
+	"RuneUpgradeUseMagnet": {
+		"desc": "使用磁石",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "LongPress",
+		"target": [337, 965, 44, 56],
+		"duration": 8000
+	},
+	"RuneUpgradeClickUpgradeAfterUseMagnet": {
+		"desc": "使用磁石达到100%成功率后升级",
+		"recognition": "OCR",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"expected": "100%",
+		"roi": [386, 898, 54, 29],
+		"only_rec": true,
+		"next": [
+			"RuneUpgradeClickUpgrade"
+		]
+	},
+	"FaloAidCountNotEnough": {
+		"desc": "法洛的援助不足",
+		"recognition": "OCR",
+		"expected": "^0$",
+		"roi": [597, 27, 66, 33],
+		"only_rec": true,
+		"next": [
+			"ShatteredRealmDone"
+		]
+	},
+	"MagnetNotEnough": {
+		"desc": "磁石不足",
+		"recognition": "OCR",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"expected": "^([0-9]|[1-4][0-9])$",
+		"roi": [597, 82, 61, 36],
+		"only_rec": true,
+		"next": [
+			"ShatteredRealmDone"
+		]
+	},
+	"RuneUpgradeClickUpgrade": {
+		"desc": "点击升级",
+		"recognition": "OCR",
+		"expected": "升级|升|级",
+		"roi": [316, 1100, 94, 60],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [216, 315, 283, 790],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InRuneSelectPage": {
+		"desc": "在选择符文页面",
+		"recognition": "OCR",
+		"expected": "选择要升级的符文|选择|升级|符文",
+		"roi": [244, 181, 227, 53]
+	},
+	"RuneUpgradeSkipAnimEntry": {
+		"desc": "跳过动画入口",
+		"max_hit": 1,
+		"next": [
+			"RuneUpgradeAnimSkiped",
+			"[JumpBack]RuneUpgradeSkipAnim"
+		]
+	},
+	"RuneUpgradeAnimSkiped": {
+		"desc": "跳过动画已勾选",
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/SkipAnim.png",
+		"roi": [507, 1086, 157, 88]
+	},
+	"RuneUpgradeSkipAnim": {
+		"desc": "跳过动画",
+		"recognition": "OCR",
+		"expected": "跳过动画|跳过|动画",
+		"roi": [507, 1086, 157, 88],
+		"action": "Click",
+		"post_delay": 500
+	},
+	"HasRuneUnlock": {
+		"desc": "符文解锁",
+		"recognition": "Custom",
+		"custom_recognition": "HasRuneUnlock",
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [130, 686, 194, 325],
+			"timeout": 2000
+		},
+		"next": [
+			"ShatteredRealmBuyRune",
+			"ShatteredRealmDone"
+		]
+	},
+	"ShatteredRealmBuyRune": {
+		"desc": "购买符文",
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/FanaticalFaith.png",
+		"roi": [130, 686, 194, 325],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [130, 686, 194, 325],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog"
+		]
+	},
+	"RunePageSwipeUp": {
+		"desc": "符文页面上滑",
+		"action": "Swipe",
+		"begin": [520, 850],
+		"end": [520, 200],
+		"duration": 200,
+		"max_hit": 1,
+		"post_wait_freezes": {
+			"time": 200,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		}
+	},
+	"RuneSelectPageSwipeUp": {
+		"desc": "符文选择页面上滑",
+		"action": "Swipe",
+		"begin": [520, 850],
+		"end": [520, 200],
+		"duration": 200,
+		"max_hit": 1,
+		"post_wait_freezes": {
+			"time": 200,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		}
+	},
+	"ShatteredRealmDone": {
+		"desc": "破碎之境已完成",
+		"recognition": "And",
+		"all_of": ["InShatteredRealm"],
+		"next": [
+			"SceneBack"
+		]
+	}
+}

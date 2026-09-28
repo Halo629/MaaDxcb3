@@ -1,0 +1,524 @@
+{
+	"task": [
+		{
+			"name": "StewardTasks",
+			"label": "🤖管家任务",
+			"entry": "StewardTaskStart",
+			"option": [
+				"StewardGoddessCollectSub",
+				"StewardFarmSub",
+				"StewardFerdinandSub",
+				"StewardArcaneCellCollectSub",
+				"StewardSkyreachTowerCollectSub",
+				"StewardWildSoulSearchSub",
+				"StewardShrineWorkshopSub",
+				"StewardSecretCaveSub",
+				"StewardBibiqiSub",
+				"StewardEndlessWealthIsleSub",
+				"StewardCarriageShopSub",
+				"StewardDailySoulMasterGuideSub",
+				"StewardWeeklySoulMasterGuideSub",
+				"StewardTreasureMapSub"
+			],
+			"group": ["daily_tasks"]
+		}
+	],
+	"option": {
+		"StewardGoddessCollectSub": {
+			"type": "switch",
+			"label": "女神像收益领取",
+			"description": "女神像收益领取",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"StewardGoddessCollectSub": {"enabled": true}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"StewardGoddessCollectSub": {"enabled": false}
+					}
+				}
+			]
+		},
+		"StewardFarmSub": {
+			"type": "switch",
+			"label": "农场生产产品",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"StewardFarmSub": {"enabled": true}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"StewardFarmSub": {"enabled": false}
+					}
+				}
+			]
+		},
+		"StewardFerdinandSub": {
+			"type": "switch",
+			"label": "挑战盗宝贼费迪南德",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"StewardFerdinandSub": {"enabled": true}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"StewardFerdinandSub": {"enabled": false}
+					}
+				}
+			]
+		},
+		"StewardArcaneCellCollectSub": {
+			"type": "switch",
+			"label": "奥术灰烬收益领取",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"StewardArcaneCellCollectSub": {"enabled": true}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"StewardArcaneCellCollectSub": {"enabled": false}
+					}
+				}
+			]
+		},
+		"StewardSkyreachTowerCollectSub": {
+			"type": "switch",
+			"label": "通天塔每日收益领取",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"StewardSkyreachTowerCollectSub": {"enabled": true}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"StewardSkyreachTowerCollectSub": {"enabled": false}
+					}
+				}
+			]
+		},
+		"StewardWildSoulSearchSub": {
+			"type": "switch",
+			"label": "荒魂搜索",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"StewardWildSoulSearchSub": {"enabled": true}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"StewardWildSoulSearchSub": {"enabled": false}
+					}
+				}
+			]
+		},
+		"StewardCarriageShopSub": {
+			"type": "switch",
+			"label": "马车商店购买",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"StewardCarriageShopSub": {"enabled": true}
+					},
+					"option": [
+						"BuyWandererHourglass",
+						"BuyOre",
+						"BuyFoodItems",
+						"BuyFoodPoints",
+						"BuyEmblemChest",
+						"BuyTimeBondFragment"
+					]
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"StewardCarriageShopSub": {"enabled": false}
+					}
+				}
+			]
+		},
+		"BuyWandererHourglass": {
+			"type": "switch",
+			"label": "物品页购买旅者沙钟",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"CarriageShopBuyWandererHourglassStart": {"enabled": true}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"CarriageShopBuyWandererHourglassStart": {"enabled": false}
+					}
+				}
+			]
+		},
+		"BuyOre": {
+			"type": "switch",
+			"label": "物品页购买矿原石",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"CarriageShopBuyOreItemStart": {"enabled": true}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"CarriageShopBuyOreItemStart": {"enabled": false}
+					}
+				}
+			]
+		},
+		"BuyFoodItems": {
+			"type": "switch",
+			"label": "物品页购买美食积分商品",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"CarriageShopBuyFoodPointsItemStart": {"enabled": true}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"CarriageShopBuyFoodPointsItemStart": {"enabled": false}
+					}
+				}
+			]
+		},
+		"BuyFoodPoints": {
+			"type": "switch",
+			"label": "食物页购买美食积分",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"CarriageShopBuyFoodPointsStart": {"enabled": true}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"CarriageShopBuyFoodPointsStart": {"enabled": false}
+					}
+				}
+			]
+		},
+		"BuyEmblemChest": {
+			"type": "switch",
+			"label": "魂墓页购买纹章宝盒",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"CarriageShopBuyEmblemChestEntry": {"enabled": true}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"CarriageShopBuyEmblemChestEntry": {"enabled": false}
+					}
+				}
+			]
+		},
+		"BuyTimeBondFragment": {
+			"type": "switch",
+			"label": "升格之路页购买羁时碎片",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"CarriageShopBuyTimeBondFragmentEntry": {"enabled": true}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"CarriageShopBuyTimeBondFragmentEntry": {"enabled": false}
+					}
+				}
+			]
+		},
+		"StewardShrineWorkshopSub": {
+			"type": "switch",
+			"label": "灵龛中的工坊",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"StewardShrineWorkshopSub": {"enabled": true}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"StewardShrineWorkshopSub": {"enabled": false}
+					}
+				}
+			]
+		},
+		"StewardSecretCaveSub": {
+			"type": "switch",
+			"label": "秘境洞穴",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"StewardSecretCaveSub": {"enabled": true}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"StewardSecretCaveSub": {"enabled": false}
+					}
+				}
+			]
+		},
+		"StewardBibiqiSub": {
+			"type": "switch",
+			"label": "比比奇的坩埚",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"StewardBibiqiSub": {"enabled": true}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"StewardBibiqiSub": {"enabled": false}
+					}
+				}
+			]
+		},
+		"StewardEndlessWealthIsleSub": {
+			"type": "switch",
+			"label": "无尽的财富岛",
+			"description": "当前仅支持大月卡扫荡",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"StewardEndlessWealthIsleSub": {"enabled": true}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"StewardEndlessWealthIsleSub": {"enabled": false}
+					}
+				}
+			]
+		},
+		"StewardDailySoulMasterGuideSub": {
+			"type": "switch",
+			"label": "每日魂师指南",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"StewardDailySoulMasterGuideSub": {"enabled": true}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"StewardDailySoulMasterGuideSub": {"enabled": false}
+					}
+				}
+			]
+		},
+		"StewardWeeklySoulMasterGuideSub": {
+			"type": "switch",
+			"label": "每周魂师指南",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"StewardWeeklySoulMasterGuideSub": {"enabled": true}
+					},
+					"option": [
+						"StewardWeeklySoulMasterGuideShatteredRealmSub",
+						"StewardWeeklySoulMasterGuideEngraveEquipmentSub",
+						"StewardWeeklySoulMasterGuideReforgeEquipmentSub",
+						"StewardWeeklySoulMasterGuideSoulTombSub"
+					]
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"StewardWeeklySoulMasterGuideSub": {"enabled": false}
+					}
+				}
+			]
+		},
+		"StewardWeeklySoulMasterGuideShatteredRealmSub": {
+			"type": "switch",
+			"label": "挑战1次破碎之境",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"SoulMasterGuideWeeklyTaskEnable": {
+							"attach": {"ShatteredRealmEnable": true}
+						},
+						"ShatteredRealmQuickChallenge": {"max_hit": 1}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"SoulMasterGuideWeeklyTaskEnable": {
+							"attach": {"ShatteredRealmEnable": true}
+						}
+					}
+				}
+			]
+		},
+		"StewardWeeklySoulMasterGuideSoulTombSub": {
+			"type": "switch",
+			"label": "成功挑战5次灵魂之墓",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"SoulMasterGuideWeeklyTaskEnable": {
+							"attach": {"SoulTombEnable": true}
+						},
+						"SoulTombWeeklyCompleted": {"enabled": true}
+					},
+					"option": [
+						"ChallengeCount",
+						"ChallengeStartLevel",
+						"LowerFailReduce"
+					]
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"SoulMasterGuideWeeklyTaskEnable": {
+							"attach": {"SoulTombEnable": false}
+						},
+						"SoulTombWeeklyCompleted": {"enabled": false}
+					}
+				}
+			]
+		},
+		"StewardWeeklySoulMasterGuideReforgeEquipmentSub": {
+			"type": "switch",
+			"label": "重铸2次装备",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"SoulMasterGuideWeeklyTaskEnable": {
+							"attach": {"ReforgeEquipmentEnable": true}
+						},
+						"ReforgeConfirm": {"max_hit": 2}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"SoulMasterGuideWeeklyTaskEnable": {
+							"attach": {"ReforgeEquipmentEnable": false}
+						}
+					}
+				}
+			]
+		},
+		"StewardWeeklySoulMasterGuideEngraveEquipmentSub": {
+			"type": "switch",
+			"label": "铭刻1次装备",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"SoulMasterGuideWeeklyTaskEnable": {
+							"attach": {"EngraveEquipmentEnable": true}
+						},
+						"EngraveStart": {"max_hit": 1}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"SoulMasterGuideWeeklyTaskEnable": {
+							"attach": {"EngraveEquipmentEnable": false}
+						}
+					}
+				}
+			]
+		},
+		"StewardTreasureMapSub": {
+			"type": "switch",
+			"label": "藏宝图领取",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"StewardTreasureMapSub": {"enabled": true}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"StewardTreasureMapSub": {"enabled": false}
+					}
+				}
+			]
+		}
+	}
+}

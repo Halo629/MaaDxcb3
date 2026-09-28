@@ -1,0 +1,49 @@
+{
+    "CarriageShopBuyEquipment": {
+        "desc": "装备页购买",
+        "recognition": "And",
+        "all_of": [
+            "InCarriageShop"
+        ],
+        "max_hit": 1,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "CarriageShopBuyOnEquipmentPage",
+            "[JumpBack]CarriageShopClickEquipmentTab",
+            "[JumpBack]CarriageShopSwipeRight"
+        ]
+    },
+    "CarriageShopBuyOnEquipmentPage": {
+        "desc": "已在装备页直接购买",
+        "recognition": "And",
+        "all_of": [
+            "InCarriageShopEquipmentPage"
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "CarriageShopBuySilverItemStart"
+        ]
+    },
+    "CarriageShopClickEquipmentTab": {
+        "desc": "点击装备标签",
+        "recognition": "And",
+        "all_of": [
+            "CarriageShopHasEquipmentTab"
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                160,
+                580,
+                391,
+                473
+            ],
+            "timeout": 2000
+        }
+    }
+}

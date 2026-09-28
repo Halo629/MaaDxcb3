@@ -1,0 +1,57 @@
+{
+    "task": [
+        {
+            "name": "RetraceBanquet",
+            "label": "🍽️溯回之筳",
+            "entry": "RetraceBanquetStart",
+            "pipeline_override": {
+                "ActivityCommonNotCompletedTaskEnable": {
+                    "attach": {
+                        "UseFoodEnable": true
+                    }
+                }
+            },
+            "option": [
+                "RetraceBanquetUseScroll"
+            ],
+            "group": [
+                "activity_tasks"
+            ]
+        }
+    ],
+     "option": {
+        "RetraceBanquetUseScroll": {
+            "type": "switch",
+            "label": "唤灵之典卷轴召唤1次",
+            "default_case": "No",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "ActivityCommonNotCompletedTaskEnable": {
+                            "attach": {
+                                "UseScrollEnable": true
+                            }
+                        },
+                        "ScrollOnce": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                        "ActivityCommonNotCompletedTaskEnable": {
+                            "attach": {
+                                "UseScrollEnable": false
+                            }
+                        },
+                        "ScrollOnce": {
+                            "enabled": false
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}

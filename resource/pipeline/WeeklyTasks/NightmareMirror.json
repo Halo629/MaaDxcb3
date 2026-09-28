@@ -1,0 +1,103 @@
+{
+	"NightmareMirrorStart": {
+		"desc": "咒魇水鉴",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"WeeklyNightmareMirrorDone",
+			"WeeklyNightmareMirrorTicketNotEnough",
+			"[JumpBack]WeeklyNightmareMirrorSkipAnim",
+			"[JumpBack]WeeklyNightmareMirrorExtract",
+			"[JumpBack]SceneEnterNightmareMirror"
+		]
+	},
+	"WeeklyNightmareMirrorDone": {
+		"desc": "每周咒魇水鉴完成",
+		"recognition": "And",
+		"all_of": [
+			"InNightmareMirrorPage",
+			{
+				"recognition": "OCR",
+				"expected": "([2-9]|[1-9]\\d+)/",
+				"roi": [608, 215, 81, 30],
+				"only_rec": true
+			}
+		],
+		"next": [
+			"[JumpBack]WeeklyNightmareRewardCollect",
+			"SceneEnterMainPage"
+		]
+	},
+	"WeeklyNightmareRewardCollect": {
+		"desc": "领取奖励",
+		"recognition": "TemplateMatch",
+		"template": "common/red_notice.png",
+		"roi": [608, 138, 85, 99],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [130, 686, 194, 325],
+			"timeout": 2000
+		},
+		"next": [
+			"ActivityCommonCollect"
+		]
+	},
+	"WeeklyNightmareMirrorSkipAnim": {
+		"desc": "跳过动画",
+		"recognition": "And",
+		"all_of": ["InNightmareMirrorPage"],
+		"max_hit": 1,
+		"next": [
+			"WeeklyNightmareMirrorAnimSkiped",
+			"[JumpBack]WeeklyNightmareMirrorClickSkipAnim"
+		]
+	},
+	"WeeklyNightmareMirrorAnimSkiped": {
+		"desc": "跳过动画已勾选",
+		"recognition": "TemplateMatch",
+		"template": "activities/Common/SkipAnim.png",
+		"roi": [269, 1086, 168, 57]
+	},
+	"WeeklyNightmareMirrorClickSkipAnim": {
+		"desc": "点击跳过动画",
+		"recognition": "OCR",
+		"expected": "跳过动画|跳过|动画",
+		"roi": [269, 1086, 168, 57],
+		"action": "Click",
+		"post_delay": 500
+	},
+	"WeeklyNightmareMirrorTicketNotEnough": {
+		"desc": "抽奖券不足",
+		"recognition": "And",
+		"all_of": [
+			"InNightmareMirrorPage",
+			{
+				"recognition": "OCR",
+				"expected": "^[0-9]$",
+				"roi": [505, 50, 82, 31],
+				"only_rec": true
+			}
+		],
+		"next": [
+			"SceneBack"
+		]
+	},
+	"WeeklyNightmareMirrorExtract": {
+		"desc": "每周咒魇水鉴抽取",
+		"recognition": "OCR",
+		"expected": "1次|次",
+		"roi": [153, 996, 104, 38],
+		"only_rec": true,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [130, 686, 194, 325],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog"
+		]
+	}
+}

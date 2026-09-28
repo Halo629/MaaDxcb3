@@ -1,0 +1,778 @@
+{
+	"InMainPageArea": {
+		"desc": "判断是否在主页面",
+		"recognition": "Or",
+		"any_of": [
+			"HasSecretRealm",
+			"HasExpeditionTeam",
+			"HasAlchemyLab"
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InCampfire": {
+		"desc": "判断是否在营火旁",
+		"recognition": "TemplateMatch",
+		"template": "main_page_icon/campfire.png",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InMainPage": {
+		"desc": "在主页且营火可见 → 真正的主页就绪状态",
+		"recognition": "And",
+		"all_of": ["InMainPageArea", "InCampfire"],
+		"box_index": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InBattle": {
+		"desc": "判断是否在战斗界面",
+		"recognition": "TemplateMatch",
+		"roi": [568, 0, 152, 90],
+		"template": [
+			"battle/quit_battle_normal.png",
+			"battle/quit_battle_paused.png"
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InQuitBattleConfirm": {
+		"desc": "判断是否在退出战斗确认弹窗（确认按钮出现即可）",
+		"recognition": "TemplateMatch",
+		"roi": [152, 672, 422, 122],
+		"template": "button/confirm_btn.png",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InBattleResult": {
+		"desc": "判断是否在战斗结算界面",
+		"recognition": "TemplateMatch",
+		"roi": [200, 875, 320, 326],
+		"template": "button/continue_btn.png",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InAdventureResult": {
+		"desc": "判断是否在冒险结算界面",
+		"recognition": "TemplateMatch",
+		"template": "button/adventure_end.png",
+		"roi": [182, 876, 369, 398],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InLoginPage": {
+		"desc": "在登录页",
+		"recognition": "OCR",
+		"expected": "Ver|ver",
+		"roi": [549, 1223, 161, 57]
+	},
+	"InMaze": {
+		"desc": "判断是否在迷宫",
+		"recognition": "TemplateMatch",
+		"roi": [345, 4, 354, 104],
+		"template": "maze/quit_maze.png",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InMap": {
+		"desc": "判断是否在地图界面",
+		"recognition": "OCR",
+		"expected": "返回秘境",
+		"roi": [1, 1043, 143, 237],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InAlchemyLab": {
+		"desc": "判断是否在炼金室页面",
+		"recognition": "TemplateMatch",
+		"roi": [1, 2, 219, 99],
+		"template": "alchemy_lab/alchemy_page.png",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InAlchemyLabClean": {
+		"desc": "判断是否在无弹窗的炼金页面（女神像可见）",
+		"recognition": "And",
+		"all_of": [
+			"InAlchemyLab",
+			{
+				"recognition": "TemplateMatch",
+				"template": "alchemy_lab/goddess.png",
+				"roi": [215, 284, 216, 380]
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InMonthlyCardPage": {
+		"desc": "在月卡界面",
+		"recognition": "TemplateMatch",
+		"template": "monthly_card/monthly_card_page.png",
+		"roi": [106, 119, 179, 277],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InTreasureShop": {
+		"desc": "判断是否在珍藏商店",
+		"recognition": "And",
+		"all_of": [
+			"InAlchemyLab",
+			{
+				"recognition": "OCR",
+				"expected": "超值珍藏",
+				"roi": [287, 149, 158, 69]
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InDailyTreasureShop": {
+		"desc": "判断是否在珍藏商店日礼包页面",
+		"recognition": "And",
+		"all_of": [
+			"InTreasureShop",
+			{
+				"recognition": "ColorMatch",
+				"lower": [80, 50, 0],
+				"upper": [255, 255, 60],
+				"roi": [254, 1028, 92, 61],
+				"count": 50
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InWeeklyTreasureShop": {
+		"desc": "判断是否在珍藏商店周礼包页面",
+		"recognition": "And",
+		"all_of": [
+			"InTreasureShop",
+			{
+				"recognition": "ColorMatch",
+				"lower": [80, 50, 0],
+				"upper": [255, 255, 60],
+				"roi": [382, 1022, 99, 67],
+				"count": 50
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InGamePlayPage": {
+		"desc": "判断是否在更多玩法页面",
+		"recognition": "Or",
+		"any_of": [
+			{
+				"recognition": "OCR",
+				"expected": "养成",
+				"roi": [146, 1091, 72, 44],
+				"only_rec": true
+			},
+			{
+				"recognition": "OCR",
+				"expected": "限时",
+				"roi": [303, 1093, 61, 36],
+				"only_rec": true
+			},
+			{
+				"recognition": "OCR",
+				"expected": "常驻",
+				"roi": [612, 1093, 55, 36],
+				"only_rec": true
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InGamePlayGrowthPage": {
+		"desc": "判断是否在更多玩法-养成页面",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"expected": "养成",
+				"roi": [129, 1058, 110, 104]
+			},
+			{
+				"recognition": "ColorMatch",
+				"lower": [80, 50, 0],
+				"upper": [255, 255, 60],
+				"roi": [129, 1058, 110, 104],
+				"count": 100
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InGamePlayLimitedPage": {
+		"desc": "判断是否在更多玩法-限时页面",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"expected": "限时",
+				"roi": [284, 1051, 105, 114]
+			},
+			{
+				"recognition": "ColorMatch",
+				"lower": [80, 50, 0],
+				"upper": [255, 255, 60],
+				"roi": [284, 1051, 105, 114],
+				"count": 100
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InGamePlayDailyPage": {
+		"desc": "判断是否在更多玩法-日常页面",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"expected": "日常",
+				"roi": [434, 1040, 117, 127]
+			},
+			{
+				"recognition": "ColorMatch",
+				"lower": [80, 50, 0],
+				"upper": [255, 255, 60],
+				"roi": [434, 1040, 117, 127],
+				"count": 100
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InGamePlayPermanentPage": {
+		"desc": "判断是否在更多玩法-常驻页面",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"expected": "常驻",
+				"roi": [587, 1068, 101, 90]
+			},
+			{
+				"recognition": "ColorMatch",
+				"lower": [80, 50, 0],
+				"upper": [255, 255, 60],
+				"roi": [587, 1068, 101, 90],
+				"count": 100
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InStewardPage": {
+		"desc": "判断是否在地堡管家页面",
+		"recognition": "OCR",
+		"expected": "地堡管家",
+		"roi": [280, 165, 151, 113],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InSpiritSummonTome": {
+		"desc": "判断是否在唤灵之典页面",
+		"recognition": "TemplateMatch",
+		"template": "spirit_summon_tome/random_reborn.png",
+		"roi": [573, 132, 97, 95],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InSpiritScrollSummonPage": {
+		"desc": "判断是否在唤灵之典卷轴召唤页面",
+		"recognition": "TemplateMatch",
+		"template": "spirit_summon_tome/scroll_summon_page.png",
+		"roi": [182, 1008, 341, 193],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InSoulMasterGuidePage": {
+		"desc": "判断是否在魂师指南页面",
+		"recognition": "Or",
+		"any_of": [
+			"InSoulMasterGuideDailyPage",
+			"InSoulMasterGuideWeeklyPage"
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InSoulMasterGuideDailyPage": {
+		"desc": "判断是否在魂师指南每日页面",
+		"recognition": "TemplateMatch",
+		"template": "soul_master_guide/daily_guide.png",
+		"roi": [44, 126, 136, 218],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InSoulMasterGuideWeeklyPage": {
+		"desc": "判断是否在魂师指南每周页面",
+		"recognition": "TemplateMatch",
+		"template": "soul_master_guide/weekly_guide.png",
+		"roi": [44, 126, 136, 218],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InTreasureMapPage": {
+		"desc": "判断是否在藏宝图页面",
+		"recognition": "OCR",
+		"expected": "藏宝图",
+		"roi": [286, 14, 137, 87],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InGuildPage": {
+		"desc": "判断是否在公会页面",
+		"recognition": "OCR",
+		"expected": "成员",
+		"roi": [303, 1144, 93, 83],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InNoGuildPage": {
+		"desc": "未加入公会",
+		"recognition": "OCR",
+		"expected": "公会列表",
+		"roi": [301, 68, 122, 57],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InGuildChallengePage": {
+		"desc": "判断是否在公会挑战页面",
+		"recognition": "TemplateMatch",
+		"template": "guild/guild_daily_challenge.png",
+		"roi": [37, 489, 317, 236],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InBibiqiPage": {
+		"desc": "判断是否在比比奇页面",
+		"recognition": "Or",
+		"any_of": [
+			{
+				"recognition": "OCR",
+				"expected": "祈愿",
+				"roi": [276, 772, 165, 63]
+			},
+			{
+				"recognition": "OCR",
+				"expected": "次数耗尽",
+				"roi": [276, 772, 165, 63]
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 500,
+		"rate_limit": 0
+	},
+	"InWildSoulPage": {
+		"desc": "判断是否在荒魂搜索页面",
+		"recognition": "TemplateMatch",
+		"template": "spirit_summon_tome/wild_soul_search_page.png",
+		"roi": [193, 1008, 340, 181],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InSkyreachTowerPage": {
+		"desc": "判断是否在通天塔页面",
+		"recognition": "TemplateMatch",
+		"template": "mortal_will.png",
+		"roi": [105, 1036, 217, 60],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InShrineWorkshopPage": {
+		"desc": "判断是否在灵龛工坊页面",
+		"recognition": "OCR",
+		"expected": ["矿物重炼", "腐蚀液蒸发池", "秘药蒸煮坩埚", "圣迹创生之火", "幽魂不眠"],
+		"roi": [435, 256, 187, 746],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InSecretCavePage": {
+		"desc": "判断是否在秘境洞穴页面",
+		"recognition": "TemplateMatch",
+		"template": "gold_light.png",
+		"roi": [59, 135, 113, 133],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InCarriageShop": {
+		"desc": "判断是否在马车商店页面",
+		"recognition": "TemplateMatch",
+		"template": "carriage_shop/carriage_shopper.png",
+		"roi": [96, 30, 176, 270],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InCarriageShopItemPage": {
+		"recognition": "And",
+		"all_of": [
+			"CarriageShopHasItemTab",
+			{
+				"recognition": "ColorMatch",
+				"lower": [80, 50, 0],
+				"upper": [255, 255, 60],
+				"roi": "CarriageShopHasItemTab",
+				"count": 50
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InCarriageShopFoodPage": {
+		"recognition": "And",
+		"all_of": [
+			"CarriageShopHasFoodTab",
+			{
+				"recognition": "ColorMatch",
+				"lower": [80, 50, 0],
+				"upper": [255, 255, 60],
+				"roi": "CarriageShopHasFoodTab",
+				"count": 50
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InCarriageShopEquipmentPage": {
+		"recognition": "And",
+		"all_of": [
+			"CarriageShopHasEquipmentTab",
+			{
+				"recognition": "ColorMatch",
+				"lower": [80, 50, 0],
+				"upper": [255, 255, 60],
+				"roi": "CarriageShopHasEquipmentTab",
+				"count": 50
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InCarriageShopGuildPage": {
+		"recognition": "And",
+		"all_of": [
+			"CarriageShopHasGuildTab",
+			{
+				"recognition": "ColorMatch",
+				"lower": [80, 50, 0],
+				"upper": [255, 255, 60],
+				"roi": "CarriageShopHasGuildTab",
+				"count": 50
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InCarriageShopSoulTombPage": {
+		"recognition": "And",
+		"all_of": [
+			"CarriageShopHasSoulTombTab",
+			{
+				"recognition": "ColorMatch",
+				"lower": [80, 50, 0],
+				"upper": [255, 255, 60],
+				"roi": "CarriageShopHasSoulTombTab",
+				"count": 50
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InCarriageShopAscensionPage": {
+		"recognition": "And",
+		"all_of": [
+			"CarriageShopHasAscensionTab",
+			{
+				"recognition": "ColorMatch",
+				"lower": [80, 50, 0],
+				"upper": [255, 255, 60],
+				"roi": "CarriageShopHasAscensionTab",
+				"count": 50
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InArcaneCellPage": {
+		"desc": "判断是否在奥术监牢页面",
+		"recognition": "OCR",
+		"expected": "奥术监牢|奥术|监牢",
+		"roi": [235, 183, 249, 58],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InBattleGoPage": {
+		"desc": "判断是否在战斗出发页面",
+		"recognition": "TemplateMatch",
+		"template": "battle/group.png",
+		"roi": [501, 948, 201, 173],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InEmailPage": {
+		"desc": "判断是否在邮箱页面",
+		"recognition": "TemplateMatch",
+		"template": "daily/InEmail.png",
+		"roi": [217, 1077, 168, 69],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InSoulTomb": {
+		"desc": "判断是否在魂墓页面",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "soul_tomb/soul_tomb.png",
+				"roi": [25, 1076, 638, 66]
+			},
+			{
+				"recognition": "TemplateMatch",
+				"template": "soul_tomb/soul_tomb_page.png",
+				"roi": [156, 201, 461, 648]
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InMonsterSoulPage": {
+		"desc": "判断是否在魔物之魂页面",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/monster_soul.png",
+		"roi": [476, 1058, 230, 95],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InEquipmentListPage": {
+		"desc": "判断是否在背包中的装备页面",
+		"recognition": "And",
+		"all_of": [
+			"HasEquipmentTab",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [10, 140, 0],
+				"upper": [30, 200, 255],
+				"roi": "HasEquipmentTab",
+				"count": 50
+			}
+		],
+		"pre_delay": 0,
+		"rate_limit": 0
+	},
+	"InMonsterSoulListPage": {
+		"desc": "判断是否在魔物之魂列表页面",
+		"recognition": "And",
+		"all_of": [
+			"HasMonsterSoulTab",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [10, 140, 0],
+				"upper": [30, 200, 255],
+				"roi": "HasMonsterSoulTab",
+				"count": 50
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 2000,
+		"rate_limit": 0
+	},
+	"InBagItemPage": {
+		"desc": "判断是否在背包道具页面",
+		"recognition": "And",
+		"all_of": [
+			"HasBagItemTab",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [10, 140, 0],
+				"upper": [30, 200, 255],
+				"roi": "HasBagItemTab",
+				"count": 50
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 2000,
+		"rate_limit": 0
+	},
+	"InPersonalInfoPage": {
+		"desc": "判断是否在个人信息页面",
+		"recognition": "OCR",
+		"expected": "个人信息",
+		"roi": [151, 1097, 128, 90],
+		"pre_delay": 0,
+		"post_delay": 0
+	},
+	"InDialoguePage": {
+		"desc": "判断是否在对话页面",
+		"recognition": "TemplateMatch",
+		"template": "main_page_icon/talk_continue.png",
+		"roi": [594, 1058, 119, 221],
+		"pre_delay": 0,
+		"post_delay": 0
+	},
+	"InSelectDestinationPage": {
+		"desc": "在选择目的地页面",
+		"recognition": "OCR",
+		"expected": "请选择目的地|选择目的地|目的地",
+		"roi": [276, 148, 180, 38]
+	},
+	"SelectDestinationPageHasOriginWorld": {
+		"desc": "在选择目的地页面识别源世界",
+		"recognition": "OCR",
+		"expected": "源世界|世界|源",
+		"roi": [45, 1023, 639, 29]
+	},
+	"SelectDestinationPageHasNowadays": {
+		"desc": "在选择目的地页面识别当今",
+		"recognition": "OCR",
+		"expected": "当今",
+		"roi": [45, 1023, 639, 29]
+	},
+	"InNowadaysPage": {
+		"desc": "在当今选择地图界面",
+		"recognition": "And",
+		"all_of": [
+			"SelectDestinationPageHasNowadays",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [6, 200, 140],
+				"upper": [8, 233, 200],
+				"roi": "SelectDestinationPageHasNowadays",
+				"count": 30
+			}
+		]
+	},
+	"InOriginWordPage": {
+		"desc": "在源世界选择地图界面",
+		"recognition": "And",
+		"all_of": [
+			"SelectDestinationPageHasOriginWorld",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [6, 200, 140],
+				"upper": [8, 233, 200],
+				"roi": "SelectDestinationPageHasOriginWorld",
+				"count": 30
+			}
+		]
+	},
+	"InRefineFormationPage": {
+		"desc": "判断是否在炼成阵页面",
+		"recognition": "OCR",
+		"expected": "炼成阵|炼成",
+		"roi": [312, 133, 93, 62],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InShatteredRealm": {
+		"desc": "在破碎之境页面",
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/ShatteredRealmLogo.png",
+		"roi": [249, 252, 351, 428],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"CookingTab": {
+		"desc": "烹饪页签",
+		"recognition": "OCR",
+		"expected": "烹饪",
+		"roi": [259, 1216, 75, 42],
+		"only_rec": true
+	},
+	"RecipeTab": {
+		"desc": "食谱页签",
+		"recognition": "OCR",
+		"expected": "食谱",
+		"roi": [393, 1213, 84, 43],
+		"only_rec": true
+	},
+	"InCookingPotPage": {
+		"desc": "在烹饪锅界面",
+		"recognition": "And",
+		"all_of": ["CookingTab", "RecipeTab"]
+	},
+	"InCookingPotCookingPage": {
+		"desc": "在烹饪锅烹饪界面",
+		"recognition": "And",
+		"all_of": [
+			"CookingTab",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [12, 140, 90],
+				"upper": [18, 180, 200],
+				"roi": "CookingTab",
+				"count": 50
+			}
+		]
+	},
+	"InCookingPotRecipePage": {
+		"desc": "在烹饪锅食谱界面",
+		"recognition": "And",
+		"all_of": [
+			"RecipeTab",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [12, 140, 90],
+				"upper": [18, 180, 200],
+				"roi": "RecipeTab",
+				"count": 50
+			}
+		]
+	}
+}

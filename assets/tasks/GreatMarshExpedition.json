@@ -1,0 +1,12 @@
+{
+    "task": [
+        {
+            "name": "GreatMarshExpedition",
+            "label": "🗺️大泽远征",
+            "entry": "GreatMarshExpeditionStart",
+            "group": [
+                "activity_tasks"
+            ]
+        }
+    ]
+}

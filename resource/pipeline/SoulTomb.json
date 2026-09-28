@@ -1,0 +1,194 @@
+{
+	"SoulTombStart": {
+		"desc": "魂墓挑战入口",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"SoulTombLoop",
+			"[JumpBack]SceneEnterSoulTomb"
+		]
+	},
+	"SoulTombLoop": {
+		"desc": "魂墓主循环",
+		"recognition": "And",
+		"all_of": ["InSoulTomb"],
+		"anchor": {
+			"BattleVictoryAction": "SoulTombBattleVictoryRecord",
+			"BattleFailedAction": "SoulTombBattleFailedRecord"
+		},
+		"next": [
+			"SoulTombWeeklyCompleted",
+			"[JumpBack]SoulTombCloseSuccessBox",
+			"[JumpBack]AdjustSoulTombStartLevel",
+			"[JumpBack]BattleStartOut",
+			"[JumpBack]SoulTombStartBattle",
+			"SoulTombDone"
+		]
+	},
+	"SoulTombCloseSuccessBox": {
+		"desc": "关闭魂墓挑战成功弹窗",
+		"recognition": "OCR",
+		"expected": "挑战成功|成功",
+		"roi": [302, 460, 135, 58],
+		"action": "Click",
+		"target": [227, 149, 29, 35],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [174, 741, 370, 256],
+			"timeout": 2000
+		}
+	},
+	"AdjustSoulTombToMaxLevel": {
+		"desc": "调整魂墓等级到最大难度,用于魂墓冲层任务",
+		"enabled": false,
+		"action": "Custom",
+		"custom_action": "AdjustSoulTombLevel",
+		"attach": {"target_level": "max"}
+	},
+	"CustomGetSoulTombCurLevel": {
+		"desc": "获取当前魂墓强度",
+		"recognition": "OCR",
+		"roi": [300, 808, 119, 39],
+		"only_rec": true
+	},
+	"AdjustSoulTombStartLevel": {
+		"desc": "调整魂墓挑战开始强度",
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "AdjustSoulTombLevel"
+	},
+	"SoulTombLevelMax": {
+		"desc": "调整到最大等级",
+		"recognition": "TemplateMatch",
+		"template": "soul_tomb/soul_tomb_max_level.png",
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 200,
+			"target": [174, 741, 370, 256],
+			"timeout": 2000
+		}
+	},
+	"SoulTombWeeklyCompleted": {
+		"desc": "每周灵魂之墓胜利5次完成",
+		"enabled": false,
+		"recognition": "ColorMatch",
+		"method": 40,
+		"roi": [91, 909, 80, 55],
+		"lower": [140, 110, 70],
+		"upper": [150, 130, 120],
+		"count": 200,
+		"next": [
+			"SceneEnterMainPage"
+		]
+	},
+	"SoulTombLevelAdd1": {
+		"desc": "等级+1",
+		"recognition": "TemplateMatch",
+		"template": "soul_tomb/soul_tomb_add1_level.png",
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 200,
+			"target": [174, 741, 370, 256],
+			"timeout": 2000
+		}
+	},
+	"SoulTombLevelSub10": {
+		"desc": "等级-10",
+		"recognition": "TemplateMatch",
+		"template": "soul_tomb/soul_tomb_sub10_level.png",
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 200,
+			"target": [174, 741, 370, 256],
+			"timeout": 2000
+		}
+	},
+	"SoulTombLevelSub1": {
+		"desc": "等级-1",
+		"recognition": "TemplateMatch",
+		"template": "soul_tomb/soul_tomb_sub1_level.png",
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 200,
+			"target": [174, 741, 370, 256],
+			"timeout": 2000
+		}
+	},
+	"SoulTombStartBattle": {
+		"desc": "魂墓开始挑战",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "开始挑战|开始|挑战",
+		"roi": [284, 880, 158, 106],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [13, 662, 687, 601],
+			"timeout": 2000
+		}
+	},
+	"SoulTombBattleLowerTenLevel": {
+		"desc": "降低10级难度",
+		"recognition": "TemplateMatch",
+		"template": "soul_tomb/soul_tomb_sub10_level.png",
+		"roi": [125, 766, 175, 101],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 200,
+			"target": [174, 741, 370, 256],
+			"timeout": 2000
+		}
+	},
+	"SoulTombBattleAutoLowerLevel": {
+		"desc": "魂墓连续失败后自动降低难度",
+		"recognition": "Custom",
+		"custom_recognition": "SoulTombBattleAutoLowerLevel",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"SoulTombBattleLowerTenLevel"
+		]
+	},
+	"SoulTombBattleFailedRecord": {
+		"desc": "魂墓战斗失败记录",
+		"recognition": "And",
+		"all_of": ["BattleResultFail"],
+		"action": "Custom",
+		"custom_action": "SoulTombBattleFailedRecord",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"[JumpBack]HandleBattleEnd",
+			"SoulTombBattleAutoLowerLevel",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"SoulTombBattleVictoryRecord": {
+		"desc": "魂墓战斗胜利记录",
+		"recognition": "And",
+		"all_of": ["BattleResultVictory"],
+		"action": "Custom",
+		"custom_action": "SoulTombBattleVictoryRecord",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"[JumpBack]HandleBattleEnd",
+			"AdjustSoulTombToMaxLevel",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"SoulTombDone": {
+		"desc": "魂墓挑战完成",
+		"recognition": "And",
+		"all_of": ["InSoulTomb"],
+		"next": [
+			"SceneEnterMainPage"
+		]
+	}
+}

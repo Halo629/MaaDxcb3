@@ -1,0 +1,124 @@
+{
+	"StewardDailySoulMasterGuideSub": {
+		"desc": "每日魂师指南",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"[JumpBack]SoulMasterGuideDailyCollect",
+			"SoulMasterGuideReward",
+			"SoulMasterGuideDailyDone",
+			"[JumpBack]SceneEnterSoulMasterGuideDailyPage"
+		],
+		"focus": {"Node.Recognition.Succeeded": "开始任务:每日魂师指南"}
+	},
+	"SoulMasterGuideDailyDone": {
+		"desc": "魂师指南每日奖励已完成",
+		"recognition": "And",
+		"all_of": ["InSoulMasterGuideDailyPage"]
+	},
+	"SoulMasterGuideDailyCollect": {
+		"desc": "点击完成按钮领取每日奖励",
+		"recognition": "And",
+		"all_of": [
+			"InSoulMasterGuideDailyPage",
+			"SoulMasterGuideHasYellowComplete"
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [166, 301, 466, 670],
+			"timeout": 5000
+		}
+	},
+	"SoulMasterGuideReward": {
+		"desc": "领取阶段奖励",
+		"recognition": "Or",
+		"any_of": [
+			"SoulMasterTreasureClue",
+			"SoulMasterYellowSand",
+			"SoulMasterRedSand"
+		],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [260, 540, 200, 200],
+			"timeout": 5000
+		},
+		"next": [
+			"SoulMasterGuideRewardsTipBoxClose"
+		]
+	},
+	"SoulMasterGuideHasCompleteOCR": {
+		"recognition": "OCR",
+		"expected": "完成",
+		"roi": [528, 383, 118, 596]
+	},
+	"SoulMasterGuideHasYellowComplete": {
+		"desc": "魂师指南页面识别黄色的完成文字",
+		"recognition": "And",
+		"all_of": [
+			"SoulMasterGuideHasCompleteOCR",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 200, 150],
+				"upper": [26, 255, 255],
+				"roi": "SoulMasterGuideHasCompleteOCR",
+				"count": 500
+			}
+		],
+		"box_index": 1
+	},
+	"SoulMasterTreasureClue": {
+		"desc": "魂师指南宝藏线索奖励",
+		"recognition": "TemplateMatch",
+		"template": "soul_master_guide/soul_master_rewards.png",
+		"roi": [244, 219, 427, 116],
+		"threshold": 0.6
+	},
+	"SoulMasterYellowSand": {
+		"desc": "魂师指南黄沙奖励",
+		"recognition": "TemplateMatch",
+		"template": "soul_master_guide/yellow_sand.png",
+		"roi": [244, 219, 427, 116],
+		"threshold": 0.6
+	},
+	"SoulMasterRedSand": {
+		"desc": "魂师指南红沙奖励",
+		"recognition": "TemplateMatch",
+		"template": "soul_master_guide/red_sand.png",
+		"roi": [244, 219, 427, 116],
+		"threshold": 0.6
+	},
+	"SoulMasterGuideRewardsTipBoxClose": {
+		"desc": "关闭魂师指南阶段奖励弹窗",
+		"recognition": "DirectHit",
+		"action": "Click",
+		"target": [248, 1100, 210, 78],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [140, 611, 457, 61],
+			"timeout": 2000
+		},
+		"next": [
+			"SoulMasterGuideTreasureClueLevelTipBoxClose",
+			"SoulMasterGuideRewardsDone"
+		]
+	},
+	"SoulMasterGuideTreasureClueLevelTipBoxClose": {
+		"desc": "关闭魂师指南阶段奖励后的藏宝图等级弹窗",
+		"recognition": "OCR",
+		"expected": "藏宝图等级|藏宝图|等级",
+		"action": "Click",
+		"target": [331, 1013, 139, 53],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [140, 611, 457, 61],
+			"timeout": 2000
+		}
+	},
+	"SoulMasterGuideRewardsDone": {"desc": "没有魂师指南阶段奖励后的藏宝图等级弹窗"}
+}

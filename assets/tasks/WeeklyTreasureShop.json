@@ -1,0 +1,88 @@
+{
+    "task": [
+        {
+            "name": "WeeklyTreasureShop",
+            "label": "💎每周珍藏商店购买",
+            "entry": "WeeklyTreasureShopSub",
+            "option": [
+                "BuyWeeklyScroll",
+                "BuyWeeklyEmblemChest",
+                "BuyWeeklyOldCovenant"
+            ],
+            "group": [
+                "weekly_tasks"
+            ]
+        }
+    ],
+    "option": {
+        "BuyWeeklyScroll": {
+            "type": "switch",
+            "label": "购买每周招魂师卷轴",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "WeeklyTreasureShopBuyScroll": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                        "WeeklyTreasureShopBuyScroll": {
+                            "enabled": false
+                        }
+                    }
+                }
+            ]
+        },
+        "BuyWeeklyEmblemChest": {
+            "type": "switch",
+            "label": "购买每周纹章宝盒",
+            "default_case": "No",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "WeeklyTreasureShopBuyHeraldicChest": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                        "WeeklyTreasureShopBuyHeraldicChest": {
+                            "enabled": false
+                        }
+                    }
+                }
+            ]
+        },
+        "BuyWeeklyOldCovenant": {
+            "type": "switch",
+            "label": "购买每周颂诗篇章和旧日契约",
+            "default_case": "No",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "WeeklyTreasureShopBuyOldCovenant": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                        "WeeklyTreasureShopBuyOldCovenant": {
+                            "enabled": false
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}

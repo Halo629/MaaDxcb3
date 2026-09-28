@@ -1,0 +1,306 @@
+{
+    "CelestialIsleEntry": {
+        "desc": "天界岛入口",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "max_hit": 1,
+        "next": [
+            "CelestialIsleMapEntry",
+            "[JumpBack]SceneEnterMainPage"
+        ]
+    },
+    "CelestialIsleMapEntry": {
+        "desc": "点击营火进入地图",
+        "recognition": "TemplateMatch",
+        "template": "main_page_icon/campfire.png",
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                244,
+                718,
+                449,
+                355
+            ],
+            "timeout": 5000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]CelestialIsleSortDescending",
+            "CelestialIsleFindTarget"
+        ]
+    },
+    "CelestialIsleSortDescending": {
+        "desc": "检查是否正序，是则点击切换为倒序",
+        "recognition": "OCR",
+        "expected": "正序",
+        "roi": [
+            553,
+            37,
+            134,
+            58
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                587,
+                1013,
+                86,
+                44
+            ],
+            "timeout": 5000
+        }
+    },
+    "CelestialIsleFindTarget": {
+        "desc": "查找天界岛",
+        "recognition": "OCR",
+        "expected": "传送",
+        "roi": [
+            20,
+            1076,
+            410,
+            68
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "CelestialIsleGotoMap",
+            "[JumpBack]CelestialIsleSwipeUp",
+            "CelestialIsleActivateMap"
+        ]
+    },
+    "CelestialIsleGotoMap": {
+        "desc": "进入天界岛，如果已经在天界岛进入孤岛后再进天界岛重置角色位置",
+        "recognition": "OCR",
+        "expected": "天界岛|天界",
+        "roi": [
+            205,
+            194,
+            363,
+            781
+        ],
+        "action": "Custom",
+        "custom_action": "CelestialIsleGotoMap",
+        "custom_action_param": "",
+        "next": [
+            "CelestialIsleEnterMap"
+        ]
+    },
+    "CelestialIsleEnterMap": {
+        "desc": "点击天界岛条目进入",
+        "recognition": "OCR",
+        "expected": "天界岛|天界",
+        "roi": [
+            204,
+            192,
+            346,
+            803
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                256,
+                503,
+                281,
+                451
+            ],
+            "timeout": 5000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "InCelestialIsle"
+        ]
+    },
+    "CelestialIsleActivateMap": {
+        "desc": "激活天界岛地图",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]EnterMapAndExit",
+            "FindMinerCamp"
+        ]
+    },
+    "FindMinerCamp": {
+        "desc": "前往矿工营地",
+        "recognition": "And",
+        "all_of": [
+            "InCampfire"
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "GotoMinerCamp",
+            "[JumpBack]SwipeDownToFindMinerCamp"
+        ]
+    },
+    "CelestialIsleSwipeUp": {
+        "desc": "向上滑动查找",
+        "recognition": "And",
+        "all_of": [
+            "MapListSwipePos"
+        ],
+        "action": "Swipe",
+        "begin": "MapListSwipePos",
+        "end": "MapListSwipePos",
+        "end_offset": [
+            0,
+            -200,
+            0,
+            0
+        ],
+        "duration": 200,
+        "max_hit": 2,
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                353,
+                192,
+                328,
+                732
+            ],
+            "timeout": 5000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "InCelestialIsle": {
+        "desc": "在天界岛页面",
+        "recognition": "OCR",
+        "expected": "天界岛|天界",
+        "roi": [
+            101,
+            59,
+            83,
+            47
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "GotoMinerCamp": {
+        "desc": "进入矿工营地",
+        "recognition": "TemplateMatch",
+        "template": "main_page_icon/miner_camp.png",
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                260,
+                540,
+                200,
+                200
+            ],
+            "timeout": 5000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "ActivateCelestialIsle",
+            "CelestialIsleNotOpen"
+        ]
+    },
+    "ActivateCelestialIsle": {
+        "desc": "激活天界岛",
+        "recognition": "OCR",
+        "expected": "站上巨石|巨石",
+        "roi": [
+            145,
+            670,
+            422,
+            330
+        ],
+        "action": "Click",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                29,
+                1012,
+                583,
+                212
+            ],
+            "timeout": 5000
+        },
+        "next": [
+            "ActivateCelestialIsleStep2"
+        ]
+    },
+    "ActivateCelestialIsleStep2": {
+        "desc": "激活天界岛步骤2",
+        "recognition": "OCR",
+        "expected": "保持平衡|保持|平衡",
+        "roi": [
+            375,
+            900,
+            198,
+            61
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "repeat": 3,
+        "repeat_delay": 500,
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                298,
+                418,
+                166,
+                554
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "InCelestialIsle"
+        ]
+    },
+    "CelestialIsleNotOpen": {
+        "desc": "天界岛未开放",
+        "recognition": "OCR",
+        "expected": "离开",
+        "next": [
+            "PressEsc"
+        ]
+    },
+    "SwipeDownToFindMinerCamp": {
+        "desc": "向下滑动查找矿工营地",
+        "action": "Swipe",
+        "begin": [
+            450,
+            200
+        ],
+        "end": [
+            850,
+            200
+        ],
+        "duration": 200,
+        "max_hit": 1,
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                222,
+                331,
+                281,
+                790
+            ],
+            "timeout": 5000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    }
+}

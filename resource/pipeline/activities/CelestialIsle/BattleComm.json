@@ -1,0 +1,46 @@
+{
+    "CelestialIsleGoAhead": {
+        "desc": "继续前进",
+        "recognition": "OCR",
+        "expected": "继续前进|前进",
+        "roi": [
+            214,
+            420,
+            281,
+            386
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                214,
+                420,
+                281,
+                386
+            ],
+            "timeout": 2000
+        }
+    },
+    "CelestialIsleBattle": {
+        "desc": "战斗事件",
+        "recognition": "OCR",
+        "expected": "战斗",
+        "roi": [
+            259,
+            498,
+            204,
+            235
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                259,
+                498,
+                204,
+                235
+            ],
+            "timeout": 2000
+        }
+    }
+}

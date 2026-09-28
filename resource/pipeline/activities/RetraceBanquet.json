@@ -1,0 +1,253 @@
+{
+	"RetraceBanquetStart": {
+		"desc": "溯回之筳",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"[JumpBack]RetraceBanquetDailyPageCollectEntry",
+			"[JumpBack]RetraceBanquetTaskEnable",
+			"RetraceBanquetCollect",
+			"[JumpBack]__SceneGamePlayLimitedEntryRetraceBanquet",
+			"[JumpBack]SceneEnterGamePlayLimited"
+		]
+	},
+	"RetraceBanquetTaskEnable": {
+		"desc": "活动未完成任务激活",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": [
+			"InRetraceBanquet",
+			"ActivityCommonHasNotCompleteTasks"
+		],
+		"next": [
+			"ActivityCommonNotCompletedTaskEnable"
+		]
+	},
+	"__SceneGamePlayLimitedEntryRetraceBanquet": {
+		"desc": "在限时页面进入溯回之筳",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InGamePlayLimitedPage"],
+		"next": [
+			"InRetraceBanquet",
+			"[JumpBack]__SceneGamePlayLimitedPageGotoRetraceBanquet",
+			"[JumpBack]RetraceBanquetSwipeToTop",
+			"[JumpBack]RetraceBanquetSwipe",
+			"ActivityNotEnabled"
+		]
+	},
+	"__SceneGamePlayLimitedPageGotoRetraceBanquet": {
+		"desc": "点击前往溯回之筳",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["__SceneGamePlayLimitedPageHasRetraceBanquet"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [256, 503, 281, 451],
+			"timeout": 2000
+		}
+	},
+	"__SceneGamePlayLimitedPageHasRetraceBanquet": {
+		"desc": "限时页面识别到溯回之筳",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "activities/RetraceBanquet/RetraceBanquetIcon.png",
+		"roi": [15, 69, 701, 997]
+	},
+	"RetraceBanquetCollect": {
+		"desc": "溯回之筳领取",
+		"recognition": "And",
+		"all_of": ["InRetraceBanquet"],
+		"next": [
+			"[JumpBack]RetraceBanquetThisTermPageCollectEntry",
+			"[JumpBack]RetraceBanquetLotteryDrawEntry",
+			"RetraceBanquetDone"
+		]
+	},
+	"RetraceBanquetDailyPageCollectEntry": {
+		"desc": "日常页面领取奖励",
+		"recognition": "And",
+		"all_of": ["InRetraceBanquet", "ActivityCommonCollect"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"next": [
+			"ActivityCommonCollect"
+		]
+	},
+	"RetraceBanquetThisTermPageCollectEntry": {
+		"desc": "荣光复铸本期页面领取入口",
+		"recognition": "OCR",
+		"expected": "本期",
+		"roi": [132, 1020, 468, 89],
+		"max_hit": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [256, 503, 281, 451],
+			"timeout": 2000
+		},
+		"next": [
+			"[JumpBack]ActivityCommonCollect",
+			"ActivityAlwaysTrue"
+		]
+	},
+	"RetraceBanquetLotteryDrawEntry": {
+		"desc": "溯回之筳抽奖入口",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"[JumpBack]RetraceBanquetLotteryDrawSkipAnimEntry",
+			"[JumpBack]RetraceBanquetLotteryDraw",
+			"RetraceBanquetLotteryDrawDone",
+			"[JumpBack]RetraceBanquetLotteryDrawPageEntry"
+		]
+	},
+	"RetraceBanquetLotteryCountColor": {
+		"desc": "抽奖券个数颜色识别",
+		"recognition": "ColorMatch",
+		"method": 40,
+		"lower": [0, 0, 100],
+		"upper": [255, 55, 255],
+		"roi": [510, 50, 60, 33],
+		"count": 10
+	},
+	"RetraceBanquetLotteryCount": {
+		"desc": "抽奖券个数大于等于10",
+		"recognition": "And",
+		"all_of": [
+			"RetraceBanquetLotteryCountColor",
+			{
+				"recognition": "OCR",
+				"expected": "[1-9][0-9]|[1-9][0-9]{2,}",
+				"roi": "RetraceBanquetLotteryCountColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		]
+	},
+	"RetraceBanquetLotteryDraw": {
+		"desc": "抽奖",
+		"recognition": "And",
+		"all_of": [
+			"InRetraceBanquetLotteryDrawPage",
+			"RetraceBanquetLotteryCount",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 50, 50],
+				"upper": [35, 255, 255],
+				"roi": "InRetraceBanquetLotteryDrawPage",
+				"count": 100
+			}
+		],
+		"action": "Click",
+		"post_delay": 200,
+		"next": [
+			"HandleRewardDialog"
+		]
+	},
+	"RetraceBanquetLotteryDrawDone": {
+		"desc": "抽奖完成",
+		"recognition": "And",
+		"all_of": ["InRetraceBanquetLotteryDrawPage"]
+	},
+	"InRetraceBanquetLotteryDrawPage": {
+		"desc": "在抽奖页面",
+		"recognition": "OCR",
+		"expected": "抽取",
+		"roi": [439, 1003, 106, 47]
+	},
+	"RetraceBanquetLotteryDrawPageEntry": {
+		"desc": "进入抽奖页面",
+		"recognition": "OCR",
+		"expected": "抽奖",
+		"roi": [245, 1166, 248, 108],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [246, 341, 258, 419],
+			"timeout": 2000
+		}
+	},
+	"RetraceBanquetLotteryDrawSkipAnimEntry": {
+		"desc": "跳过动画入口",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InRetraceBanquetLotteryDrawPage"],
+		"next": [
+			"RetraceBanquetLotteryDrawAnimSkiped",
+			"[JumpBack]RetraceBanquetLotteryDrawSkipAnim"
+		]
+	},
+	"RetraceBanquetLotteryDrawAnimSkiped": {
+		"desc": "跳过动画已勾选",
+		"recognition": "TemplateMatch",
+		"template": "activities/RetraceBanquet/SkipAnim.png",
+		"roi": [400, 1054, 59, 60]
+	},
+	"RetraceBanquetLotteryDrawSkipAnim": {
+		"desc": "跳过动画",
+		"recognition": "OCR",
+		"expected": "跳过动画|跳过|动画",
+		"roi": [465, 1058, 108, 54],
+		"action": "Click",
+		"post_delay": 500
+	},
+	"InRetraceBanquet": {
+		"desc": "在溯回之筳",
+		"recognition": "OCR",
+		"expected": "任务|抽奖",
+		"roi": [242, 1172, 221, 91]
+	},
+	"RetraceBanquetDone": {
+		"desc": "溯回之筳完成",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"SceneBack"
+		]
+	},
+	"RetraceBanquetSwipeToTop": {
+		"desc": "快速滑到最上方",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Swipe",
+		"begin": [400, 200],
+		"end": [400, 900],
+		"duration": 100,
+		"max_hit": 1,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 5000
+		}
+	},
+	"RetraceBanquetSwipe": {
+		"desc": "向上滑动查找",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Swipe",
+		"begin": [400, 800],
+		"end": [400, 600],
+		"duration": 200,
+		"max_hit": 3,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 5000
+		}
+	}
+}

@@ -1,0 +1,481 @@
+{
+    "task": [
+        {
+            "name": "DailyRewards",
+            "label": "🎁日常奖励领取",
+            "entry": "DailyRewardsStart",
+            "option": [
+                "DailyRewardsEmailSub",
+                "DailyFreeJade",
+                "MonthlyCard",
+                "DailyTreasureShop",
+                "GuildChallenge",
+                "MonsterSoul"
+            ],
+            "group": [
+                "daily_tasks"
+            ]
+        }
+    ],
+    "option": {
+        "DailyRewardsEmailSub": {
+            "type": "switch",
+            "label": "领取邮件",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "DailyRewardsEmailSub": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                        "DailyRewardsEmailSub": {
+                            "enabled": false
+                        }
+                    }
+                }
+            ]
+        },
+        "DailyFreeJade": {
+            "type": "switch",
+            "label": "每日免费玉领取",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "DailyRewardsFreeJadeSub": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                        "DailyRewardsFreeJadeSub": {
+                            "enabled": false
+                        }
+                    }
+                }
+            ]
+        },
+        "MonthlyCard": {
+            "type": "switch",
+            "label": "月卡领取",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "DailyRewardsMonthlyCardCollectSub": {
+                            "enabled": true
+                        }
+                    },
+                    "option": [
+                        "AutoBuyMonthlyCard",
+                        "AutoUseAdvancedCard"
+                    ]
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                        "DailyRewardsMonthlyCardCollectSub": {
+                            "enabled": false
+                        }
+                    }
+                }
+            ]
+        },
+       
+        "AutoBuyMonthlyCard": {
+            "type": "switch",
+            "label": "基础月卡到期自动购买",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "BasicMonthlyCardBuyEntry": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                        "BasicMonthlyCardBuyEntry": {
+                            "enabled": false
+                        }
+                    }
+                }
+            ]
+        },
+        "AutoUseAdvancedCard": {
+            "type": "switch",
+            "label": "进阶月卡到期自动使用背包中的进阶月卡(炬火服专属)",
+            "default_case": "No",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "AdvancedMonthlyCardBuyEntry": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                        "AdvancedMonthlyCardBuyEntry": {
+                            "enabled": false
+                        }
+                    }
+                }
+            ]
+        },
+        "DailyTreasureShop": {
+            "type": "switch",
+            "label": "珍藏商店购买招魂师卷轴",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "DailyRewardsTreasureShopSub": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                        "DailyRewardsTreasureShopSub": {
+                            "enabled": false
+                        }
+                    }
+                }
+            ]
+        },
+        "GuildChallenge": {
+            "type": "switch",
+            "label": "公会挑战&购买",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "DailyRewardsGuildSub": {
+                            "enabled": true
+                        }
+                    },
+                    "option": [
+                        "GuildShopBuyScroll"
+                    ]
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                        "DailyRewardsGuildSub": {
+                            "enabled": false
+                        }
+                    }
+                }
+            ]
+        },
+        "GuildShopBuyScroll": {
+            "type": "switch",
+            "label": "公会商店购买招魂师卷轴",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "GuildShop": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                        "GuildShop": {
+                            "enabled": false
+                        }
+                    }
+                }
+            ]
+        },
+        "MonsterSoul": {
+            "type": "switch",
+            "label": "魔物之魂",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "DailyRewardsMonsterSoulSub": {
+                            "enabled": true
+                        }
+                    },
+                    "option": [
+                        "MonsterSoulSelect"
+                    ]
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                        "DailyRewardsMonsterSoulSub": {
+                            "enabled": false
+                        }
+                    }
+                }
+            ]
+        },
+        "MonsterSoulSelect": {
+            "type": "select",
+            "label": "选择刷取的魔物之魂",
+            "default_case": "Yexing",
+            "cases": [
+                {
+                    "name": "Yexing",
+                    "label": "野性之魂",
+                    "pipeline_override": {
+                        "MonsterSoulSelectYexing": {
+                            "enabled": true
+                        },
+                        "MonsterSoulYexingEntry": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "Jielue",
+                    "label": "劫掠之魂",
+                    "pipeline_override": {
+                        "MonsterSoulSelectJielue": {
+                            "enabled": true
+                        },
+                        "MonsterSoulJielueEntry": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "Wugu",
+                    "label": "巫蛊之魂",
+                    "pipeline_override": {
+                        "MonsterSoulSelectWugu": {
+                            "enabled": true
+                        },
+                        "MonsterSoulWuguEntry": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "Baolue",
+                    "label": "暴虐之魂",
+                    "pipeline_override": {
+                        "MonsterSoulSelectBaolue": {
+                            "enabled": true
+                        },
+                        "MonsterSoulBaolueEntry": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "Xiongsha",
+                    "label": "凶煞之魂",
+                    "pipeline_override": {
+                        "MonsterSoulSelectXiongsha": {
+                            "enabled": true
+                        },
+                        "MonsterSoulXiongshaEntry": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "Xiedian",
+                    "label": "邪典之魂",
+                    "pipeline_override": {
+                        "MonsterSoulSelectXiedian": {
+                            "enabled": true
+                        },
+                        "MonsterSoulXiedianEntry": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "Jiaozhi",
+                    "label": "狡智之魂",
+                    "pipeline_override": {
+                        "MonsterSoulSelectJiaozhi": {
+                            "enabled": true
+                        },
+                        "MonsterSoulJiaozhiEntry": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "Manhuang",
+                    "label": "蛮荒之魂",
+                    "pipeline_override": {
+                        "MonsterSoulSelectManhuang": {
+                            "enabled": true
+                        },
+                        "MonsterSoulManhuangEntry": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "Xiongshi",
+                    "label": "雄狮之魂",
+                    "pipeline_override": {
+                        "MonsterSoulSelectXiongshi": {
+                            "enabled": true
+                        },
+                        "MonsterSoulXiongshiEntry": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "Kuangnu",
+                    "label": "狂怒之魂",
+                    "pipeline_override": {
+                        "MonsterSoulSelectKuangnu": {
+                            "enabled": true
+                        },
+                        "MonsterSoulKuangnuEntry": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "Shuangxue",
+                    "label": "霜雪之魂",
+                    "pipeline_override": {
+                        "MonsterSoulSelectShuangxue": {
+                            "enabled": true
+                        },
+                        "MonsterSoulShuangxueEntry": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "Bingjing",
+                    "label": "冰晶之魂",
+                    "pipeline_override": {
+                        "MonsterSoulSelectBingjing": {
+                            "enabled": true
+                        },
+                        "MonsterSoulBingjingEntry": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "Linye",
+                    "label": "林野之魂",
+                    "pipeline_override": {
+                        "MonsterSoulSelectLinye": {
+                            "enabled": true
+                        },
+                        "MonsterSoulLinyeEntry": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "Lingdong",
+                    "label": "林动之魂",
+                    "pipeline_override": {
+                        "MonsterSoulSelectLingdong": {
+                            "enabled": true
+                        },
+                        "MonsterSoulLingdongEntry": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "Jihan",
+                    "label": "极寒之魂",
+                    "pipeline_override": {
+                        "MonsterSoulSelectJihan": {
+                            "enabled": true
+                        },
+                        "MonsterSoulJihanEntry": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "Baopo",
+                    "label": "爆破之魂",
+                    "pipeline_override": {
+                        "MonsterSoulSelectBaopo": {
+                            "enabled": true
+                        },
+                        "MonsterSoulBaopoEntry": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "Chenyuan",
+                    "label": "沉渊之魂",
+                    "pipeline_override": {
+                        "MonsterSoulSelectChenyuan": {
+                            "enabled": true
+                        },
+                        "MonsterSoulChenyuanEntry": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "Kuangre",
+                    "label": "狂热之魂",
+                    "pipeline_override": {
+                        "MonsterSoulSelectKuangre": {
+                            "enabled": true
+                        },
+                        "MonsterSoulKuangreEntry": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "Tianyun",
+                    "label": "天陨之魂",
+                    "pipeline_override": {
+                        "MonsterSoulSelectTianyun": {
+                            "enabled": true
+                        },
+                        "MonsterSoulTianyunEntry": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "Xianzu",
+                    "label": "先祖之魂",
+                    "pipeline_override": {
+                        "MonsterSoulSelectXianzu": {
+                            "enabled": true
+                        },
+                        "MonsterSoulXianzuEntry": {
+                            "enabled": true
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}

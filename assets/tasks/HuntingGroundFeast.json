@@ -1,0 +1,12 @@
+{
+    "task": [
+        {
+            "name": "HuntingGroundFeast",
+            "label": "🦌猎场盛宴",
+            "entry": "HuntingGroundFeastStart",
+            "group": [
+                "activity_tasks"
+            ]
+        }
+    ]
+}

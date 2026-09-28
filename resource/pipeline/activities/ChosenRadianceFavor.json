@@ -1,0 +1,501 @@
+{
+	"ChosenRadianceStart": {
+		"desc": "天选曜惠",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"__SceneGamePlayLimitedEntryChosenRadiance",
+			"[JumpBack]SceneEnterGamePlayLimited"
+		]
+	},
+	"ChosenRadianceComplete": {
+		"desc": "天选曜惠已完成",
+		"recognition": "And",
+		"all_of": ["__SceneGamePlayLimitedPageHasChosenRadiance"]
+	},
+	"ChosenRadianceDone": {
+		"desc": "天选曜惠已完成",
+		"next": [
+			"SceneBack"
+		]
+	},
+	"__SceneGamePlayLimitedEntryChosenRadiance": {
+		"desc": "在限时页面进入天选曜惠",
+		"recognition": "And",
+		"all_of": ["InGamePlayLimitedPage"],
+		"next": [
+			"ChosenRadianceCollect",
+			"[JumpBack]__SceneGamePlayLimitedPageGotoChosenRadiance",
+			"ChosenRadianceComplete",
+			"[JumpBack]ChosenRadianceSwipeToTop",
+			"[JumpBack]ChosenRadianceSwipe",
+			"ChosenRadianceDone"
+		]
+	},
+	"ChosenRadianceCollect": {
+		"desc": "天选曜惠页面收集",
+		"recognition": "And",
+		"all_of": ["InChosenRadiancePage"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"[JumpBack]__ChosenRadianceCollecthuanghunzhiyi",
+			"[JumpBack]__ChosenRadianceCollectwenjiankunlun",
+			"[JumpBack]__ChosenRadianceCollectbinghexixin",
+			"[JumpBack]__ChosenRadianceCollectlongzhongniao",
+			"[JumpBack]__ChosenRadianceCollectjingmoshengcai",
+			"[JumpBack]__ChosenRadianceCollectfanhuazhizhu",
+			"[JumpBack]__ChosenRadianceCollectxueji",
+			"[JumpBack]__ChosenRadianceCollectqianlongzaiyuan",
+			"[JumpBack]__ChosenRadianceCollectyumianluocha",
+			"[JumpBack]__ChosenRadianceCollectlindongzhiwen",
+			"[JumpBack]__ChosenRadianceCollectduxinganying",
+			"[JumpBack]__ChosenRadianceCollectjiaojingzhiying",
+			"[JumpBack]__ChosenRadianceCollectshengshangqilei",
+			"[JumpBack]__ChosenRadianceCollecthuahunyangu",
+			"[JumpBack]__ChosenRadianceCollectzhimingshuangying",
+			"[JumpBack]__ChosenRadianceCollectchishengmeixiao",
+			"[JumpBack]__ChosenRadianceCollectzhixuzhe",
+			"[JumpBack]ChosenRadianceSwipeLeft",
+			"ChosenRadianceDone"
+		]
+	},
+	"__ChosenRadianceCollectlindongzhiwen": {
+		"desc": "凛冬之吻",
+		"recognition": "TemplateMatch",
+		"template": "activities/ChosenRadianceFavor/lindongzhiwen.png",
+		"roi": [141, 1172, 556, 105],
+		"max_hit": 1,
+		"action": "Click",
+		"post_delay": 500,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [141, 1172, 556, 105],
+			"timeout": 3000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"ChosenRadianceSoldOut",
+			"[JumpBack]ChosenRadianceFreeCollect"
+		]
+	},
+	"__ChosenRadianceCollectduxinganying": {
+		"desc": "独行暗影",
+		"recognition": "TemplateMatch",
+		"template": "activities/ChosenRadianceFavor/duxinganying.png",
+		"roi": [141, 1172, 556, 105],
+		"max_hit": 1,
+		"action": "Click",
+		"post_delay": 500,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [141, 1172, 556, 105],
+			"timeout": 3000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"ChosenRadianceSoldOut",
+			"[JumpBack]ChosenRadianceFreeCollect"
+		]
+	},
+	"__ChosenRadianceCollectjiaojingzhiying": {
+		"desc": "皎镜之影",
+		"recognition": "TemplateMatch",
+		"template": "activities/ChosenRadianceFavor/jiaojingzhiying.png",
+		"roi": [141, 1172, 556, 105],
+		"max_hit": 1,
+		"action": "Click",
+		"post_delay": 500,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [141, 1172, 556, 105],
+			"timeout": 3000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"ChosenRadianceSoldOut",
+			"[JumpBack]ChosenRadianceFreeCollect"
+		]
+	},
+	"__ChosenRadianceCollectshengshangqilei": {
+		"desc": "圣殇祁泪",
+		"recognition": "TemplateMatch",
+		"template": "activities/ChosenRadianceFavor/shengshangqilei.png",
+		"roi": [141, 1172, 556, 105],
+		"max_hit": 1,
+		"action": "Click",
+		"post_delay": 500,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [141, 1172, 556, 105],
+			"timeout": 3000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"ChosenRadianceSoldOut",
+			"[JumpBack]ChosenRadianceFreeCollect"
+		]
+	},
+	"__ChosenRadianceCollecthuahunyangu": {
+		"desc": "画魂艳骨",
+		"recognition": "TemplateMatch",
+		"template": "activities/ChosenRadianceFavor/huahunyangu.png",
+		"roi": [141, 1172, 556, 105],
+		"max_hit": 1,
+		"action": "Click",
+		"post_delay": 500,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [141, 1172, 556, 105],
+			"timeout": 3000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"ChosenRadianceSoldOut",
+			"[JumpBack]ChosenRadianceFreeCollect"
+		]
+	},
+	"__ChosenRadianceCollectzhimingshuangying": {
+		"desc": "织命双影",
+		"recognition": "TemplateMatch",
+		"template": "activities/ChosenRadianceFavor/zhimingshuangying.png",
+		"roi": [141, 1172, 556, 105],
+		"max_hit": 1,
+		"action": "Click",
+		"post_delay": 500,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [141, 1172, 556, 105],
+			"timeout": 3000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"ChosenRadianceSoldOut",
+			"[JumpBack]ChosenRadianceFreeCollect"
+		]
+	},
+	"__ChosenRadianceCollectchishengmeixiao": {
+		"desc": "赤蜃魅枭",
+		"recognition": "TemplateMatch",
+		"template": "activities/ChosenRadianceFavor/chishengmeixiao.png",
+		"roi": [141, 1172, 556, 105],
+		"max_hit": 1,
+		"action": "Click",
+		"post_delay": 500,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [141, 1172, 556, 105],
+			"timeout": 3000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"ChosenRadianceSoldOut",
+			"[JumpBack]ChosenRadianceFreeCollect"
+		]
+	},
+	"__ChosenRadianceCollectzhixuzhe": {
+		"desc": "织序者",
+		"recognition": "TemplateMatch",
+		"template": "activities/ChosenRadianceFavor/zhixuzhe.png",
+		"roi": [141, 1172, 556, 105],
+		"max_hit": 1,
+		"action": "Click",
+		"post_delay": 500,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [141, 1172, 556, 105],
+			"timeout": 3000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"ChosenRadianceSoldOut",
+			"[JumpBack]ChosenRadianceFreeCollect"
+		]
+	},
+	"__ChosenRadianceCollecthuanghunzhiyi": {
+		"desc": "黄昏之翼",
+		"recognition": "TemplateMatch",
+		"template": "activities/ChosenRadianceFavor/huanghunzhiyi.png",
+		"roi": [141, 1172, 556, 105],
+		"max_hit": 1,
+		"action": "Click",
+		"post_delay": 500,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [141, 1172, 556, 105],
+			"timeout": 3000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"ChosenRadianceSoldOut",
+			"[JumpBack]ChosenRadianceFreeCollect"
+		]
+	},
+	"__ChosenRadianceCollectwenjiankunlun": {
+		"desc": "问剑昆仑",
+		"recognition": "TemplateMatch",
+		"template": "activities/ChosenRadianceFavor/wenjiankunlun.png",
+		"roi": [141, 1172, 556, 105],
+		"max_hit": 1,
+		"action": "Click",
+		"post_delay": 500,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [141, 1172, 556, 105],
+			"timeout": 3000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"ChosenRadianceSoldOut",
+			"[JumpBack]ChosenRadianceFreeCollect"
+		]
+	},
+	"__ChosenRadianceCollectbinghexixin": {
+		"desc": "冰河洗心",
+		"recognition": "TemplateMatch",
+		"template": "activities/ChosenRadianceFavor/binghexixin.png",
+		"roi": [141, 1172, 556, 105],
+		"max_hit": 1,
+		"action": "Click",
+		"post_delay": 500,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [141, 1172, 556, 105],
+			"timeout": 3000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"ChosenRadianceSoldOut",
+			"[JumpBack]ChosenRadianceFreeCollect"
+		]
+	},
+	"__ChosenRadianceCollectlongzhongniao": {
+		"desc": "笼中鸟",
+		"recognition": "TemplateMatch",
+		"template": "activities/ChosenRadianceFavor/longzhongniao.png",
+		"roi": [141, 1172, 556, 105],
+		"max_hit": 1,
+		"action": "Click",
+		"post_delay": 500,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [141, 1172, 556, 105],
+			"timeout": 3000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"ChosenRadianceSoldOut",
+			"[JumpBack]ChosenRadianceFreeCollect"
+		]
+	},
+	"__ChosenRadianceCollectjingmoshengcai": {
+		"desc": "静默圣裁",
+		"recognition": "TemplateMatch",
+		"template": "activities/ChosenRadianceFavor/jingmoshengcai.png",
+		"roi": [141, 1172, 556, 105],
+		"max_hit": 1,
+		"action": "Click",
+		"post_delay": 500,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [141, 1172, 556, 105],
+			"timeout": 3000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"ChosenRadianceSoldOut",
+			"[JumpBack]ChosenRadianceFreeCollect"
+		]
+	},
+	"__ChosenRadianceCollectfanhuazhizhu": {
+		"desc": "繁花之主",
+		"recognition": "TemplateMatch",
+		"template": "activities/ChosenRadianceFavor/fanhuazhizhu.png",
+		"roi": [141, 1172, 556, 105],
+		"max_hit": 1,
+		"action": "Click",
+		"post_delay": 500,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [141, 1172, 556, 105],
+			"timeout": 3000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"ChosenRadianceSoldOut",
+			"[JumpBack]ChosenRadianceFreeCollect"
+		]
+	},
+	"__ChosenRadianceCollectxueji": {
+		"desc": "血棘",
+		"recognition": "TemplateMatch",
+		"template": "activities/ChosenRadianceFavor/xueji.png",
+		"roi": [141, 1172, 556, 105],
+		"max_hit": 1,
+		"action": "Click",
+		"post_delay": 500,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [141, 1172, 556, 105],
+			"timeout": 3000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"ChosenRadianceSoldOut",
+			"[JumpBack]ChosenRadianceFreeCollect"
+		]
+	},
+	"__ChosenRadianceCollectqianlongzaiyuan": {
+		"desc": "潜龙在渊",
+		"recognition": "TemplateMatch",
+		"template": "activities/ChosenRadianceFavor/qianlongzaiyuan.png",
+		"roi": [141, 1172, 556, 105],
+		"max_hit": 1,
+		"action": "Click",
+		"post_delay": 500,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [141, 1172, 556, 105],
+			"timeout": 3000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"ChosenRadianceSoldOut",
+			"[JumpBack]ChosenRadianceFreeCollect"
+		]
+	},
+	"__ChosenRadianceCollectyumianluocha": {
+		"desc": "玉面罗刹",
+		"recognition": "TemplateMatch",
+		"template": "activities/ChosenRadianceFavor/yumianluocha.png",
+		"roi": [141, 1172, 556, 105],
+		"max_hit": 1,
+		"action": "Click",
+		"post_delay": 500,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [141, 1172, 556, 105],
+			"timeout": 3000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"ChosenRadianceSoldOut",
+			"[JumpBack]ChosenRadianceFreeCollect"
+		]
+	},
+	"ChosenRadianceFreeCollect": {
+		"desc": "免费领取",
+		"recognition": "OCR",
+		"expected": "免费领取|免费|领取",
+		"roi": [517, 244, 126, 95],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [0, 106, 691, 1022],
+			"timeout": 2000
+		}
+	},
+	"ChosenRadianceSoldOut": {
+		"desc": "售罄",
+		"recognition": "OCR",
+		"expected": "售罄|售|罄",
+		"roi": [517, 244, 126, 95]
+	},
+	"__SceneGamePlayLimitedPageHasChosenRadianceTips": {
+		"desc": "天选曜惠活动提示",
+		"recognition": "And",
+		"all_of": [
+			"__SceneGamePlayLimitedPageHasChosenRadiance",
+			{
+				"recognition": "TemplateMatch",
+				"template": "common/RedNotice2.png",
+				"roi": "__SceneGamePlayLimitedPageHasChosenRadiance",
+				"roi_offset": [300, -60, -240, -90]
+			}
+		]
+	},
+	"__SceneGamePlayLimitedPageGotoChosenRadiance": {
+		"desc": "点击前往天选曜惠",
+		"recognition": "And",
+		"all_of": [
+			"__SceneGamePlayLimitedPageHasChosenRadianceTips"
+		],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [256, 503, 281, 451],
+			"timeout": 2000
+		},
+		"next": [
+			"InChosenRadiancePage"
+		]
+	},
+	"__SceneGamePlayLimitedPageHasChosenRadiance": {
+		"desc": "限时页面识别到天选曜惠",
+		"recognition": "TemplateMatch",
+		"template": "activities/ChosenRadianceFavor/ChosenRadianceIcon.png",
+		"roi": [15, 69, 701, 997],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ChosenRadianceSwipeToTop": {
+		"desc": "快速滑到最上方",
+		"action": "Swipe",
+		"begin": [400, 200],
+		"end": [400, 900],
+		"duration": 100,
+		"max_hit": 1,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 5000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ChosenRadianceSwipe": {
+		"desc": "向上滑动查找",
+		"action": "Swipe",
+		"begin": [400, 800],
+		"end": [400, 600],
+		"duration": 200,
+		"max_hit": 3,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 5000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InChosenRadiancePage": {
+		"desc": "在天选曜惠页面",
+		"recognition": "OCR",
+		"expected": "免费领取",
+		"roi": [298, 139, 386, 948],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ChosenRadianceSwipeLeft": {
+		"desc": "向左滑动查看更多角色",
+		"action": "Swipe",
+		"begin": [550, 1230],
+		"end": [450, 1230],
+		"max_hit": 4,
+		"duration": 100,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [141, 1172, 556, 105],
+			"timeout": 3000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	}
+}

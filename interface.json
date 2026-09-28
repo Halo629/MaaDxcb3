@@ -1,0 +1,123 @@
+{
+	"interface_version": 2,
+	"name": "MaaDxcb3",
+	"description": "./resource/description.md",
+	"version": "v1.0.0-beta.1",
+	"contact": "./resource/contact.md",
+	"license": "# MIT License Copyright (c) 2026",
+	"icon": "./resource/MaaDxcb3.png",
+	"github": "https://github.com/Halo629/MaaDxcb3",
+	"mirrorchyan_rid": "MaaDxcb3",
+	"mirrorchyan_multiplatform": true,
+	"controller": [
+		{
+			"name": "ADB",
+			"label": "安卓端",
+			"description": "支持安卓模拟器",
+			"type": "Adb"
+		}
+	],
+	"resource": [
+		{
+			"name": "通用资源",
+			"label": "通用资源",
+			"path": ["./resource"],
+			"hash": "bf0807913b3b7d63"
+		}
+	],
+	"agent": [
+		{"child_exec": "agent/cpp-service"}
+	],
+	"group": [
+		{
+			"name": "pre_tasks",
+			"label": "前置任务",
+			"default_expand": true
+		},
+		{
+			"name": "daily_tasks",
+			"label": "日常任务",
+			"default_expand": true
+		},
+		{
+			"name": "weekly_tasks",
+			"label": "周常任务",
+			"default_expand": true
+		},
+		{
+			"name": "activity_tasks",
+			"label": "活动任务",
+			"default_expand": true
+		},
+		{
+			"name": "other_tasks",
+			"label": "其他任务",
+			"default_expand": true
+		}
+	],
+	"task": [],
+	"import": [
+		// group: pre_tasks
+		"assets/tasks/LaunchGame.json",
+		// group: daily_tasks
+		"assets/tasks/StewardTasks.json",
+		"assets/tasks/DailyRewards.json",
+		// group: weekly_tasks
+		"assets/tasks/WeeklyTreasureShop.json",
+		"assets/tasks/WeeklyFormation.json",
+		"assets/tasks/WeeklyRealmHub.json",
+		"assets/tasks/WeeklyNightmareMirror.json",
+		// group: activity_tasks
+		//荣光复铸/桂影长歌
+		"assets/tasks/ActivityCollection1.json",
+		//引石化灵/点石成金/萃石成英/织星成辉
+		"assets/tasks/AlchemyActivity.json",
+		//飞艇珍奇
+		"assets/tasks/AirshipTreasure.json",
+		//天界岛
+		"assets/tasks/CelestialIsle.json",
+		//天选曜惠
+		"assets/tasks/ChosenRadiance.json",
+		//宫廷棋
+		"assets/tasks/CourtChess.json",
+		//美食祭
+		"assets/tasks/FoodFestival.json",
+		//地精飞艇
+		"assets/tasks/GoblinAirship.json",
+		//大泽远征
+		"assets/tasks/GreatMarshExpedition.json",
+		//哈伍德城堡
+		"assets/tasks/HarwoodCastle.json",
+		//铭心礼遇
+		"assets/tasks/HeartGift.json",
+		//猎场盛宴
+		"assets/tasks/HuntingGroundFeast.json",
+		//狩猎季
+		"assets/tasks/HuntingSeason.json",
+		//万象秘契
+		"assets/tasks/MyriadSecretPact.json",
+		//诸界之门
+		"assets/tasks/RealmGate.json",
+		//溯回之筳
+		"assets/tasks/RetraceBanquet.json",
+		//掠影之境
+		"assets/tasks/ShadowMirror.json",
+		//永夏远征
+		"assets/tasks/SummerExpedition.json",
+		//树枝活动：夏夜荷塘/颂礼幽廊
+		"assets/tasks/BranchActivity.json",
+		//塔罗牌
+		"assets/tasks/TarotCard.json",
+		// group: other_tasks
+		"assets/tasks/ArcanePrison.json",
+		"assets/tasks/MonsterSoulUpgrade.json",
+		"assets/tasks/RuneUpgrade.json",
+		"assets/tasks/SoulTomb.json",
+		"assets/tasks/RecipeUnlock.json",
+		// preset
+		"assets/tasks/preset/SingleServer.json",
+		"assets/tasks/preset/MultiServer.json",
+		// pretask
+		"assets/tasks/pretasks/LaunchEmulator.json"
+	]
+}

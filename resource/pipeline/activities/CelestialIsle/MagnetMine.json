@@ -1,0 +1,182 @@
+{
+	"MagnerMineEventEntry": {
+		"desc": "磁石矿洞事件处理入口",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"[JumpBack]SwipeRightToFindMagnetMine",
+			"MagnerMineEntry",
+			"[JumpBack]SwipeRightToFindCableCar"
+		]
+	},
+	"MagnerMineEntry": {
+		"desc": "磁石矿洞事件处理入口",
+		"recognition": "OCR",
+		"expected": "磁石矿洞|磁石|矿洞|洞|磁",
+		"roi": [138, 139, 464, 335],
+		"action": "Click",
+		"target_offset": [0, -50, -20, 0],
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [256, 503, 281, 451],
+			"timeout": 2000
+		},
+		"next": [
+			"[JumpBack]CollectStoneCard",
+			"[JumpBack]CollectMagnet",
+			"[JumpBack]EntryMine",
+			"LeaveMagnetMineAndReturnToMainIsle",
+			"MagnerMineEntry"
+		]
+	},
+	"LeaveMagnetMineAndReturnToMainIsle": {
+		"desc": "离开磁石矿洞,返回主岛",
+		"recognition": "And",
+		"all_of": ["CenterScreenExitOption"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [256, 503, 281, 451],
+			"timeout": 2000
+		},
+		"next": [
+			"ReturnToMainIsle",
+			"[JumpBack]SwipeRightAndTryFindCable"
+		]
+	},
+	"CollectStoneCard": {
+		"desc": "收集石牌",
+		"recognition": "OCR",
+		"expected": "收集石牌|石牌",
+		"roi": [289, 674, 145, 362],
+		"post_delay": 2000,
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]CenterScreenExitOption"
+		]
+	},
+	"CollectMagnet": {
+		"desc": "收集磁石",
+		"recognition": "OCR",
+		"expected": "收集磁石|磁石",
+		"roi": [289, 674, 145, 362],
+		"post_delay": 0,
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [256, 503, 281, 451],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog"
+		]
+	},
+	"EntryMine": {
+		"desc": "进入矿洞",
+		"recognition": "OCR",
+		"expected": "进入矿洞|进入|矿洞",
+		"roi": [289, 674, 145, 362],
+		"post_delay": 0,
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [256, 503, 281, 451],
+			"timeout": 2000
+		},
+		"next": [
+			"[JumpBack]MazeStartOut",
+			"[JumpBack]CelestialIsleGoAhead",
+			"[JumpBack]CelestialIsleBattle",
+			"[JumpBack]BattleEnd",
+			"[JumpBack]HandleRewardDialog",
+			"AdventureEnd"
+		]
+	},
+	"ReturnToMainIsle": {
+		"desc": "返回主岛",
+		"recognition": "OCR",
+		"expected": "缆车控制间|缆车|控制间",
+		"roi": [114, 366, 582, 638],
+		"action": "Click",
+		"target_offset": [0, -50, 0, 0],
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [215, 260, 383, 438],
+			"timeout": 10000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"ReturnByCableCar"
+		]
+	},
+	"SwipeRightAndTryFindCable": {
+		"desc": "右滑找缆车",
+		"action": "Swipe",
+		"begin": [300, 800],
+		"end": [500, 800],
+		"duration": 100,
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [122, 279, 477, 602],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ReturnByCableCar": {
+		"desc": "坐缆车返回",
+		"recognition": "OCR",
+		"expected": "乘坐缆车|缆车|乘坐",
+		"roi": [290, 729, 139, 195],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [31, 1040, 639, 216],
+			"timeout": 2000
+		}
+	},
+	"SwipeRightToFindCableCar": {
+		"desc": "右滑找返回缆车",
+		"action": "Swipe",
+		"begin": [400, 800],
+		"end": [450, 800],
+		"duration": 200,
+		"max_hit": 3,
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [122, 279, 477, 602],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"SwipeRightToFindMagnetMine": {
+		"desc": "右滑找磁石矿洞",
+		"action": "Swipe",
+		"begin": [400, 800],
+		"end": [500, 800],
+		"duration": 200,
+		"max_hit": 1,
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [122, 279, 477, 602],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	}
+}

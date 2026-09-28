@@ -1,0 +1,143 @@
+{
+    "AscenderTradeGuildEventEntry": {
+        "desc": "飞升者商会事件处理入口",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "max_hit": 1,
+        "next": [
+            //如果已经开启免费传送，就不用进飞升者商会了
+            "FreeTeleportAlreadyEnabled",
+            "AscenderTradeGuildEntry"
+        ]
+    },
+    "AscenderTradeGuildEntry": {
+        "desc": "进入飞升者商会",
+        "recognition": "OCR",
+        "expected": "飞升者商会|飞升者|飞升",
+        "roi": [
+            114,
+            251,
+            603,
+            929
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                215,
+                260,
+                383,
+                438
+            ],
+            "timeout": 10000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]FirstEntryAscenderTradeGuild",
+            "AscenderTradeGuildSendMagnetEntry",
+            "AscenderTradeGuildEntry"
+        ]
+    },
+    "FirstEntryAscenderTradeGuild": {
+        "desc": "第一次进入飞升者商会对话处理",
+        "recognition": "OCR",
+        "expected": "爬上梯子|爬上|梯子",
+        "roi": [
+            408,
+            869,
+            178,
+            154
+        ],
+        "action": "Click",
+        "next": [
+            "[JumpBack]FirstEntryAscenderTradeGuildTalkExit",
+            "InAscenderTradeGuild"
+        ]
+    },
+    "InAscenderTradeGuild": {
+        "desc": "在飞升者商会界面",
+        "recognition": "OCR",
+        "expected": "飞升者商会|飞升|商会",
+        "roi": [
+            274,
+            213,
+            173,
+            279
+        ]
+    },
+    "FirstEntryAscenderTradeGuildTalkExit": {
+        "desc": "退出对话",
+        "recognition": "OCR",
+        "expected": "理事|西娅",
+        "roi": [
+            6,
+            942,
+            252,
+            72
+        ],
+        "action": "Click",
+        "target": [
+            413,
+            900,
+            120,
+            56
+        ]
+    },
+    "AscenderTradeGuildSendMagnetEntry": {
+        "desc": "飞升者商会赠送磁石入口",
+        "recognition": "OCR",
+        "expected": "理事|西娅",
+        "roi": [
+            251,
+            679,
+            226,
+            300
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                224,
+                772,
+                481,
+                438
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "RightDownScreenMagnetNotEnoughAndExit",
+            "[JumpBack]SendMagnet",
+            "RightDownExitOption"
+        ]
+    },
+    "SwipeRightToFindAscenderTradeGuild": {
+        "desc": "向右滑动找飞升者商会",
+        "action": "Swipe",
+        "begin": [
+            300,
+            450
+        ],
+        "end": [
+            500,
+            450
+        ],
+        "duration": 200,
+        "max_hit": 2,
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                122,
+                279,
+                477,
+                602
+            ],
+            "timeout": 5000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    }
+}

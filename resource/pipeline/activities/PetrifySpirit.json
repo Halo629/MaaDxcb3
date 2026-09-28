@@ -1,0 +1,319 @@
+{
+    "PetrifySpiritStart": {
+        "desc": "引石化灵",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "PetrifySpiritCollect",
+            "[JumpBack]__SceneGamePlayLimitedEntryPetrifySpirit",
+            "[JumpBack]SceneEnterGamePlayLimited"
+        ]
+    },
+    "PetrifySpiritCollect": {
+        "desc": "引石化灵页面点击礼包",
+        "recognition": "And",
+        "all_of": [
+            "InPetrifySpiritPage"
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]__PetrifySpiritClickGift",
+            "[JumpBack]__PetrifySpiritClickFeedback",
+            "PetrifySpiritDone"
+        ]
+    },
+    "PetrifySpiritDone": {
+        "desc": "引石化灵已完成",
+        "next": [
+            "SceneBack"
+        ]
+    },
+    "__PetrifySpiritClickGift": {
+        "desc": "识别礼包并点击",
+        "recognition": "OCR",
+        "expected": "礼包",
+        "roi": [
+            151,
+            1168,
+            501,
+            101
+        ],
+        "max_hit": 1,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                336,
+                236,
+                332,
+                873
+            ],
+            "timeout": 2000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]HandleRewardDialog",
+            "[JumpBack]__PetrifySpiritClickFreeCollect",
+            "__PetrifySpiritClickAlchemy"
+        ]
+    },
+    "__PetrifySpiritClickFreeCollect": {
+        "desc": "点击免费领取",
+        "recognition": "OCR",
+        "expected": "免费领取|免费|领取",
+        "roi": [
+            497,
+            249,
+            151,
+            847
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                264,
+                311,
+                249,
+                719
+            ],
+            "timeout": 2000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "__PetrifySpiritNoFreeCollect": {
+        "desc": "没有免费领取",
+        "recognition": "And",
+        "all_of": [
+            "InPetrifySpiritPage"
+        ]
+    },
+    "__PetrifySpiritClickAlchemy": {
+        "desc": "点击炼金",
+        "recognition": "OCR",
+        "expected": "炼金",
+        "roi": [
+            151,
+            1168,
+            501,
+            101
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                177,
+                334,
+                365,
+                588
+            ],
+            "timeout": 3000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]__PetrifySpiritClickYellowAlchemy",
+            "__PetrifySpiritNoAlchemy",
+            "__PetrifySpiritClickAlchemy"
+        ]
+    },
+    "__PetrifySpiritHasAlchemy": {
+        "recognition": "OCR",
+        "expected": "炼金",
+        "roi": [
+            132,
+            937,
+            138,
+            56
+        ]
+    },
+    "__PetrifySpiritClickYellowAlchemy": {
+        "desc": "识别黄色炼金并点击",
+        "recognition": "And",
+        "all_of": [
+            "__PetrifySpiritHasAlchemy",
+            {
+                "recognition": "ColorMatch",
+                "method": 40,
+                "lower": [
+                    20,
+                    80,
+                    80
+                ],
+                "upper": [
+                    35,
+                    255,
+                    255
+                ],
+                "roi": "__PetrifySpiritHasAlchemy",
+                "count": 200
+            }
+        ],
+        "action": "Click",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "HandleRewardDialog"
+        ]
+    },
+    "__PetrifySpiritNoAlchemy": {
+        "desc": "没有炼金次数",
+        "recognition": "And",
+        "all_of": [
+            "InPetrifySpiritPage"
+        ]
+    },
+    "__PetrifySpiritClickFeedback": {
+        "desc": "点击回馈",
+        "recognition": "OCR",
+        "expected": "回馈",
+        "roi": [
+            272,
+            1166,
+            116,
+            95
+        ],
+        "max_hit": 1,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                177,
+                334,
+                365,
+                588
+            ],
+            "timeout": 3000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]ActivityCommonCollect",
+            "__PetrifySpiritClickAlchemy"
+        ]
+    },
+    "__SceneGamePlayLimitedEntryPetrifySpirit": {
+        "desc": "在限时页面进入引石化灵",
+        "recognition": "And",
+        "all_of": [
+            "InGamePlayLimitedPage"
+        ],
+        "next": [
+            "__SceneGamePlayLimitedPageGotoPetrifySpirit",
+            "[JumpBack]PetrifySpiritSwipeToTop",
+            "[JumpBack]PetrifySpiritSwipe"
+        ]
+    },
+    "__SceneGamePlayLimitedPageGotoPetrifySpirit": {
+        "desc": "点击前往引石化灵",
+        "recognition": "And",
+        "all_of": [
+            "__SceneGamePlayLimitedPageHasPetrifySpirit"
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                256,
+                503,
+                281,
+                451
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "InPetrifySpiritPage"
+        ]
+    },
+    "__SceneGamePlayLimitedPageHasPetrifySpirit": {
+        "desc": "限时页面识别到引石化灵",
+        "recognition": "TemplateMatch",
+        "template": "activities/PetrifySpirit/PetrifySpiritIcon.png",
+        "roi": [
+            15,
+            69,
+            701,
+            997
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "PetrifySpiritSwipeToTop": {
+        "desc": "快速滑到最上方",
+        "action": "Swipe",
+        "begin": [
+            400,
+            200
+        ],
+        "end": [
+            400,
+            900
+        ],
+        "duration": 100,
+        "max_hit": 1,
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                353,
+                192,
+                328,
+                732
+            ],
+            "timeout": 5000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "PetrifySpiritSwipe": {
+        "desc": "向上滑动查找",
+        "action": "Swipe",
+        "begin": [
+            400,
+            800
+        ],
+        "end": [
+            400,
+            600
+        ],
+        "duration": 200,
+        "max_hit": 3,
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                353,
+                192,
+                328,
+                732
+            ],
+            "timeout": 5000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "InPetrifySpiritPage": {
+        "desc": "在引石化灵页面",
+        "recognition": "TemplateMatch",
+        "template": "activities/PetrifySpirit/PetrifySpiritLogo.png",
+        "roi": [
+            530,
+            12,
+            75,
+            121
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    }
+}

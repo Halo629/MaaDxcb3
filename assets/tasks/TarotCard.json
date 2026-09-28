@@ -1,0 +1,12 @@
+{
+    "task": [
+        {
+            "name": "TarotCard",
+            "label": "🃏塔罗牌",
+            "entry": "TarotCardStart",
+            "group": [
+                "activity_tasks"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,129 @@
+{
+	"WeeklyTreasureShopSub": {
+		"desc": "珍藏商店购买周礼包",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"[JumpBack]WeeklyTreasureShopBuyWeeklyFreeJade",
+			"[JumpBack]WeeklyTreasureShopBuyScroll",
+			"[JumpBack]WeeklyTreasureShopBuyHeraldicChest",
+			"[JumpBack]WeeklyTreasureShopBuyOldCovenant",
+			"WeeklyTreasureShopDone",
+			"[JumpBack]WeeklyTreasureShopEntry",
+			"[JumpBack]SceneEnterTreasurehop"
+		],
+		"focus": {"Node.Recognition.Succeeded": "开始任务:珍藏商店购买周礼包"}
+	},
+	"WeeklyTreasureShopBuyWeeklyFreeJade": {
+		"desc": "每周珍藏商店领取免费玉",
+		"recognition": "And",
+		"all_of": [
+			"InWeeklyTreasureShop",
+			"TreasureShopHasWeeklyFreeJade",
+			"TreasureShopWeeklyFreeJadeCanBuy"
+		],
+		"box_index": 2,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [144, 386, 459, 563],
+			"timeout": 3000
+		},
+		"next": [
+			"HandleRewardDialog"
+		],
+		"pre_delay": 0,
+		"post_delay": 0
+	},
+	"WeeklyTreasureShopBuyScroll": {
+		"enabled": false,
+		"desc": "每周珍藏商店购买卷轴",
+		"recognition": "And",
+		"all_of": [
+			"InWeeklyTreasureShop",
+			"TreasureShopHasScroll",
+			"TreasureShopScrollCanBuy"
+		],
+		"box_index": 2,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [144, 386, 459, 563],
+			"timeout": 3000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"next": [
+			"TreasureShopBuyConfirm"
+		]
+	},
+	"WeeklyTreasureShopBuyHeraldicChest": {
+		"enabled": false,
+		"desc": "每周珍藏商店购买纹章宝盒",
+		"recognition": "And",
+		"all_of": [
+			"InWeeklyTreasureShop",
+			"TreasureShopHasHeraldicChest",
+			"TreasureShopHeraldicChestCanBuy"
+		],
+		"box_index": 2,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [144, 386, 459, 563],
+			"timeout": 3000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"next": [
+			"TreasureShopBuyConfirm"
+		]
+	},
+	"WeeklyTreasureShopBuyOldCovenant": {
+		"enabled": false,
+		"desc": "每周珍藏商店购买旧日契约",
+		"recognition": "And",
+		"all_of": [
+			"InWeeklyTreasureShop",
+			"TreasureShopHasOldCovenant",
+			"TreasureShopOldCovenantCanBuy"
+		],
+		"box_index": 2,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [144, 386, 459, 563],
+			"timeout": 3000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"next": [
+			"TreasureShopBuyConfirm"
+		]
+	},
+	"WeeklyTreasureShopDone": {
+		"desc": "每周珍藏商店购买完成",
+		"recognition": "And",
+		"all_of": ["InWeeklyTreasureShop"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"WeeklyTreasureShopEntry": {
+		"desc": "打开珍藏商店每周礼包购买页面",
+		"recognition": "And",
+		"all_of": ["InTreasureShop"],
+		"action": "Click",
+		"target": [418, 1044, 28, 27],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [144, 386, 459, 563],
+			"timeout": 3000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	}
+}

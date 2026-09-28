@@ -1,0 +1,261 @@
+{
+	"AlchemyActivityStart": {
+		"desc": "炼金活动通用",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {"ActivityGoto": "AlchemyActivityEntry"},
+		"next": [
+			"AlchemyActivityCollectEntry",
+			"[JumpBack]ActivityLimitedEnter"
+		]
+	},
+	"AlchemyActivityEntry": {
+		"desc": "限时页面进入炼金活动页面",
+		"recognition": "TemplateMatch",
+		"template": [
+			"activities/AlchemyActivity/PetrifySpiritIcon.png",
+			"activities/AlchemyActivity/StellarWeaveGloryIcon.png",
+			"activities/AlchemyActivity/StoneEssenceIcon.png"
+		],
+		"roi": [15, 69, 701, 997],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [15, 69, 701, 997],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"AlchemyActivityCollectEntry": {
+		"desc": "活动礼包页面收集",
+		"recognition": "And",
+		"all_of": ["InAlchemyActivityPage"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"[JumpBack]AlchemyActivityGiftPageCollect",
+			"[JumpBack]AlchemyActivityAlchemyPageCollect",
+			"[JumpBack]AlchemyActivityFeedbackPageCollect",
+			"AlchemyActivityDone"
+		]
+	},
+	"AlchemyActivityGiftPageCollect": {
+		"desc": "活动礼包页面收集",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"[JumpBack]HandleRewardDialog",
+			"[JumpBack]AlchemyActivityFreeCollect",
+			"AlchemyActivityFreeCollectDone",
+			"[JumpBack]AlchemyActivityGotoGiftPage"
+		]
+	},
+	"InAlchemyActivityGiftPage": {
+		"desc": "在活动礼包页面",
+		"recognition": "OCR",
+		"expected": "礼包",
+		"roi": [249, 94, 216, 118]
+	},
+	"AlchemyActivityFreeCollect": {
+		"desc": "礼包页面免费领取",
+		"recognition": "And",
+		"all_of": [
+			"InAlchemyActivityGiftPage",
+			{
+				"recognition": "OCR",
+				"expected": "免费领取|免费|领取",
+				"roi": [497, 249, 151, 847]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [264, 311, 249, 719],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"AlchemyActivityFreeCollectDone": {
+		"desc": "活动礼包页面收集完成",
+		"recognition": "And",
+		"all_of": ["InAlchemyActivityGiftPage"]
+	},
+	"AlchemyActivityFeedbackPageCollect": {
+		"desc": "活动回馈页面收集",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["AlchemyActivityAlchemyPageCollect"]
+		},
+		"next": [
+			"[JumpBack]HandleRewardDialog",
+			"[JumpBack]ActivityCommonCollect",
+			"AlchemyActivityFeedbackDone",
+			"[JumpBack]AlchemyActivityGotoFeedbackPage"
+		]
+	},
+	"AlchemyActivityFeedbackDone": {
+		"desc": "活动回馈页面炼金完成",
+		"recognition": "And",
+		"all_of": ["InAlchemyActivityFeedbackPage"]
+	},
+	"AlchemyActivityAlchemyHasAlchemy": {
+		"recognition": "OCR",
+		"expected": "炼金",
+		"roi": [132, 937, 138, 56]
+	},
+	"AlchemyActivityHasYellowAlchemy": {
+		"desc": "识别黄色炼金",
+		"recognition": "And",
+		"all_of": [
+			"AlchemyActivityAlchemyHasAlchemy",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 80, 80],
+				"upper": [35, 255, 255],
+				"roi": "AlchemyActivityAlchemyHasAlchemy",
+				"count": 200
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"AlchemyActivityAlchemyPageCollect": {
+		"desc": "活动炼金页面收集",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"[JumpBack]HandleRewardDialog",
+			"[JumpBack]AlchemyActivityAlchemy",
+			"AlchemyActivityAlchemyDone",
+			"[JumpBack]AlchemyActivityGotoAlchemyPage"
+		]
+	},
+	"InAlchemyActivityAlchemyPage": {
+		"desc": "在活动炼金页面",
+		"recognition": "OCR",
+		"expected": "炼金一次|炼金",
+		"roi": [106, 943, 174, 52]
+	},
+	"InAlchemyActivityFeedbackPage": {
+		"desc": "在活动回馈页面",
+		"recognition": "OCR",
+		"expected": "回馈",
+		"roi": [257, 123, 214, 61]
+	},
+	"AlchemyActivityAlchemy": {
+		"desc": "炼金页面炼金",
+		"recognition": "And",
+		"all_of": [
+			"InAlchemyActivityAlchemyPage",
+			"AlchemyActivityHasYellowAlchemy"
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [264, 311, 249, 719],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 1500,
+		"rate_limit": 0
+	},
+	"AlchemyActivityAlchemyDone": {
+		"desc": "活动炼金页面炼金完成",
+		"recognition": "And",
+		"all_of": ["InAlchemyActivityAlchemyPage"]
+	},
+	"AlchemyActivityGotoGiftPage": {
+		"desc": "识别礼包并点击",
+		"recognition": "OCR",
+		"expected": "礼包",
+		"roi": [151, 1168, 501, 101],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [336, 236, 332, 873],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"AlchemyActivityGotoAlchemyPage": {
+		"desc": "识别炼金并点击",
+		"recognition": "OCR",
+		"expected": "炼金",
+		"roi": [151, 1168, 501, 101],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [336, 236, 332, 873],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"AlchemyActivityGotoFeedbackPage": {
+		"desc": "识别回馈并点击",
+		"recognition": "OCR",
+		"expected": "回馈",
+		"roi": [151, 1168, 501, 101],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [336, 236, 332, 873],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"AlchemyActivityDone": {
+		"desc": "炼金活动已完成",
+		"next": [
+			"SceneBack"
+		]
+	},
+	"InAlchemyActivityPage": {
+		"desc": "在炼金活动页面",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"expected": "炼金",
+				"roi": [138, 1182, 574, 88]
+			},
+			{
+				"recognition": "OCR",
+				"expected": "回馈",
+				"roi": [138, 1182, 574, 88]
+			},
+			{
+				"recognition": "OCR",
+				"expected": "礼包",
+				"roi": [138, 1182, 574, 88]
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	}
+}

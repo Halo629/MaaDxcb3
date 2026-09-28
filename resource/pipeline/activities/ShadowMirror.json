@@ -1,0 +1,840 @@
+{
+	"ShadowMirrorStart": {
+		"desc": "掠影之境",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {"ActivityGoto": "ShadowMirrorEntry"},
+		"next": [
+			"[JumpBack]ShadowMirrorRewardCollect",
+			"ShadowMirrorComplete",
+			"[JumpBack]ShadowMirrorClickOwnedMirror",
+			"ShadowMirrorNoRemainTime",
+			"[JumpBack]ShadowMirrorCollect",
+			"[JumpBack]ActivityLimitedEnter"
+		]
+	},
+	"ShadowMirrorEntry": {
+		"desc": "限时页面进入掠影之境",
+		"recognition": "TemplateMatch",
+		"template": "activities/ShadowMirror/ShadowMirrorIcon.png",
+		"roi": [15, 69, 701, 997],
+		"pre_delay": 0,
+		"post_delay": 3000,
+		"rate_limit": 0,
+		"action": "Click"
+	},
+	"ShadowMirrorClickOwnedMirror": {
+		"desc": "掠影之境点击已收集的镜片",
+		"recognition": "And",
+		"all_of": ["InShadowMirrorPage", "ShadowMirrorOwnedMirror"],
+		"box_index": 1,
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 2000,
+		"rate_limit": 0
+	},
+	"ShadowMirrorRewardCollect": {
+		"desc": "掠影之境获取奖励",
+		"recognition": "Or",
+		"any_of": [
+			"ShadowMirrorCollectRewardBox1",
+			"ShadowMirrorCollectRewardBox2",
+			"ShadowMirrorCollectRewardBox3",
+			"ShadowMirrorCollectRewardBox4",
+			"ShadowMirrorCollectRewardBox5",
+			"ShadowMirrorCollectRewardBox6",
+			"ShadowMirrorCollectRewardBox7"
+		],
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 1000,
+		"rate_limit": 0,
+		"next": [
+			"HandleRewardDialog"
+		]
+	},
+	"ShadowMirrorCollect": {
+		"desc": "掠影之境收集镜片",
+		"recognition": "And",
+		"all_of": ["InShadowMirrorPage"],
+		"next": [
+			"[JumpBack]ShadowMirrorAvailableRecord",
+			"ShadowMirrorCollectMirror"
+		]
+	},
+	"ShadowMirrorCurrentPoints": {
+		"desc": "获取当前积分",
+		"recognition": "OCR",
+		"roi": [381, 445, 51, 28],
+		"only_rec": true
+	},
+	"ShadowMirrorAvailableRecord": {
+		"desc": "读取次数后记录可获得镜片数量并回到游戏主页",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["ShadowMirrorAvailableCount"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ShadowMirrorRecord",
+		"custom_action_param": {
+			"AvailableCountRecord": true
+		},
+		"next": [
+			"SceneEnterMainPage"
+		]
+	},
+	"ShadowMirrorCountColor": {
+		"desc": "掠影之境页面可获得镜片能量数量颜色识别",
+		"recognition": "ColorMatch",
+		"roi": [581, 1191, 78, 47],
+		"method": 40,
+		"lower": [0, 0, 200],
+		"upper": [255, 30, 255],
+		"count": 10
+	},
+	"ShadowMirrorAvailableCount": {
+		"desc": "掠影之境页面可获得镜片能量数量",
+		"recognition": "And",
+		"all_of": [
+			"ShadowMirrorCountColor",
+			{
+				"recognition": "OCR",
+				"expected": "^[0-9]/10$",
+				"roi": "ShadowMirrorCountColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		]
+	},
+	"ShadowMirrorNoRemainTime": {
+		"desc": "掠影之境页面没有获得镜片次数",
+		"recognition": "And",
+		"all_of": [
+			"InShadowMirrorPage",
+			"ShadowMirrorCountColor",
+			{
+				"recognition": "OCR",
+				"expected": "^10/10$",
+				"roi": "ShadowMirrorCountColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		]
+	},
+	"ShadowMirrorCollectMirror": {
+		"desc": "收集镜片",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {
+			"SelectWorldMapAnchor": "OriginWorldMap",
+			"SelectMiniMapAnchor": "ShadowMirrorClickMinosIronWall",
+			"ResetMiniMapAnchor": "ShadowMirrorResetMap"
+		},
+		"next": [
+			"ShadowMirrorMinosCastleEntry",
+			"[JumpBack]SceneEnterSelectDestination"
+		]
+	},
+	"ShadowMirrorResetMap": {
+		"desc": "重置地图",
+		"recognition": "And",
+		"all_of": [
+			"InOriginWordPage",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "CheckRoleInTargetMap",
+				"custom_recognition_param": {"map_name": "米诺"}
+			}
+		],
+		"box_index": 1,
+		"target_offset": [100, 0, 0, 0],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [229, 367, 295, 414],
+			"timeout": 5000
+		},
+		"next": [
+			"ShadowMirrorResetMapReturn"
+		]
+	},
+	"ShadowMirrorResetMapReturn": {
+		"desc": "重置地图后返回秘境",
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": [
+				"ClearOriginWorldMapMaxHit",
+				"__ScenePrivateReturnSecretRealm"
+			]
+		}
+	},
+	"ShadowMirrorClickMinosIronWall": {
+		"desc": "识别米诺或铁壁并点击",
+		"recognition": "And",
+		"all_of": [
+			"InOriginWordPage",
+			{
+				"recognition": "OCR",
+				"expected": "米诺|铁壁",
+				"roi": [205, 194, 363, 781]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [167, 514, 354, 490],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 3000,
+		"rate_limit": 0
+	},
+	"InMinosIronWallMap": {
+		"desc": "在米诺的铁壁之城",
+		"recognition": "OCR",
+		"expected": "米诺的铁壁之城|米诺|铁壁之城",
+		"roi": [95, 61, 194, 45]
+	},
+	"ShadowMirrorMinosCastleEntry": {
+		"desc": "在米诺的铁壁之城地图进入米诺的城堡",
+		"recognition": "And",
+		"all_of": ["InMinosIronWallMap"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"ShadowMirrorMinosCastleMazeExploreEntry",
+			"[JumpBack]MazeStartOut",
+			"[JumpBack]ShadowMirrorMinosCastleMazeEntry",
+			"[JumpBack]ShadowMirrorClickMinosCastle",
+			"[JumpBack]ShadowMirrorSwipeLeft",
+			"ShadowMirrorMapNotFound"
+		]
+	},
+	"ShadowMirrorMapNotFound": {
+		"desc": "未找到米诺的城堡,退出",
+		"next": [
+			"SceneEnterMainPage"
+		]
+	},
+	"ShadowMirrorSwipeLeft": {
+		"desc": "左滑查找米诺/城堡",
+		"action": "Swipe",
+		"begin": [580, 1000],
+		"end": [150, 1000],
+		"duration": 100,
+		"max_hit": 2,
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [587, 1013, 86, 44],
+			"timeout": 5000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ShadowMirrorClickMinosCastle": {
+		"desc": "点击米诺的城堡",
+		"recognition": "OCR",
+		"expected": "米诺的城堡|米诺|城堡",
+		"roi": [199, 277, 406, 894],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [167, 514, 354, 490],
+			"timeout": 5000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ShadowMirrorMinosCastleMazeEntry": {
+		"desc": "进入米诺的城堡迷宫",
+		"recognition": "TemplateMatch",
+		"template": "activities/ShadowMirror/MinosIronKeep.png",
+		"roi": [244, 716, 231, 211],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [167, 514, 354, 490],
+			"timeout": 5000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ShadowMirrorMinosCastleMazeExploreEntry": {
+		"desc": "探索迷宫搜获取镜片",
+		"recognition": "And",
+		"all_of": ["InMaze", "InMinosCastleMaze"],
+		"next": [
+			"ShadowMirrorFetchMirrorCountCheck",
+			"ShadowMirrorMinosCastleEntry",
+			"[JumpBack]ShadowMirrorLootRecord",
+			"[JumpBack]MazeEmptyFloor",
+			"[JumpBack]MazeMonsterFloor",
+			"[JumpBack]MazeExit"
+		]
+	},
+	"ShadowMirrorLootRecord": {
+		"desc": "战利品记录",
+		"recognition": "And",
+		"all_of": ["ShadowMirrorLootPopup"],
+		"next": [
+			"ShadowMirrorFetchMirrorRecord",
+			"HandleBattleVictoryDialog"
+		]
+	},
+	"ShadowMirrorFetchMirrorRecord": {
+		"desc": "记录获取的镜片数量",
+		"recognition": "And",
+		"all_of": ["ShadowMirrorLootReward"],
+		"action": "Custom",
+		"custom_action": "ShadowMirrorRecord",
+		"custom_action_param": {
+			"LootRecord": true
+		},
+		"next": [
+			"HandleBattleVictoryDialog"
+		]
+	},
+	"ShadowMirrorFetchMirrorCountCheck": {
+		"desc": "掠影之境判断获取镜片是否已达上限",
+		"recognition": "Custom",
+		"custom_recognition": "ShadowMirrorCountCheck",
+		"next": [
+			"MazeExit"
+		]
+	},
+	"ShadowMirrorLootPopup": {
+		"desc": "战利品弹框",
+		"recognition": "OCR",
+		"expected": "战利品",
+		"roi": [310, 658, 101, 38]
+	},
+	"InMinosCastleMaze": {
+		"desc": "确认进入米诺的城堡迷宫",
+		"recognition": "OCR",
+		"expected": "米诺|城堡",
+		"roi": [70, 14, 185, 74]
+	},
+	"ShadowMirrorLootReward": {
+		"desc": "检查是否获得镜片",
+		"recognition": "OCR",
+		"expected": "镜片|能量",
+		"roi": [153, 711, 479, 211]
+	},
+	"ShadowMirrorComplete": {
+		"desc": "掠影之境活动已完成",
+		"recognition": "And",
+		"all_of": [
+			"InShadowMirrorPage",
+			{
+				"recognition": "OCR",
+				"expected": "700",
+				"roi": [381, 443, 50, 33],
+				"only_rec": true
+			}
+		],
+		"next": [
+			"SceneBack"
+		]
+	},
+	"InShadowMirrorPage": {
+		"desc": "在掠影之境页面",
+		"recognition": "OCR",
+		"expected": "掠影之境|掠影",
+		"roi": [296, 137, 123, 74],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ShadowMirrorMirror1Pos": {
+		"desc": "掠影之境1号镜片位置",
+		"recognition": "OCR",
+		"expected": "1",
+		"roi": [231, 615, 19, 24],
+		"only_rec": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ShadowMirrorMirror2Pos": {
+		"desc": "掠影之境2号镜片位置",
+		"recognition": "OCR",
+		"expected": "2",
+		"roi": [304, 510, 18, 24],
+		"only_rec": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ShadowMirrorMirror3Pos": {
+		"desc": "掠影之境3号镜片位置",
+		"recognition": "OCR",
+		"expected": "3",
+		"roi": [331, 611, 18, 21],
+		"only_rec": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ShadowMirrorMirror4Pos": {
+		"desc": "掠影之境4号镜片位置",
+		"recognition": "OCR",
+		"expected": "4",
+		"roi": [378, 506, 17, 22],
+		"only_rec": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ShadowMirrorMirror5Pos": {
+		"desc": "掠影之境5号镜片位置",
+		"recognition": "OCR",
+		"expected": "5",
+		"roi": [328, 717, 17, 23],
+		"only_rec": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ShadowMirrorMirror6Pos": {
+		"desc": "掠影之境6号镜片位置",
+		"recognition": "OCR",
+		"expected": "6",
+		"roi": [280, 798, 17, 22],
+		"only_rec": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ShadowMirrorMirror7Pos": {
+		"desc": "掠影之境7号镜片位置",
+		"recognition": "OCR",
+		"expected": "7",
+		"roi": [402, 806, 17, 24],
+		"only_rec": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ShadowMirrorMirror8Pos": {
+		"desc": "掠影之境8号镜片位置",
+		"recognition": "OCR",
+		"expected": "8",
+		"roi": [472, 687, 14, 21],
+		"only_rec": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ShadowMirrorMirror9Pos": {
+		"desc": "掠影之境9号镜片位置",
+		"recognition": "OCR",
+		"expected": "9",
+		"roi": [429, 578, 17, 23],
+		"only_rec": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ShadowMirrorCollectMirror1": {
+		"desc": "掠影之境收集1号镜片",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"ShadowMirrorMirror1Pos",
+			{
+				"recognition": "ColorMatch",
+				"roi": "ShadowMirrorMirror1Pos",
+				"roi_offset": [-4, -4, 8, 8],
+				"method": 40,
+				"lower": [100, 50, 180],
+				"upper": [106, 70, 220],
+				"count": 20
+			}
+		]
+	},
+	"ShadowMirrorCollectMirror2": {
+		"desc": "掠影之境收集2号镜片",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"ShadowMirrorMirror2Pos",
+			{
+				"recognition": "ColorMatch",
+				"roi": "ShadowMirrorMirror2Pos",
+				"roi_offset": [-4, -4, 8, 8],
+				"method": 40,
+				"lower": [100, 50, 180],
+				"upper": [106, 70, 220],
+				"count": 20
+			}
+		]
+	},
+	"ShadowMirrorCollectMirror3": {
+		"desc": "掠影之境收集3号镜片",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"ShadowMirrorMirror3Pos",
+			{
+				"recognition": "ColorMatch",
+				"roi": "ShadowMirrorMirror3Pos",
+				"roi_offset": [-4, -4, 8, 8],
+				"method": 40,
+				"lower": [100, 50, 180],
+				"upper": [106, 70, 220],
+				"count": 20
+			}
+		]
+	},
+	"ShadowMirrorCollectMirror4": {
+		"desc": "掠影之境收集4号镜片",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"ShadowMirrorMirror4Pos",
+			{
+				"recognition": "ColorMatch",
+				"roi": "ShadowMirrorMirror4Pos",
+				"roi_offset": [-4, -4, 8, 8],
+				"method": 40,
+				"lower": [100, 50, 180],
+				"upper": [106, 70, 220],
+				"count": 20
+			}
+		]
+	},
+	"ShadowMirrorCollectMirror5": {
+		"desc": "掠影之境收集5号镜片",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"ShadowMirrorMirror5Pos",
+			{
+				"recognition": "ColorMatch",
+				"roi": "ShadowMirrorMirror5Pos",
+				"roi_offset": [-4, -4, 8, 8],
+				"method": 40,
+				"lower": [100, 50, 180],
+				"upper": [106, 70, 220],
+				"count": 20
+			}
+		]
+	},
+	"ShadowMirrorCollectMirror6": {
+		"desc": "掠影之境收集6号镜片",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"ShadowMirrorMirror6Pos",
+			{
+				"recognition": "ColorMatch",
+				"roi": "ShadowMirrorMirror6Pos",
+				"roi_offset": [-4, -4, 8, 8],
+				"method": 40,
+				"lower": [100, 50, 180],
+				"upper": [106, 70, 220],
+				"count": 20
+			}
+		]
+	},
+	"ShadowMirrorCollectMirror7": {
+		"desc": "掠影之境收集7号镜片",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"ShadowMirrorMirror7Pos",
+			{
+				"recognition": "ColorMatch",
+				"roi": "ShadowMirrorMirror7Pos",
+				"roi_offset": [-4, -4, 8, 8],
+				"method": 40,
+				"lower": [100, 50, 180],
+				"upper": [106, 70, 220],
+				"count": 20
+			}
+		]
+	},
+	"ShadowMirrorCollectMirror8": {
+		"desc": "掠影之境收集8号镜片",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"ShadowMirrorMirror8Pos",
+			{
+				"recognition": "ColorMatch",
+				"roi": "ShadowMirrorMirror8Pos",
+				"roi_offset": [-4, -4, 8, 8],
+				"method": 40,
+				"lower": [100, 50, 180],
+				"upper": [106, 70, 220],
+				"count": 20
+			}
+		]
+	},
+	"ShadowMirrorCollectMirror9": {
+		"desc": "掠影之境收集9号镜片",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"ShadowMirrorMirror9Pos",
+			{
+				"recognition": "ColorMatch",
+				"roi": "ShadowMirrorMirror9Pos",
+				"roi_offset": [-4, -4, 8, 8],
+				"method": 40,
+				"lower": [100, 50, 180],
+				"upper": [106, 70, 220],
+				"count": 20
+			}
+		]
+	},
+	"ShadowMirrorOwnedMirror": {
+		"desc": "识别拥有的镜片",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "Or",
+		"any_of": [
+			"ShadowMirrorCollectMirror1",
+			"ShadowMirrorCollectMirror2",
+			"ShadowMirrorCollectMirror3",
+			"ShadowMirrorCollectMirror4",
+			"ShadowMirrorCollectMirror5",
+			"ShadowMirrorCollectMirror6",
+			"ShadowMirrorCollectMirror7",
+			"ShadowMirrorCollectMirror8",
+			"ShadowMirrorCollectMirror9"
+		]
+	},
+	"ShadowMirrorRewardBox1CanOpen": {
+		"desc": "掠影之境宝箱1可开启",
+		"recognition": "OCR",
+		"expected": "(90|[1-9]\\d{2,})/90|(90|[1-9]\\d{2,})/",
+		"roi": [530, 488, 84, 22],
+		"only_rec": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ShadowMirrorCollectRewardBox1": {
+		"desc": "掠影之境开启宝箱1",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"ShadowMirrorRewardBox1CanOpen",
+			{
+				"recognition": "ColorMatch",
+				"roi": [553, 429, 40, 34],
+				"method": 40,
+				"lower": [15, 90, 200],
+				"upper": [25, 150, 2550],
+				"count": 50
+			}
+		],
+		"box_index": 1
+	},
+	"ShadowMirrorRewardBox2CanOpen": {
+		"desc": "掠影之境宝箱2可开启",
+		"recognition": "OCR",
+		"expected": "(190|[2-9]\\d{2,})/190|(190|[2-9]\\d{2,})/",
+		"roi": [616, 698, 101, 24],
+		"only_rec": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ShadowMirrorCollectRewardBox2": {
+		"desc": "掠影之境开启宝箱2",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"ShadowMirrorRewardBox2CanOpen",
+			{
+				"recognition": "ColorMatch",
+				"roi": [649, 643, 39, 29],
+				"method": 40,
+				"lower": [15, 90, 200],
+				"upper": [25, 150, 2550],
+				"count": 50
+			}
+		],
+		"box_index": 1
+	},
+	"ShadowMirrorRewardBox3CanOpen": {
+		"desc": "掠影之境宝箱3可开启",
+		"recognition": "OCR",
+		"expected": "(290|[3-9]\\d{2,})/290|(290|[3-9]\\d{2,})/",
+		"roi": [534, 916, 99, 26],
+		"only_rec": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ShadowMirrorCollectRewardBox3": {
+		"desc": "掠影之境开启宝箱3",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"ShadowMirrorRewardBox3CanOpen",
+			{
+				"recognition": "ColorMatch",
+				"roi": [564, 865, 40, 31],
+				"method": 40,
+				"lower": [15, 90, 200],
+				"upper": [25, 150, 2550],
+				"count": 50
+			}
+		],
+		"box_index": 1
+	},
+	"ShadowMirrorRewardBox4CanOpen": {
+		"desc": "掠影之境宝箱4可开启",
+		"recognition": "OCR",
+		"expected": "(390|[4-9]\\d{2,})/390|(390|[4-9]\\d{2,})/",
+		"roi": [307, 1009, 106, 29],
+		"only_rec": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ShadowMirrorCollectRewardBox4": {
+		"desc": "掠影之境开启宝箱4",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"ShadowMirrorRewardBox4CanOpen",
+			{
+				"recognition": "ColorMatch",
+				"roi": [341, 959, 43, 29],
+				"method": 40,
+				"lower": [15, 90, 200],
+				"upper": [25, 150, 2550],
+				"count": 50
+			}
+		],
+		"box_index": 1
+	},
+	"ShadowMirrorRewardBox5CanOpen": {
+		"desc": "掠影之境宝箱5可开启",
+		"recognition": "OCR",
+		"expected": "(490|[5-9]\\d{2,})/490|(490|[5-9]\\d{2,})/",
+		"roi": [85, 916, 103, 28],
+		"only_rec": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ShadowMirrorCollectRewardBox5": {
+		"desc": "掠影之境开启宝箱5",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"ShadowMirrorRewardBox5CanOpen",
+			{
+				"recognition": "ColorMatch",
+				"roi": [114, 862, 46, 32],
+				"method": 40,
+				"lower": [15, 90, 200],
+				"upper": [25, 150, 2550],
+				"count": 50
+			}
+		],
+		"box_index": 1
+	},
+	"ShadowMirrorRewardBox6CanOpen": {
+		"desc": "掠影之境宝箱6可开启",
+		"recognition": "OCR",
+		"expected": "(590|[6-9]\\d{2,})/590|(590|[6-9]\\d{2,})/",
+		"roi": [2, 696, 100, 26],
+		"only_rec": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ShadowMirrorCollectRewardBox6": {
+		"desc": "掠影之境开启宝箱6",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"ShadowMirrorRewardBox6CanOpen",
+			{
+				"recognition": "ColorMatch",
+				"roi": [32, 640, 44, 36],
+				"method": 40,
+				"lower": [15, 90, 200],
+				"upper": [25, 150, 2550],
+				"count": 50
+			}
+		],
+		"box_index": 1
+	},
+	"ShadowMirrorRewardBox7CanOpen": {
+		"desc": "掠影之境宝箱7可开启",
+		"recognition": "OCR",
+		"expected": "(700|[8-9]\\d{2,})/700|(700|[8-9]\\d{2,})/",
+		"roi": [92, 484, 104, 22],
+		"only_rec": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ShadowMirrorCollectRewardBox7": {
+		"desc": "掠影之境开启宝箱7",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"ShadowMirrorRewardBox7CanOpen",
+			{
+				"recognition": "ColorMatch",
+				"roi": [125, 427, 43, 35],
+				"method": 40,
+				"lower": [15, 90, 200],
+				"upper": [25, 150, 2550],
+				"count": 50
+			}
+		],
+		"box_index": 1
+	}
+}

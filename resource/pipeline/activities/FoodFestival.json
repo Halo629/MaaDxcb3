@@ -1,0 +1,165 @@
+{
+	"FoodFestivalStart": {
+		"desc": "美食祭",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"FoodFestivalDone",
+			"[JumpBack]FoodFestivalDonate",
+			"[JumpBack]FoodFestivalProduceFood",
+			"[JumpBack]FoodFestivalBring",
+			"[JumpBack]SceneEnterBarrelMan"
+		]
+	},
+	"MainPageHasBarrelMan": {
+		"desc": "营火旁有桶中人NPC",
+		"recognition": "OCR",
+		"expected": "桶中人|桶中",
+		"roi": "InCampfire",
+		"roi_offset": [150, 0, 0, 150]
+	},
+	"FoodFestivalDone": {
+		"desc": "美食祭已完成",
+		"recognition": "And",
+		"all_of": [
+			"InFoodFestivalDonatePage",
+			{
+				"recognition": "OCR",
+				"expected": "(50|51)/50|(50|51)/",
+				"roi": [308, 226, 115, 38]
+			}
+		],
+		"next": [
+			"FoodFestivalExit",
+			"[JumpBack]PressEsc"
+		]
+	},
+	"FoodFestivalSatietyNotFull": {
+		"desc": "饱腹度未满，可以捐赠食物",
+		"recognition": "OCR",
+		"expected": "([0-9]|[1-4][0-9])/50|([0-9]|[1-4][0-9])/",
+		"roi": [308, 226, 115, 38]
+	},
+	"FoodFestivalDonate": {
+		"desc": "捐赠食物",
+		"recognition": "And",
+		"all_of": [
+			"InFoodFestivalDonatePage",
+			"FoodFestivalSatietyNotFull",
+			"FoodFestivalCanDonateFood"
+		],
+		"action": "Custom",
+		"custom_action": "FoodFestivalDonate",
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]ConfirmButton",
+			"[JumpBack]FoodFestivalFoodGrant"
+		]
+	},
+	"FoodFestivalProduceFood": {
+		"desc": "美食祭当前食物不足,需要生产食物",
+		"recognition": "And",
+		"all_of": [
+			"InFoodFestivalDonatePage",
+			"FoodFestivalSatietyNotFull"
+		],
+		"action": "Custom",
+		"custom_action": "SpecifyCookingFood",
+		"next": [
+			"[JumpBack]FoodFestivalExitToMainPage",
+			"CookingSpecifiedFoodStart"
+		]
+	},
+	"FoodFestivalCanDonateFood": {
+		"desc": "判断是否可捐赠食物",
+		"recognition": "Custom",
+		"custom_recognition": "FoodFestivalCanDonateFood"
+	},
+	"FoodFestivalExit": {
+		"desc": "暂时没有，退出桶中人",
+		"recognition": "OCR",
+		"expected": "暂时没有|暂时|没有",
+		"roi": [340, 695, 275, 293],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [340, 695, 275, 293],
+			"timeout": 3000
+		}
+	},
+	"FoodFestivalExitToMainPage": {
+		"desc": "退出美食祭",
+		"max_hit": 1,
+		"next": [
+			"FoodFestivalExit",
+			"[JumpBack]PressEsc"
+		]
+	},
+	"FoodFestivalFoodGrant": {
+		"desc": "给予",
+		"recognition": "OCR",
+		"expected": "给予",
+		"roi": [301, 1065, 111, 76],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [301, 1065, 111, 76],
+			"timeout": 3000
+		}
+	},
+	"InBarrelManDialogPage": {
+		"desc": "在桶中人对话页面",
+		"recognition": "OCR",
+		"expected": "桶中人|桶中",
+		"roi": [12, 950, 127, 59]
+	},
+	"FoodFestivalBring": {
+		"desc": "带来了",
+		"recognition": "And",
+		"all_of": [
+			"InBarrelManDialogPage",
+			{
+				"recognition": "OCR",
+				"expected": "带来了|带来|当然|明白",
+				"roi": [344, 681, 277, 287]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [344, 681, 277, 287],
+			"timeout": 3000
+		}
+	},
+	"InFoodFestivalDonatePage": {
+		"desc": "在美食祭捐赠食物页面",
+		"recognition": "OCR",
+		"expected": "饱腹度|饱腹",
+		"roi": [68, 217, 113, 59]
+	},
+	"SatietyColor": {
+		"desc": "当前饱腹度颜色识别",
+		"recognition": "ColorMatch",
+		"roi": [308, 226, 115, 38],
+		"method": 40,
+		"lower": [0, 0, 200],
+		"upper": [255, 55, 255],
+		"count": 15
+	},
+	"CurrentSatiety": {
+		"desc": "获取当前饱腹度",
+		"recognition": "And",
+		"all_of": [
+			"SatietyColor",
+			{
+				"recognition": "OCR",
+				"roi": "SatietyColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"expected": ["\\d+/\\d+"],
+				"only_rec": true
+			}
+		]
+	}
+}

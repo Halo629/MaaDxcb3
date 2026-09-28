@@ -1,0 +1,13 @@
+{
+	"GloryRecastStart": {
+		"desc": "荣光复铸",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "DirectHit",
+		"next": [
+			"ActivityCollection1"
+		],
+		"focus": {"Node.Recognition.Succeeded": "开始任务:荣光复铸"}
+	}
+}

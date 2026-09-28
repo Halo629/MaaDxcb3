@@ -1,0 +1,148 @@
+{
+	"AirshipTreasureStart": {
+		"desc": "飞艇珍奇",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {"ActivityGoto": "AirshipTreasureEntry"},
+		"next": [
+			"[JumpBack]AirshipTreasureBountyPageCollect",
+			"[JumpBack]AirshipTreasureTaskEnable",
+			"AirshipTreasureThisTermPageCollect",
+			"[JumpBack]SceneEnterAirshipTreasureBountyPage",
+			"[JumpBack]AirshipTreasureTipBox",
+			"[JumpBack]ActivityLimitedEnter"
+		]
+	},
+	"AirshipTreasureEntry": {
+		"desc": "限时页面进入飞艇珍奇",
+		"recognition": "TemplateMatch",
+		"template": [
+			"activities/AirshipTreasure/AirshipTreasureIcon1.png",
+			"activities/AirshipTreasure/AirshipTreasureIcon2.png"
+		],
+		"roi": [15, 69, 701, 997],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [15, 69, 701, 997],
+			"timeout": 2000
+		}
+	},
+	"AirshipTreasureTaskEnable": {
+		"desc": "飞艇珍奇未完成任务激活",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": [
+			"InAirshipTreasureBountyPage",
+			"ActivityCommonHasNotCompleteTasks"
+		],
+		"next": [
+			"ActivityCommonNotCompletedTaskEnable"
+		]
+	},
+	"AirshipTreasureThisTermPageCollect": {
+		"desc": "飞艇珍奇本期页面奖励领取",
+		"recognition": "And",
+		"all_of": ["InAirshipTreasureBountyPage"],
+		"next": [
+			"[JumpBack]ActivityCommonCollect",
+			"[JumpBack]SceneEnterAirshipTreasureBountyThisTermPage",
+			"AirshipTreasureDone"
+		]
+	},
+	"AirshipTreasureBountyPageCollect": {
+		"desc": "悬赏页面领取奖励",
+		"recognition": "And",
+		"all_of": [
+			"InAirshipTreasureBountyPage",
+			"ActivityCommonCollect"
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"next": [
+			"ActivityCommonCollect"
+		]
+	},
+	"InAirshipTreasureBountyPage": {
+		"desc": "在飞艇珍奇悬赏页面",
+		"recognition": "OCR",
+		"expected": "悬赏",
+		"roi": [324, 119, 71, 70],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"SceneEnterAirshipTreasureBountyPage": {
+		"desc": "进入飞艇珍奇悬赏页面",
+		"recognition": "Or",
+		"any_of": ["InAirshipTreasurePage"],
+		"next": [
+			"InAirshipTreasureBountyPage",
+			"[JumpBack]AirshipTreasureClickBounty"
+		]
+	},
+	"AirshipTreasureClickBounty": {
+		"desc": "飞艇珍奇页面点击悬赏",
+		"recognition": "OCR",
+		"expected": "悬赏",
+		"roi": [423, 1180, 78, 78],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [107, 463, 517, 482],
+			"timeout": 2000
+		}
+	},
+	"SceneEnterAirshipTreasureBountyThisTermPage": {
+		"desc": "进入飞艇珍奇本期页面",
+		"recognition": "OCR",
+		"expected": "本期",
+		"roi": [161, 996, 396, 136],
+		"max_hit": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [256, 503, 281, 451],
+			"timeout": 2000
+		}
+	},
+	"AirshipTreasureDone": {
+		"desc": "飞艇珍奇已完成",
+		"next": [
+			"SceneBack"
+		]
+	},
+	"AirshipTreasureSwipeToTop": {
+		"desc": "快速滑到最上方",
+		"action": "Swipe",
+		"begin": [400, 200],
+		"end": [400, 900],
+		"duration": 100,
+		"max_hit": 1,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 5000
+		}
+	},
+	"AirshipTreasureTipBox": {
+		"desc": "飞艇珍奇弹窗",
+		"recognition": "OCR",
+		"expected": "每轮藏品及概率预览|藏品|预览",
+		"roi": [246, 78, 238, 65],
+		"action": "Click",
+		"target": [571, 1216, 39, 35],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [278, 679, 186, 246],
+			"timeout": 2000
+		}
+	},
+	"InAirshipTreasurePage": {
+		"desc": "在飞艇珍奇页面",
+		"recognition": "OCR",
+		"expected": "飞艇珍奇|飞艇|珍奇",
+		"roi": [304, 233, 114, 51]
+	}
+}

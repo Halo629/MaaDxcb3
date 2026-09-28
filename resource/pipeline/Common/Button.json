@@ -1,0 +1,65 @@
+{
+	"SceneBack": {
+		"desc": "点击返回按钮回到上一层",
+		"recognition": "And",
+		"all_of": ["HasReturnButton"],
+		"action": {"type": "Click"},
+		"pre_delay": 0,
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [0, 0, 100, 100],
+			"timeout": 2000
+		},
+		"next": []
+	},
+	"BackButton": {
+		"desc": "通用返回按钮（屏幕中间区域）",
+		"recognition": "TemplateMatch",
+		"roi": [184, 658, 389, 257],
+		"template": "button/back_btn.png"
+	},
+	"CollectButton": {
+		"desc": "通用领取按钮（屏幕中间区域）",
+		"recognition": "TemplateMatch",
+		"roi": [93, 910, 537, 120],
+		"post_wait_freezes": {
+			"time": 1000,
+			"target": [260, 540, 200, 200],
+			"timeout": 5000
+		},
+		"template": "button/collect_btn.png"
+	},
+	"CancelButton": {
+		"desc": "通用取消按钮（屏幕中间区域）",
+		"recognition": "TemplateMatch",
+		"roi": [84, 515, 569, 610],
+		"template": "button/cancel_btn.png",
+		"order_by": "Score",
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [158, 514, 413, 152],
+			"timeout": 2000
+		}
+	},
+	"ConfirmButton": {
+		"desc": "通用确认按钮（底部区域，弹窗按钮通常在下半屏）",
+		"recognition": "TemplateMatch",
+		"roi": [0, 400, 720, 820],
+		"template": "button/confirm_btn.png",
+		"order_by": "Score",
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [158, 514, 413, 152],
+			"timeout": 2000
+		}
+	},
+	"CollapseSideBar": {
+		"desc": "收起侧边栏",
+		"recognition": "And",
+		"all_of": ["HasCollapseIcon"],
+		"action": "Click",
+		"pre_delay": 0
+	}
+}

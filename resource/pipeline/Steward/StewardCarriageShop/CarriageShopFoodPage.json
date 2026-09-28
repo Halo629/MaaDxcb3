@@ -1,0 +1,249 @@
+{
+    "CarriageShopBuyFood": {
+        "desc": "食物页购买",
+        "recognition": "And",
+        "all_of": [
+            "InCarriageShop"
+        ],
+        "max_hit": 1,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "CarriageShopBuyOnFoodPage",
+            "[JumpBack]CarriageShopClickFoodTab",
+            "[JumpBack]CarriageShopSwipeRight"
+        ]
+    },
+    "CarriageShopBuyOnFoodPage": {
+        "desc": "已在食物页直接购买",
+        "recognition": "And",
+        "all_of": [
+            "InCarriageShopFoodPage"
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]CarriageShopBuyFoodPointsStart",
+            "[JumpBack]CarriageShopFoodPageSwipeUp",
+            "CarriageShopBuySilverItemStart"
+        ]
+    },
+    "CarriageShopFoodPageSwipeUp": {
+        "desc": "向上滑动查看更多商品",
+        "action": "Swipe",
+        "begin": [
+            450,
+            850
+        ],
+        "end": [
+            450,
+            350
+        ],
+        "duration": 100,
+        "max_hit": 1,
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                97,
+                418,
+                532,
+                634
+            ],
+            "timeout": 3000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "CarriageShopClickFoodTab": {
+        "desc": "点击食物标签",
+        "recognition": "And",
+        "all_of": [
+            "CarriageShopHasFoodTab"
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                160,
+                580,
+                391,
+                473
+            ],
+            "timeout": 2000
+        }
+    },
+    "__FindSalt": {
+        "recognition": "TemplateMatch",
+        "template": "carriage_shop/Salt.png",
+        "roi": [
+            536,
+            5,
+            163,
+            204
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "__SaltWhiteText": {
+        "recognition": "ColorMatch",
+        "method": 40,
+        "lower": [
+            15,
+            20,
+            140
+        ],
+        "upper": [
+            35,
+            80,
+            255
+        ],
+        "roi": "__FindSalt",
+        "roi_offset": [
+            50,
+            0,
+            50,
+            0
+        ],
+        "count": 10,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "CarriageShopSaltEnough": {
+        "desc": "盐数量充足(>30)",
+        "recognition": "And",
+        "all_of": [
+            "__FindSalt",
+            "__SaltWhiteText",
+            {
+                "recognition": "OCR",
+                "expected": "[3-9][0-9]|[1-9][0-9][0-9][0-9]*",
+                "roi": "__SaltWhiteText",
+                "roi_offset": [
+                    -2,
+                    -2,
+                    4,
+                    4
+                ],
+                "only_rec": true
+            }
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "CarriageShopSaltItemFound": {
+        "desc": "识别盐图标商品",
+        "recognition": "TemplateMatch",
+        "template": "carriage_shop/SaltItem.png",
+        "roi": [
+            60,
+            364,
+            609,
+            761
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "CarriageShopFoodPointsFound": {
+        "desc": "找到美食积分",
+        "recognition": "And",
+        "all_of": [
+            "CarriageShopSaltItemFound",
+            {
+                "recognition": "OCR",
+                "expected": "美食积分|美食|积分",
+                "roi": "CarriageShopSaltItemFound",
+                "roi_offset": [
+                    -40,
+                    -65,
+                    120,
+                    20
+                ]
+            }
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "CarriageShopBuyFoodPointsStart": {
+        "desc": "购买美食积分商品入口",
+        "enabled": false,
+        "max_hit": 1,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "FoodPointsSoldOut",
+            "CarriageShopBuyFoodPoints",
+            "CarriageShopBuyItemDone"
+        ]
+    },
+    "CarriageShopBuyFoodPoints": {
+        "desc": "购买美食积分商品",
+        "recognition": "And",
+        "all_of": [
+            "CarriageShopSaltEnough",
+            "CarriageShopFoodPointsFound"
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "CarriageShopTryBuyFoodPoints"
+        ]
+    },
+    "CarriageShopTryBuyFoodPoints": {
+        "desc": "购买美食积分-点击商品",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "action": "Click",
+        "target": "CarriageShopFoodPointsFound",
+        "target_offset": [
+            0,
+            -50,
+            0,
+            0
+        ],
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                97,
+                418,
+                532,
+                634
+            ],
+            "timeout": 3000
+        },
+        "next": [
+            "CarriageShopSlideBuy"
+        ]
+    },
+    "FoodPointsSoldOut": {
+        "desc": "商品已售罄,完成购买",
+        "recognition": "And",
+        "all_of": [
+            "CarriageShopFoodPointsFound",
+            {
+                "recognition": "TemplateMatch",
+                "template": "carriage_shop/sold_out.png",
+                "roi": "CarriageShopFoodPointsFound",
+                "roi_offset": [
+                    -20,
+                    -180,
+                    100,
+                    180
+                ]
+            }
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    }
+}

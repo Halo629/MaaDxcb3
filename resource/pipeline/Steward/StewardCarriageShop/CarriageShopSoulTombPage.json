@@ -1,0 +1,217 @@
+{
+    "CarriageShopBuyEmblemChestEntry": {
+        "desc": "纹章宝盒-魂墓页面购买",
+        "recognition": "And",
+        "all_of": [
+            "InCarriageShop"
+        ],
+        "max_hit": 1,
+        "enabled": false,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "CarriageShopBuyOnSoulTombPage",
+            "[JumpBack]CarriageShopClickSoulTombTab",
+            "[JumpBack]CarriageShopSwipeLeft",
+            "EmblemChestPageDone"
+        ]
+    },
+    "CarriageShopBuyOnSoulTombPage": {
+        "desc": "已在魂墓页面",
+        "recognition": "And",
+        "all_of": [
+            "InCarriageShopSoulTombPage"
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "EmblemChestSoldOut",
+            "CarriageShopBuyEmblemChest",
+            "[JumpBack]__EmblemChestSwipeUp",
+            "CarriageShopBuyItemDone"
+        ]
+    },
+    "CarriageShopClickSoulTombTab": {
+        "desc": "点击魂墓标签",
+        "recognition": "And",
+        "all_of": [
+            "CarriageShopHasSoulTombTab"
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                160,
+                580,
+                391,
+                473
+            ],
+            "timeout": 2000
+        }
+    },
+    "EmblemChestPageDone": {
+        "desc": "纹章宝箱页已完成",
+        "recognition": "And",
+        "all_of": [
+            "InCarriageShopSoulTombPage"
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "__FindSunshine": {
+        "recognition": "TemplateMatch",
+        "template": "carriage_shop/Sunshine.png",
+        "roi": [
+            536,
+            5,
+            163,
+            204
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "__SunshineWhiteText": {
+        "recognition": "ColorMatch",
+        "method": 40,
+        "lower": [
+            15,
+            20,
+            140
+        ],
+        "upper": [
+            35,
+            80,
+            255
+        ],
+        "roi": "__FindSunshine",
+        "roi_offset": [
+            30,
+            0,
+            60,
+            0
+        ],
+        "count": 10,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "CarriageShopSunshineEnough": {
+        "desc": "太阳之光数量充足(>3500)",
+        "recognition": "And",
+        "all_of": [
+            "__FindSunshine",
+            "__SunshineWhiteText",
+            {
+                "recognition": "OCR",
+                "expected": "^(3[5-9][0-9]{2}|[4-9][0-9]{3}|[1-9][0-9]{4,})$",
+                "roi": "__SunshineWhiteText",
+                "roi_offset": [
+                    -2,
+                    -2,
+                    4,
+                    4
+                ],
+                "only_rec": true
+            }
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "__CarriageShopFindSunshineItem": {
+        "recognition": "TemplateMatch",
+        "template": "carriage_shop/SunshineItem.png",
+        "roi": [
+            63,
+            361,
+            593,
+            730
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "CarriageShopBuyEmblemChest": {
+        "desc": "购买纹章宝盒",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "recognition": "And",
+        "all_of": [
+            "CarriageShopSunshineEnough",
+            "CarriageShopEmblemChestFound"
+        ],
+        "box_index": 1,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                160,
+                580,
+                391,
+                473
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "CarriageShopSlideBuy"
+        ]
+    },
+    "CarriageShopEmblemChestFound": {
+        "desc": "找到纹章宝盒",
+        "recognition": "OCR",
+        "expected": "纹章宝盒|纹章|宝盒",
+        "roi": [
+            69,
+            395,
+            590,
+            742
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "__EmblemChestSwipeUp": {
+        "desc": "纹章宝箱页向上滑动查看更多",
+        "action": "Swipe",
+        "begin": [
+            450,
+            850
+        ],
+        "end": [
+            450,
+            700
+        ],
+        "duration": 100,
+        "max_hit": 2,
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                97,
+                418,
+                532,
+                634
+            ],
+            "timeout": 3000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "EmblemChestSoldOut": {
+        "desc": "商品已售罄",
+        "recognition": "TemplateMatch",
+        "template": "carriage_shop/sold_out.png",
+        "roi": "CarriageShopEmblemChestFound",
+        "roi_offset": [
+            -20,
+            -180,
+            100,
+            180
+        ]
+    }
+}

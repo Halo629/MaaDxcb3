@@ -1,0 +1,829 @@
+{
+	"ActivityLimitedEnter": {
+		"desc": "限时页通用活动入口",
+		"recognition": "DirectHit",
+		"next": [
+			"ActivityLimitedOnPage",
+			"[JumpBack]SceneEnterGamePlayLimited"
+		]
+	},
+	"ActivityLimitedOnPage": {
+		"desc": "在限时页查找活动",
+		"recognition": "And",
+		"all_of": ["InGamePlayLimitedPage"],
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["ActivityLimitedSwipeUp"]
+		},
+		"next": [
+			"[Anchor]ActivityGoto",
+			"[JumpBack]ActivityLimitedSwipeUp",
+			"ActivityNotEnabled"
+		]
+	},
+	"ActivityLimitedSwipeUp": {
+		"desc": "向上滑动查找",
+		"action": "Swipe",
+		"begin": [400, 800],
+		"end": [400, 600],
+		"duration": 200,
+		"max_hit": 5,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 5000
+		}
+	},
+	"ActivityCommonSoulTombSub": {
+		"desc": "魂墓挑战",
+		"enabled": false,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"SoulTombStart"
+		]
+	},
+	"ActivityCommonUseScrollSub": {
+		"desc": "使用卷轴召唤",
+		"enabled": false,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"ScrollTen",
+			"ScrollOnce",
+			"ScrollDone",
+			"[JumpBack]SceneEnterSpiritSummonTome"
+		]
+	},
+	"ActivityCommonEngraveSub": {
+		"desc": "铭刻装备",
+		"enabled": false,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"EquipmentEngraveEntry",
+			"[JumpBack]AlbedoEntry",
+			"EngraveEntry",
+			"[JumpBack]SceneEnterMainPage"
+		]
+	},
+	"ActivityCommonReforgeSub": {
+		"desc": "重铸装备",
+		"enabled": false,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"ReforgeSelectFirstRole",
+			"[JumpBack]ReforgeEntry",
+			"[JumpBack]SceneEnterMainPage"
+		]
+	},
+	"ScrollTen": {
+		"desc": "召唤十次",
+		"enabled": false,
+		"recognition": "And",
+		"all_of": [
+			"ScrollSummonTen",
+			"InSpiritScrollSummonPage",
+			"HasTenScroll"
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"next": [
+			"ScrollSummonSkip"
+		]
+	},
+	"ScrollSummonTen": {
+		"desc": "卷轴十连",
+		"recognition": "OCR",
+		"expected": "召唤十次|召唤",
+		"roi": [440, 903, 167, 78]
+	},
+	"ScrollOnce": {
+		"desc": "召唤一次",
+		"enabled": false,
+		"recognition": "And",
+		"all_of": [
+			"ScrollSummonOnce",
+			"InSpiritScrollSummonPage",
+			"HasOneScroll"
+		],
+		"pre_delay": 0,
+		"post_delay": 1000,
+		"rate_limit": 0,
+		"action": "Click",
+		"next": [
+			"ScrollSummonOnce",
+			"[JumpBack]ScrollOnceClickToSkip"
+		]
+	},
+	"ScrollOnceClickToSkip": {
+		"desc": "跳过召唤",
+		"action": "Click",
+		"target": [349, 363, 81, 114],
+		"pre_delay": 0,
+		"post_delay": 500,
+		"rate_limit": 0
+	},
+	"ScrollSummonOnce": {
+		"desc": "卷轴召唤一次",
+		"recognition": "OCR",
+		"expected": "召唤一次|召唤",
+		"roi": [141, 916, 101, 50]
+	},
+	"ScrollSummonSkip": {
+		"desc": "跳过召唤过程",
+		"recognition": "TemplateMatch",
+		"roi": [611, 1148, 91, 117],
+		"template": "spirit_summon_tome/summon_skip.png",
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [260, 540, 200, 200],
+			"timeout": 5000
+		},
+		"next": [
+			"ScrollSummonResultBoxClose"
+		]
+	},
+	"ScrollSummonResultBoxClose": {
+		"desc": "关闭召唤结果页面",
+		"recognition": "OCR",
+		"expected": "召唤结果",
+		"roi": [294, 160, 129, 61],
+		"next": [
+			"PressEsc"
+		]
+	},
+	"ScrollDone": {
+		"recognition": "And",
+		"all_of": ["InSpiritScrollSummonPage"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"SceneBack"
+		]
+	},
+	"ScrollSummonPageEntry": {
+		"desc": "切换到唤灵之典卷轴召唤页面",
+		"recognition": "And",
+		"all_of": ["InSpiritSummonTome"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"target": [33, 1070, 44, 44]
+	},
+	"ScrollTenDone": {
+		"desc": "召唤完成后返回主页",
+		"recognition": "And",
+		"all_of": ["InSpiritScrollSummonPage"],
+		"next": [
+			"PressEsc"
+		]
+	},
+	"EngraveEntry": {
+		"desc": "在主页营火处左滑，找到雅儿贝德",
+		"recognition": "And",
+		"all_of": ["InMainPage"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Swipe",
+		"begin": [450, 900],
+		"end": [250, 900],
+		"duration": 100,
+		"post_wait_freezes": 300,
+		"next": [
+			"AlbedoEntry"
+		]
+	},
+	"AlbedoEntry": {
+		"desc": "识别并点击雅尔贝德",
+		"recognition": "OCR",
+		"expected": "雅尔贝德|雅尔|贝德",
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"target_offset": [0, -50, 0, 0],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [55, 1088, 520, 157],
+			"timeout": 15000
+		}
+	},
+	"EquipmentEngraveEntry": {
+		"desc": "点击装备铭刻",
+		"recognition": "TemplateMatch",
+		"template": "engrave/equipment_engrave.png",
+		"roi": [258, 772, 461, 121],
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [210, 540, 304, 281],
+			"timeout": 5000
+		},
+		"next": [
+			"SelectFirstEquipment",
+			"[JumpBack]SelectEngraveEquipment"
+		]
+	},
+	"SelectEngraveEquipment": {
+		"desc": "选择铭刻装备",
+		"recognition": "TemplateMatch",
+		"roi": [278, 220, 163, 176],
+		"template": "engrave/select_equipment.png",
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [111, 206, 492, 295],
+			"timeout": 5000
+		}
+	},
+	"SelectFirstEquipment": {
+		"desc": "选择第一件装备",
+		"recognition": "TemplateMatch",
+		"template": "button/select_btn.png",
+		"roi": [391, 1161, 244, 97],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [118, 741, 493, 152],
+			"timeout": 5000
+		},
+		"next": [
+			"EngraveNoEnoughEtchant",
+			"[JumpBack]EngraveStart",
+			"EngraveDone"
+		]
+	},
+	"HasEngraveBtn": {
+		"desc": "识别铭刻按钮",
+		"recognition": "TemplateMatch",
+		"template": "engrave/engrave.png",
+		"roi": [472, 1074, 192, 109],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"EngraveStart": {
+		"desc": "铭刻",
+		"recognition": "And",
+		"all_of": ["HasEngraveBtn"],
+		"action": "Click",
+		"max_hit": 2,
+		"repeat_delay": 1500,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [114, 724, 509, 169],
+			"timeout": 5000
+		}
+	},
+	"EngraveNoEnoughEtchant": {
+		"desc": "腐蚀液不足",
+		"recognition": "And",
+		"all_of": [
+			"HasEngraveBtn",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [0, 0, 20],
+				"upper": [0, 0, 24],
+				"roi": "HasEngraveBtn",
+				"count": 500
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"EngraveDone"
+		]
+	},
+	"EngraveDone": {
+		"desc": "完成铭刻",
+		"recognition": "OCR",
+		"expected": "离开",
+		"roi": [69, 990, 179, 264],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"next": [
+			"EngraveDoneConfirm"
+		]
+	},
+	"EngraveDoneConfirm": {
+		"desc": "确认离开铭刻页面",
+		"recognition": "OCR",
+		"expected": "确定",
+		"roi": [426, 706, 129, 51],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [260, 540, 200, 200],
+			"timeout": 5000
+		}
+	},
+	"ReforgeEntry": {
+		"desc": "点击远征队",
+		"recognition": "And",
+		"all_of": ["HasExpeditionTeam"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"post_wait_freezes": 300
+	},
+	"ReforgeSelectFirstRole": {
+		"desc": "选择第一个人物",
+		"recognition": "OCR",
+		"expected": "编队",
+		"roi": [152, 1086, 90, 92],
+		"action": "Click",
+		"target": [146, 348, 48, 108],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [260, 540, 200, 200],
+			"timeout": 2000
+		},
+		"next": [
+			"[JumpBack]RefiningLinking",
+			"ReforgeClickRefine",
+			"[JumpBack]ReforgeSelectHelmet",
+			"[JumpBack]ReforgeSelectArmor",
+			"[JumpBack]ReforgeSelectHands",
+			"[JumpBack]ReforgeSelectBelt",
+			"[JumpBack]ReforgeSelectRing",
+			"[JumpBack]ReforgeSelectBoot",
+			"ReforgeFail"
+		]
+	},
+	"ReforgeSelectHelmet": {
+		"desc": "选择头盔进行重铸",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["NoHelmet"],
+		"inverse": true,
+		"action": "Click",
+		"target": [559, 857, 31, 36],
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [73, 308, 574, 690],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ReforgeSelectArmor": {
+		"desc": "选择护甲进行重铸",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["NoArmor"],
+		"inverse": true,
+		"action": "Click",
+		"target": [620, 830, 80, 92],
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [73, 308, 574, 690],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ReforgeSelectHands": {
+		"desc": "选择护手进行重铸",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["NoHands"],
+		"inverse": true,
+		"action": "Click",
+		"target": [533, 923, 82, 90],
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [73, 308, 574, 690],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ReforgeSelectBelt": {
+		"desc": "选择腰带进行重铸",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["NoBelt"],
+		"inverse": true,
+		"action": "Click",
+		"target": [619, 923, 82, 91],
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [73, 308, 574, 690],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ReforgeSelectRing": {
+		"desc": "选择戒指进行重铸",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["NoRing"],
+		"inverse": true,
+		"action": "Click",
+		"target": [528, 1008, 91, 92],
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [73, 308, 574, 690],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ReforgeSelectBoot": {
+		"desc": "选择鞋子进行重铸",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["NoBoot"],
+		"inverse": true,
+		"action": "Click",
+		"target": [618, 1006, 83, 92],
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [73, 308, 574, 690],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ReforgeClickRefine": {
+		"desc": "点击精炼",
+		"recognition": "OCR",
+		"expected": "^精炼$",
+		"roi": [435, 757, 139, 419],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [73, 308, 574, 690],
+			"timeout": 2000
+		},
+		"next": [
+			"ClickReforge"
+		]
+	},
+	"RefiningLinking": {
+		"desc": "精炼联结中,无法重铸",
+		"recognition": "OCR",
+		"expected": "精炼联结中|联结",
+		"roi": [424, 695, 165, 390],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "ClickKey",
+		"key": 111,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [81, 301, 531, 584],
+			"timeout": 2000
+		}
+	},
+	"ClickReforge": {
+		"desc": "点击重铸",
+		"recognition": "OCR",
+		"expected": "重铸",
+		"roi": [424, 695, 165, 390],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 100,
+			"target": [73, 308, 574, 690],
+			"timeout": 1000
+		},
+		"next": [
+			"ReforgeConfirm"
+		]
+	},
+	"ReforgeConfirm": {
+		"desc": "确认重铸",
+		"recognition": "OCR",
+		"expected": "确认重铸",
+		"roi": [269, 777, 180, 406],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"post_wait_freezes": {
+			"time": 200,
+			"timeout": 2000,
+			"target": [165, 356, 419, 628]
+		},
+		"rate_limit": 0,
+		"action": "Click",
+		"max_hit": 10,
+		"next": [
+			"HighPerfectionRateNotice",
+			"ReforgeConfirm",
+			"ReforgeDone"
+		]
+	},
+	"HighPerfectionRateNotice": {
+		"desc": "完美度较高时的弹框确认",
+		"recognition": "TemplateMatch",
+		"roi": [418, 674, 152, 111],
+		"template": "button/confirm_btn.png",
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"post_wait_freezes": {
+			"time": 200,
+			"timeout": 2000,
+			"target": [165, 356, 419, 628]
+		},
+		"next": [
+			"ReforgeConfirm",
+			"ReforgeDone"
+		]
+	},
+	"ReforgeDone": {
+		"desc": "完成重铸",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"SceneEnterMainPage"
+		]
+	},
+	"ReforgeFail": {
+		"desc": "重铸失败",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"SceneEnterMainPage"
+		],
+		"focus": {"Node.Recognition.Succeeded": "装备重铸失败:处于联结状态"}
+	},
+	"ActivityCommonUseFood": {
+		"desc": "使用食物",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"enabled": false,
+		"max_hit": 1,
+		"next": [
+			"ActivityCommonUseFoodEntry",
+			"[JumpBack]SceneEnterMainPage"
+		]
+	},
+	"ActivityCommonUseFoodEntry": {
+		"desc": "进入食物页面",
+		"recognition": "And",
+		"all_of": ["HasFoodIcon"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [277, 356, 178, 555],
+			"timeout": 2000
+		},
+		"action": "Click",
+		"next": [
+			"[JumpBack]ActivityCommonFoodPageUseFood",
+			"ActivityAlwaysTrue"
+		]
+	},
+	"ActivityCommonFoodPageUseFood": {
+		"desc": "食物页使用食物入口",
+		"max_hit": 3,
+		"next": [
+			"ActivityCommonFoodPageAddFood",
+			"ActivityCommonFoodPageReplaceFood"
+		]
+	},
+	"ActivityCommonFoodPageAddFood": {
+		"desc": "食物页使用食物",
+		"recognition": "TemplateMatch",
+		"template": "common/UseFood.png",
+		"roi": [263, 341, 177, 584],
+		"order_by": "Vertical",
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [277, 356, 178, 555],
+			"timeout": 2000
+		},
+		"next": [
+			"ActivityCommonUseSelectedFood",
+			"[JumpBack]ActivityCommonFoodListPageSwipe",
+			"ActivityAlwaysTrue"
+		]
+	},
+	"ActivityCommonFoodPageReplaceFood": {
+		"desc": "食物页替换食物",
+		"recognition": "OCR",
+		"expected": "替换食物|替换",
+		"roi": [268, 1131, 199, 47],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [277, 356, 178, 555],
+			"timeout": 2000
+		},
+		"next": [
+			"ActivityCommonFoodPageDoReplace",
+			"[JumpBack]ActivityCommonUseSelectedFood",
+			"[JumpBack]ActivityCommonFoodListPageSwipe",
+			"ActivityAlwaysTrue"
+		]
+	},
+	"ActivityCommonFoodPageDoReplace": {
+		"desc": "替换食物",
+		"recognition": "OCR",
+		"expected": "替换",
+		"roi": [491, 391, 181, 494],
+		"order_by": "Vertical",
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [277, 356, 178, 555],
+			"timeout": 2000
+		},
+		"next": [
+			"ConfirmButton"
+		]
+	},
+	"ActivityCommonSelectFood": {
+		"desc": "选择食物",
+		"recognition": "OCR",
+		"expected": "黏糊糊的食物|面包|混合蔬菜浓汤|果汁|腌菜|炸鱼|蘑菇浓汤|炖肉|虾饼|腌制鱼肉香肠|鱼汤|野菜沙拉|鸟肉串|肉丸子|风干香肠|饼干|蒸虾|肉酱|鱼肉沙拉|水果布丁|发酵饮品|炒野菜|水果酿|荧果肉酱|炸鸡|胡萝卜面包|胡萝卜汁|水果馅饼|鸟肉馅饼|牛奶面包|煎肉排|乳酪馅饼|鲜虾野菜汤|烤鸟肉沙拉|海鲜浓汤|鱼肉馅饼|海陆烤肉拼盘|乱炖",
+		"roi": [91, 356, 547, 705]
+	},
+	"ActivityCommonUseSelectedFood": {
+		"desc": "使用选择的食物",
+		"recognition": "And",
+		"all_of": [
+			"InFoodListPage",
+			"ActivityCommonSelectFood",
+			{
+				"recognition": "OCR",
+				"expected": "使用",
+				"roi": "ActivityCommonSelectFood",
+				"roi_offset": [0, 55, 0, 10]
+			}
+		],
+		"box_index": 2,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [277, 356, 178, 555],
+			"timeout": 2000
+		}
+	},
+	"InFoodListPage": {
+		"desc": "在食物列表页面",
+		"recognition": "OCR",
+		"expected": "食物列表|食物|列表",
+		"roi": [298, 268, 125, 53]
+	},
+	"ActivityCommonFoodListPageSwipe": {
+		"desc": "食物列表上滑",
+		"action": "Swipe",
+		"begin": [460, 900],
+		"end": [460, 800],
+		"duration": 200,
+		"max_hit": 3,
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [277, 356, 178, 555],
+			"timeout": 2000
+		}
+	},
+	"ActivityCommonHasCollectOCR": {
+		"recognition": "OCR",
+		"expected": "(?<![未已])(完成|领取)",
+		"roi": [510, 200, 120, 800],
+		"order_by": "Vertical"
+	},
+	"ActivityCommonCollect": {
+		"desc": "活动通用的领取奖励",
+		"recognition": "And",
+		"all_of": [
+			"ActivityCommonHasCollectOCR",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 50, 150],
+				"upper": [35, 255, 255],
+				"roi": "ActivityCommonHasCollectOCR",
+				"count": 100
+			}
+		],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 400,
+			"target": [242, 464, 265, 428],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog"
+		]
+	},
+	"ActivityNotEnabled": {
+		"desc": "活动未开放",
+		"action": "Custom",
+		"custom_action": "FailTask",
+		"focus": {"Node.Recognition.Succeeded": "活动未开放"}
+	},
+	"ActivityAlwaysTrue": {"desc": "活动公共退出节点"},
+	"ActivityCommonFreeCollect": {
+		"desc": "活动公共礼包页免费领取",
+		"recognition": "OCR",
+		"expected": "免费领取|免费|领取",
+		"roi": [458, 188, 224, 937],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [458, 188, 224, 937],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"HandleRewardDialog"
+		]
+	},
+	"ActivityCommonQuit": {
+		"desc": "活动公共退出选项",
+		"next": [
+			"SceneBack"
+		]
+	},
+	"ActivityCommonHasNotCompleteTasks": {
+		"desc": "活动通用查找未完成任务节点",
+		"recognition": "OCR",
+		"expected": "未完成",
+		"roi": [510, 200, 150, 800],
+		"order_by": "Vertical"
+	},
+	"ActivityCommonNotCompletedTaskEnable": {
+		"desc": "活动通用激活未完成任务节点",
+		"recognition": "And",
+		"all_of": ["ActivityCommonHasNotCompleteTasks"],
+		"action": "Custom",
+		"custom_action": "ActivityCommonTasks",
+		"attach": {
+			"UseFoodEnable": false,
+			"EngraveEquipmentEnable": false,
+			"SoulTombEnable": false,
+			"ReforgeEquipmentEnable": false,
+			"UseScrollEnable": false
+		},
+		"next": [
+			"[JumpBack]ActivityCommonUseFood",
+			"[JumpBack]ActivityCommonEngraveSub",
+			"[JumpBack]ActivityCommonSoulTombSub",
+			"[JumpBack]ActivityCommonReforgeSub",
+			"[JumpBack]ActivityCommonUseScrollSub",
+			"ActivityAlwaysTrue"
+		]
+	}
+}

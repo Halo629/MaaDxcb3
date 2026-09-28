@@ -1,0 +1,152 @@
+{
+	"WeeklySandSub": {
+		"desc": "炼成阵沙子领取",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"[JumpBack]FreeSandCollectEntry",
+			"WeeklySandBuyStart",
+			"WeeklySandNone",
+			"[JumpBack]SceneEnterMainPage"
+		],
+		"focus": "开始任务:炼成阵沙子领取"
+	},
+	"FreeSandCollectEntry": {
+		"desc": "在主页并且有免费沙提醒图标",
+		"recognition": "And",
+		"all_of": ["InMainPage", "HasFreeSandNotice"],
+		"box_index": 1,
+		"action": "Click",
+		"pre_wait_freezes": {
+			"time": 500,
+			"target": [97, 556, 440, 492],
+			"timeout": 3000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"FreeSandGotoCollect"
+		]
+	},
+	"FreeSandGotoCollect": {
+		"desc": "点击前往领取",
+		"recognition": "TemplateMatch",
+		"roi": [235, 887, 264, 165],
+		"template": "sand/goto_collect_sand.png",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"pre_wait_freezes": {
+			"time": 500,
+			"target": [97, 556, 440, 492],
+			"timeout": 3000
+		},
+		"next": [
+			"FreeSandCollect"
+		]
+	},
+	"FreeSandCollect": {
+		"desc": "点击领取免费沙",
+		"recognition": "TemplateMatch",
+		"roi": [48, 139, 109, 122],
+		"template": "sand/free_sand.png",
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [260, 540, 200, 200],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog"
+		]
+	},
+	"WeeklySandBuyStart": {
+		"desc": "每周沙子购买",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"WeeklySandBuyEntry",
+			"[JumpBack]RefineFormationEntry"
+		]
+	},
+	"WeeklySandBuyEntry": {
+		"desc": "炼成阵析取购买沙子",
+		"recognition": "And",
+		"all_of": [
+			"InRefineFormationPage",
+			{
+				"recognition": "OCR",
+				"expected": "析取",
+				"roi": [144, 1172, 498, 91]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [260, 540, 200, 200],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"JadeNotEnoughAndQuit",
+			"[JumpBack]WeeklySandBuy",
+			"WeeklySandBuyDone"
+		]
+	},
+	"WeeklySandBuy": {
+		"desc": "本位之玉购买沙子",
+		"recognition": "TemplateMatch",
+		"template": "common/jade.png",
+		"roi": [491, 228, 144, 881],
+		"order_by": "Vertical",
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [168, 364, 361, 576],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"JadeNotEnough",
+			"[JumpBack]ConfirmButton",
+			"HandleRewardDialog"
+		]
+	},
+	"JadeNotEnough": {
+		"desc": "宝玉不足",
+		"recognition": "OCR",
+		"expected": "宝玉不足|不足",
+		"roi": [178, 512, 353, 147]
+	},
+	"JadeNotEnoughAndQuit": {
+		"desc": "宝玉不足,退出",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["JadeNotEnough"],
+		"next": [
+			"[JumpBack]ConfirmButton",
+			"SceneBack"
+		]
+	},
+	"WeeklySandBuyDone": {
+		"desc": "沙子已买完",
+		"next": [
+			"SceneBack"
+		]
+	},
+	"WeeklySandNone": {"desc": "炼成阵沙子完成"}
+}

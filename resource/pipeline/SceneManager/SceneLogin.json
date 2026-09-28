@@ -1,0 +1,359 @@
+{
+	"LaunchAndEntryGame": {
+		"desc": "启动游戏并进入游戏",
+		"recognition": "DirectHit",
+		"post_delay": 0,
+		"pre_delay": 0,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["ServerConfigStart"]
+		},
+		"next": [
+			"[JumpBack]SwitchServer",
+			"LoginPageClickStartGameButton",
+			"[JumpBack]LoginPageEventsHandle",
+			"InGameCheck",
+			"[JumpBack]LaunchGame"
+		],
+		"on_error": [
+			"RestartGameAndRetry"
+		]
+	},
+	"ServerConfigStart": {
+		"desc": "用户配置保存入口",
+		"recognition": "DirectHit",
+		"action": "Custom",
+		"custom_action": "SaveConfig"
+	},
+	"SwitchServer": {
+		"desc": "切换服务器",
+		"recognition": "DirectHit",
+		"enabled": false,
+		"max_hit": 1,
+		"next": [
+			"CheckTargetServerIfInGame",
+			"InTargetServer",
+			"SwitchToTargetServer",
+			"[JumpBack]LoginPageEventsHandle",
+			"[JumpBack]SwitchServerRestartGame",
+			"[JumpBack]LaunchGame"
+		],
+		"post_delay": 0,
+		"pre_delay": 0,
+		"rate_limit": 0
+	},
+	"SwitchServerRestartGame": {
+		"desc": "重启游戏",
+		"max_hit": 1,
+		"recognition": "Or",
+		"any_of": ["InLoginPage", "InGameCheck"],
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["QuitGame", "LaunchGame"]
+		}
+	},
+	"SwitchToTargetServer": {
+		"desc": "切换到目标服务器",
+		"recognition": "And",
+		"all_of": ["InLoginPage", "LoginPageHasStartGameButton"],
+		"next": [
+			"FindAndSwitchServerInServerList",
+			"[JumpBack]LoginSettingPageEntryServerListPage",
+			"[JumpBack]LoginPageEnterSettingPage"
+		]
+	},
+	"CustomServerList": {
+		"order_by": "Vertical",
+		"recognition": "OCR",
+		"roi": [104, 300, 350, 663]
+	},
+	"CustomCurrentServerName": {
+		"desc": "识别当前服务器(自定义识别使用)",
+		"post_delay": 0,
+		"pre_delay": 0,
+		"recognition": "OCR",
+		"roi": [10, 1223, 348, 34]
+	},
+	"CheckTargetServerIfInGame": {
+		"desc": "在游戏中检查当前服务器是否是目标服务器",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InGameCheck"],
+		"next": [
+			"CheckTargetServerInGame",
+			"[JumpBack]SceneEnterPersonalInfoPage",
+			"InGameCheckTargetServerFail"
+		]
+	},
+	"InGameCheckTargetServerFail": {
+		"desc": "在游戏中检查目标服务器失败,重置SwitchServer计数并重新走切换服务器逻辑",
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["SwitchServer"]
+		},
+		"next": [
+			"SwitchServer"
+		]
+	},
+	"CustomGetCurrentServerNameInGame": {
+		"desc": "在游戏中获取当前服务器(自定义识别使用)",
+		"post_delay": 0,
+		"pre_delay": 0,
+		"recognition": "OCR",
+		"roi": [259, 320, 167, 38]
+	},
+	"SceneEnterPersonalInfoPage": {
+		"desc": "进入个人信息页面",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InPersonalInfoPage",
+			"[JumpBack]PersonalInfoPageEntry",
+			"[JumpBack]SceneEnterMainPage"
+		]
+	},
+	"GetCurServerInGame": {
+		"desc": "在游戏中获取当前服务器",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"ReadServerName",
+			"PersonalInfoPageEntry",
+			"[JumpBack]SceneEnterMainPage"
+		]
+	},
+	"PersonalInfoPageEntry": {
+		"desc": "点击头像前往个人信息页面",
+		"recognition": "And",
+		"all_of": ["InMainPage", "HasSecretRealm"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"target": [338, 59, 44, 49],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [193, 198, 371, 771],
+			"timeout": 2000
+		}
+	},
+	"ReadServerName": {
+		"desc": "确认在个人信息页并读取服务器名称",
+		"recognition": "And",
+		"all_of": ["InPersonalInfoPage"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"GetServerInpersonalInfoPage": {
+		"desc": "OCR 服务器名并存入 RecInfo",
+		"recognition": "DirectHit",
+		"action": "Custom",
+		"custom_action": "ReadServerNameAct",
+		"custom_action_param": {
+			"roi": [260, 313, 203, 51]
+		},
+		"next": [
+			"PressEsc"
+		]
+	},
+	"FindAndSwitchServerInServerList": {
+		"desc": "在服务器列表中寻找目标服务器并切换",
+		"recognition": "And",
+		"all_of": ["InMyServerListPage"],
+		"post_delay": 0,
+		"pre_delay": 0,
+		"next": [
+			"FindTargetServer"
+		]
+	},
+	"FindTargetServer": {
+		"recognition": "Custom",
+		"custom_recognition": "FindTargetServer",
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 500,
+		"next": [
+			"InTargetServer",
+			"[JumpBack]ConfirmButton"
+		]
+	},
+	"InMyServerListPage": {
+		"desc": "在我的服务器页面",
+		"expected": "我的服务器",
+		"post_delay": 0,
+		"pre_delay": 0,
+		"recognition": "OCR",
+		"rate_limit": 0,
+		"roi": [285, 217, 156, 58]
+	},
+	"InTargetServer": {
+		"desc": "在目标服务器",
+		"recognition": "Custom",
+		"custom_recognition": "TargetServerCheck",
+		"post_delay": 0,
+		"pre_delay": 0
+	},
+	"CheckTargetServerInGame": {
+		"recognition": "And",
+		"max_hit": 1,
+		"all_of": [
+			"InPersonalInfoPage",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "TargetServerCheck",
+				"custom_recognition_param": {"isInGame": true},
+				"sub_name": "InTargetServer"
+			}
+		],
+		"next": [
+			"SceneEnterMainPage"
+		]
+	},
+	"InLoginSettingPage": {
+		"desc": "在登录页设置界面",
+		"recognition": "OCR",
+		"expected": "设置",
+		"roi": [303, 398, 111, 54],
+		"only_rec": true
+	},
+	"LoginSettingPageEntryServerListPage": {
+		"desc": "登录页设置界面进入服务器列表页面",
+		"recognition": "And",
+		"all_of": [
+			"InLoginSettingPage",
+			{
+				"recognition": "TemplateMatch",
+				"roi": [193, 580, 207, 148],
+				"template": "login/server.png"
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [20, 20, -40, -40],
+		"post_delay": 500,
+		"pre_delay": 0,
+		"rate_limit": 0
+	},
+	"RestartGameAndRetry": {
+		"desc": "重启游戏后重试进入游戏",
+		"post_delay": 0,
+		"pre_delay": 0,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["QuitGame", "LaunchAndEntryGame"]
+		}
+	},
+	"LaunchGame": {
+		"desc": "启动游戏",
+		"post_delay": 5000,
+		"pre_delay": 0,
+		"action": "StartApp",
+		"package": "com.leiting.dungeon3"
+	},
+	"QuitGame": {
+		"desc": "退出游戏",
+		"post_delay": 3000,
+		"pre_delay": 0,
+		"recognition": "DirectHit",
+		"action": "StopApp",
+		"package": "com.leiting.dungeon3"
+	},
+	"InGameCheck": {
+		"any_of": [
+			"InMainPageArea",
+			"InBattle",
+			"InBattleResult",
+			"InAdventureResult",
+			"InMaze",
+			"HasReturnButton"
+		],
+		"desc": "检查是否在游戏中",
+		"post_delay": 0,
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"recognition": "Or"
+	},
+	"LoginPageClickPressAnyKey": {
+		"action": "Click",
+		"desc": "点击任意位置开始",
+		"expected": "点击任意位置开始|点击|任意|开始",
+		"recognition": "OCR",
+		"roi": [245, 1022, 242, 72]
+	},
+	"LoginPageHasStartGameButton": {
+		"desc": "登录界面出现开始游戏按钮",
+		"post_delay": 0,
+		"pre_delay": 1000,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"roi": [201, 928, 336, 93],
+		"template": "login/start_game.png"
+	},
+	"LoginPageClickStartGameButton": {
+		"action": "Click",
+		"desc": "登录界面点击开始游戏按钮",
+		"post_delay": 5000,
+		"pre_delay": 1000,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InLoginPage", "LoginPageHasStartGameButton"],
+		"box_index": 1
+	},
+	"LoginPageHasSettingButton": {
+		"desc": "登录界面出现设置按钮",
+		"post_delay": 0,
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "login/setting.png",
+		"threshold": 0.4,
+		"roi": [640, 203, 69, 376],
+		"order_by": "Score"
+	},
+	"LoginPageEnterSettingPage": {
+		"action": "Click",
+		"desc": "从登录界面进入设置界面",
+		"post_delay": 500,
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InLoginPage",
+			"LoginPageHasStartGameButton",
+			"LoginPageHasSettingButton"
+		],
+		"box_index": 2
+	},
+	"LoginPageCloseLoginAnnouncement": {
+		"action": "Click",
+		"desc": "登录界面关闭登录公告界面",
+		"expected": "最新公告",
+		"post_delay": 1000,
+		"pre_delay": 0,
+		"recognition": "OCR",
+		"roi": [290, 106, 142, 48],
+		"target": [699, 1232, 10, 10]
+	},
+	"LoginPageEventsHandle": {
+		"recognition": "And",
+		"all_of": ["InLoginPage"],
+		"desc": "处理登录界面各种弹框/点击事件,知道开始游戏按钮出现",
+		"next": [
+			"LoginPageHasStartGameButton",
+			"[JumpBack]LoginPageCloseLoginAnnouncement",
+			"[JumpBack]ConfirmButton",
+			"[JumpBack]LoginPageClickPressAnyKey"
+		],
+		"post_delay": 0,
+		"pre_delay": 0,
+		"rate_limit": 0
+	}
+}

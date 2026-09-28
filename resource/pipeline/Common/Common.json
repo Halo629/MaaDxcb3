@@ -1,0 +1,234 @@
+{
+	"HandleQuitGameDialog": {
+		"desc": "退出游戏确认弹窗 → 点击取消",
+		"recognition": "And",
+		"all_of": ["HasQuitGameDialog", "CancelButton"],
+		"box_index": 1,
+		"action": {"type": "Click"}
+	},
+	"HandleConfirmDialog": {
+		"desc": "关闭确认弹窗（点击确认按钮）",
+		"recognition": "And",
+		"all_of": ["HasConfirmDialog"],
+		"action": "Click"
+	},
+	"HandleCancelDialog": {
+		"desc": "关闭取消弹窗（点击取消按钮）",
+		"recognition": "And",
+		"all_of": ["HasCancelDialog"],
+		"action": "Click"
+	},
+	"HandleCloseDialog": {
+		"desc": "关闭弹窗（点击关闭按钮）",
+		"recognition": "And",
+		"all_of": ["HasCloseDialog"],
+		"action": "Click"
+	},
+	"PressEsc": {
+		"desc": "按 ESC 键退出当前界面",
+		"recognition": "DirectHit",
+		"action": "ClickKey",
+		"key": 111,
+		"post_delay": 200
+	},
+	"ClickBlankArea1": {
+		"desc": "点击任意空白位置关闭",
+		"recognition": "OCR",
+		"expected": "点击任意空白位置关闭",
+		"action": "Click"
+	},
+	"ClickBlankArea2": {
+		"desc": "点击空白处返回",
+		"recognition": "OCR",
+		"expected": "点击空白处返回",
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [219, 501, 282, 437],
+			"timeout": 5000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HandleRewardDialog": {
+		"desc": "关闭获得物品弹框",
+		"recognition": "OCR",
+		"expected": "获得物品",
+		"roi": [290, 350, 125, 50],
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"pre_wait_freezes": {
+			"time": 300,
+			"target": [274, 462, 170, 487],
+			"timeout": 2000
+		},
+		"action": "ClickKey",
+		"key": 111,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [274, 462, 170, 487],
+			"timeout": 2000
+		}
+	},
+	"BattleVictoryDialog": {
+		"desc": "战斗胜利弹框",
+		"recognition": "OCR",
+		"expected": "胜利",
+		"roi": [273, 388, 174, 90]
+	},
+	"BattleFailDialog": {
+		"desc": "战斗失败弹框",
+		"recognition": "OCR",
+		"expected": "失败",
+		"roi": [273, 388, 174, 90]
+	},
+	"HandleBattleVictoryDialog": {
+		"desc": "关闭战斗胜利弹框",
+		"recognition": "Or",
+		"any_of": ["BattleVictoryDialog", "BattleFailDialog"],
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"pre_wait_freezes": {
+			"time": 300,
+			"target": [274, 462, 170, 487],
+			"timeout": 2000
+		},
+		"action": "ClickKey",
+		"key": 111,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [274, 462, 170, 487],
+			"timeout": 2000
+		}
+	},
+	"HandleWheelOfDreamDialog": {
+		"desc": "关闭梦境之轮每日奖励弹窗",
+		"recognition": "And",
+		"all_of": ["HasWheelOfDream"],
+		"next": [
+			"PressEsc"
+		]
+	},
+	"HandleMonthlyCardDialog": {
+		"desc": "关闭月卡弹窗",
+		"recognition": "TemplateMatch",
+		"template": "monthly_card/monthly_card_page.png",
+		"roi": [106, 119, 179, 277],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"PressEsc"
+		]
+	},
+	"HandlePastActivitySettlement": {
+		"desc": "关闭更多玩法页面往期活动结算弹窗",
+		"recognition": "OCR",
+		"roi": [206, 329, 363, 92],
+		"expected": ["往期", "结算"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"PressEsc"
+		]
+	},
+	"SceneSwipeUp": {
+		"desc": "向上滑动屏幕",
+		"action": "Swipe",
+		"begin": [400, 800],
+		"end": [400, 600],
+		"duration": 100,
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [247, 357, 224, 613],
+			"timeout": 5000
+		}
+	},
+	"SceneSwipeDown": {
+		"desc": "向下滑动屏幕",
+		"action": "Swipe",
+		"begin": [400, 800],
+		"end": [400, 1000],
+		"duration": 100,
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [247, 357, 224, 613],
+			"timeout": 5000
+		}
+	},
+	"SceneSwipeLeft": {
+		"desc": "向左滑动屏幕",
+		"action": "Swipe",
+		"begin": [400, 800],
+		"end": [200, 800],
+		"duration": 100,
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [247, 357, 224, 613],
+			"timeout": 5000
+		}
+	},
+	"SceneSwipeRight": {
+		"desc": "向右滑动屏幕",
+		"action": "Swipe",
+		"begin": [400, 800],
+		"end": [600, 800],
+		"duration": 100,
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [247, 357, 224, 613],
+			"timeout": 5000
+		}
+	},
+	"HandleSummonDialog": {
+		"desc": "关闭召唤结果弹框",
+		"recognition": "OCR",
+		"expected": "召唤结果",
+		"roi": [298, 164, 124, 56],
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"PressEsc"
+		]
+	},
+	"HandleBattleResult": {
+		"desc": "关闭战斗结算弹框",
+		"recognition": "And",
+		"all_of": ["InBattleResult"],
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HandleDialogue": {
+		"desc": "处理对话框",
+		"recognition": "And",
+		"all_of": ["InDialoguePage"],
+		"action": "Click",
+		"pre_wait_freezes": {
+			"time": 300,
+			"target": [14, 1020, 701, 249],
+			"timeout": 2000
+		}
+	},
+	"CommonDisassembleEquipment": {
+		"desc": "装备满时分解装备",
+		"recognition": "And",
+		"all_of": ["InEquipmentListPage"],
+		"next": [
+			"DisassembleEquipmentStart"
+		]
+	},
+	"CommonMonsterSoulBatchUpgrade": {
+		"desc": "魔魂满时升级魔魂",
+		"recognition": "And",
+		"all_of": ["InMonsterSoulListPage"],
+		"action": "Custom",
+		"custom_action": "CheckBagAndUpgradeSoul",
+		"next": [
+			"SceneBack"
+		]
+	}
+}

@@ -1,0 +1,128 @@
+{
+	"start_harwood_castle": {
+		"recognition": "DirectHit",
+		"anchor": {
+			"gameplay_limited_activity_page_next": "open_harwood_castle"
+		},
+		"next": []
+	},
+	"open_harwood_castle": {
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"expected": "哈伍德",
+				"roi": [17, 126, 699, 846]
+			},
+			{
+				"recognition": "OCR",
+				"expected": "城堡",
+				"roi": [17, 126, 699, 846]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"next": [
+			"harwood_check_remaining_times"
+		],
+		"on_error": [
+			"SceneEnterMainPage"
+		]
+	},
+	"harwood_check_remaining_times": {
+		"recognition": "OCR",
+		"expected": "今日剩余次数：0",
+		"roi": [256, 1083, 200, 68],
+		"inverse": true,
+		"timeout": 2000,
+		"post_delay": 1000,
+		"next": [
+			"do_harwood_explore"
+		]
+	},
+	"do_harwood_explore": {
+		"recognition": "OCR",
+		"expected": "探索",
+		"timeout": 8000,
+		"roi": [255, 1095, 222, 145],
+		"action": "Click",
+		"post_delay": 5000,
+		"next": [
+			"choose_harwood_level",
+			"harwood_stage_handle"
+		]
+	},
+	"choose_harwood_level": {
+		"recognition": "OCR",
+		"expected": "难度选择",
+		"roi": [190, 220, 388, 366],
+		"next": [
+			"select_difficulty"
+		]
+	},
+	"select_difficulty": {
+		"recognition": "Custom",
+		"custom_recognition": "DifficultySelectBox",
+		"roi": [150, 466, 406, 102],
+		"post_delay": 2000,
+		"next": [
+			"start_harwood_explore"
+		]
+	},
+	"start_harwood_explore": {
+		"recognition": "OCR",
+		"expected": "开始探索",
+		"roi": [215, 683, 300, 125],
+		"action": "Click",
+		"post_delay": 5000,
+		"next": [
+			"choose_harwood_level"
+		]
+	},
+	"harwood_confirm_box": {
+		"recognition": "TemplateMatch",
+		"template": "button/confirm_btn.png",
+		"action": "Click",
+		"next": [
+			"start_first_stage"
+		]
+	},
+	"start_first_stage": {
+		"recognition": "TemplateMatch",
+		"template": "harwood_stage_start.png",
+		"action": "Click",
+		"next": [
+			"harwood_continue"
+		]
+	},
+	"harwood_continue": {
+		"recognition": "TemplateMatch",
+		"template": "continue_forward.png",
+		"action": "Click",
+		"next": [
+			"navigate_map"
+		]
+	},
+	"navigate_map": {
+		"recognition": "Custom",
+		"custom_recognition": "MapNavigator",
+		"custom_recognition_param": "{\"target\":\"boss\"}",
+		"roi": [0, 0, 720, 1280],
+		"action": "Click"
+	},
+	"harwood_stage_handle": {
+		"recognition": "Custom",
+		"custom_recognition": "HarwoodMapHandler",
+		"timeout": 300000,
+		"next": [
+			"harwood_do_battle"
+		]
+	},
+	"harwood_do_battle": {
+		"recognition": "Custom",
+		"custom_recognition": "BattleAI",
+		"action": "DoNothing",
+		"timeout": 360000,
+		"next": []
+	}
+}

@@ -1,0 +1,84 @@
+{
+	"StewardTreasureMapSub": {
+		"desc": "藏宝图领取",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"TreasureMapCollectEntry",
+			"[JumpBack]SceneEnterTreasureMapPage"
+		],
+		"focus": {"Node.Recognition.Succeeded": "开始任务:藏宝图领取"}
+	},
+	"TreasureMapCollectEntry": {
+		"desc": "藏宝图领取",
+		"recognition": "And",
+		"all_of": ["InTreasureMapPage"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"[JumpBack]TreasureMapUpdateDialog",
+			"[JumpBack]TreasureMapCollect",
+			"TreasureMapDone"
+		]
+	},
+	"TreasureMapUpdateDialog": {
+		"desc": "关闭藏宝图更新窗口",
+		"recognition": "OCR",
+		"expected": "更新",
+		"roi": [278, 567, 159, 40],
+		"pre_wait_freezes": {
+			"time": 300,
+			"target": [258, 606, 217, 71],
+			"timeout": 3000
+		},
+		"action": "Click",
+		"target": [546, 1079, 81, 78],
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [258, 606, 217, 71],
+			"timeout": 3000
+		}
+	},
+	"TreasureMapHasCollect": {
+		"desc": "藏宝图有一键领取按钮",
+		"recognition": "OCR",
+		"expected": "一键领取|领取",
+		"roi": [264, 1094, 196, 53]
+	},
+	"TreasureMapCollect": {
+		"desc": "一键领取藏宝图奖励",
+		"recognition": "And",
+		"all_of": [
+			"TreasureMapHasCollect",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 80, 80],
+				"upper": [35, 255, 255],
+				"roi": "TreasureMapHasCollect",
+				"count": 500
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [260, 540, 200, 200],
+			"timeout": 5000
+		},
+		"next": [
+			"HandleRewardDialog"
+		]
+	},
+	"TreasureMapDone": {
+		"desc": "藏宝图领取完成",
+		"recognition": "And",
+		"all_of": ["InTreasureMapPage"],
+		"next": [
+			"PressEsc"
+		]
+	}
+}

@@ -1,0 +1,64 @@
+{
+    "task": [
+        {
+            "name": "WeeklyFormation",
+            "label": "⏳炼成阵",
+            "entry": "WeeklySandSub",
+            "option": [
+                "FreeSand",
+                "BuySand"
+            ],
+            "group": [
+                "weekly_tasks"
+            ]
+        }
+    ],
+    "option": {
+        "FreeSand": {
+            "type": "switch",
+            "label": "领取免费沙子",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "FreeSandCollectEntry": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                        "FreeSandCollectEntry": {
+                            "enabled": false
+                        }
+                    }
+                }
+            ]
+        },
+        "BuySand": {
+            "type": "switch",
+            "label": "购买沙子",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "WeeklySandBuyStart": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                        "WeeklySandBuyStart": {
+                            "enabled": false
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}

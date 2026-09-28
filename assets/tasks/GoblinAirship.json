@@ -1,0 +1,12 @@
+{
+    "task": [
+        {
+            "name": "GoblinAirship",
+            "label": "👺地精飞艇",
+            "entry": "GoblinAirshipStart",
+            "group": [
+                "activity_tasks"
+            ]
+        }
+    ]
+}

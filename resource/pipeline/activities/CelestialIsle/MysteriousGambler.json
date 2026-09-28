@@ -1,0 +1,316 @@
+{
+    "MysteriousGamblerEventEntry": {
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "max_hit": 1,
+        "desc": "神秘赌徒事件处理入口",
+        "next": [
+            "MysteriousGamblerEntry",
+            "[JumpBack]SwipeRightToFindMysteriousGambler"
+        ]
+    },
+    "MysteriousGamblerEntry": {
+        "desc": "识别竞技场并点击",
+        "recognition": "OCR",
+        "expected": "竞技场|竞技",
+        "roi": [
+            13,
+            368,
+            678,
+            742
+        ],
+        "action": "Click",
+        "target_offset": [
+            0,
+            -50,
+            0,
+            0
+        ],
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                215,
+                260,
+                383,
+                438
+            ],
+            "timeout": 10000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]MysteriousGamblerEventStart",
+            "CenterScreenExitOption",
+            "MysteriousGamblerEntry"
+        ]
+    },
+    "MysteriousGamblerEventStart": {
+        "desc": "进入竞技场",
+        "recognition": "And",
+        "all_of": [
+            "InArenaPage",
+            {
+                "recognition": "OCR",
+                "expected": "进入竞技场|进入|竞技场",
+                "roi": [
+                    278,
+                    702,
+                    166,
+                    143
+                ]
+            }
+        ],
+        "box_index": 1,
+        "max_hit": 1,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                233,
+                484,
+                241,
+                420
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "MysteriousGambler",
+            "CenterScreenExitOption"
+        ]
+    },
+    "MysteriousGambler": {
+        "desc": "神秘赌徒",
+        "recognition": "OCR",
+        "expected": "神秘赌徒|神秘|赌徒",
+        "roi": [
+            268,
+            663,
+            184,
+            310
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                233,
+                484,
+                241,
+                420
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "StartGamble",
+            "RightDownExitOption"
+        ]
+    },
+    "StartGamble": {
+        "desc": "开始赌博",
+        "recognition": "OCR",
+        "expected": "开始",
+        "roi": [
+            412,
+            670,
+            148,
+            316
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                233,
+                484,
+                241,
+                420
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "SelectReward"
+        ]
+    },
+    "SelectReward": {
+        "desc": "选择奖品",
+        "next": [
+            // 默认三号奖品
+            "[JumpBack]SelectFirstReward",
+            "[JumpBack]SelectSecondReward",
+            "[JumpBack]SelectThirdReward",
+            "GambleDecision"
+        ]
+    },
+    "SelectFirstReward": {
+        "desc": "选择一号奖品",
+        "recognition": "OCR",
+        "expected": "一号",
+        "roi": [
+            407,
+            668,
+            150,
+            316
+        ],
+        "enabled": false,
+        "max_hit": 1,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                233,
+                484,
+                241,
+                420
+            ],
+            "timeout": 2000
+        }
+    },
+    "SelectSecondReward": {
+        "desc": "选择二号奖品",
+        "recognition": "OCR",
+        "expected": "二号",
+        "roi": [
+            407,
+            668,
+            150,
+            316
+        ],
+        "enabled": false,
+        "max_hit": 1,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                233,
+                484,
+                241,
+                420
+            ],
+            "timeout": 2000
+        }
+    },
+    "SelectThirdReward": {
+        "desc": "选择三号奖品",
+        "recognition": "OCR",
+        "expected": "三号",
+        "roi": [
+            407,
+            668,
+            150,
+            316
+        ],
+        "enabled": true,
+        "max_hit": 1,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                233,
+                484,
+                241,
+                420
+            ],
+            "timeout": 2000
+        }
+    },
+    "GambleDecision": {
+        "desc": "赌博决策：扫描牌型，凑齐大于等于对手的点数",
+        "recognition": "OCR",
+        "expected": "结束放置",
+        "roi": [
+            271,
+            642,
+            172,
+            392
+        ],
+        "action": "Custom",
+        "custom_action": "GambleDecision",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]EndPlacement",
+            "[JumpBack]GambleResultConfirm",
+            "TakeReward"
+        ]
+    },
+    "EndPlacement": {
+        "desc": "结束放置",
+        "recognition": "OCR",
+        "expected": "结束放置|结束",
+        "roi": [
+            273,
+            661,
+            177,
+            458
+        ],
+        "action": "Click",
+        "post_delay": 2000
+    },
+    "GambleResultConfirm": {
+        "desc": "赌博结果确认",
+        "recognition": "TemplateMatch",
+        "template": "activities/CelestialIsle/GambleEnd.png",
+        "roi": [
+            73,
+            752,
+            582,
+            221
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                233,
+                484,
+                241,
+                420
+            ],
+            "timeout": 2000
+        }
+    },
+    "TakeReward": {
+        "desc": "奖品",
+        "recognition": "OCR",
+        "expected": "收下奖品|收下|奖品|拿取物品|拿取|物品",
+        "roi": [
+            384,
+            811,
+            206,
+            210
+        ],
+        "action": "Click",
+        "post_delay": 2000,
+        "next": [
+            "[JumpBack]HandleRewardDialog",
+            "CenterScreenExitOption"
+        ]
+    },
+    "SwipeRightToFindMysteriousGambler": {
+        "desc": "向右滑动找神秘赌徒(竞技场)",
+        "action": "Swipe",
+        "begin": [
+            200,
+            450
+        ],
+        "end": [
+            400,
+            450
+        ],
+        "duration": 100,
+        "max_hit": 3,
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                122,
+                279,
+                477,
+                602
+            ],
+            "timeout": 2000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    }
+}

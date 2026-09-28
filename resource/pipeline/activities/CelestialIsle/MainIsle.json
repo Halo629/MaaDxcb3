@@ -1,0 +1,21 @@
+{
+    "MainIsleEventEntry": {
+        "desc": "主岛事件处理入口",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            // 顺序：竞技场-铁匠铺-缆车控制间-磁石矿洞-商会-飞升者商会-试炼场-启迪之书-神秘赌徒
+            "[JumpBack]ArenaEventEntry",
+            "[JumpBack]BlacksmithEventEntry",
+            "[JumpBack]CableCarControlRoomEventEntry",
+            "[JumpBack]MagnerMineEventEntry",
+            "[JumpBack]TradeGuildEventEntry",
+            "[JumpBack]AscenderTradeGuildEventEntry",
+            "[JumpBack]TrialGroundEventEntry",
+            "[JumpBack]EnlightenBookEventEntry",
+            "[JumpBack]MysteriousGamblerEventEntry",
+            "SceneEnterMainPage"
+        ]
+    }
+}

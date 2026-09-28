@@ -1,0 +1,248 @@
+{
+	"ArenaEventEntry": {
+		"desc": "竞技场事件处理入口",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"ArenaEntry",
+			"[JumpBack]SwipeRightToFindArena"
+		]
+	},
+	"ArenaEntry": {
+		"desc": "识别竞技场并点击",
+		"recognition": "OCR",
+		"expected": "竞技场|竞技",
+		"roi": [132, 288, 586, 547],
+		"action": "Click",
+		"target_offset": [0, -50, 0, 0],
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [132, 288, 586, 547],
+			"timeout": 10000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"ArenaEventStart",
+			"ArenaEntry"
+		]
+	},
+	"InArenaPage": {
+		"desc": "在竞技场页面",
+		"recognition": "OCR",
+		"expected": "竞技场",
+		"roi": [290, 279, 136, 207]
+	},
+	"ArenaEventStart": {
+		"desc": "进入竞技场",
+		"recognition": "And",
+		"all_of": [
+			"InArenaPage",
+			{
+				"recognition": "OCR",
+				"expected": "进入竞技场|进入|竞技场",
+				"roi": [278, 702, 166, 143]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [233, 484, 241, 420],
+			"timeout": 2000
+		},
+		"next": [
+			"ArenaJoinMatch",
+			"CenterScreenExitOption"
+		]
+	},
+	"ArenaJoinMatch": {
+		"desc": "参与比赛",
+		"recognition": "OCR",
+		"expected": "参与比赛|参与|比赛",
+		"roi": [287, 661, 145, 304],
+		"action": "Click",
+		"next": [
+			"[JumpBack]MazeStartOut",
+			"[JumpBack]CelestialIsleGoAhead",
+			"[JumpBack]CelestialIsleBattle",
+			"[JumpBack]BattleEnd",
+			"[JumpBack]HandleRewardDialog",
+			"[JumpBack]ArenaMatchEllipsis",
+			"[JumpBack]ArenaMatchGoblin",
+			"[JumpBack]ArenaMatchTalk",
+			"[JumpBack]ArenaMatchSelectWeapon",
+			"[JumpBack]ArenaMatchLeave",
+			"AdventureEnd"
+		]
+	},
+	"ArenaMatchLeave": {
+		"desc": "竞技场离开",
+		"recognition": "OCR",
+		"expected": "离开",
+		"roi": [281, 428, 163, 302],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [53, 164, 648, 822],
+			"timeout": 5000
+		}
+	},
+	"ArenaMatchSelectWeapon": {
+		"desc": "竞技场选择武器",
+		"recognition": "OCR",
+		"expected": "选择",
+		"roi": [281, 428, 163, 302],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [53, 164, 648, 822],
+			"timeout": 5000
+		}
+	},
+	"ArenaMatchTalk": {
+		"desc": "竞技场交谈事件",
+		"recognition": "OCR",
+		"expected": "交谈",
+		"roi": [277, 473, 160, 289],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [53, 164, 648, 822],
+			"timeout": 5000
+		}
+	},
+	"ArenaMatchGoblin": {
+		"desc": "竞技场交谈事件",
+		"recognition": "OCR",
+		"expected": "灰袍|地精",
+		"roi": [24, 933, 130, 92],
+		"next": [
+			"[JumpBack]ArenaMatchGoblinTalk1",
+			"[JumpBack]ArenaMatchGoblinTalk2",
+			"ArenaMatchMagnetNotEnough",
+			"ArenaMatchGoblinTalk3",
+			"ArenaMatchGoblinNoTalk"
+		]
+	},
+	"ArenaMatchGoblinNoTalk": {},
+	"ArenaMatchGoblinTalk1": {
+		"desc": "竞技场交谈事件1",
+		"recognition": "OCR",
+		"expected": "什么方式|什么|方式|难道|又是",
+		"roi": [323, 757, 301, 250],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [53, 164, 648, 822],
+			"timeout": 5000
+		}
+	},
+	"ArenaMatchMagnetNotEnough": {
+		"desc": "天界磁石不足",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"expected": "天界磁石|天界",
+				"roi": [323, 757, 301, 250]
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [0, 80, 80],
+				"upper": [10, 255, 255],
+				"roi": [323, 757, 301, 250],
+				"count": 50
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"ArenaMatchGoblinTalk4"
+		]
+	},
+	"ArenaMatchGoblinTalk2": {
+		"desc": "竞技场交谈事件2",
+		"recognition": "OCR",
+		"expected": "给予|天界|磁石",
+		"roi": [323, 757, 301, 250],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [53, 164, 648, 822],
+			"timeout": 5000
+		}
+	},
+	"ArenaMatchGoblinTalk3": {
+		"desc": "竞技场交谈事件3",
+		"recognition": "OCR",
+		"expected": "进入|场地",
+		"roi": [323, 757, 301, 250],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [53, 164, 648, 822],
+			"timeout": 5000
+		}
+	},
+	"ArenaMatchGoblinTalk4": {
+		"desc": "竞技场交谈事件4",
+		"recognition": "OCR",
+		"expected": "拒绝|贿赂",
+		"roi": [323, 757, 301, 250],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [53, 164, 648, 822],
+			"timeout": 5000
+		},
+		"next": [
+			"ArenaMatchGoblinTalk5"
+		]
+	},
+	"ArenaMatchGoblinTalk5": {
+		"desc": "竞技场交谈事件5-拒绝贿赂后出现的省略号",
+		"recognition": "TemplateMatch",
+		"template": "activities/CelestialIsle/ArenaEllipsis.png",
+		"roi": [243, 834, 476, 179],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [53, 164, 648, 822],
+			"timeout": 5000
+		}
+	},
+	"ArenaMatchEllipsis": {
+		"desc": "竞技场战斗事件-省略号",
+		"recognition": "TemplateMatch",
+		"template": "activities/CelestialIsle/ArenaEllipsis.png",
+		"roi": [158, 510, 403, 231],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [53, 164, 648, 822],
+			"timeout": 5000
+		}
+	},
+	"SwipeRightToFindArena": {
+		"desc": "向右滑动找竞技场",
+		"action": "Swipe",
+		"begin": [300, 450],
+		"end": [500, 450],
+		"duration": 200,
+		"max_hit": 5,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [109, 254, 493, 764],
+			"timeout": 5000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	}
+}

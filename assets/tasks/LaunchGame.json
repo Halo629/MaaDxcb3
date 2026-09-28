@@ -1,0 +1,921 @@
+{
+    "task": [
+        {
+            "name": "LaunchGame",
+            "label": "🎮启动游戏",
+            "entry": "LaunchAndEntryGame",
+            "option": [
+                "SwitchToTargetServer",
+                "BattleConfig",
+                "MonsterSoulUpgradeConfig"
+            ],
+            "group": [
+                "pre_tasks"
+            ]
+        }
+    ],
+    "option": {
+        "SwitchToTargetServer": {
+            "type": "switch",
+            "label": "切换到指定服务器",
+            "default_case": "No",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "SwitchServer": {
+                            "enabled": true
+                        }
+                    },
+                    "option": [
+                        "TargetServerName",
+                        "TargetServerLine"
+                    ]
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                        "SwitchServer": {
+                            "enabled": false
+                        }
+                    }
+                }
+            ]
+        },
+        "TargetServerName": {
+            "type": "input",
+            "label": "目标服务器名称",
+            "inputs": [
+                {
+                    "name": "TargetServerNameValue",
+                    "label": "服务器名称",
+                    "pipeline_type": "string",
+                    "default": ""
+                }
+            ],
+            "pipeline_override": {
+                "FindTargetServer": {
+                    "attach": {
+                        "target_server_name": "{TargetServerNameValue}"
+                    }
+                },
+                "InTargetServer": {
+                    "attach": {
+                        "target_server_name": "{TargetServerNameValue}"
+                    }
+                }
+            }
+        },
+        "TargetServerLine": {
+            "type": "input",
+            "label": "目标服务器线路",
+            "inputs": [
+                {
+                    "name": "TargetServerLineValue",
+                    "label": "服务器线路",
+                    "pipeline_type": "string",
+                    "default": ""
+                }
+            ],
+            "pipeline_override": {
+                "FindTargetServer": {
+                    "attach": {
+                        "target_server_line": "{TargetServerLineValue}"
+                    }
+                },
+                "InTargetServer": {
+                    "attach": {
+                        "target_server_line": "{TargetServerLineValue}"
+                    }
+                }
+            }
+        },
+        "ReserveBean": {
+            "type": "input",
+            "label": "保留豆子数量",
+            "inputs": [
+                {
+                    "name": "ReserveBeanValue",
+                    "label": "数量",
+                    "pipeline_type": "int",
+                    "verify": "^\\d+$",
+                    "default": "3"
+                }
+            ],
+            "pipeline_override": {
+                "ServerConfigStart": {
+                    "attach": {
+                        "reserve": "{ReserveBeanValue}"
+                    }
+                }
+            }
+        },
+        "CryInterval": {
+            "type": "input",
+            "label": "战吼间隔",
+            "inputs": [
+                {
+                    "name": "CryIntervalValue",
+                    "label": "间隔 (秒)",
+                    "pipeline_type": "int",
+                    "verify": "^\\d+$",
+                    "default": "4"
+                }
+            ],
+            "pipeline_override": {
+                "ServerConfigStart": {
+                    "attach": {
+                        "cry_interval": "{CryIntervalValue}"
+                    }
+                }
+            }
+        },
+        "BurstSeconds": {
+            "type": "input",
+            "label": "爆发时间",
+            "inputs": [
+                {
+                    "name": "BurstSecondsValue",
+                    "label": "时间 (秒)",
+                    "pipeline_type": "int",
+                    "verify": "^\\d+$",
+                    "default": "10"
+                }
+            ],
+            "pipeline_override": {
+                "ServerConfigStart": {
+                    "attach": {
+                        "burst_seconds": "{BurstSecondsValue}"
+                    }
+                }
+            }
+        },
+        "CryColumn": {
+            "type": "select",
+            "label": "战吼列",
+            "default_case": "Column2",
+            "cases": [
+                {
+                    "name": "Column1",
+                    "label": "第1列",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "cry_column": "Column1"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Column2",
+                    "label": "第2列",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "cry_column": "Column2"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Column3",
+                    "label": "第3列",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "cry_column": "Column3"
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        "Skill": {
+            "type": "select",
+            "label": "技能",
+            "default_case": "Xiaoqing",
+            "cases": [
+                {
+                    "name": "None",
+                    "label": "无",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "skill": "None"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Xiaoqing",
+                    "label": "小青",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "skill": "Xiaoqing"
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        "FirstSkillTime": {
+            "type": "input",
+            "label": "首次技能时机",
+            "inputs": [
+                {
+                    "name": "FirstSkillTimeValue",
+                    "label": "时机 (秒)",
+                    "pipeline_type": "int",
+                    "verify": "^\\d+$",
+                    "default": "6"
+                }
+            ],
+            "pipeline_override": {
+                "ServerConfigStart": {
+                    "attach": {
+                        "first_skill_time": "{FirstSkillTimeValue}"
+                    }
+                }
+            }
+        },
+        "UpgradeCountMode": {
+            "type": "select",
+            "label": "升级次数",
+            "default_case": "MaxCount",
+            "cases": [
+                {
+                    "name": "MaxCount",
+                    "label": "最大次数",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "countMode": "0"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "SpecifiedCount",
+                    "label": "指定次数",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "countMode": "1"
+                            }
+                        }
+                    },
+                    "option": [
+                        "UpgradeCountValue"
+                    ]
+                }
+            ]
+        },
+        "UpgradeCountValue": {
+            "type": "input",
+            "label": "指定次数",
+            "inputs": [
+                {
+                    "name": "UpgradeCountValueInput",
+                    "label": "次数",
+                    "pipeline_type": "int",
+                    "verify": "^\\d+$",
+                    "default": "20"
+                }
+            ],
+            "pipeline_override": {
+                "ServerConfigStart": {
+                    "attach": {
+                        "count": "{UpgradeCountValueInput}"
+                    }
+                }
+            }
+        },
+        "UpgradeSouls": {
+            "type": "checkbox",
+            "label": "升级魔魂",
+            "default_case": [
+                "Yexing",
+                "Jielue",
+                "Wugu",
+                "Baolue",
+                "Xiongsha",
+                "Xiedian",
+                "Jiaozhi",
+                "Manhuang",
+                "Xiongshi",
+                "Kuangnu",
+                "Shuangxue",
+                "Bingjing",
+                "Linye",
+                "Lingdong",
+                "Jihan",
+                "Baopo",
+                "Chenyuan",
+                "Kuangre",
+                "Tianyun",
+                "Xianzu"
+            ],
+            "cases": [
+                {
+                    "name": "Yexing",
+                    "label": "野性之魂",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "soul_yexing": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Jielue",
+                    "label": "劫掠之魂",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "soul_jielue": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Wugu",
+                    "label": "巫蛊之魂",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "soul_wugu": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Baolue",
+                    "label": "暴虐之魂",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "soul_baolue": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Xiongsha",
+                    "label": "凶煞之魂",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "soul_xiongsha": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Xiedian",
+                    "label": "邪典之魂",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "soul_xiedian": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Jiaozhi",
+                    "label": "狡智之魂",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "soul_jiaozhi": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Manhuang",
+                    "label": "蛮荒之魂",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "soul_manhuang": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Xiongshi",
+                    "label": "雄狮之魂",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "soul_xiongshi": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Kuangnu",
+                    "label": "狂怒之魂",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "soul_kuangnu": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Shuangxue",
+                    "label": "霜雪之魂",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "soul_shuangxue": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Bingjing",
+                    "label": "冰晶之魂",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "soul_bingjing": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Linye",
+                    "label": "林野之魂",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "soul_linye": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Lingdong",
+                    "label": "林动之魂",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "soul_lingdong": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Jihan",
+                    "label": "极寒之魂",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "soul_jihan": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Baopo",
+                    "label": "爆破之魂",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "soul_baopo": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Chenyuan",
+                    "label": "沉渊之魂",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "soul_chenyuan": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Kuangre",
+                    "label": "狂热之魂",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "soul_kuangre": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Tianyun",
+                    "label": "天陨之魂",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "soul_tianyun": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Xianzu",
+                    "label": "先祖之魂",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "soul_xianzu": true
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        "RetentionGroup1": {
+            "type": "switch",
+            "label": "保留条件组1",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "retention_group1_enabled": true
+                            }
+                        }
+                    },
+                    "option": [
+                        "Group1Conditions",
+                        "Group1Interval",
+                        "Group1Damage",
+                        "Group1Resist"
+                    ]
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "retention_group1_enabled": false
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        "Group1Conditions": {
+            "type": "checkbox",
+            "label": "组1条件",
+            "default_case": [
+                "Interval",
+                "Damage"
+            ],
+            "cases": [
+                {
+                    "name": "Interval",
+                    "label": "间隔",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "g1_interval": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Damage",
+                    "label": "承伤",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "g1_damage": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Resist",
+                    "label": "抗性",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "g1_resist": true
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        "Group1Interval": {
+            "type": "input",
+            "label": "间隔阈值",
+            "inputs": [
+                {
+                    "name": "Group1IntervalValue",
+                    "label": "间隔 ≥ (%)",
+                    "pipeline_type": "string",
+                    "default": "3"
+                }
+            ],
+            "pipeline_override": {
+                "ServerConfigStart": {
+                    "attach": {
+                        "group1_interval": "{Group1IntervalValue}"
+                    }
+                }
+            }
+        },
+        "Group1Damage": {
+            "type": "input",
+            "label": "承伤阈值",
+            "inputs": [
+                {
+                    "name": "Group1DamageValue",
+                    "label": "承伤 ≥ (%)",
+                    "pipeline_type": "string",
+                    "default": "5"
+                }
+            ],
+            "pipeline_override": {
+                "ServerConfigStart": {
+                    "attach": {
+                        "group1_damage": "{Group1DamageValue}"
+                    }
+                }
+            }
+        },
+        "Group1Resist": {
+            "type": "input",
+            "label": "抗性阈值",
+            "inputs": [
+                {
+                    "name": "Group1ResistValue",
+                    "label": "抗性 ≥ (%)",
+                    "pipeline_type": "string",
+                    "default": "0"
+                }
+            ],
+            "pipeline_override": {
+                "ServerConfigStart": {
+                    "attach": {
+                        "group1_resist": "{Group1ResistValue}"
+                    }
+                }
+            }
+        },
+        "RetentionGroup2": {
+            "type": "switch",
+            "label": "保留条件组2",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "retention_group2_enabled": true
+                            }
+                        }
+                    },
+                    "option": [
+                        "Group2Conditions",
+                        "Group2Interval",
+                        "Group2Crit"
+                    ]
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "retention_group2_enabled": false
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        "Group2Conditions": {
+            "type": "checkbox",
+            "label": "组2条件",
+            "default_case": [
+                "Interval",
+                "Crit"
+            ],
+            "cases": [
+                {
+                    "name": "Interval",
+                    "label": "间隔",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "g2_interval": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Crit",
+                    "label": "暴击",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "g2_crit": true
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        "Group2Interval": {
+            "type": "input",
+            "label": "间隔阈值",
+            "inputs": [
+                {
+                    "name": "Group2IntervalValue",
+                    "label": "间隔 ≥ (%)",
+                    "pipeline_type": "string",
+                    "default": "3"
+                }
+            ],
+            "pipeline_override": {
+                "ServerConfigStart": {
+                    "attach": {
+                        "group2_interval": "{Group2IntervalValue}"
+                    }
+                }
+            }
+        },
+        "Group2Crit": {
+            "type": "input",
+            "label": "暴击阈值",
+            "inputs": [
+                {
+                    "name": "Group2CritValue",
+                    "label": "暴击 ≥ (%)",
+                    "pipeline_type": "string",
+                    "default": "2.5"
+                }
+            ],
+            "pipeline_override": {
+                "ServerConfigStart": {
+                    "attach": {
+                        "group2_crit": "{Group2CritValue}"
+                    }
+                }
+            }
+        },
+        "RetentionGroup3": {
+            "type": "switch",
+            "label": "保留条件组3",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "retention_group3_enabled": true
+                            }
+                        }
+                    },
+                    "option": [
+                        "Group3Conditions",
+                        "Group3Interval",
+                        "Group3Heal"
+                    ]
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "retention_group3_enabled": false
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        "Group3Conditions": {
+            "type": "checkbox",
+            "label": "组3条件",
+            "default_case": [
+                "Interval",
+                "Heal"
+            ],
+            "cases": [
+                {
+                    "name": "Interval",
+                    "label": "间隔",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "g3_interval": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Heal",
+                    "label": "治疗效果",
+                    "pipeline_override": {
+                        "ServerConfigStart": {
+                            "attach": {
+                                "g3_heal": true
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        "Group3Interval": {
+            "type": "input",
+            "label": "间隔阈值",
+            "inputs": [
+                {
+                    "name": "Group3IntervalValue",
+                    "label": "间隔 ≥ (%)",
+                    "pipeline_type": "string",
+                    "default": "3"
+                }
+            ],
+            "pipeline_override": {
+                "ServerConfigStart": {
+                    "attach": {
+                        "group3_interval": "{Group3IntervalValue}"
+                    }
+                }
+            }
+        },
+        "Group3Heal": {
+            "type": "input",
+            "label": "治疗效果阈值",
+            "inputs": [
+                {
+                    "name": "Group3HealValue",
+                    "label": "治疗效果 ≥ (%)",
+                    "pipeline_type": "string",
+                    "default": "5"
+                }
+            ],
+            "pipeline_override": {
+                "ServerConfigStart": {
+                    "attach": {
+                        "group3_heal": "{Group3HealValue}"
+                    }
+                }
+            }
+        },
+        "BattleConfig": {
+            "type": "switch",
+            "label": "战斗配置",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "option": [
+                        "ReserveBean",
+                        "CryInterval",
+                        "BurstSeconds",
+                        "CryColumn",
+                        "Skill",
+                        "FirstSkillTime"
+                    ]
+                },
+                {
+                    "name": "No"
+                }
+            ]
+        },
+        "MonsterSoulUpgradeConfig": {
+            "type": "switch",
+            "label": "魔魂升级配置",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "option": [
+                        "UpgradeCountMode",
+                        "UpgradeSouls",
+                        "RetentionGroup1",
+                        "RetentionGroup2",
+                        "RetentionGroup3"
+                    ]
+                },
+                {
+                    "name": "No"
+                }
+            ]
+        }
+    }
+}

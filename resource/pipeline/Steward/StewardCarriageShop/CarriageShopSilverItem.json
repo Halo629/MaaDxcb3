@@ -1,0 +1,155 @@
+{
+    "CarriageShopBuySilverItemStart": {
+        "desc": "购买银币商品入口",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "CarriageShopTryBuySilverItem",
+            "[JumpBack]CarriageShopSwipeUp"
+        ]
+    },
+    "CarriageShopTryBuySilverItem": {
+        "desc": "尝试购买银币商品",
+        "recognition": "And",
+        "all_of": [
+            "CarriageShopSilverItemFound"
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "SilverItemSoldOut",
+            "[JumpBack]CarriageShopBatchPurchaseTipBoxHandle",
+            "CarriageShopBatchPurchasePaySilverCoins",
+            "[JumpBack]HandleRewardDialog",
+            "[JumpBack]CarriageShopBuySilverItem",
+            "CarriageShopBuyItemDone"
+        ]
+    },
+    "CarriageShopBuySilverItem": {
+        "desc": "购买银币商品",
+        "action": "Click",
+        "target": "CarriageShopSilverItemFound",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                97,
+                418,
+                532,
+                634
+            ],
+            "timeout": 2000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "CarriageShopSilverItemFound": {
+        "desc": "找到银币商品",
+        "recognition": "TemplateMatch",
+        "template": "carriage_shop/silver_coin.png",
+        "roi": [
+            69,
+            521,
+            582,
+            566
+        ],
+        "order_by": "Vertical",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "SilverItemSoldOut": {
+        "desc": "商品已售罄,完成购买",
+        "recognition": "TemplateMatch",
+        "template": "carriage_shop/sold_out.png",
+        "roi": "CarriageShopSilverItemFound",
+        "roi_offset": [
+            -20,
+            -180,
+            100,
+            180
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "CarriageShopBatchPurchasePaySilverCoins": {
+        "desc": "批量购买支付银币(识别取消,然后偏移点击)",
+        "recognition": "OCR",
+        "roi": [
+            115,
+            373,
+            214,
+            840
+        ],
+        "expected": "取消",
+        "action": "Click",
+        "target_offset": [
+            300,
+            0,
+            0,
+            0
+        ],
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                97,
+                418,
+                532,
+                634
+            ],
+            "timeout": 2000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "HandleRewardDialog"
+        ]
+    },
+    "CarriageShopBatchPurchaseTipBoxHandle": {
+        "desc": "批量购买今日不再提示弹框处理",
+        "recognition": "OCR",
+        "expected": "今日不再提示|不再提示|提示",
+        "roi": [
+            114,
+            482,
+            488,
+            218
+        ],
+        "action": "Click",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "CarriageShopBatchPurchaseTipBoxConfirm"
+        ]
+    },
+    "CarriageShopBatchPurchaseTipBoxConfirm": {
+        "desc": "批量购买弹框确认",
+        "recognition": "TemplateMatch",
+        "template": "button/confirm_btn.png",
+        "roi": [
+            148,
+            702,
+            431,
+            152
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                97,
+                418,
+                532,
+                634
+            ],
+            "timeout": 3000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    }
+}

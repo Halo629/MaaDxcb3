@@ -1,0 +1,12 @@
+{
+    "task": [
+        {
+            "name": "CourtChess",
+            "label": "♟️宫廷棋",
+            "entry": "CourtChessStart",
+            "group": [
+                "activity_tasks"
+            ]
+        }
+    ]
+}

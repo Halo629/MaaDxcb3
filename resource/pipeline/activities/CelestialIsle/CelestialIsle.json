@@ -1,0 +1,212 @@
+{
+	"CelestialIsleStart": {
+		"desc": "天界岛",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"CelestialIsleLoop",
+			"[JumpBack]CelestialIsleEntry",
+			"CelestialIsleDone"
+		]
+	},
+	"CelestialIsleLoop": {
+		"desc": "天界岛循环",
+		"recognition": "And",
+		"all_of": ["InCelestialIsle"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"[JumpBack]FirstIsleEventEntry",
+			"[JumpBack]SecondIsleEventEntry",
+			"[JumpBack]ThirdIsleEventEntry",
+			"MainIsleEventEntry"
+		]
+	},
+	"SendMagnet": {
+		"desc": "赠送磁石",
+		"recognition": "OCR",
+		"expected": "赠送磁石|赠送|磁石",
+		"roi": [401, 683, 168, 326],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [224, 772, 481, 438],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleDialogue"
+		]
+	},
+	"CenterScreenMagnetNotEnough": {
+		"desc": "屏幕中间对话框天界磁石不足（文字+红色）",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"expected": "天界磁石|天界",
+				"roi": [401, 683, 168, 326]
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [0, 80, 80],
+				"upper": [10, 255, 255],
+				"roi": [401, 683, 168, 326],
+				"count": 50
+			}
+		]
+	},
+	"RightDownScreenMagnetNotEnough": {
+		"desc": "右下角赠送磁石时天界磁石不足（文字+红色）",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"expected": "天界磁石|天界",
+				"roi": [346, 738, 289, 282]
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [0, 80, 80],
+				"upper": [10, 255, 255],
+				"roi": [346, 738, 289, 282],
+				"count": 50
+			}
+		]
+	},
+	"CenterScreenMagnetNotEnoughAndExit": {
+		"desc": "屏幕中间对话框天界磁石不足，离开",
+		"recognition": "And",
+		"all_of": ["CenterScreenMagnetNotEnough"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"CenterScreenExitOption"
+		]
+	},
+	"RightDownScreenMagnetNotEnoughAndExit": {
+		"desc": "右下角赠送磁石时天界磁石不足，离开",
+		"recognition": "And",
+		"all_of": ["RightDownScreenMagnetNotEnough"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"RightDownExitOption"
+		]
+	},
+	"RightDownExitOption": {
+		"desc": "屏幕右下角选项-离开",
+		"recognition": "OCR",
+		"expected": "离开",
+		"roi": [346, 738, 289, 282],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [346, 738, 289, 282],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"CenterScreenExitOption": {
+		"desc": "屏幕中间选项-离开",
+		"recognition": "OCR",
+		"expected": "离开",
+		"roi": [241, 715, 261, 237],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [241, 715, 261, 237],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"CenterScreenBackOption": {
+		"desc": "屏幕中间选项-返回",
+		"recognition": "OCR",
+		"expected": "返回",
+		"roi": [241, 715, 261, 237],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [241, 715, 261, 237],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"RightDownScreenBackOption": {
+		"desc": "屏幕右下角选项-返回",
+		"recognition": "OCR",
+		"expected": "返回",
+		"roi": [277, 635, 157, 433],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [277, 635, 157, 433],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"CelestialIsleDone": {
+		"desc": "天界岛已完成",
+		"next": [
+			"SceneEnterMainPage"
+		]
+	},
+	"ClearRuinedHouse": {
+		"desc": "清理废墟",
+		"recognition": "OCR",
+		"expected": "清理废墟|清理",
+		"roi": [290, 708, 151, 139],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [215, 260, 383, 438],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"BattleEnd"
+		]
+	},
+	"NoMapMagnet": {"desc": "没有地图磁石奖励"},
+	"FreeTeleportAlreadyEnabled": {
+		"desc": "免费传送已开启",
+		"recognition": "Custom",
+		"custom_recognition": "FreeTeleportEnabled"
+	},
+	"TrialGroundDoorCanPass": {
+		"desc": "试炼场大门可通过",
+		"recognition": "Custom",
+		"custom_recognition": "TrialGroundDoorCanPass"
+	},
+	"EnlightenmentConfidantReached": {
+		"desc": "启迪之书关系已到知己",
+		"recognition": "Custom",
+		"custom_recognition": "EnlightenmentConfidant"
+	},
+	"QueenFamiliarReached": {
+		"desc": "与女王关系已到熟识",
+		"recognition": "Custom",
+		"custom_recognition": "QueenFamiliar"
+	},
+	"EnemyCardNotRecord": {
+		"desc": "敌方卡牌未记录",
+		"recognition": "Custom",
+		"custom_recognition": "EnemyCardNotRecord"
+	}
+}

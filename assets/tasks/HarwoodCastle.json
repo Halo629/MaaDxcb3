@@ -1,0 +1,12 @@
+{
+    "task": [
+        {
+            "name": "HarwoodCastle",
+            "label": "🏰哈伍德城堡",
+            "entry": "start_harwood_castle",
+            "group": [
+                "activity_tasks"
+            ]
+        }
+    ]
+}

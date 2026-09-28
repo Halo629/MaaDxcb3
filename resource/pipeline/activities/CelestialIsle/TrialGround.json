@@ -1,0 +1,263 @@
+{
+	"TrialGroundEventEntry": {
+		"desc": "试炼场事件处理入口",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"TrialGroundEntry",
+			"[JumpBack]SwipeDownToFindTrialGround"
+		]
+	},
+	"TrialGroundEventEntryFromEnlightenBook": {
+		"desc": "从启迪之书前往试炼场事件处理入口",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"TrialGroundEntry",
+			"[JumpBack]SwipeRightToFindTrialGround"
+		]
+	},
+	"TrialGroundEntry": {
+		"desc": "识别试炼场并点击",
+		"recognition": "OCR",
+		"expected": "试炼场|试炼",
+		"roi": [147, 348, 454, 725],
+		"action": "Click",
+		"target_offset": [0, -50, 0, 0],
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [147, 348, 454, 725],
+			"timeout": 10000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"CrossDoorToTrailGround",
+			"CloseToTrailGround",
+			"TrialGroundEntry"
+		]
+	},
+	"CrossDoorToTrailGround": {
+		"desc": "通过大门",
+		"recognition": "OCR",
+		"expected": "通过大门|通过|大门",
+		"roi": [285, 684, 160, 332],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [215, 260, 383, 438],
+			"timeout": 2000
+		},
+		"next": [
+			"[JumpBack]TrialGroundDoorCanPassRecord",
+			"PlaneRiftEntry"
+		]
+	},
+	"TrialGroundDoorCanPassRecord": {
+		"desc": "记录试炼场大门可以通过",
+		"action": "Custom",
+		"custom_action": "TrialGroundDoorCanPassRecord",
+		"max_hit": 1
+	},
+	"PlaneRiftEntry": {
+		"desc": "位面裂隙",
+		"recognition": "OCR",
+		"expected": "位面裂隙|位面|裂隙",
+		"roi": [215, 130, 372, 488],
+		"action": "Click",
+		"target_offset": [0, -50, 0, 0],
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [215, 260, 383, 438],
+			"timeout": 2000
+		},
+		"next": [
+			"[JumpBack]EnterThroatOfAroya",
+			"PlaneRiftDoneAndLeave",
+			"PlaneRiftEntry"
+		]
+	},
+	"PlaneRiftDoneAndLeave": {
+		"desc": "位面裂隙完成，离开",
+		"recognition": "And",
+		"all_of": ["CenterScreenExitOption"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [215, 260, 383, 438],
+			"timeout": 2000
+		},
+		"next": [
+			"TrialGroundLeave"
+		]
+	},
+	"EnterThroatOfAroya": {
+		"desc": "进入阿罗亚之喉",
+		"recognition": "OCR",
+		"expected": "进入|阿罗亚之喉|阿罗亚",
+		"roi": [235, 727, 245, 200],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [215, 260, 383, 438],
+			"timeout": 2000
+		},
+		"next": [
+			"[JumpBack]MazeStartOut",
+			"[JumpBack]CelestialIsleGoAhead",
+			"[JumpBack]HandleRewardDialog",
+			"[JumpBack]CelestialIsleBattle",
+			"[JumpBack]BattleEnd",
+			"AdventureEnd"
+		]
+	},
+	"TrialGroundLeave": {
+		"desc": "离开试炼场",
+		"recognition": "OCR",
+		"expected": "试炼场|试炼",
+		"roi": [147, 348, 454, 725],
+		"action": "Click",
+		"target_offset": [0, -50, 0, 0],
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [215, 260, 383, 438],
+			"timeout": 10000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"CrossDoorToLeaveTrailGround"
+		]
+	},
+	"CrossDoorToLeaveTrailGround": {
+		"desc": "通过大门",
+		"recognition": "OCR",
+		"expected": "通过大门|通过|大门",
+		"roi": [285, 684, 160, 332],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [285, 684, 160, 332],
+			"timeout": 2000
+		},
+		"next": [
+			"GetMagnetRewardNearTrailGround"
+		]
+	},
+	"GetMagnetRewardNearTrailGround": {
+		"desc": "主岛试炼场外地图磁石奖励",
+		"recognition": "OCR",
+		"expected": "试炼场|试炼",
+		"roi": [259, 306, 312, 468],
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 1500,
+		"rate_limit": 0,
+		"action": "Click",
+		"target_offset": [-65, 185, -30, 0],
+		"next": [
+			"HandleRewardDialog",
+			"NoMapMagnet"
+		]
+	},
+	"CloseToTrailGround": {
+		"desc": "靠近试炼场",
+		"recognition": "OCR",
+		"expected": "靠近试炼场|靠近|试炼场",
+		"roi": [285, 684, 160, 332],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [215, 260, 383, 438],
+			"timeout": 2000
+		},
+		"next": [
+			"GuardBattle"
+		]
+	},
+	"GuardBattle": {
+		"desc": "守卫战斗",
+		"recognition": "OCR",
+		"expected": "战斗",
+		"roi": [285, 684, 160, 332],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [215, 260, 383, 438],
+			"timeout": 2000
+		},
+		"next": [
+			"GuardBattleFail",
+			"GuardBattleVictory"
+		]
+	},
+	"GuardBattleVictory": {
+		"desc": "能打过守卫,可直接进入试炼场",
+		"recognition": "And",
+		"all_of": ["BattleEnd", "BattleResultVictory"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [215, 260, 383, 438],
+			"timeout": 2000
+		},
+		"next": [
+			"CrossDoorToTrailGround",
+			"TrialGroundEntry"
+		]
+	},
+	"GuardBattleFail": {
+		"desc": "打不过守卫,需要赠送磁石给书灵",
+		"recognition": "And",
+		"all_of": ["BattleEnd", "BattleResultFail"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [215, 260, 383, 438],
+			"timeout": 2000
+		},
+		"next": [
+			"[JumpBack]RaiseBattlePower",
+			"TrialGroundEnd"
+		]
+	},
+	"TrialGroundEnd": {"desc": "打不过守卫，试炼场结束"},
+	"SwipeDownToFindTrialGround": {
+		"desc": "向下滑动找试炼场",
+		"action": "Swipe",
+		"begin": [500, 450],
+		"end": [500, 750],
+		"duration": 200,
+		"max_hit": 2,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [122, 279, 477, 602],
+			"timeout": 5000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"SwipeRightToFindTrialGround": {
+		"desc": "向右滑动找试炼场",
+		"action": "Swipe",
+		"begin": [200, 450],
+		"end": [400, 450],
+		"duration": 100,
+		"max_hit": 3,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [122, 279, 477, 602],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	}
+}

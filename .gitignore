@@ -1,0 +1,47 @@
+# ===== 构建产物 =====
+build/
+build-beta/
+*.obj
+*.o
+*.pdb
+
+# ===== 缓存 =====
+.cache/
+cache/
+
+# ===== 日志和调试 =====
+debug/
+
+# ===== 运行时配置 =====
+config/
+resources/
+
+# ===== 预编译二进制 / SDK（从 release 下载）=====
+mxu.exe
+maafw/
+agent/
+agent-beta/
+
+# ===== OCR 模型（大文件，从 PaddleOCR 官方下载，见 resource/model/ocr/README.md）=====
+resource/model/ocr/*.onnx
+
+# ===== CMake 生成 =====
+compile_commands.json
+CMakeCache.txt
+CMakeFiles/
+
+# ===== 打包产物 =====
+MaaDxcb3.exe
+MaaDxcb3.ico
+rcedit.exe
+*.zip
+*.tgz
+
+# ===== Python 缓存 =====
+__pycache__/
+*.pyc
+
+# ===== 编辑器 / 工具本地配置 =====
+.claude/
+.vs/
+*.user

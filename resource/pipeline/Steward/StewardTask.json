@@ -1,0 +1,23 @@
+{
+	"StewardTaskStart": {
+		"desc": "管家任务（按开关顺序执行各子任务）",
+		"next": [
+			"[JumpBack]StewardGoddessCollectSub",
+			"[JumpBack]StewardFarmSub",
+			"[JumpBack]StewardFerdinandSub",
+			"[JumpBack]StewardArcaneCellCollectSub",
+			"[JumpBack]StewardSkyreachTowerCollectSub",
+			"[JumpBack]StewardWildSoulSearchSub",
+			"[JumpBack]StewardCarriageShopSub",
+			"[JumpBack]StewardShrineWorkshopSub",
+			"[JumpBack]StewardSecretCaveSub",
+			"[JumpBack]StewardBibiqiSub",
+			"[JumpBack]StewardEndlessWealthIsleSub",
+			"[JumpBack]StewardDailySoulMasterGuideSub",
+			"[JumpBack]StewardWeeklySoulMasterGuideSub",
+			"[JumpBack]StewardTreasureMapSub",
+			"StewardTaskDone"
+		]
+	},
+	"StewardTaskDone": {"desc": "管家任务执行完成"}
+}

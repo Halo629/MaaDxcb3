@@ -1,0 +1,15 @@
+{
+    "task": [
+        {
+            "name": "AirshipTreasure",
+            "label": "🚀飞艇珍奇",
+            "entry": "AirshipTreasureStart",
+            "group": [
+                "activity_tasks"
+            ],
+             "option": [
+                "ActivityCollection1SoulTomb"
+            ]
+        }
+    ]
+}

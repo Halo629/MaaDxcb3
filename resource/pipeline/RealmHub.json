@@ -1,0 +1,366 @@
+{
+    "RealmHubStart": {
+        "desc": "诸界枢纽购买羁时碎片",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]CollapseSideBar",
+            "RealmHubPlaneGuildShopping",
+            "[JumpBack]RealmHubPlaneGuildEntry",
+            "RealmHubPlaneGuildNotFound",
+            "[JumpBack]SceneEnterMainPage"
+        ]
+    },
+    "RealmHubPlaneGuildEntry": {
+        "desc": "在主页营火处左滑，找到诸界枢纽",
+        "recognition": "And",
+        "all_of": [
+            "InCampfire"
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "action": "Swipe",
+        "begin": [
+            500,
+            900
+        ],
+        "end": [
+            200,
+            900
+        ],
+        "duration": 100,
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                227,
+                580,
+                308,
+                377
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "RealmHubEntry",
+            "RealmHubPlaneGuildEntry"
+        ]
+    },
+    "RealmHubEntry": {
+        "desc": "识别并点击诸界枢纽",
+        "recognition": "OCR",
+        "expected": "诸界枢纽|诸界|枢纽",
+        "action": "Click",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "target_offset": [
+            0,
+            -50,
+            0,
+            0
+        ],
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                244,
+                379,
+                249,
+                625
+            ],
+            "timeout": 15000
+        },
+        "next": [
+            "RealmHubPlaneGuildEntryNode",
+            "RealmHubEntry"
+        ]
+    },
+    "RealmHubPlaneGuildNotFound": {
+        "desc": "未找到位面行会",
+        "recognition": "And",
+        "all_of": [
+            "InRealmHub",
+            {
+                "recognition": "OCR",
+                "expected": "离开",
+                "roi": [
+                    282,
+                    658,
+                    158,
+                    356
+                ]
+            }
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                244,
+                379,
+                249,
+                625
+            ],
+            "timeout": 2000
+        }
+    },
+    "RealmHubPlaneGuildEntryNode": {
+        "desc": "进入位面行会",
+        "recognition": "OCR",
+        "expected": "位面行会|位面|行会",
+        "roi": [
+            282,
+            658,
+            158,
+            356
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                244,
+                379,
+                249,
+                625
+            ],
+            "timeout": 2000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "InRealmHubPlaneGuild"
+        ]
+    },
+    "InRealmHubPlaneGuild": {
+        "desc": "在位面行会页面",
+        "recognition": "OCR",
+        "expected": "位面行会|位面|行会",
+        "roi": [
+            300,
+            123,
+            117,
+            58
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "InRealmHub": {
+        "desc": "在诸界枢纽页面",
+        "recognition": "OCR",
+        "expected": "诸界枢纽|诸界|枢纽",
+        "roi": [
+            296,
+            242,
+            128,
+            65
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "RealmHubPlaneGuildShopping": {
+        "desc": "位面行会购物",
+        "recognition": "And",
+        "all_of": [
+            "InRealmHubPlaneGuild"
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]RealmHubPlaneGuildBuyTimeBondFragmentEntry",
+            "RealmHubPlaneGuildShoppingDone"
+        ]
+    },
+    "RealmHubPlaneGuildShoppingDone": {
+        "desc": "位面行会购物完成",
+        "recognition": "And",
+        "all_of": [
+            "InRealmHubPlaneGuild"
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "SceneBack"
+        ]
+    },
+    "RealmHubPlaneGuildBuyTimeBondFragmentEntry": {
+        "desc": "位面行会购买羁时碎片入口",
+        "max_hit": 1,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "CarriageShopBuyTimeBondFragmentItem",
+            "[JumpBack]RealmHubPlaneGuildPageSwipeUp",
+            "RealmHubPlaneGuildBuyTimeBondFragmentDone"
+        ]
+    },
+    "RealmHubPlaneGuildBuyTimeBondFragmentDone": {
+        "desc": "位面行会购买羁时碎片完成",
+        "recognition": "And",
+        "all_of": [
+            "InRealmHubPlaneGuild"
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "RealmHubPlaneGuildBuyTimeBondFragmentStart": {
+        "desc": "购买羁时碎片",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "recognition": "And",
+        "all_of": [
+            "RealmHubPlaneGuildTimeBondFragmentConfirm"
+        ],
+        "next": [
+            "RealmHubPlaneGuildTimeBondFragmentSoldOut",
+            "RealmHubPlaneGuildOuroborosRingNotEnough",
+            "[JumpBack]RealmHubPlaneGuildBuyTimeBondFragment",
+            "RealmHubPlaneGuildBuyTimeBondFragmentDone"
+        ]
+    },
+    "RealmHubPlaneGuildBuyTimeBondFragment": {
+        "desc": "购买羁时碎片",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "recognition": "And",
+        "all_of": [
+            "RealmHubPlaneGuildTimeBondFragmentConfirm"
+        ],
+        "action": "Click",
+        "target_offset": [
+            0,
+            55,
+            0,
+            -20
+        ],
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                97,
+                418,
+                532,
+                634
+            ],
+            "timeout": 2000
+        },
+        "next": [
+            "[JumpBack]CarriageShopBatchPurchaseTipBoxHandle",
+            "RealmHubPlaneGuildBuyTimeBondFragmentDone"
+        ]
+    },
+    "RealmHubPlaneGuildPageSwipeUp": {
+        "desc": "位面行会页面向上滑动查看更多",
+        "action": "Swipe",
+        "begin": [
+            450,
+            850
+        ],
+        "end": [
+            450,
+            750
+        ],
+        "duration": 100,
+        "max_hit": 5,
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                97,
+                418,
+                532,
+                634
+            ],
+            "timeout": 3000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "RealmHubPlaneGuildTimeBondFragmentSoldOut": {
+        "desc": "羁时碎片已售罄",
+        "recognition": "TemplateMatch",
+        "template": "carriage_shop/sold_out.png",
+        "roi": "RealmHubPlaneGuildTimeBondFragmentConfirm",
+        "roi_offset": [
+            -20,
+            -160,
+            100,
+            160
+        ]
+    },
+    "RealmHubPlaneGuildTimeBondFragmentFound": {
+        "desc": "找到羁时碎片",
+        "recognition": "OCR",
+        "expected": "羁时碎片|羁时|时碎片|时碎",
+        "roi": [
+            62,
+            354,
+            593,
+            705
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "RealmHubPlaneGuildTimeBondFragmentConfirm": {
+        "desc": "确认羁时碎片",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "recognition": "And",
+        "all_of": [
+            "RealmHubPlaneGuildTimeBondFragmentFound",
+            {
+                "template": "carriage_shop/TimeBondFragment.png",
+                "roi": "RealmHubPlaneGuildTimeBondFragmentFound",
+                "roi_offset": [
+                    0,
+                    -130,
+                    0,
+                    100
+                ]
+            }
+        ]
+    },
+    "RealmHubPlaneGuildOuroborosRingNotEnough": {
+        "desc": "衔尾之环不足",
+        "recognition": "And",
+        "all_of": [
+            "RealmHubPlaneGuildTimeBondFragmentConfirm",
+            {
+                "recognition": "ColorMatch",
+                "method": 40,
+                "lower": [
+                    0,
+                    80,
+                    80
+                ],
+                "upper": [
+                    10,
+                    255,
+                    255
+                ],
+                "roi": "RealmHubPlaneGuildTimeBondFragmentConfirm",
+                "roi_offset": [
+                    0,
+                    50,
+                    -20,
+                    10
+                ],
+                "count": 10
+            }
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    }
+}

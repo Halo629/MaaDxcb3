@@ -1,0 +1,171 @@
+{
+	"MapListSwipePos": {
+		"desc": "地图条目图标，竖向排列，滑动时用",
+		"recognition": "Or",
+		"any_of": ["MapListItemOcr", "MapListItemTemplate"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"MapListItemOcr": {
+		"desc": "地图条目文字识别",
+		"recognition": "OCR",
+		"expected": "探索度|探索",
+		"roi": [122, 183, 86, 800],
+		"order_by": "Vertical",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"MapListItemTemplate": {
+		"desc": "地图条目模板识别",
+		"recognition": "TemplateMatch",
+		"template": "common/MapListSwipePos_1.png",
+		"roi": [122, 183, 86, 800],
+		"order_by": "Vertical",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"MapListSortCheck": {
+		"desc": "地图列表排序状态",
+		"recognition": "OCR",
+		"roi": [565, 52, 104, 34],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"MapListAscendingSort": {
+		"desc": "地图列表为正序",
+		"recognition": "OCR",
+		"expected": "正序",
+		"roi": [565, 52, 104, 34]
+	},
+	"SwitchMapListAscendingSort": {
+		"desc": "切换地图列表为正序",
+		"recognition": "OCR",
+		"expected": "倒序",
+		"roi": [565, 52, 104, 34],
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [193, 198, 371, 771],
+			"timeout": 2000
+		}
+	},
+	"CurMapList": {
+		"desc": "获取地图列表",
+		"recognition": "OCR",
+		"roi": [262, 194, 235, 772],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"RolePos": {
+		"desc": "角色位置",
+		"recognition": "TemplateMatch",
+		"template": "role_pos.png",
+		"roi": [478, 158, 113, 849],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"FerdinandPos": {
+		"desc": "费迪南德位置",
+		"recognition": "TemplateMatch",
+		"template": "ferdinand.png",
+		"roi": [478, 158, 113, 849],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"EnterMapAndExit": {
+		"desc": "进入地图再返回",
+		"max_hit": 1,
+		"next": [
+			"__ScenePrivateReturnRisk",
+			"[JumpBack]SceneEnterMainPage"
+		]
+	},
+	"ClickCampFire": {
+		"desc": "点击营火",
+		"recognition": "TemplateMatch",
+		"template": "main_page_icon/campfire.png",
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [136, 1086, 407, 53],
+			"timeout": 2000
+		}
+	},
+	"MazeEmptyFloor": {
+		"desc": "迷宫中点击空格子地板",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "Or",
+		"any_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "battle/empty_floor1.png",
+				"roi": [53, 164, 648, 822],
+				"threshold": 0.8
+			},
+			{
+				"recognition": "TemplateMatch",
+				"template": "battle/empty_floor2.png",
+				"roi": [53, 164, 648, 822],
+				"threshold": 0.8
+			}
+		],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [89, 227, 584, 758],
+			"timeout": 2000
+		}
+	},
+	"MazeMonsterFloor": {
+		"desc": "迷宫中点击怪物地板",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "battle/monster_floor.png",
+		"roi": [53, 164, 648, 822],
+		"threshold": 0.6,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [89, 227, 584, 758],
+			"timeout": 2000
+		},
+		"next": [
+			"BattleVictoryDialog",
+			"BattleFailDialog"
+		]
+	},
+	"MazeStartOut": {
+		"desc": "出发前往迷宫",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "出发",
+		"roi": [196, 1067, 335, 205],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [196, 1067, 335, 205],
+			"timeout": 3000
+		},
+		"next": [
+			"[JumpBack]CommonDisassembleEquipment",
+			"[JumpBack]CommonMonsterSoulBatchUpgrade",
+			"MazeStartOut",
+			"__ScenePrivateNextTrue"
+		]
+	}
+}

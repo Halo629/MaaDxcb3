@@ -1,0 +1,89 @@
+{
+    "preset": [
+        {
+            "name": "MultiServer",
+            "label": "多服务器模板",
+            "description": "适合多服务器用户,需要自行填写需要切换的服务器名字",
+            "task": [
+                {
+                    "name": "LaunchGame",
+                    "enabled": true
+                },
+                {
+                    "name": "SwitchServer",
+                    "option": {
+                        "TargetServerName": {
+                            "TargetServerNameValue": "服务器1"
+                        },
+                        "TargetServerLine": {
+                            "TargetServerLineValue": "1线"
+                        },
+                        "SwitchToTargetServer": "Yes"
+                    },
+                    "enabled": true
+                },
+                {
+                    "name": "DailyRewards",
+                    "enabled": true
+                },
+                {
+                    "name": "StewardTasks",
+                    "enabled": true
+                },
+                {
+                    "name": "WeeklyTreasureShop",
+                    "enabled": true
+                },
+                {
+                    "name": "WeeklyFormation",
+                    "enabled": true
+                },
+                {
+                    "name": "WeeklyRealmHub",
+                    "enabled": true
+                },
+                {
+                    "name": "WeeklyNightmareMirror",
+                    "enabled": true
+                },
+                {
+                    "name": "SwitchServer",
+                    "option": {
+                        "TargetServerName": {
+                            "TargetServerNameValue": "服务器2"
+                        },
+                        "TargetServerLine": {
+                            "TargetServerLineValue": "1线"
+                        },
+                        "SwitchToTargetServer": "Yes"
+                    },
+                    "enabled": true
+                },
+                {
+                    "name": "DailyRewards",
+                    "enabled": true
+                },
+                {
+                    "name": "StewardTasks",
+                    "enabled": true
+                },
+                {
+                    "name": "WeeklyTreasureShop",
+                    "enabled": true
+                },
+                {
+                    "name": "WeeklyFormation",
+                    "enabled": true
+                },
+                {
+                    "name": "WeeklyRealmHub",
+                    "enabled": true
+                },
+                {
+                    "name": "WeeklyNightmareMirror",
+                    "enabled": true
+                }
+            ]
+        }
+    ]
+}

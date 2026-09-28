@@ -1,0 +1,97 @@
+{
+	"StewardGoddessCollectSub": {
+		"desc": "女神像收益领取",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"DailyGoddessCollectEntry",
+			"DailyGoddessDone",
+			"[JumpBack]SceneEnterMainPage"
+		],
+		"focus": {"Node.Recognition.Succeeded": "开始任务:女神像收益领取"}
+	},
+	"DailyGoddessCollectEntry": {
+		"desc": "在主页有女神像",
+		"recognition": "And",
+		"all_of": ["HasGoddessIcon"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"post_wait_freezes": 200,
+		"action": "Click",
+		"next": [
+			"[JumpBack]DailyGoddessQuickCollect",
+			"_DailyGoddessQuickCollectReturn"
+		]
+	},
+	"DailyGoddessQuickCollect": {
+		"desc": "点击快速获取",
+		"recognition": "OCR",
+		"expected": "快速获取|快速",
+		"roi": [109, 924, 508, 96],
+		"action": "Click",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [137, 393, 461, 371],
+			"timeout": 2000
+		},
+		"next": [
+			"_DailyGoddessFreeCollect",
+			"_DailyGoddessFreeCollectDone"
+		]
+	},
+	"_DailyGoddessFreeCollect": {
+		"desc": "点击免费领取",
+		"recognition": "TemplateMatch",
+		"template": "daily/free_collect.png",
+		"roi": [385, 773, 163, 122],
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [137, 393, 461, 371],
+			"timeout": 2000
+		},
+		"rate_limit": 0,
+		"next": [
+			"HandleRewardDialog"
+		]
+	},
+	"_DailyGoddessFreeCollectDone": {
+		"desc": "免费领取已完成",
+		"recognition": "And",
+		"all_of": ["BackButton"]
+	},
+	"_DailyGoddessQuickCollectReturn": {
+		"desc": "点击返回按钮",
+		"recognition": "And",
+		"all_of": ["BackButton"],
+		"action": "Click",
+		"pre_delay": 0,
+		"post_wait_freezes": 200,
+		"rate_limit": 0,
+		"next": [
+			"_DailyGoddessCollect"
+		]
+	},
+	"_DailyGoddessCollect": {
+		"desc": "按esc键完成领取并回到主页",
+		"recognition": "DirectHit",
+		"action": "ClickKey",
+		"key": 111,
+		"post_delay": 3000
+	},
+	"DailyGoddessDone": {
+		"desc": "没有女神像图标",
+		"recognition": "And",
+		"all_of": ["InMainPage"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	}
+}

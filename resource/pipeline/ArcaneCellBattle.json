@@ -1,0 +1,182 @@
+{
+    "ArcaneCellBattleStart": {
+        "desc": "奥术监牢战斗入口",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "ArcaneCellBattleEntry",
+            "[JumpBack]ArcaneCellEntry",
+            "[JumpBack]SceneEnterGamePlayPermanent"
+        ]
+    },
+    "ArcaneCellEntry": {
+        "desc": "进入奥术监牢",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "recognition": "And",
+        "all_of": [
+            "InGamePlayPermanentPage"
+        ],
+        "next": [
+            "InArcaneCellPage",
+            "[JumpBack]OpenArcaneCell",
+            "[JumpBack]ArcaneCellSwipeUp"
+        ]
+    },
+    "OpenArcaneCell": {
+        "desc": "点击奥术监牢图标进入",
+        "recognition": "TemplateMatch",
+        "template": "ArcaneCell/ArcaneCellIcon.png",
+        "roi": [
+            345,
+            139,
+            369,
+            833
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                345,
+                139,
+                369,
+                833
+            ],
+            "timeout": 2000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "ArcaneCellBattleEntry": {
+        "desc": "奥术监牢战斗入口",
+        "recognition": "And",
+        "all_of": [
+            "InArcaneCellPage"
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]ArcaneCellCloseTipBox",
+            "ArcaneCellBattleQuit",
+            "[JumpBack]ArcaneCellStartBattle"
+        ]
+    },
+    "ArcaneCellBattleQuit": {
+        "desc": "奥术监牢退出(达到连续失败次数)",
+        "recognition": "Custom",
+        "custom_recognition": "ArcaneCellBattleQuit",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "ArcaneCellStartBattle": {
+        "desc": "奥术监牢开始挑战",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "recognition": "OCR",
+        "expected": "开始挑战|开始|挑战",
+        "roi": [
+            302,
+            839,
+            124,
+            79
+        ],
+        "action": "Click",
+        "next": [
+            "[JumpBack]ConfirmButton",
+            "ArcaneCellBattle"
+        ]
+    },
+    "ArcaneCellBattle": {
+        "desc": "奥术监牢挑战",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "action": "Custom",
+        "custom_action": "BattleAI",
+        "next": [
+            "ArcaneCellBattleFailed",
+            "ArcaneCellBattleVictory"
+        ]
+    },
+    "ArcaneCellBattleFailed": {
+        "desc": "猎场盛宴战斗失败",
+        "recognition": "And",
+        "all_of": [
+            "BattleResultFail"
+        ],
+        "next": [
+            "ArcaneCellBattleFailedRecord"
+        ]
+    },
+    "ArcaneCellBattleFailedRecord": {
+        "desc": "猎场盛宴战斗失败记录",
+        "action": "Custom",
+        "custom_action": "ArcaneCellBattleFailedRecord",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]BattleEnd",
+            "__ScenePrivateNextTrue"
+        ]
+    },
+    "ArcaneCellBattleVictory": {
+        "desc": "奥术监牢战斗胜利",
+        "recognition": "And",
+        "all_of": [
+            "BattleResultVictory"
+        ],
+        "next": [
+            "ArcaneCellBattleVictoryRecord"
+        ]
+    },
+    "ArcaneCellBattleVictoryRecord": {
+        "desc": "猎场盛宴战斗胜利记录",
+        "action": "Custom",
+        "custom_action": "ArcaneCellBattleVictoryRecord",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]BattleEnd",
+            "__ScenePrivateNextTrue"
+        ]
+    },
+    "ArcaneCellSwipeUp": {
+        "desc": "上滑查找奥术监牢",
+        "action": "Swipe",
+        "begin": [
+            400,
+            800
+        ],
+        "end": [
+            400,
+            600
+        ],
+        "duration": 200,
+        "max_hit": 3,
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                353,
+                192,
+                328,
+                732
+            ],
+            "timeout": 5000
+        }
+    },
+    "ArcaneCellDone": {
+        "desc": "奥术监牢战斗完成",
+        "recognition": "And",
+        "all_of": [
+            "InArcaneCellPage"
+        ]
+    }
+}

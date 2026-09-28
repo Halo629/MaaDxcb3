@@ -1,0 +1,201 @@
+{
+	"DailyRewardsMonthlyCardCollectSub": {
+		"desc": "月卡领取",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"[JumpBack]MonthlyCardCollectEntry",
+			"[JumpBack]BasicMonthlyCardBuyEntry",
+			"[JumpBack]AdvancedMonthlyCardBuyEntry",
+			"__ScenePrivateNextTrue"
+		],
+		"focus": {"Node.Recognition.Succeeded": "开始任务:月卡领取"}
+	},
+	"MonthlyCardCollectEntry": {
+		"desc": "月卡领取",
+		"max_hit": 1,
+		"next": [
+			"HandleWheelOfDreamDialog",
+			"InMonthlyCardPage",
+			"[JumpBack]SceneEnterMonthlyCardPage"
+		]
+	},
+	"BasicMonthlyCardBuyEntry": {
+		"enabled": false,
+		"desc": "小月卡续期",
+		"max_hit": 1,
+		"next": [
+			"BasicMonthlyCardNotExpire",
+			"BasicMonthlyCardBuy",
+			"[JumpBack]SceneEnterMonthlyCardPage"
+		]
+	},
+	"BasicMonthlyCardRemainTime": {
+		"desc": "基础月卡剩余天数",
+		"recognition": "OCR",
+		"expected": "剩余天数|剩余|天数",
+		"roi": [129, 1030, 134, 32],
+		"only_rec": true
+	},
+	"BasicMonthlyCardNotExpire": {
+		"desc": "基础月卡未到期",
+		"recognition": "And",
+		"all_of": [
+			"InMonthlyCardPage",
+			"BasicMonthlyCardRemainTime"
+		],
+		"next": [
+			"PressEsc"
+		]
+	},
+	"BasicMonthlyCardBuy": {
+		"desc": "基础月卡到期自动购买",
+		"recognition": "And",
+		"all_of": [
+			"InMonthlyCardPage",
+			{
+				"recognition": "TemplateMatch",
+				"template": "monthly_card/BasicMonthlyCardPrice.png",
+				"roi": [96, 969, 201, 65]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [260, 540, 200, 200],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleMonthlyCardLockDialog",
+			"[JumpBack]ConfirmButton"
+		]
+	},
+	"HandleMonthlyCardLockDialog": {
+		"desc": "关闭月卡解锁奖励弹窗",
+		"recognition": "OCR",
+		"roi": [225, 354, 281, 41],
+		"expected": "月卡解锁奖励|解锁奖励|解锁",
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["MonthlyCardCollectEntry"]
+		}
+	},
+	"AdvancedMonthlyCardBuyEntry": {
+		"enabled": false,
+		"desc": "大月卡续期(炬火服专属)",
+		"max_hit": 1,
+		"next": [
+			"AdvancedMonthlyCardNotExpire",
+			"AdvancedMonthlyCardBuy",
+			"[JumpBack]SceneEnterMonthlyCardPage"
+		]
+	},
+	"AdvancedMonthlyCardRemainTime": {
+		"desc": "进阶月卡剩余天数",
+		"recognition": "OCR",
+		"expected": "剩余天数|剩余|天数",
+		"roi": [448, 1029, 140, 34],
+		"only_rec": true
+	},
+	"AdvancedMonthlyCardNotExpire": {
+		"desc": "进阶月卡未到期",
+		"recognition": "And",
+		"all_of": [
+			"InMonthlyCardPage",
+			"AdvancedMonthlyCardRemainTime"
+		],
+		"next": [
+			"PressEsc"
+		]
+	},
+	"AdvancedMonthlyCardBuy": {
+		"desc": "进阶月卡到期自动使用背包进阶月卡",
+		"recognition": "And",
+		"all_of": ["InMonthlyCardPage"],
+		"action": "ClickKey",
+		"key": 111,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [81, 301, 531, 584],
+			"timeout": 2000
+		},
+		"next": [
+			"BagUseAdvancedCardEntry",
+			"[JumpBack]SceneEnterBag"
+		]
+	},
+	"BagUseAdvancedCardEntry": {
+		"desc": "背包使用进阶月卡",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InBagItemPage"],
+		"next": [
+			"BagItemPageClickAdvancedCard",
+			"[JumpBack]BagItemPageSwipeUp"
+		]
+	},
+	"BagItemPageFindAdvancedCard": {
+		"desc": "找到进阶月卡",
+		"recognition": "TemplateMatch",
+		"template": "monthly_card/advanced_card.png",
+		"roi": [30, 52, 688, 1004]
+	},
+	"BagItemPageClickAdvancedCard": {
+		"desc": "背包点击进阶月卡",
+		"recognition": "And",
+		"all_of": ["BagItemPageFindAdvancedCard"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [30, 52, 688, 1004],
+			"timeout": 2000
+		},
+		"next": [
+			"BagItemPageUseAdvancedCard"
+		]
+	},
+	"ClearMonthlyCardCollectLimit": {
+		"desc": "使用进阶月卡后清除月卡领取max_hit",
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["MonthlyCardCollectEntry"]
+		}
+	},
+	"BagItemPageUseAdvancedCard": {
+		"desc": "背包使用进阶月卡",
+		"recognition": "OCR",
+		"expected": "使用",
+		"roi": [281, 841, 176, 54],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [30, 52, 688, 1004],
+			"timeout": 2000
+		},
+		"next": [
+			"[JumpBack]HandleRewardDialog",
+			"ClearMonthlyCardCollectLimit"
+		]
+	},
+	"BagItemPageSwipeUp": {
+		"desc": "背包道具页面上滑",
+		"action": "Swipe",
+		"begin": [400, 1000],
+		"end": [400, 100],
+		"duration": 100,
+		"max_hit": 5,
+		"repeat": 3,
+		"repeat_delay": 200,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 5000
+		}
+	}
+}

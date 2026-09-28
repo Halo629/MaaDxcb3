@@ -1,0 +1,159 @@
+{
+    "task": [
+        {
+            "name": "SoulTomb",
+            "label": "⚰️魂墓挑战",
+            "entry": "SoulTombStart",
+            "pipeline_override": {
+                "AdjustSoulTombStartLevel": {
+                    "attach": {
+                        "target_level": "max"
+                    }
+                },
+                "AdjustSoulTombToMaxLevel": {
+                    "enabled":true
+                }
+            },
+            "group": [
+                "other_tasks"
+            ],
+            "option": [
+                "ChallengeCount"
+            ]
+        }
+    ],
+    "option": {
+        "ChallengeStartLevel": {
+            "type": "select",
+            "label": "挑战开始等级",
+            "default_case": "MaxLevel",
+            "cases": [
+                {
+                    "name": "CurrentLevel",
+                    "label": "当前等级",
+                    "pipeline_override": {
+                        "AdjustSoulTombStartLevel": {
+                            "attach": {
+                                "target_level": "current"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "MaxLevel",
+                    "label": "最大等级",
+                    "pipeline_override": {
+                        "AdjustSoulTombStartLevel": {
+                            "attach": {
+                                "target_level": "max"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "SpecifiedLevel",
+                    "label": "指定等级",
+                    "pipeline_override": {
+                        "AdjustSoulTombStartLevel": {
+                            "attach": {
+                                "target_level": "specified"
+                            }
+                        }
+                    },
+                    "option": [
+                        "SpecifiedLevelValue"
+                    ]
+                }
+            ]
+        },
+        "SpecifiedLevelValue": {
+            "type": "input",
+            "label": "指定等级",
+            "inputs": [
+                {
+                    "name": "SpecifiedLevelValueInput",
+                    "label": "等级 (1-2600)",
+                    "pipeline_type": "int",
+                    "verify": "^(?:[1-9]\\d{0,2}|1\\d{3}|2[0-5]\\d{2}|2600)$",
+                    "default": "1000"
+                }
+            ],
+            "pipeline_override": {
+                "AdjustSoulTombStartLevel": {
+                    "attach": {
+                        "level": "{SpecifiedLevelValueInput}"
+                    }
+                }
+            }
+        },
+        
+        "LowerFailReduce": {
+            "type": "switch",
+            "label": "连续失败后降低10级挑战难度",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "SoulTombBattleAutoLowerLevel": {
+                            "attach": {
+                                "lower_on_fail": true
+                            }
+                        }
+                    },
+                    "option": [
+                        "LowerFailCount"
+                    ]
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                        "SoulTombBattleAutoLowerLevel": {
+                            "attach": {
+                                "lower_on_fail": false
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        "LowerFailCount": {
+            "type": "input",
+            "label": "连续失败次数",
+            "inputs": [
+                {
+                    "name": "LowerFailCountValue",
+                    "label": "次数 (1-100)",
+                    "pipeline_type": "int",
+                    "verify": "^(?:[1-9]\\d?|100)$",
+                    "default": "5"
+                }
+            ],
+            "pipeline_override": {
+                "SoulTombBattleAutoLowerLevel": {
+                    "attach": {
+                        "lower_fail_count": "{LowerFailCountValue}"
+                    }
+                }
+            }
+        },
+        "ChallengeCount": {
+            "type": "input",
+            "label": "挑战次数",
+            "inputs": [
+                {
+                    "name": "MaxCountValue",
+                    "label": "挑战次数",
+                    "pipeline_type": "int",
+                    "verify": "^\\d+$",
+                    "default": "20"
+                }
+            ],
+            "pipeline_override": {
+                "SoulTombStartBattle": {
+                    "max_hit": "{MaxCountValue}"
+                }
+            }
+        }
+    }
+}

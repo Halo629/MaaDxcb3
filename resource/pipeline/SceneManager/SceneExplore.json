@@ -1,0 +1,75 @@
+{
+	"__ScenePrivateReturnRisk": {
+		"recognition": "OCR",
+		"expected": "返回冒险|冒险",
+		"roi": [8, 1029, 122, 149],
+		"action": "Click",
+		"post_delay": 3000,
+		"next": [
+			"InMap",
+			"__ScenePrivatePressEscUntilExitGame"
+		]
+	},
+	"__ScenePrivateReturnSecretRealm": {
+		"recognition": "OCR",
+		"expected": "返回秘境|秘境",
+		"roi": [1, 1043, 143, 237],
+		"action": "Click",
+		"post_delay": 3000
+	},
+	"__ScenePrivateMazeExit": {
+		"desc": "点击回城按钮退出迷宫",
+		"recognition": {
+			"type": "And",
+			"param": {
+				"all_of": ["InMaze"]
+			}
+		},
+		"action": {"type": "Click"}
+	},
+	"__ScenePrivateMazeEndExplore": {
+		"desc": "迷宫结束探索",
+		"recognition": {
+			"type": "And",
+			"param": {
+				"all_of": ["HasEndExploreDialog"]
+			}
+		},
+		"action": {"type": "Click"}
+	},
+	"__ScenePrivateCurrentEventExit": {
+		"desc": "退出当前事件",
+		"recognition": "Or",
+		"any_of": [
+			"InBattle",
+			"InQuitBattleConfirm",
+			"InBattleResult",
+			"InAdventureResult",
+			"InMaze",
+			"InDialoguePage"
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"[JumpBack]__ScenePrivateDialogueExit",
+			"[JumpBack]ConfirmButton",
+			"[JumpBack]__ScenePrivateBattleResultHandle",
+			"[JumpBack]__ScenePrivateBattleExit",
+			"[JumpBack]__ScenePrivateMazeEndExplore",
+			"[JumpBack]__ScenePrivateMazeExit",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"__ScenePrivateDialogueExit": {
+		"desc": "处理返回秘境时的对话框",
+		"recognition": "And",
+		"all_of": ["InDialoguePage"],
+		"action": "Click",
+		"pre_wait_freezes": {
+			"time": 300,
+			"target": [14, 1020, 701, 249],
+			"timeout": 5000
+		}
+	}
+}

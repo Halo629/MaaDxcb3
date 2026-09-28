@@ -1,0 +1,63 @@
+{
+	"MonsterSoulUpgradeStart": {
+		"desc": "升级魔物之魂",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MonsterSoulBatchUpgrade",
+			"[JumpBack]SceneEnterMonsterSoulBag"
+		]
+	},
+	"MonsterSoulBatchUpgrade": {
+		"desc": "魔魂升级",
+		"recognition": "And",
+		"all_of": ["InMonsterSoulListPage"],
+		"pre_delay": 0,
+		"post_delay": 1000,
+		"next": [
+			"[JumpBack]SelectSortMode",
+			"[JumpBack]UpgradeMonsterSoul",
+			"SceneBack"
+		]
+	},
+	"SelectSortMode": {
+		"desc": "点击排序按钮",
+		"recognition": "OCR",
+		"expected": "等级",
+		"roi": [503, 21, 134, 55],
+		"inverse": true,
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"target": [503, 21, 134, 55],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [295, 260, 143, 514],
+			"timeout": 5000
+		},
+		"next": [
+			"SwitchSortModeByLevel"
+		]
+	},
+	"SwitchSortModeByLevel": {
+		"desc": "调整为按等级排序",
+		"recognition": "OCR",
+		"expected": "等级",
+		"roi": [327, 213, 71, 46],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [295, 260, 143, 514],
+			"timeout": 5000
+		}
+	},
+	"UpgradeMonsterSoul": {
+		"desc": "升级魔物之魂",
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "UpgradeMonsterSoul",
+		"custom_action_param": ""
+	}
+}

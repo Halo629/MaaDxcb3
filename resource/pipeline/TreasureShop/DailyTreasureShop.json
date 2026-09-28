@@ -1,0 +1,57 @@
+{
+	"DailyRewardsTreasureShopSub": {
+		"enabled": false,
+		"desc": "珍藏商店购买日礼包",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"[JumpBack]DailyTreasureShopBuyScroll",
+			"DailyTreasureShopDone",
+			"[JumpBack]DailyTreasureShopEntry",
+			"[JumpBack]SceneEnterTreasurehop"
+		],
+		"focus": "开始任务:珍藏商店购买日礼包"
+	},
+	"DailyTreasureShopBuyScroll": {
+		"desc": "每日珍藏商店购买卷轴",
+		"recognition": "And",
+		"all_of": [
+			"InDailyTreasureShop",
+			"TreasureShopHasScroll",
+			"TreasureShopScrollCanBuy"
+		],
+		"box_index": 2,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [144, 386, 459, 563],
+			"timeout": 3000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"next": [
+			"TreasureShopBuyConfirm"
+		]
+	},
+	"DailyTreasureShopDone": {
+		"desc": "每日珍藏商店购买完成",
+		"recognition": "And",
+		"all_of": ["InDailyTreasureShop"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"DailyTreasureShopEntry": {
+		"desc": "打开珍藏商店每日礼包购买页面",
+		"recognition": "And",
+		"all_of": ["InTreasureShop"],
+		"action": "Click",
+		"target": [284, 1040, 30, 28],
+		"post_wait_freezes": 300,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	}
+}

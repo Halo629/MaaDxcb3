@@ -1,0 +1,261 @@
+{
+    "ThirdIsleEventEntry": {
+        "desc": "第三个岛屿事件处理入口",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "max_hit": 1,
+        "next": [
+            "[JumpBack]GetMagnetRewardInThirdIsle",
+            "[JumpBack]GiantOutpost",
+            "TeleportToMainIsle"
+        ]
+    },
+    "GetMagnetRewardInThirdIsle": {
+        "desc": "第三个岛屿地图磁石奖励",
+        "recognition": "OCR",
+        "expected": "巨人",
+        "roi": [
+            142,
+            740,
+            356,
+            417
+        ],
+        "max_hit": 1,
+        "pre_delay": 0,
+        "post_delay": 1500,
+        "rate_limit": 0,
+        "action": "Click",
+        "target_offset": [
+            -35,
+            110,
+            -20,
+            0
+        ],
+        "next": [
+            "HandleRewardDialog",
+            "NoMapMagnet"
+        ]
+    },
+    "GiantOutpost": {
+        "desc": "巨人据点",
+        "recognition": "OCR",
+        "expected": "巨人据点|巨人|据点",
+        "roi": [
+            142,
+            740,
+            356,
+            417
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "action": "Click",
+        "target_offset": [
+            0,
+            -50,
+            0,
+            0
+        ],
+        "max_hit": 1,
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                229,
+                732,
+                241,
+                192
+            ],
+            "timeout": 3000
+        },
+        "next": [
+            "[JumpBack]GiantOutpostGetCardEvent",
+            "GiantOutpostEntry",
+            "[JumpBack]CenterScreenExitOption",
+            "[JumpBack]HandleRewardDialog"
+        ]
+    },
+    "GiantOutpostEntry": {
+        "desc": "进入据点",
+        "recognition": "OCR",
+        "expected": "进入据点|进入|据点",
+        "roi": [
+            282,
+            715,
+            152,
+            218
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                176,
+                404,
+                390,
+                546
+            ],
+            "timeout": 3000
+        },
+        "next": [
+            "GiantOutpostBattle",
+            "CenterScreenExitOption"
+        ]
+    },
+    "GiantOutpostTemporarilyLeave": {
+        "desc": "巨人据点-暂时离开",
+        "recognition": "OCR",
+        "expected": "暂时离开|暂时",
+        "roi": [
+            237,
+            677,
+            264,
+            321
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                176,
+                404,
+                390,
+                546
+            ],
+            "timeout": 3000
+        }
+    },
+    "InGiantOutpost": {
+        "desc": "判断是否在巨人据点",
+        "recognition": "OCR",
+        "expected": "巨人据点|巨人|据点",
+        "roi": [
+            226,
+            201,
+            262,
+            328
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "GiantOutpostGetCardEvent": {
+        "desc": "巨人据点获取卡牌",
+        "recognition": "And",
+        "all_of": [
+            "InGiantOutpost",
+            {
+                "recognition": "OCR",
+                "expected": "获取卡牌|卡牌",
+                "roi": [
+                    237,
+                    677,
+                    264,
+                    321
+                ]
+            }
+        ],
+        "box_index": 1,
+        "action": "Click",
+        "post_delay": 2500
+    },
+    "GiantOutpostBattle": {
+        "desc": "巨人据点战斗",
+        "recognition": "And",
+        "all_of": [
+            "InGiantOutpost",
+            {
+                "recognition": "OCR",
+                "expected": "战斗",
+                "roi": [
+                    286,
+                    734,
+                    142,
+                    188
+                ]
+            }
+        ],
+        "box_index": 1,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                176,
+                404,
+                390,
+                546
+            ],
+            "timeout": 3000
+        },
+        "next": [
+            "[JumpBack]BattleEnd",
+            "HandleRewardDialog"
+        ]
+    },
+    "TeleportToMainIsle": {
+        "desc": "传送到主岛",
+        "recognition": "OCR",
+        "expected": "传送石|传送|石",
+        "roi": [
+            168,
+            752,
+            313,
+            417
+        ],
+        "action": "Click",
+        "target_offset": [
+            0,
+            -50,
+            0,
+            0
+        ],
+        "pre_delay": 0,
+        "post_delay": 2000,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]TeleportBattle",
+            "GotoMainIsle",
+            "TeleportToMainIsle"
+        ]
+    },
+    "TeleportBattle": {
+        "desc": "传送石战斗",
+        "recognition": "OCR",
+        "expected": "战斗",
+        "roi": [
+            210,
+            684,
+            291,
+            273
+        ],
+        "action": "Click",
+        "next": [
+            "BattleEnd"
+        ]
+    },
+    "GotoMainIsle": {
+        "recognition": "OCR",
+        "expected": "前往主岛|主岛",
+        "roi": [
+            235,
+            644,
+            251,
+            342
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                176,
+                404,
+                390,
+                546
+            ],
+            "timeout": 2000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    }
+}

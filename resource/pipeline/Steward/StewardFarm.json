@@ -1,0 +1,74 @@
+{
+	"StewardFarmSub": {
+		"desc": "每日农场收菜",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"DailyFarmCollectEntry",
+			"DailyFarmDone",
+			"[JumpBack]SceneEnterMainPage"
+		],
+		"focus": {"Node.Recognition.Succeeded": "开始任务:农场生产产品"}
+	},
+	"DailyFarmCollectEntry": {
+		"desc": "在主页有农场图标",
+		"recognition": "And",
+		"all_of": ["InMainPage", "HasFarmIcon"],
+		"pre_delay": 0,
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [260, 540, 200, 200],
+			"timeout": 2000
+		},
+		"next": [
+			"[JumpBack]DailyFarmHarvest",
+			"DailyFarmPlant"
+		]
+	},
+	"DailyFarmHarvest": {
+		"desc": "点击收获",
+		"recognition": "TemplateMatch",
+		"roi": [203, 1049, 326, 216],
+		"template": "daily/farm_harvest.png",
+		"max_hit": 1,
+		"action": "Click",
+		"pre_delay": 0,
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [260, 540, 200, 200],
+			"timeout": 5000
+		},
+		"next": [
+			"HandleRewardDialog"
+		]
+	},
+	"DailyFarmPlant": {
+		"desc": "点击种植",
+		"recognition": "TemplateMatch",
+		"roi": [208, 1063, 307, 207],
+		"template": "daily/farm_plant.png",
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [260, 540, 200, 200],
+			"timeout": 5000
+		},
+		"next": [
+			"SceneBack"
+		]
+	},
+	"DailyFarmDone": {
+		"desc": "没有农场图标",
+		"recognition": "And",
+		"all_of": ["InMainPage"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	}
+}

@@ -1,0 +1,60 @@
+{
+    "files.associations": {
+        "interface.json": "jsonc",
+        "assets/**/*.json": "jsonc",
+        "resource/**/*.json": "jsonc"
+    },
+    "json.schemas": [
+        {
+            "fileMatch": [
+                "resource/pipeline/**/*.json",
+                "resource/default_pipeline.json"
+            ],
+            "url": "file:///G:/workspace/maaframework/MAA-win-x86_64-v5.13.0/tools/pipeline.schema.json"
+        },
+        {
+            "fileMatch": [
+                "interface.json"
+            ],
+            "url": "file:///G:/workspace/maaframework/MAA-win-x86_64-v5.13.0/tools/interface.schema.json"
+        }
+    ],
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features",
+        "editor.formatOnSave": true
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features",
+        "editor.formatOnSave": true
+    },
+    "[cpp]": {
+        "editor.defaultFormatter": "ms-vscode.cpptools",
+        "editor.formatOnSave": true
+    },
+    "[c]": {
+        "editor.defaultFormatter": "ms-vscode.cpptools",
+        "editor.formatOnSave": true
+    },
+    "C_Cpp.clang_format_style": "file",
+    "cmake.sourceDirectory": "${workspaceFolder}",
+    "cmake.buildDirectory": "${workspaceFolder}/build",
+    "C_Cpp.default.intelliSenseMode": "windows-msvc-x64",
+    "C_Cpp.default.compileCommands": "${workspaceFolder}/compile_commands.json",
+    "C_Cpp.intelliSenseEngine": "default",
+    "clangd.arguments": ["--header-insertion=never", "--compile-commands-dir=${workspaceFolder}"],
+    "C_Cpp.default.includePath": [
+        "${workspaceFolder}/src",
+        "D:/MaaFramework/install/include",
+        "D:/MaaFramework/source/MaaUtils/include",
+        "D:/MaaFramework/source/MaaUtils/MaaDeps/vcpkg/installed/maa-x64-windows/include",
+        "${workspaceFolder}/**"
+    ],
+    "C_Cpp.default.browse.path": [
+        "${workspaceFolder}/src",
+        "D:/MaaFramework/install/include",
+        "D:/MaaFramework/source/MaaUtils/include",
+        "D:/MaaFramework/source/MaaUtils/MaaDeps/vcpkg/installed/maa-x64-windows/include"
+    ],
+    "files.insertFinalNewline": true,
+    "files.eol": "\n"
+}

@@ -1,0 +1,111 @@
+{
+	"TreasureShopEntry": {
+		"desc": "在炼金室进入超值珍藏商店",
+		"recognition": "And",
+		"all_of": ["InAlchemyLabClean", "HasTreasureShop"],
+		"box_index": 1,
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [260, 540, 200, 200],
+			"timeout": 5000
+		}
+	},
+	"TreasureShopHasScroll": {
+		"desc": "珍藏商店是否有卷轴",
+		"recognition": "TemplateMatch",
+		"template": "treasure_shop/scroll.png",
+		"roi": [155, 325, 415, 497],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"TreasureShopScrollCanBuy": {
+		"desc": "珍藏商店是否有可用玉购买的卷轴",
+		"recognition": "TemplateMatch",
+		"template": "treasure_shop/treasure_shop_jade.png",
+		"roi": "TreasureShopHasScroll",
+		"roi_offset": [-40, 0, 50, 140],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"TreasureShopHasHeraldicChest": {
+		"desc": "珍藏商店是否有纹章宝盒",
+		"recognition": "TemplateMatch",
+		"template": "treasure_shop/heraldic_chest.png",
+		"roi": [155, 325, 415, 497],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"TreasureShopHeraldicChestCanBuy": {
+		"desc": "珍藏商店是否有可用玉购买的纹章宝盒",
+		"recognition": "TemplateMatch",
+		"template": "treasure_shop/treasure_shop_jade.png",
+		"roi": "TreasureShopHasHeraldicChest",
+		"roi_offset": [-40, 0, 50, 140],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"TreasureShopHasOldCovenant": {
+		"desc": "珍藏商店是否有旧日契约",
+		"recognition": "TemplateMatch",
+		"template": "treasure_shop/old_covenant.png",
+		"roi": [155, 325, 415, 497],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"TreasureShopOldCovenantCanBuy": {
+		"desc": "珍藏商店是否有可用玉购买的旧日契约",
+		"recognition": "TemplateMatch",
+		"template": "treasure_shop/treasure_shop_jade.png",
+		"roi": "TreasureShopHasOldCovenant",
+		"roi_offset": [-70, 0, 70, 140],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"TreasureShopHasWeeklyFreeJade": {
+		"desc": "珍藏商店是否有每周免费玉",
+		"recognition": "TemplateMatch",
+		"template": "treasure_shop/weekly_free_jade.png",
+		"roi": [155, 325, 415, 497],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"TreasureShopWeeklyFreeJadeCanBuy": {
+		"desc": "珍藏商店每周免费玉是否可以领取",
+		"recognition": "OCR",
+		"expected": "免费领取",
+		"roi": "TreasureShopHasWeeklyFreeJade",
+		"roi_offset": [-90, 0, 790, 120],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"TreasureShopBuyConfirm": {
+		"desc": "珍藏商店购买确认框",
+		"recognition": "TemplateMatch",
+		"template": "button/confirm_btn.png",
+		"roi": [158, 665, 421, 125],
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [144, 386, 459, 563],
+			"timeout": 3000
+		},
+		"next": [
+			"HandleRewardDialog"
+		]
+	}
+}

@@ -1,0 +1,26 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Attach to cpp-service",
+            "type": "cppvsdbg",
+            "request": "attach",
+            "processId": "${command:pickProcess}"
+        },
+        {
+            "name": "Launch cpp-service",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/agent/cpp-service.exe",
+            "args": ["cpp-service-debug"],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": true,
+            "environment": [
+                {
+                    "name": "PATH",
+                    "value": "${workspaceFolder}\\maafw;${env:PATH}"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,310 @@
+{
+    "TarotCardStart": {
+        "desc": "塔罗牌",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "TarotCardCollect",
+            "[JumpBack]__SceneGamePlayLimitedEntryTarotCard",
+            "[JumpBack]SceneEnterGamePlayLimited"
+        ]
+    },
+    "TarotCardCollect": {
+        "desc": "塔罗牌页面点击礼包",
+        "recognition": "And",
+        "all_of": [
+            "InTarotCardPage"
+        ],
+        "next": [
+            "[JumpBack]__TarotCardClickGift",
+            "[JumpBack]__TarotCardClickFeedback",
+            "TarotCardDone"
+        ]
+    },
+    "TarotCardDone": {
+        "desc": "塔罗牌已完成",
+        "next": [
+            "PressEsc"
+        ]
+    },
+    "__TarotCardClickGift": {
+        "desc": "识别礼包并点击",
+        "recognition": "OCR",
+        "expected": "礼包",
+        "roi": [
+            490,
+            1177,
+            87,
+            83
+        ],
+        "max_hit": 1,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                256,
+                503,
+                281,
+                451
+            ],
+            "timeout": 5000
+        },
+        "next": [
+            "[JumpBack]__TarotCardClickFreeCollect",
+            "__TarotCardClickDivination"
+        ]
+    },
+    "__TarotCardClickFreeCollect": {
+        "desc": "点击免费领取",
+        "recognition": "TemplateMatch",
+        "template": "activities/TarotCard/TarotCardFreeCollect.png",
+        "roi": [
+            494,
+            251,
+            141,
+            127
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                256,
+                503,
+                281,
+                451
+            ],
+            "timeout": 5000
+        },
+        "next": [
+            "HandleRewardDialog"
+        ]
+    },
+    "__TarotCardClickDivination": {
+        "desc": "点击占卜",
+        "recognition": "OCR",
+        "expected": "占卜",
+        "roi": [
+            218,
+            1173,
+            78,
+            83
+        ],
+        "action": "Click",
+        "next": [
+            "[JumpBack]__TarotCardClickYellowDivination",
+            "__TarotCardNoYellowDivination"
+        ]
+    },
+    "__TarotCardHasDivination": {
+        "recognition": "TemplateMatch",
+        "template": "activities/TarotCard/DivinationOnce.png",
+        "roi": [
+            125,
+            972,
+            184,
+            129
+        ]
+    },
+    "__TarotCardClickYellowDivination": {
+        "desc": "识别黄色占卜并点击",
+        "recognition": "And",
+        "all_of": [
+            "__TarotCardHasDivination",
+            {
+                "recognition": "ColorMatch",
+                "method": 40,
+                "lower": [
+                    20,
+                    80,
+                    80
+                ],
+                "upper": [
+                    35,
+                    255,
+                    255
+                ],
+                "roi": "__TarotCardHasDivination",
+                "count": 200
+            }
+        ],
+        "action": "Click",
+        "next": [
+            "HandleRewardDialog"
+        ]
+    },
+    "__TarotCardNoYellowDivination": {
+        "desc": "晶尘不足，无法占卜",
+        "recognition": "And",
+        "all_of": [
+            "InTarotCardPage"
+        ]
+    },
+    "__SceneGamePlayLimitedEntryTarotCard": {
+        "desc": "在限时页面进入塔罗牌",
+        "recognition": "And",
+        "all_of": [
+            "InGamePlayLimitedPage"
+        ],
+        "next": [
+            "__SceneGamePlayLimitedPageGotoTarotCard",
+            "[JumpBack]TarotCardSwipeToTop",
+            "[JumpBack]TarotCardSwipe"
+        ]
+    },
+    "__SceneGamePlayLimitedPageGotoTarotCard": {
+        "desc": "点击前往塔罗牌",
+        "recognition": "And",
+        "all_of": [
+            "__SceneGamePlayLimitedPageHasTarotCard"
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                256,
+                503,
+                281,
+                451
+            ],
+            "timeout": 5000
+        },
+        "next": [
+            "InTarotCardPage"
+        ]
+    },
+    "__SceneGamePlayLimitedPageHasTarotCard": {
+        "desc": "限时页面识别到塔罗牌",
+        "recognition": "TemplateMatch",
+        "template": "activities/TarotCard/TarotCardIcon.png",
+        "roi": [
+            15,
+            69,
+            701,
+            997
+        ]
+    },
+    "TarotCardSwipeToTop": {
+        "desc": "快速滑到最上方",
+        "action": "Swipe",
+        "begin": [
+            400,
+            200
+        ],
+        "end": [
+            400,
+            900
+        ],
+        "duration": 100,
+        "max_hit": 1,
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                353,
+                192,
+                328,
+                732
+            ],
+            "timeout": 5000
+        }
+    },
+    "TarotCardSwipe": {
+        "desc": "向上滑动查找",
+        "action": "Swipe",
+        "begin": [
+            400,
+            800
+        ],
+        "end": [
+            400,
+            600
+        ],
+        "duration": 200,
+        "max_hit": 5,
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                353,
+                192,
+                328,
+                732
+            ],
+            "timeout": 5000
+        }
+    },
+    "InTarotCardGiftPage": {
+        "desc": "在塔罗牌礼包页面",
+        "recognition": "OCR",
+        "expected": "礼包",
+        "roi": [
+            294,
+            108,
+            137,
+            89
+        ]
+    },
+    "InTarotCardPage": {
+        "desc": "在塔罗牌页面",
+        "recognition": "TemplateMatch",
+        "template": "activities/TarotCard/TarotCardPageLogo.png",
+        "roi": [
+            573,
+            101,
+            139,
+            156
+        ]
+    },
+    "__TarotCardClickFeedback": {
+        "desc": "点击回馈",
+        "recognition": "OCR",
+        "expected": "回馈",
+        "roi": [
+            340,
+            1179,
+            102,
+            79
+        ],
+        "max_hit": 1,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                177,
+                334,
+                365,
+                588
+            ],
+            "timeout": 5000
+        },
+        "next": [
+            "[JumpBack]__TarotCardClickYellowFeedback",
+            "__TarotCardClickDivination"
+        ]
+    },
+    "__TarotCardClickYellowFeedback": {
+        "desc": "识别黄色领取并点击",
+        "recognition": "TemplateMatch",
+        "template": "activities/Common/Collect.png",
+        "action": "Click",
+        "roi": [
+            449,
+            158,
+            245,
+            871
+        ],
+        "next": [
+            "HandleRewardDialog"
+        ]
+    },
+    "InTarotFeedbackPage": {
+        "desc": "在塔罗牌回馈页面",
+        "recognition": "OCR",
+        "expected": "回馈",
+        "roi": [
+            298,
+            124,
+            129,
+            57
+        ]
+    }
+}

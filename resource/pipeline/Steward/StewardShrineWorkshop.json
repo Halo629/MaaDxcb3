@@ -1,0 +1,159 @@
+{
+	"StewardShrineWorkshopSub": {
+		"desc": "灵龛中的工坊",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"ShrineWorkshopLoop",
+			"[JumpBack]__ScenePrivateStewardFindShrineWorkshop",
+			"[JumpBack]__SceneStewardEntryShrineWorkshop",
+			"__ScenePrivateStewardShrineWorkshopDone",
+			"[JumpBack]SceneEnterSteward"
+		],
+		"focus": {"Node.Recognition.Succeeded": "开始任务:灵龛中的工坊"}
+	},
+	"__SceneStewarHasYellowShrineWorkshop": {
+		"desc": "在管家页面识别黄色的灵龛工坊",
+		"recognition": "And",
+		"all_of": [
+			"InStewardPage",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 50, 50],
+				"upper": [35, 255, 255],
+				"roi": "__ScenePrivateStewardHasShrineWorkshop",
+				"count": 20
+			}
+		],
+		"box_index": 1
+	},
+	"__SceneStewardEntryShrineWorkshop": {
+		"desc": "在管家页面进入灵龛工坊",
+		"recognition": "And",
+		"all_of": ["__SceneStewarHasYellowShrineWorkshop"],
+		"next": [
+			"__ScenePrivateStewardGotoShrineWorkshop"
+		]
+	},
+	"__ScenePrivateStewardShrineWorkshopDone": {
+		"desc": "管家页面未找到灵龛工坊或任务已完成",
+		"recognition": "And",
+		"all_of": ["InStewardPage"]
+	},
+	"__ScenePrivateStewardGotoShrineWorkshop": {
+		"desc": "点击灵龛工坊后面的前往进入",
+		"recognition": "OCR",
+		"expected": "前往",
+		"roi": "__SceneStewarHasYellowShrineWorkshop",
+		"roi_offset": [0, -20, 400, 40],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [260, 540, 200, 200],
+			"timeout": 5000
+		}
+	},
+	"__ScenePrivateStewardFindShrineWorkshop": {
+		"recognition": "And",
+		"all_of": ["InStewardPage"],
+		"next": [
+			"__ScenePrivateStewardHasShrineWorkshop",
+			"[JumpBack]__ShrineWorkshopSwipeDownRetry",
+			"[JumpBack]__ShrineWorkshopSwipeUpRetry"
+		],
+		"max_hit": 1
+	},
+	"__ScenePrivateStewardHasShrineWorkshop": {
+		"desc": "管家页面识别灵龛工坊",
+		"recognition": "OCR",
+		"expected": "工坊",
+		"roi": [94, 261, 525, 748]
+	},
+	"__ShrineWorkshopSwipeDownRetry": {
+		"max_hit": 1,
+		"action": "Swipe",
+		"begin": [450, 400],
+		"end": [450, 800],
+		"duration": 200,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [104, 272, 515, 733],
+			"timeout": 5000
+		}
+	},
+	"__ShrineWorkshopSwipeUpRetry": {
+		"max_hit": 1,
+		"action": "Swipe",
+		"begin": [450, 800],
+		"end": [450, 400],
+		"duration": 200,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [104, 272, 515, 733],
+			"timeout": 5000
+		}
+	},
+	"ShrineWorkshopLoop": {
+		"desc": "灵龛工坊挑战循环",
+		"recognition": "And",
+		"all_of": ["InShrineWorkshopPage"],
+		"next": [
+			"[JumpBack]ShrineWorkshopChallentSingleWorkshop",
+			"SceneBack"
+		]
+	},
+	"ShrineWorkshopHasTimes": {
+		"desc": "灵龛工坊挑战次数检查",
+		"recognition": "OCR",
+		"expected": "挑战次数",
+		"roi": [172, 256, 156, 769]
+	},
+	"ShrineWorkshopChallentSingleWorkshop": {
+		"desc": "挑战某一个识别到的工坊",
+		"recognition": "And",
+		"all_of": ["ShrineWorkshopHasTimes"],
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"post_wait_freezes": 200,
+		"next": [
+			"[JumpBack]ShrineWorkshopChallentMaxLevel",
+			"ShrineWorkshopReturn"
+		]
+	},
+	"ShrineWorkshopChallentMaxLevel": {
+		"desc": "挑战工坊最高难度",
+		"recognition": "OCR",
+		"expected": "挑战次数",
+		"roi": [292, 466, 95, 43],
+		"action": "Click",
+		"target": [169, 590, 191, 28],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [186, 423, 345, 518],
+			"timeout": 5000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"ClickBlankArea2",
+			"HandleBattleResult"
+		]
+	},
+	"ShrineWorkshopReturn": {
+		"recognition": "OCR",
+		"expected": "挑战次数",
+		"roi": [292, 466, 95, 43],
+		"inverse": true,
+		"action": "Click",
+		"target": [312, 184, 107, 26],
+		"post_wait_freezes": 300,
+		"pre_delay": 0,
+		"post_delay": 500,
+		"rate_limit": 0
+	}
+}

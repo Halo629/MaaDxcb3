@@ -1,0 +1,93 @@
+{
+    "DisassembleEquipmentStart": {
+        "desc": "批量分解装备",
+        "recognition": "And",
+        "all_of": [
+            "InEquipmentListPage"
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "DisassembleEquipmentClickEntry"
+        ]
+    },
+    "DisassembleEquipmentClickEntry": {
+        "desc": "点击批量分解按钮",
+        "recognition": "TemplateMatch",
+        "template": "common/MassDisassemble.png",
+        "roi": [
+            228,
+            951,
+            260,
+            126
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                219,
+                516,
+                279,
+                178
+            ],
+            "timeout": 5000
+        },
+        "next": [
+            "DisassembleEquipmentSelectQuality"
+        ]
+    },
+    "DisassembleEquipmentSelectQuality": {
+        "desc": "选择精良品质",
+        "recognition": "OCR",
+        "expected": "精良",
+        "roi": [
+            219,
+            516,
+            279,
+            178
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                0,
+                400,
+                720,
+                520
+            ],
+            "timeout": 5000
+        },
+        "next": [
+            "DisassembleEquipmentConfirm"
+        ]
+    },
+    "DisassembleEquipmentConfirm": {
+        "desc": "点击确定",
+        "recognition": "And",
+        "all_of": [
+            "ConfirmButton"
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                290,
+                350,
+                125,
+                50
+            ],
+            "timeout": 5000
+        },
+        "next": [
+            "[JumpBack]HandleRewardDialog",
+            "DisassembleEquipmentDone"
+        ]
+    },
+    "DisassembleEquipmentDone": {
+        "desc": "分解完成，返回",
+        "next": [
+            "SceneBack"
+        ]
+    }
+}

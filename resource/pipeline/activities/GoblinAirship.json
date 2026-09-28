@@ -1,0 +1,552 @@
+{
+    "GoblinAirshipStart": {
+        "desc": "地精飞艇",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "GoblinAirshipEntry",
+            "GoblinAirshipDone",
+            "[JumpBack]SceneEnterMainPage"
+        ]
+    },
+    "GoblinAirshipDone": {
+        "desc": "地精飞艇完成",
+        "recognition": "And",
+        "all_of": [
+            "InCampfire"
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "GoblinAirshipEntry": {
+        "desc": "地精飞艇入口",
+        "recognition": "And",
+        "all_of": [
+            "InCampfire",
+            {
+                "recognition": "OCR",
+                "expected": "地精飞艇|地精|飞艇",
+                "roi": "InCampfire",
+                "roi_offset": [
+                    -150,
+                    150,
+                    250,
+                    250
+                ]
+            }
+        ],
+        "box_index": 1,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "action": "Click",
+        "target_offset": [
+            0,
+            -50,
+            0,
+            0
+        ],
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                171,
+                464,
+                420,
+                426
+            ],
+            "timeout": 3000
+        },
+        "next": [
+            "GoblinAirshipEventHandle",
+            "[JumpBack]BoardTheAirship",
+            "[JumpBack]GreetGoblin",
+            "[JumpBack]HandleDialogue"
+        ]
+    },
+    "BoardTheAirship": {
+        "desc": "登上飞艇",
+        "recognition": "OCR",
+        "expected": "登上飞艇|登上",
+        "roi": [
+            421,
+            725,
+            123,
+            320
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 500,
+            "target": [
+                171,
+                464,
+                420,
+                426
+            ],
+            "timeout": 3000
+        }
+    },
+    "GreetGoblin": {
+        "desc": "初次进入时对话",
+        "recognition": "OCR",
+        "expected": "跟地精打招呼|打招呼|暴富号|暴富",
+        "roi": [
+            394,
+            866,
+            183,
+            138
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                171,
+                464,
+                420,
+                426
+            ],
+            "timeout": 3000
+        }
+    },
+    "GoblinAirshipEventHandle": {
+        "desc": "地精飞艇事件处理",
+        "recognition": "And",
+        "all_of": [
+            "InGoblinAirship"
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]SearchForFuel",
+            "[JumpBack]CollectSupplies",
+            "[JumpBack]__SetOffFuelCheck",
+            "GoblinAirshipComplete"
+        ]
+    },
+    "__SearchForFuelHasTimes": {
+        "desc": "燃料剩余次数大于0",
+        "recognition": "OCR",
+        "expected": "[123]/3",
+        "roi": [
+            40,
+            1072,
+            196,
+            60
+        ]
+    },
+    "__SearchForFuelOcr": {
+        "desc": "搜寻燃料OCR",
+        "recognition": "OCR",
+        "expected": "搜寻燃料|搜寻",
+        "roi": [
+            23,
+            1045,
+            690,
+            110
+        ]
+    },
+    "SearchForFuel": {
+        "desc": "搜寻燃料",
+        "recognition": "And",
+        "all_of": [
+            "__SearchForFuelOcr",
+            "__SearchForFuelHasTimes"
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                171,
+                464,
+                420,
+                426
+            ],
+            "timeout": 3000
+        },
+        "next": [
+            "[JumpBack]SearchForFuelEvent",
+            "HandleGoblinRewardDialog"
+        ]
+    },
+    "SearchForFuelEvent": {
+        "desc": "搜寻燃料相关事件",
+        "recognition": "OCR",
+        "expected": "收集燃料|收集|战斗",
+        "roi": [
+            255,
+            764,
+            200,
+            172
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                171,
+                464,
+                420,
+                426
+            ],
+            "timeout": 3000
+        }
+    },
+    "CollectSupplies": {
+        "desc": "领取物资",
+        "recognition": "OCR",
+        "expected": "领取物资|领取",
+        "roi": [
+            23,
+            1045,
+            690,
+            110
+        ],
+        "max_hit": 1,
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                171,
+                464,
+                420,
+                426
+            ],
+            "timeout": 3000
+        },
+        "next": [
+            "HandleGoblinRewardDialog",
+            "CollectSuppliesNoTimes"
+        ]
+    },
+    "CollectSuppliesNoTimes": {
+        "desc": "今日领取物资次数已用完",
+        "recognition": "OCR",
+        "expected": "确定",
+        "roi": [
+            283,
+            665,
+            154,
+            122
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                171,
+                464,
+                420,
+                426
+            ],
+            "timeout": 3000
+        }
+    },
+    "__SetOffFuelCheck": {
+        "desc": "出发燃料充足",
+        "recognition": "ColorMatch",
+        "method": 40,
+        "lower": [
+            0,
+            80,
+            80
+        ],
+        "upper": [
+            10,
+            255,
+            255
+        ],
+        "roi": [
+            359,
+            1038,
+            34,
+            37
+        ],
+        "count": 30,
+        "inverse": true,
+        "next": [
+            "SetOffExplore",
+            "SetOffTreasureHunt"
+        ]
+    },
+    "SetOffExplore": {
+        "recognition": "OCR",
+        "expected": "出发探索|探索",
+        "roi": [
+            23,
+            1045,
+            690,
+            110
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                171,
+                464,
+                420,
+                426
+            ],
+            "timeout": 3000
+        },
+        "next": [
+            "SetOffExploreEventHandle"
+        ]
+    },
+    "SetOffExploreEventHandle": {
+        "desc": "出发探索事件处理",
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]HandleDialogue",
+            "[JumpBack]HandleBattleResult",
+            "[JumpBack]SetOffExploreDialogue",
+            "HandleGoblinRewardDialog"
+        ]
+    },
+    "SetOffExploreDialogue": {
+        "desc": "出发探索对话",
+        "recognition": "OCR",
+        "expected": "战斗|来吧|被动防御|防御|坚守|暂避锋芒|暂避|锋芒|好机会|机会|正面|迎敌",
+        "roi": [
+            328,
+            734,
+            343,
+            287
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                171,
+                464,
+                420,
+                426
+            ],
+            "timeout": 3000
+        }
+    },
+    "SetOffExploreDone": {
+        "recognition": "And",
+        "all_of": [
+            "InGoblinAirship"
+        ]
+    },
+    "SetOffTreasureHunt": {
+        "desc": "出发寻宝",
+        "recognition": "OCR",
+        "expected": "出发寻宝|寻宝",
+        "roi": [
+            23,
+            1045,
+            690,
+            110
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                171,
+                464,
+                420,
+                426
+            ],
+            "timeout": 3000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "__TreasureHuntCollectTreasure"
+        ]
+    },
+    "__TreasureHuntCollectTreasure": {
+        "desc": "领取宝物",
+        "recognition": "OCR",
+        "expected": "领取宝物|领取|宝物",
+        "roi": [
+            276,
+            688,
+            165,
+            266
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                171,
+                464,
+                420,
+                426
+            ],
+            "timeout": 3000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "__TreasureHuntOtherChests"
+        ]
+    },
+    "__TreasureHuntOtherChests": {
+        "desc": "看看其他宝箱",
+        "recognition": "OCR",
+        "expected": "看看其他宝箱|看看|其他",
+        "roi": [
+            268,
+            640,
+            190,
+            392
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                171,
+                464,
+                420,
+                426
+            ],
+            "timeout": 3000
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[JumpBack]__TreasureHuntGreenChest",
+            "[JumpBack]__TreasureHuntBlueChest",
+            "__TreasureHuntFullyLoaded"
+        ]
+    },
+    "__TreasureHuntGreenChest": {
+        "desc": "绿色宝箱",
+        "recognition": "OCR",
+        "expected": "绿色宝箱|绿色",
+        "roi": [
+            268,
+            640,
+            190,
+            392
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                171,
+                464,
+                420,
+                426
+            ],
+            "timeout": 3000
+        },
+        "next": [
+            "HandleRewardDialog"
+        ]
+    },
+    "__TreasureHuntBlueChest": {
+        "desc": "蓝色宝箱",
+        "recognition": "OCR",
+        "expected": "蓝色宝箱|蓝色",
+        "roi": [
+            268,
+            640,
+            190,
+            392
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                171,
+                464,
+                420,
+                426
+            ],
+            "timeout": 3000
+        },
+        "next": [
+            "HandleRewardDialog"
+        ]
+    },
+    "__TreasureHuntFullyLoaded": {
+        "desc": "满载而归",
+        "recognition": "OCR",
+        "expected": "满载而归|满载|而归",
+        "roi": [
+            268,
+            640,
+            190,
+            392
+        ],
+        "action": "Click",
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                171,
+                464,
+                420,
+                426
+            ],
+            "timeout": 3000
+        }
+    },
+    "GoblinAirshipComplete": {
+        "desc": "地精飞艇已完成",
+        "recognition": "And",
+        "all_of": [
+            "InGoblinAirship"
+        ],
+        "next": [
+            "SceneBack"
+        ]
+    },
+    "HandleGoblinRewardDialog": {
+        "desc": "关闭地精杜兹的赠礼弹框",
+        "recognition": "OCR",
+        "expected": "地精杜兹的赠礼|地精杜兹|赠礼",
+        "roi": [
+            242,
+            347,
+            226,
+            54
+        ],
+        "pre_delay": 0,
+        "rate_limit": 0,
+        "pre_wait_freezes": {
+            "time": 300,
+            "target": [
+                171,
+                464,
+                420,
+                426
+            ],
+            "timeout": 2000
+        },
+        "action": "ClickKey",
+        "key": 111,
+        "post_wait_freezes": {
+            "time": 300,
+            "target": [
+                171,
+                464,
+                420,
+                426
+            ],
+            "timeout": 2000
+        }
+    },
+    "InGoblinAirship": {
+        "desc": "在地精飞艇页面",
+        "recognition": "OCR",
+        "expected": "地精飞艇之旅|地精飞艇|飞艇",
+        "roi": [
+            31,
+            23,
+            214,
+            63
+        ],
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    }
+}
