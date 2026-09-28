@@ -60,8 +60,6 @@ jobs:
       - name: Assemble
         shell: pwsh
         run: |
-          $sdk = (Get-ChildItem downloads/maafw/sdk -Directory | Select-Object -First 1).FullName
-
           # 1. mxu.exe 改名
           $mxu = Get-ChildItem install -Recurse -Filter mxu.exe | Select-Object -First 1
           Move-Item $mxu.FullName (Join-Path $mxu.DirectoryName "MaaDxcb3.exe")
@@ -71,12 +69,9 @@ jobs:
           Copy-Item resource install/ -Recurse -Force
           Copy-Item assets install/ -Recurse -Force
 
-          # 3. MaaFramework DLL
-          Copy-Item "$sdk/bin/*" install/ -Recurse -Force
-
-          # 4. agent（interface.json 引用 agent/cpp-service-debug）
+          # 3. agent（Release 编译产物，interface.json 引用 agent/cpp-service）
           New-Item install/agent -ItemType Directory -Force
-          Copy-Item build/Release/cpp-service.exe install/agent/cpp-service-debug.exe -Force
+          Copy-Item build/Release/cpp-service.exe install/agent/cpp-service.exe -Force
 
       - name: Convert PNG to ICO
         shell: pwsh
