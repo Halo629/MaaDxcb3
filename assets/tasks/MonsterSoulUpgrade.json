@@ -3,7 +3,7 @@
         {
             "name": "MonsterSoulUpgrade",
             "label": "👻升级魔魂",
-            "description":"须先配置启动游戏任务,并配置升级策略",
+            "description":"须先配置启动游戏任务,并配置升级策略,仅使用扭动之魂升级,且只会升级可刷取的魔魂",
             "entry": "MonsterSoulUpgradeStart",
             "group": [
                 "other_tasks"

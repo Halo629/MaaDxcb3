@@ -4,13 +4,14 @@
 #include "MaaFramework/Utility/MaaBuffer.h"
 #include "Registry.h"
 #include "ServerConfig.h"
-#include "Str.h"
 #include <algorithm>
 #include <cmath>
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <sstream>
+#include <utility>
 #include <functional>
 #include <map>
 #include <meojson/json.hpp>
@@ -21,6 +22,95 @@
 #include <unordered_set>
 #include <vector>
 #include <windows.h>
+
+// ──── 字符串工具（原 Str.h）────
+inline std::string toStr(const std::string& s)
+{
+    return s;
+}
+
+inline std::string toStr(const char* s)
+{
+    return s ? std::string(s) : std::string();
+}
+
+inline std::string toStr(char c)
+{
+    return std::string(1, c);
+}
+
+template <typename T>
+inline std::string toStr(const T& v)
+{
+    std::ostringstream os;
+    os << v;
+    return os.str();
+}
+
+inline void replaceN(std::string& s, int n, const std::string& repl)
+{
+    std::string marker = "%" + std::to_string(n);
+    size_t pos = 0;
+    while ((pos = s.find(marker, pos)) != std::string::npos) {
+        s.replace(pos, marker.size(), repl);
+        pos += repl.size();
+    }
+}
+
+template <typename... Args>
+std::string fmt(const std::string& f, Args&&... args)
+{
+    std::string result = f;
+    int i = 1;
+    (replaceN(result, i++, toStr(std::forward<Args>(args))), ...);
+    return result;
+}
+
+inline std::vector<std::string> split(const std::string& s, char delim)
+{
+    std::vector<std::string> out;
+    std::string cur;
+    for (char c : s) {
+        if (c == delim) {
+            if (!cur.empty()) {
+                out.push_back(cur);
+            }
+            cur.clear();
+        }
+        else {
+            cur += c;
+        }
+    }
+    if (!cur.empty()) {
+        out.push_back(cur);
+    }
+    return out;
+}
+
+inline std::string join(const std::vector<std::string>& v, const std::string& sep)
+{
+    std::string out;
+    for (size_t i = 0; i < v.size(); ++i) {
+        if (i != 0) {
+            out += sep;
+        }
+        out += v[i];
+    }
+    return out;
+}
+
+inline std::string trim(const std::string& s)
+{
+    size_t b = 0;
+    size_t e = s.size();
+    while (b < e && (s[b] == ' ' || s[b] == '\t' || s[b] == '\r' || s[b] == '\n')) {
+        ++b;
+    }
+    while (e > b && (s[e - 1] == ' ' || s[e - 1] == '\t' || s[e - 1] == '\r' || s[e - 1] == '\n')) {
+        --e;
+    }
+    return s.substr(b, e - b);
+}
 
 extern const int one_second_delay;
 extern const int two_second_delay;
@@ -57,8 +147,8 @@ void switchMapSort(MaaContext* context, const std::string& targetOrder);
 void setNextNode(MaaContext* context, const char* nodeName, const char* nextNode);
 
 // 食谱配置
-void loadRecipeConfig();                                 // 初始化食谱配置，幂等
-const std::unordered_set<std::string>& getRecipeNames(); // 食谱名集合
+void loadRecipeConfig();                                                  // 初始化食谱配置，幂等
+const std::unordered_set<std::string>& getRecipeNames();                  // 食谱名集合
 const std::map<std::string, std::vector<std::string>>& getRecipeConfig(); // 食谱名 → 配方食材列表
 
 // 点击营火

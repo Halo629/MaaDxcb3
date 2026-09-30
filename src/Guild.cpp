@@ -1,8 +1,5 @@
 #include "Comm.h"
 
-namespace
-{
-
 static bool isInGreatMarshExpeditionPage(MaaContext* context)
 {
     ScreenCap cap(context);
@@ -100,8 +97,6 @@ MaaBool greatMarshExpeditionClickMapEntry(
 
     return false;
 }
-
-} // namespace
 
 void registerCustomGuild(MaaResource* res, void* user_data)
 {

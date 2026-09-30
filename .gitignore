@@ -19,7 +19,7 @@ resources/
 # ===== 预编译二进制 / SDK（从 release 下载）=====
 mxu.exe
 maafw/
-agent/
+agent/cpp-service-debug.exe
 agent-beta/
 
 # ===== CMake 生成 =====

@@ -5,59 +5,351 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "MonsterSoulUpgradeConfigCheck",
 		"next": [
+			"[JumpBack]SelectSortModeByLevel",
 			"MonsterSoulBatchUpgrade",
 			"[JumpBack]SceneEnterMonsterSoulBag"
 		]
+	},
+	"MonsterSoulGetCurSoulCount": {
+		"desc": "获取当前魔魂数量",
+		"recognition": "OCR",
+		"roi": [249, 24, 124, 32],
+		"only_rec": true
 	},
 	"MonsterSoulBatchUpgrade": {
 		"desc": "魔魂升级",
 		"recognition": "And",
 		"all_of": ["InMonsterSoulListPage"],
 		"pre_delay": 0,
-		"post_delay": 1000,
+		"post_delay": 500,
 		"next": [
-			"[JumpBack]SelectSortMode",
-			"[JumpBack]UpgradeMonsterSoul",
+			"[JumpBack]UpgradeMonsterSoulExitCurSoul",
+			"[JumpBack]FindTargetMonsterSoul",
+			"MonsterSoulUpgradeFinish"
+		]
+	},
+	"MonsterSoulUpgradeFinish": {
+		"desc": "魔魂升级完成",
+		"action": "Custom",
+		"custom_action": "MonsterSoulUpgradeFinish",
+		"next": [
 			"SceneBack"
 		]
 	},
-	"SelectSortMode": {
-		"desc": "点击排序按钮",
+	"MonsterSoulPageSwipeUp": {
+		"desc": "魔魂页面上滑查",
+		"action": "Swipe",
+		"begin": [360, 700],
+		"end": [360, 200],
+		"duration": 1000,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [45, 140, 630, 825],
+			"timeout": 3000
+		}
+	},
+	"FindTargetMonsterSoul": {
+		"desc": "选择目标魔物之魂",
+		"recognition": "Custom",
+		"custom_recognition": "FindTargetMonsterSoul",
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [295, 260, 143, 514],
+			"timeout": 2000
+		},
+		"next": [
+			"UpgradeMonsterSoulEntry",
+			"UpgradeMonsterSoulExitCurSoul"
+		]
+	},
+	"UpgradeMonsterSoulExitCurSoul": {
+		"desc": "退出当前魔魂升级页面",
+		"recognition": "And",
+		"all_of": ["InMonsterSoulUpgradePage"],
+		"action": "Click",
+		"target": [31, 17, 75, 24],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [295, 260, 143, 514],
+			"timeout": 2000
+		}
+	},
+	"InMonsterSoulUpgradePage": {
+		"desc": "在魔物升级页面",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/affixes_view_icon.png",
+		"roi": [254, 417, 205, 263]
+	},
+	"UpgradeMonsterSoulEntry": {
+		"desc": "升级魔物之魂入口",
+		"recognition": "And",
+		"all_of": [
+			"InMonsterSoulUpgradePage",
+			"UpgradeMonsterSoulCheck",
+			"MonsterSoulUpgradeButton"
+		],
+		"box_index": 2,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [295, 260, 143, 514],
+			"timeout": 2000
+		},
+		"next": [
+			"UpgradeMonsterSoul"
+		]
+	},
+	"UpgradeMonsterSoulCheck": {
+		"desc": "升级魔魂前二次检查",
+		"recognition": "Custom",
+		"custom_recognition": "UpgradeMonsterSoulCheck"
+	},
+	"UpgradeMonsterTargetSoulCheck": {
+		"desc": "升级魔魂检查当前升级的是否是目标魔魂",
+		"recognition": "OCR",
+		"roi": "InMonsterSoulUpgradePage",
+		"roi_offset": [-50, -260, 95, 8],
+		"only_rec": true
+	},
+	"UpgradeMonsterSoulLevelCheck": {
+		"desc": "升级魔魂检查当前升级魔魂的等级",
+		"recognition": "OCR",
+		"roi": "InMonsterSoulUpgradePage",
+		"roi_offset": [56, -53, -14, -10],
+		"only_rec": true
+	},
+	"UpgradeMonsterSoulLockedCheck": {
+		"desc": "升级魔魂检查当前升级魔魂是否锁定",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/UpgradeMonsterSoulLockedCheck.png",
+		"roi": "InMonsterSoulUpgradePage",
+		"roi_offset": [-268, -197, 31, 37]
+	},
+	"UpgradeMonsterSoul": {
+		"desc": "升级魔物之魂",
+		"action": "Custom",
+		"custom_action": "UpgradeMonsterSoul"
+	},
+	"UpgradeMonsterSoulEntryUpgradePage": {
+		"desc": "进入升级页面",
+		"recognition": "OCR",
+		"expected": "升级",
+		"roi": [472, 827, 145, 255],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [295, 260, 143, 514],
+			"timeout": 2000
+		}
+	},
+	"UpgradeMonsterSoulUpgradePageSoulName": {
+		"desc": "升级魔魂页面获取魔魂名称",
+		"recognition": "OCR",
+		"roi": [300, 201, 120, 31],
+		"only_rec": true
+	},
+	"UpgradeMonsterSoulUpgradePageSoulLevel": {
+		"desc": "升级魔魂页面获取魔魂等级",
+		"recognition": "OCR",
+		"roi": [352, 166, 66, 29],
+		"only_rec": true
+	},
+	"DecomposeMonsterSoul": {
+		"desc": "分解魔魂",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/decompose.png",
+		"roi": [262, 823, 364, 262],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [295, 260, 143, 514],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]DecomposeConfirmButton"
+		]
+	},
+	"DecomposeConfirmButton": {
+		"desc": "分解确认按钮",
+		"recognition": "TemplateMatch",
+		"roi": [0, 400, 720, 820],
+		"template": "button/confirm_btn.png",
+		"order_by": "Score",
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 1000,
+			"target": [295, 260, 143, 514],
+			"timeout": 5000
+		}
+	},
+	"LockMonsterSoul": {
+		"desc": "锁定魔魂",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/lock.png",
+		"roi": [78, 761, 297, 378],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [62, 622, 317, 553],
+			"timeout": 2000
+		},
+		"next": [
+			"PressEsc"
+		]
+	},
+	"LockMonsterSoulAffix": {
+		"desc": "锁定魔魂的词条",
+		"recognition": "OCR",
+		"roi": [239, 533, 241, 426],
+		"order_by": "Vertical"
+	},
+	"MonsterSoulUpgradePageReturn": {
+		"desc": "升级魔魂页面返回",
+		"recognition": "OCR",
+		"expected": "返回",
+		"roi": [91, 1118, 176, 137]
+	},
+	"MonsterSoulUpgradePageReturnAndDecompose": {
+		"desc": "升级魔魂页面返回并分解魔魂",
+		"recognition": "And",
+		"all_of": ["MonsterSoulUpgradePageReturn"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [295, 260, 143, 514],
+			"timeout": 2000
+		},
+		"next": [
+			"DecomposeMonsterSoul"
+		]
+	},
+	"MonsterSoulUpgradePageReturnAndLock": {
+		"desc": "升级魔魂页面返回并锁定魔魂",
+		"recognition": "And",
+		"all_of": ["MonsterSoulUpgradePageReturn"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [295, 260, 143, 514],
+			"timeout": 2000
+		},
+		"next": [
+			"LockMonsterSoul"
+		]
+	},
+	"MonsterSoulOneKeyFillAndUpgrade": {
+		"desc": "升级魔魂一键填充并升级",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/auto_fill.png",
+		"roi": [283, 1138, 172, 134],
+		"repeat_delay": 500,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [74, 45, 606, 727],
+			"timeout": 2000
+		},
+		"next": [
+			"MonsterSoulUpgradeButton"
+		]
+	},
+	"MonsterSoulUpgradeButton": {
+		"desc": "升级魔魂升级按钮",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/upgrade.png",
+		"roi": [439, 860, 220, 410],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 1000,
+			"target": [74, 45, 606, 727],
+			"timeout": 5000
+		}
+	},
+	"MonsterSoulUpgradeCheckWarpedSoul": {
+		"desc": "升级魔魂检查扭动之魂",
+		"recognition": "TemplateMatch",
+		"template": "monster_soul/warped_soul.png",
+		"roi": [65, 620, 577, 339]
+	},
+	"CurPageGridOcr": {"desc": "当前页面4*4格子ocr识别", "recognition": "OCR"},
+	"CurPageHasCanUpgradeMonsterSoulCheck": {
+		"desc": "检查当前页是否有可升级魔魂(扫描右下角魔魂,如果满级则没有)",
+		"recognition": "OCR",
+		"roi": [548, 747, 129, 216],
+		"order_by": "Vertical"
+	},
+	"MonsterSoulSortModeNotByLevel": {
+		"desc": "魔物排序不是按照等级排序",
 		"recognition": "OCR",
 		"expected": "等级",
 		"roi": [503, 21, 134, 55],
 		"inverse": true,
 		"pre_delay": 0,
 		"rate_limit": 0,
+		"post_delay": 0
+	},
+	"SelectSortModeByLevel": {
+		"desc": "调整排序方式为按照等级排序",
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"post_delay": 0,
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InMonsterSoulListPage"],
+		"next": [
+			"MonsterSoulSortByLevel",
+			"[JumpBack]SelectSortMode",
+			"[JumpBack]SwitchSortModeByLevel"
+		]
+	},
+	"SelectSortMode": {
+		"desc": "点击排序按钮",
+		"recognition": "And",
+		"all_of": ["MonsterSoulSortModeNotByLevel"],
 		"action": "Click",
 		"target": [503, 21, 134, 55],
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [295, 260, 143, 514],
-			"timeout": 5000
-		},
-		"next": [
-			"SwitchSortModeByLevel"
-		]
+			"timeout": 2000
+		}
+	},
+	"InSelectSortModePage": {
+		"desc": "在选择排序方式页面",
+		"recognition": "OCR",
+		"expected": "选择排序方式|排序方式",
+		"roi": [260, 130, 190, 48],
+		"only_rec": true
 	},
 	"SwitchSortModeByLevel": {
 		"desc": "调整为按等级排序",
-		"recognition": "OCR",
-		"expected": "等级",
-		"roi": [327, 213, 71, 46],
+		"recognition": "And",
+		"all_of": [
+			"InSelectSortModePage",
+			{
+				"recognition": "OCR",
+				"expected": "等级",
+				"roi": [327, 213, 71, 46]
+			}
+		],
+		"box_index": 1,
 		"action": "Click",
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [295, 260, 143, 514],
-			"timeout": 5000
+			"timeout": 2000
 		}
 	},
-	"UpgradeMonsterSoul": {
-		"desc": "升级魔物之魂",
-		"max_hit": 1,
-		"action": "Custom",
-		"custom_action": "UpgradeMonsterSoul",
-		"custom_action_param": ""
+	"MonsterSoulSortByLevel": {
+		"desc": "魔魂按照等级排序",
+		"recognition": "OCR",
+		"expected": "等级",
+		"roi": [538, 36, 68, 32],
+		"only_rec": true
 	}
 }

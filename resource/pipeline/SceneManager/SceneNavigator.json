@@ -724,14 +724,9 @@
 		"recognition": "And",
 		"all_of": ["HasBag"],
 		"pre_delay": 0,
-		"post_delay": 0,
+		"post_delay": 1000,
 		"rate_limit": 0,
-		"action": "Click",
-		"post_wait_freezes": {
-			"time": 500,
-			"target": [276, 587, 189, 402],
-			"timeout": 5000
-		}
+		"action": "Click"
 	},
 	"MonsterSoulPageEntry": {
 		"desc": "进入魔物页面",
@@ -743,9 +738,9 @@
 		"post_delay": 0,
 		"rate_limit": 0,
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [276, 587, 189, 402],
-			"timeout": 5000
+			"timeout": 3000
 		}
 	},
 	"SceneEnterMonthlyCardPage": {

@@ -70,7 +70,7 @@
 		"next": [
 			"EquipmentEngraveEntry",
 			"[JumpBack]AlbedoEntry",
-			"EngraveEntry",
+			"[JumpBack]EngraveEntry",
 			"[JumpBack]SceneEnterMainPage"
 		]
 	},
@@ -208,10 +208,7 @@
 		"begin": [450, 900],
 		"end": [250, 900],
 		"duration": 100,
-		"post_wait_freezes": 300,
-		"next": [
-			"AlbedoEntry"
-		]
+		"post_wait_freezes": 300
 	},
 	"AlbedoEntry": {
 		"desc": "识别并点击雅尔贝德",

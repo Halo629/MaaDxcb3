@@ -642,7 +642,7 @@
                     "name": "Group1DamageValue",
                     "label": "承伤 ≥ (%)",
                     "pipeline_type": "string",
-                    "default": "5"
+                    "default": "4"
                 }
             ],
             "pipeline_override": {

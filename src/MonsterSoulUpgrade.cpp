@@ -1,13 +1,70 @@
 #include "Comm.h"
-#include <algorithm>
-#include <map>
-#include <set>
 
 // 魔魂列表 4×4 扫描区域
-static const MaaRect kScanGridRoi = { 46, 139, 629, 824 };
-static constexpr int kGridCellWidth = 157;  // 629/4
-static constexpr int kGridCellHeight = 206; // 824/4
-static constexpr int kGridCols = 4;
+static const MaaRect scanGridRoi = { 45, 140, 630, 825 };
+static constexpr int gridCellWidth = 157;  // 630/4
+static constexpr int gridCellHeight = 206; // 825/4
+
+// 魔魂词条分组
+static const std::map<std::string, std::set<std::string>> soulAvailableAffixes = {
+    // 组A: 间隔(Lv4) + 暴击(Lv6) — 14个
+    { "巫蛊之魂", { "间隔", "暴击" } },
+    { "暴虐之魂", { "间隔", "暴击" } },
+    { "凶煞之魂", { "间隔", "暴击" } },
+    { "邪典之魂", { "间隔", "暴击" } },
+    { "劫掠之魂", { "间隔", "暴击" } },
+    { "狡智之魂", { "间隔", "暴击" } },
+    { "雄狮之魂", { "间隔", "暴击" } },
+    { "狂怒之魂", { "间隔", "暴击" } },
+    { "霜雪之魂", { "间隔", "暴击" } },
+    { "林动之魂", { "间隔", "暴击" } },
+    { "极寒之魂", { "间隔", "暴击" } },
+    { "沉渊之魂", { "间隔", "暴击" } },
+    { "狂热之魂", { "间隔", "暴击" } },
+    { "天陨之魂", { "间隔", "暴击" } },
+    // 组B: 间隔(Lv4) + 承伤(Lv8) — 3个
+    { "野性之魂", { "间隔", "承伤" } },
+    { "蛮荒之魂", { "间隔", "承伤" } },
+    { "冰晶之魂", { "间隔", "承伤" } },
+    // 组C: 间隔(Lv4) + 治疗效果(Lv8) — 3个
+    { "林野之魂", { "间隔", "治疗效果" } },
+    { "爆破之魂", { "间隔", "治疗效果" } },
+    { "先祖之魂", { "间隔", "治疗效果" } },
+};
+
+// 可升级魔魂信息
+struct TargetSoulInfo
+{
+    std::string name;
+    MaaRect clickBox;
+    int gridPosition = 0; // 在 16 格中的位置 (0-15)
+};
+
+// ──── 条件解析 ────
+struct AffixCheckConfig
+{
+    std::string ocrKeyword; // OCR 识别关键词（如 "行动间隔"）
+    bool readMinusSign;     // 读减号(true)还是加号(false)
+    int requiredLevel;      // 出现该词条需要的等级
+};
+
+struct ConditionRule
+{
+    AffixCheckConfig check;
+    double threshold;
+    std::string displayName; // UI 名称（如 "间隔"），用于匹配魔魂类型
+    bool hasPercent = false; // 配置中是否带 %，e.g. 间隔>=3.0% → true, 抗性>=3.0 → false
+};
+
+static int g_maxUpgradeCount = 0;
+static int g_startGridPos = -1;
+static bool g_mongsterSoulFullFlag = false;
+static int g_keepCount = 0;
+static int g_decomposeCount = 0;
+static int g_curRound = 1;
+static std::set<std::string> g_targetSoulNames;
+using ConditionGroup = std::map<int, ConditionRule>; // key=检查等级, value=条件规则
+static std::vector<ConditionGroup> g_conditionGroups;
 
 // 词条 OCR 区域
 static const MaaRect kAffixRoi = { 194, 276, 345, 354 };
@@ -116,66 +173,12 @@ static bool matchTemplate(
     return true;
 }
 
-// 点击返回按钮
-static void clickBackButton(MaaContext* context)
-{
-    matchTemplate(context, "back", "button/back_btn.png", { 93, 1148, 158, 119 }, false);
-    Sleep(500);
-}
-
-// 分解 → 确认 → 奖励弹窗
-static void decomposeAndConfirm(MaaContext* context)
-{
-    auto* controller = MaaTaskerGetController(MaaContextGetTasker(context));
-    const char* decomposeJson =
-        R"({"dec":{"recognition":"TemplateMatch","template":"monster_soul/decompose.png","roi":[262,823,364,262]}})";
-    MaaRect decomposeBox;
-    if (waitUntilRecognitionSuccess(context, "dec", decomposeJson, &decomposeBox, nullptr)) {
-        controller = MaaTaskerGetController(MaaContextGetTasker(context));
-        auto clickId =
-            MaaControllerPostClick(controller, decomposeBox.x + decomposeBox.width / 2, decomposeBox.y + decomposeBox.height / 2);
-        MaaControllerWait(controller, clickId);
-    }
-    const char* confirmJson = R"({"confirm":{"recognition":"TemplateMatch","template":"button/confirm_btn.png","roi":[379,670,195,115]}})";
-    MaaRect confirmBox;
-    if (waitUntilRecognitionSuccess(context, "confirm", confirmJson, &confirmBox, nullptr)) {
-        controller = MaaTaskerGetController(MaaContextGetTasker(context));
-        auto clickId = MaaControllerPostClick(controller, confirmBox.x + confirmBox.width / 2, confirmBox.y + confirmBox.height / 2);
-        MaaControllerWait(controller, clickId);
-    }
-    // 奖励弹窗
-    const char* rewardJson = R"({"reward":{"recognition":"OCR","expected":"获得物品","roi":[290,350,125,50]}})";
-    if (waitUntilRecognitionSuccess(context, "reward", rewardJson, nullptr, nullptr)) {
-        Sleep(500);
-        clickRandomTarget(context, 113, 12, 38, 42);
-        postWaitFreezes(context, ScreenArea_CenterCol, 500, 3000);
-    }
-
-    ScreenCap cap(context);
-    if (doRecognition(context, cap.img, "reward", rewardJson, nullptr, nullptr)) {
-        Sleep(500);
-        clickRandomTarget(context, 113, 12, 38, 42);
-        postWaitFreezes(context, ScreenArea_CenterCol, 500, 3000);
-    }
-}
-
-// ──── 魔魂列表搜索 ────
-
 // 右下角检测是否有 8 级魔魂（表示本页全满级，无需再找）
 static bool isPageAllMaxLevel(MaaContext* context, const MaaImageBuffer* image)
 {
-    char json[256];
-    snprintf(
-        json,
-        sizeof(json),
-        R"({"soul":{"recognition":"OCR","roi":[%d,%d,%d,%d],"order_by":"Vertical"}})",
-        kLevel8CheckRoi.x,
-        kLevel8CheckRoi.y,
-        kLevel8CheckRoi.width,
-        kLevel8CheckRoi.height);
     auto buffer = MaaStringBufferCreate();
     MaaRect resultBox;
-    if (!doRecognition(context, image, "soul", json, &resultBox, buffer)) {
+    if (!doRecognition(context, image, "CurPageHasCanUpgradeMonsterSoulCheck", { }, &resultBox, buffer)) {
         MaaStringBufferDestroy(buffer);
         return false;
     }
@@ -197,130 +200,66 @@ static bool isPageAllMaxLevel(MaaContext* context, const MaaImageBuffer* image)
     return false;
 }
 
-// 可升级魔魂信息
-struct SoulEntry
-{
-    std::string name;
-    MaaRect clickBox;
-    int gridPosition = 0; // 在 16 格中的位置 (0-15)
-};
-
 // 扫描当前页面 16 格区域，从 startGridPos 开始找第一个符合条件的魔魂
-static SoulEntry scanPageForTargetSoul(MaaContext* context, const std::set<std::string>& targetNames, int startGridPos)
+static bool scanPageForTargetSoul(MaaContext* context, TargetSoulInfo& targetSoulInfo)
 {
-    SoulEntry result;
     ScreenCap capture(context);
-    if (startGridPos == -1 && isPageAllMaxLevel(context, capture.img)) {
-        return result;
-    }
-
-    // OCR 全区域一次
-    char json[512];
-    snprintf(
-        json,
-        sizeof(json),
-        R"({"g":{"recognition":"OCR","roi":[%d,%d,%d,%d]}})",
-        kScanGridRoi.x,
-        kScanGridRoi.y,
-        kScanGridRoi.width,
-        kScanGridRoi.height);
-    auto buffer = MaaStringBufferCreate();
-    MaaRect resultBox;
-    if (!doRecognition(context, capture.img, "g", json, &resultBox, buffer)) {
-        MaaStringBufferDestroy(buffer);
-        return result;
-    }
-    std::string detail(MaaStringBufferGet(buffer), MaaStringBufferSize(buffer));
-    MaaStringBufferDestroy(buffer);
-    auto parsed = json::parse(detail).value_or(json::value { });
-
-    // 收集命中目标集合的魔魂
-    struct SoulCandidate
-    {
-        int gridPos;
-        std::string name;
-        MaaRect box;
-        MaaRect levelRoi;
-    };
-
-    std::vector<SoulCandidate> candidates;
-    for (auto& item : parsed["all"].as_array()) {
-        std::string text = item["text"].as_string();
-        if (!targetNames.count(text)) {
-            continue;
-        }
-        int boxX = item["box"][0].as_integer(), boxY = item["box"][1].as_integer();
-        int boxW = item["box"][2].as_integer(), boxH = item["box"][3].as_integer();
-        int gridPos = (boxY - kScanGridRoi.y) / kGridCellHeight * kGridCols + (boxX - kScanGridRoi.x) / kGridCellWidth;
-        candidates.push_back({ gridPos, text, { boxX, boxY - 35, boxW, boxH }, { boxX + boxW - 20, boxY - 35, 50, 35 } });
-    }
-    std::sort(candidates.begin(), candidates.end(), [](const SoulCandidate& a, const SoulCandidate& b) { return a.gridPos < b.gridPos; });
-
-    // 从 startGridPos 开始扫描
-    for (auto& candidate : candidates) {
-        if (candidate.gridPos < startGridPos) {
-            continue;
-        }
-        int level = ocrSingleLevel(context, capture.img, candidate.levelRoi);
-        if (level > 0 && level < 8) {
-            result.name = candidate.name;
-            result.clickBox = candidate.box;
-            result.gridPosition = candidate.gridPos;
-            break;
-        }
-    }
-    return result;
-}
-
-// 滑动翻页并查找目标魔魂（TODO: isRoiSame 依赖 OpenCV 已暂时移除，恢复后补回"到底检测"）
-static SoulEntry findTargetSoul(MaaContext* context, const std::set<std::string>& targetNames, int& startGridPos)
-{
-    auto* controller = MaaTaskerGetController(MaaContextGetTasker(context));
-    for (int safety = 0; safety < 100; ++safety) {
-        if (MaaTaskerStopping(MaaContextGetTasker(context))) {
-            return { };
-        }
-        auto entry = scanPageForTargetSoul(context, targetNames, startGridPos);
-        if (!entry.name.empty()) {
-            return entry;
-        }
-        startGridPos = 0;
-
-        controller = MaaTaskerGetController(MaaContextGetTasker(context));
-        auto swipeId = MaaControllerPostSwipe(controller, 360, 700, 360, 200, 1000);
-        MaaControllerWait(controller, swipeId);
-        postWaitFreezes(context);
-    }
-    return { };
-}
-
-// ──── 升级界面操作 ────
-
-static bool enterUpgradeUI(MaaContext* context, SoulEntry& targetSoul)
-{
-    auto* controller = MaaTaskerGetController(MaaContextGetTasker(context));
-    // 点击目标魔魂
-    auto clickId = MaaControllerPostClick(
-        controller,
-        targetSoul.clickBox.x + targetSoul.clickBox.width / 2,
-        targetSoul.clickBox.y + targetSoul.clickBox.height / 2);
-    MaaControllerWait(controller, clickId);
-    postWaitFreezes(context);
-    // 点击升级入口
-    if (!matchTemplate(context, "upgradeEntry", "monster_soul/upgrade.png", { 474, 828, 155, 286 })) {
+    if (g_startGridPos == -1 && isPageAllMaxLevel(context, capture.img)) {
         return false;
     }
-    postWaitFreezes(context);
-    // 等待词条界面出现（不点击）
-    if (!matchTemplate(context, "affixView", "monster_soul/affixes_view_icon2.png", { 615, 132, 72, 93 }, true, false)) {
-        return false;
+
+    // 当前页面4*4格子逐个扫描
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            int gridPos = i * 4 + j;
+            if (gridPos < g_startGridPos) {
+                continue;
+            }
+
+            MaaRect cellRoi = {
+                scanGridRoi.x + j * gridCellWidth,
+                scanGridRoi.y + i * gridCellHeight,
+                gridCellWidth,
+                gridCellHeight,
+            };
+            char detailJson[128];
+            snprintf(
+                detailJson,
+                sizeof(detailJson),
+                R"({"CurPageGridOcr":{"roi":[%d,%d,%d,%d]}})",
+                cellRoi.x,
+                cellRoi.y,
+                cellRoi.width,
+                cellRoi.height);
+
+            auto buffer = MaaStringBufferCreate();
+            MaaRect resultBox;
+            if (!doRecognition(context, capture.img, "CurPageGridOcr", detailJson, &resultBox, buffer)) {
+                MaaStringBufferDestroy(buffer);
+                continue;
+            }
+            std::string detail(MaaStringBufferGet(buffer), MaaStringBufferSize(buffer));
+            MaaStringBufferDestroy(buffer);
+            auto parsed = json::parse(detail).value_or(json::value { });
+
+            for (auto& item : parsed["all"].as_array()) {
+                std::string text = item["text"].as_string();
+                if (!g_targetSoulNames.count(text)) {
+                    continue;
+                }
+                int boxX = item["box"][0].as_integer(), boxY = item["box"][1].as_integer();
+                int boxW = item["box"][2].as_integer(), boxH = item["box"][3].as_integer();
+                int level = ocrSingleLevel(context, capture.img, { boxX + boxW - 20, boxY - 35, 50, 35 });
+                if (level > 0 && level < 8) {
+                    targetSoulInfo.name = text;
+                    targetSoulInfo.clickBox = { boxX, boxY - 35, boxW, boxH };
+                    targetSoulInfo.gridPosition = gridPos;
+                    return true;
+                }
+            }
+        }
     }
-    // 检查材料（不点击）
-    if (!matchTemplate(context, "warpedCheck", "material/warped_soul.png", { 75, 427, 148, 543 }, false, false)) {
-        LogUtils::log("升级魔魂失败，扭动之魂不足", "#ef4444");
-        return false;
-    }
-    return true;
+    return false;
 }
 
 static void clickAutoFillButton(MaaContext* context)
@@ -340,23 +279,6 @@ static int readCurrentLevel(MaaContext* context)
     ScreenCap capture(context);
     const char* json = R"({"lv":{"recognition":"OCR","roi":[358,155,65,45]}})";
     return parseLevel(ocrText(context, capture.img, "lv", json, nullptr));
-}
-
-static void upgradeToTargetLevel(MaaContext* context, int targetLevel)
-{
-    int currentLevel = readCurrentLevel(context);
-    if (currentLevel >= targetLevel) {
-        return;
-    }
-    int needed = targetLevel - currentLevel;
-    for (int i = 0; i < needed; ++i) {
-        clickAutoFillButton(context);
-    }
-    clickUpgradeButton(context);
-    postWaitFreezes(context, ScreenArea_TopCenter | ScreenArea_MidCenter, 500, 3000);
-    if (readCurrentLevel(context) < targetLevel) {
-        upgradeToTargetLevel(context, targetLevel);
-    }
 }
 
 static double readAffixValue(MaaContext* context, const char* keyword, bool findMinusSign, std::string* outRawText = nullptr)
@@ -414,82 +336,6 @@ static double readAffixValue(MaaContext* context, const char* keyword, bool find
     return std::round(std::atof(numberStr.c_str()) * 10.0) / 10.0;
 }
 
-// ──── 保留 / 分解 ────
-static void handleSoulKept(MaaContext* context, const std::string& soulName, int level)
-{
-    auto* controller = MaaTaskerGetController(MaaContextGetTasker(context));
-    clickBackButton(context);
-
-    if (!matchTemplate(context, "lock", "monster_soul/lock.png", { 78, 761, 297, 378 })) {
-        return;
-    }
-    Sleep(500);
-
-    // 打印最终词条
-    const char* json = R"({"finalAffix":{"recognition":"OCR","roi":[239,533,241,426],"order_by":"Vertical"}})";
-    ScreenCap capture(context);
-    auto buffer = MaaStringBufferCreate();
-    MaaRect resultBox;
-    std::vector<std::string> attrLines;
-    if (doRecognition(context, capture.img, "finalAffix", json, &resultBox, buffer)) {
-        std::string detail(MaaStringBufferGet(buffer), MaaStringBufferSize(buffer));
-        auto parsed = json::parse(detail).value_or(json::value { });
-        for (auto& item : parsed["all"].as_array()) {
-            std::string text = item["text"].as_string();
-            attrLines.push_back(fmt("  %1", text));
-        }
-    }
-    MaaStringBufferDestroy(buffer);
-
-    LogUtils::log(
-        fmt("【魔魂满足条件，已锁定】\n魔魂名称：%1\n魔魂等级：%2\n词条属性：\n%3", soulName, level, join(attrLines, "\n")),
-        "#22c55e");
-
-    controller = MaaTaskerGetController(MaaContextGetTasker(context));
-    auto escId = MaaControllerPostClickKey(controller, 111);
-    MaaControllerWait(controller, escId);
-    Sleep(300);
-}
-
-static void handleSoulUnsatisfied(MaaContext* context, int& decomposedCount)
-{
-    clickBackButton(context);
-    ++decomposedCount;
-    decomposeAndConfirm(context);
-}
-
-static void decomposeSoulDirectly(MaaContext* context, SoulEntry& targetSoul, int& decomposedCount)
-{
-    auto* controller = MaaTaskerGetController(MaaContextGetTasker(context));
-    auto clickId = MaaControllerPostClick(
-        controller,
-        targetSoul.clickBox.x + targetSoul.clickBox.width / 2,
-        targetSoul.clickBox.y + targetSoul.clickBox.height / 2);
-    MaaControllerWait(controller, clickId);
-    postWaitFreezes(context);
-    ++decomposedCount;
-    decomposeAndConfirm(context);
-}
-
-// ──── 条件解析 ────
-
-struct AffixCheckConfig
-{
-    std::string ocrKeyword; // OCR 识别关键词（如 "行动间隔"）
-    bool readMinusSign;     // 读减号(true)还是加号(false)
-    int requiredLevel;      // 出现该词条需要的等级
-};
-
-struct ConditionRule
-{
-    AffixCheckConfig check;
-    double threshold;
-    std::string displayName; // UI 名称（如 "间隔"），用于匹配魔魂类型
-    bool hasPercent = false; // 配置中是否带 %，e.g. 间隔>=3.0% → true, 抗性>=3.0 → false
-};
-
-using ConditionGroup = std::map<int, ConditionRule>; // key=检查等级, value=条件规则
-
 static AffixCheckConfig getAffixCheckConfig(const std::string& name)
 {
     if (name == "间隔") {
@@ -510,42 +356,15 @@ static AffixCheckConfig getAffixCheckConfig(const std::string& name)
     return { };
 }
 
-// 魔魂词条分组
-static const std::map<std::string, std::set<std::string>> kSoulAvailableAffixes = {
-    // 组A: 间隔(Lv4) + 暴击(Lv6) — 14个
-    { "巫蛊之魂", { "间隔", "暴击" } },
-    { "暴虐之魂", { "间隔", "暴击" } },
-    { "凶煞之魂", { "间隔", "暴击" } },
-    { "邪典之魂", { "间隔", "暴击" } },
-    { "劫掠之魂", { "间隔", "暴击" } },
-    { "狡智之魂", { "间隔", "暴击" } },
-    { "雄狮之魂", { "间隔", "暴击" } },
-    { "狂怒之魂", { "间隔", "暴击" } },
-    { "霜雪之魂", { "间隔", "暴击" } },
-    { "林动之魂", { "间隔", "暴击" } },
-    { "极寒之魂", { "间隔", "暴击" } },
-    { "沉渊之魂", { "间隔", "暴击" } },
-    { "狂热之魂", { "间隔", "暴击" } },
-    { "天陨之魂", { "间隔", "暴击" } },
-    // 组B: 间隔(Lv4) + 承伤(Lv8) — 3个
-    { "野性之魂", { "间隔", "承伤" } },
-    { "蛮荒之魂", { "间隔", "承伤" } },
-    { "冰晶之魂", { "间隔", "承伤" } },
-    // 组C: 间隔(Lv4) + 治疗效果(Lv8) — 3个
-    { "林野之魂", { "间隔", "治疗效果" } },
-    { "爆破之魂", { "间隔", "治疗效果" } },
-    { "先祖之魂", { "间隔", "治疗效果" } },
-};
-
 // 找到该魔魂第一个完全支持的条件组
-static const ConditionGroup* findMatchingConditionGroup(const std::string& soulName, const std::vector<ConditionGroup>& conditionGroups)
+static const ConditionGroup* findMatchingConditionGroup(const std::string& soulName)
 {
-    auto affixIt = kSoulAvailableAffixes.find(soulName);
-    if (affixIt == kSoulAvailableAffixes.end()) {
+    auto affixIt = soulAvailableAffixes.find(soulName);
+    if (affixIt == soulAvailableAffixes.end()) {
         return nullptr;
     }
     const auto& availableAffixes = affixIt->second;
-    for (const auto& group : conditionGroups) {
+    for (const auto& group : g_conditionGroups) {
         bool allSupported = true;
         for (const auto& [level, rule] : group) {
             if (!rule.displayName.empty() && !availableAffixes.count(rule.displayName)) {
@@ -558,81 +377,6 @@ static const ConditionGroup* findMatchingConditionGroup(const std::string& soulN
         }
     }
     return nullptr;
-}
-
-// ──── 单次升级流程 ────
-static bool doOneUpgrade(
-    MaaContext* context,
-    const std::set<std::string>& targetSoulNames,
-    const std::vector<ConditionGroup>& conditionGroups,
-    int& upgradeCount,
-    int& keepCount,
-    int& decomposeCount,
-    int& startGridPos)
-{
-    auto targetSoul = findTargetSoul(context, targetSoulNames, startGridPos);
-    if (targetSoul.name.empty()) {
-        return false;
-    }
-
-    const ConditionGroup* matchedGroup = findMatchingConditionGroup(targetSoul.name, conditionGroups);
-    if (!matchedGroup) {
-        LogUtils::log("当前魔魂升级后不可能满足配置的保留属性", "#f59e0b");
-        decomposeSoulDirectly(context, targetSoul, decomposeCount);
-        startGridPos = targetSoul.gridPosition; // 分解后不移动位置
-        upgradeCount++;
-        return true;
-    }
-
-    if (!enterUpgradeUI(context, targetSoul)) {
-        return false;
-    }
-
-    // 逐级升级并校验条件
-    bool allConditionsPassed = true;
-    for (const auto& [level, rule] : *matchedGroup) {
-        upgradeToTargetLevel(context, level);
-        std::string rawText;
-        double actualValue = readAffixValue(context, rule.check.ocrKeyword.c_str(), rule.check.readMinusSign, &rawText);
-        if (actualValue < rule.threshold) {
-            const char* suffix = rule.hasPercent ? "%" : "";
-
-            std::vector<std::string> attrLines;
-            std::vector<std::string> rawLines = split(rawText, '\n');
-            for (const auto& line : rawLines) {
-                if (line.find("：") != std::string::npos) {
-                    continue;
-                }
-                attrLines.push_back(fmt("  %1", trim(line)));
-            }
-
-            LogUtils::log(
-                fmt("【魔魂不满足条件，已分解】\n魔魂名称:%1\n魔魂等级:%2\n词条要求:%3>=%4%7,当前%3:%5%7\n词条属性:\n%6",
-                    targetSoul.name,
-                    level,
-                    rule.displayName,
-                    rule.threshold,
-                    actualValue,
-                    join(attrLines, "\n"),
-                    suffix),
-                "#f59e0b");
-            allConditionsPassed = false;
-            break;
-        }
-    }
-
-    if (!allConditionsPassed) {
-        handleSoulUnsatisfied(context, decomposeCount);
-        startGridPos = targetSoul.gridPosition;
-    }
-    else {
-        upgradeToTargetLevel(context, 8);
-        handleSoulKept(context, targetSoul.name, 8);
-        keepCount++;
-        startGridPos = targetSoul.gridPosition + 1; // 保留后跳过
-    }
-    upgradeCount++;
-    return true;
 }
 
 static void getTargetSoul(std::set<std::string>& targetSoulNames)
@@ -688,7 +432,197 @@ static void getConditionGroups(std::vector<ConditionGroup>& conditionGroups)
     }
 }
 
+static bool readBagCount(MaaContext* context, int& curCount, int& capacity)
+{
+    auto buf = MaaStringBufferCreate();
+    ScreenCap cap(context);
+    if (!doRecognition(context, cap.img, "MonsterSoulGetCurSoulCount", "{}", nullptr, buf)) {
+        MaaStringBufferDestroy(buf);
+        return false;
+    }
+    std::string detail(MaaStringBufferGet(buf), MaaStringBufferSize(buf));
+    MaaStringBufferDestroy(buf);
+    auto parsed = json::parse(detail).value_or(json::value { });
+    std::string text = parsed["best"]["text"].as_string();
+
+    auto p = text.find('/');
+    if (p == std::string::npos) {
+        return false;
+    }
+    curCount = std::atoi(text.substr(0, p).c_str());
+    capacity = std::atoi(text.substr(p + 1).c_str());
+    return true;
+}
+
+// 通过指定 entry 识别当前页面的魔魂名称
+static bool getSoulName(MaaContext* context, const char* entry, std::string& soulName)
+{
+    ScreenCap cap(context);
+    auto buf = MaaStringBufferCreate();
+    if (!doRecognition(context, cap.img, entry, "{}", nullptr, buf)) {
+        MaaStringBufferDestroy(buf);
+        return false;
+    }
+    std::string detail(MaaStringBufferGet(buf), MaaStringBufferSize(buf));
+    MaaStringBufferDestroy(buf);
+    auto parsed = json::parse(detail).value_or(json::value { });
+    soulName = parsed["best"]["text"].as_string();
+    return true;
+}
+
+// 通过指定 entry 识别当前页面的魔魂等级，识别失败返回 -1
+static int getSoulLevel(MaaContext* context, const char* entry)
+{
+    ScreenCap cap(context);
+    auto buf = MaaStringBufferCreate();
+    if (!doRecognition(context, cap.img, entry, "{}", nullptr, buf)) {
+        MaaStringBufferDestroy(buf);
+        return -1;
+    }
+    std::string detail(MaaStringBufferGet(buf), MaaStringBufferSize(buf));
+    MaaStringBufferDestroy(buf);
+    auto parsed = json::parse(detail).value_or(json::value { });
+    return parseLevel(parsed["best"]["text"].as_string());
+}
+
+static bool upgradeToTargetLevel(MaaContext* context, int targetLevel)
+{
+    // 检查扭动之魂
+    ScreenCap cap(context);
+    if (!doRecognition(context, cap.img, "MonsterSoulUpgradeCheckWarpedSoul", "{}", nullptr, nullptr)) {
+        LogUtils::log("升级魔魂失败，扭动之魂不足", "#ef4444");
+        return false;
+    }
+    int currentLevel = getSoulLevel(context, "UpgradeMonsterSoulUpgradePageSoulLevel");
+    if (currentLevel >= targetLevel) {
+        return true;
+    }
+    int needed = targetLevel - currentLevel;
+
+    MaaContextRunTask(
+        context,
+        "MonsterSoulOneKeyFillAndUpgrade",
+        fmt(R"({"MonsterSoulOneKeyFillAndUpgrade":{"repeat":%1}})", needed).c_str());
+
+    // 检查是否升级到指定等级(点击升级后画面比较卡)
+    while (true) {
+        ScreenCap cap(context);
+        int newLevel = getSoulLevel(context, "UpgradeMonsterSoulUpgradePageSoulLevel");
+        if (newLevel >= targetLevel) {
+            return true;
+        }
+        else if (newLevel == currentLevel) {
+            Sleep(500);
+        }
+        else {
+            // 升级后等级有变化，但是没达到目标等级，可能是扭动之魂不足
+            if (!doRecognition(context, cap.img, "MonsterSoulUpgradeCheckWarpedSoul", "{}", nullptr, nullptr)) {
+                LogUtils::log("升级魔魂失败，扭动之魂不足", "#ef4444");
+                return false;
+            }
+            else {
+                // 有扭动之魂，可能是点击次数不够
+                upgradeToTargetLevel(context, targetLevel);
+            }
+        }
+    }
+    return true;
+}
+
 MaaBool upgradeMonsterSoul(
+    MaaContext* context,
+    MaaTaskId taskId,
+    const char* nodeName,
+    const char* customActionName,
+    const char* customActionParam,
+    MaaRecoId recoId,
+    const MaaRect* box,
+    void* transArg)
+{
+    if (MaaTaskerStopping(MaaContextGetTasker(context))) {
+        return true;
+    }
+
+    LogUtils::log(fmt("魔魂升级第%1次", g_curRound++), "#3b82f6");
+
+    // 魔魂名称
+    std::string soulName;
+    if (!getSoulName(context, "UpgradeMonsterSoulUpgradePageSoulName", soulName) || !g_targetSoulNames.count(soulName)) {
+        return false;
+    }
+
+    // 魔魂等级
+    int curLevel = getSoulLevel(context, "UpgradeMonsterSoulUpgradePageSoulLevel");
+    if (curLevel < 1 || curLevel >= 8) {
+        return false;
+    }
+
+    const ConditionGroup* matchedGroup = findMatchingConditionGroup(soulName);
+    if (!matchedGroup) {
+        LogUtils::log("当前魔魂升级后不可能满足配置的保留条件,分解", "#f59e0b");
+        ++g_decomposeCount;
+        MaaContextRunTask(context, "MonsterSoulUpgradePageReturnAndDecompose", "{}");
+        return true;
+    }
+
+    // 逐级升级并校验条件
+    bool allConditionsPassed = true;
+    std::string failLog;
+    std::vector<std::string> finalAttrLines;
+    int finalLevel = 0;
+    for (const auto& [level, rule] : *matchedGroup) {
+        bool res = upgradeToTargetLevel(context, level);
+        if (!res) {
+            return false;
+        }
+        finalLevel = level;
+        std::string rawText;
+        double actualValue = readAffixValue(context, rule.check.ocrKeyword.c_str(), rule.check.readMinusSign, &rawText);
+
+        std::vector<std::string> attrLines;
+        std::vector<std::string> rawLines = split(rawText, '\n');
+        for (const auto& line : rawLines) {
+            if (line.find("：") != std::string::npos) {
+                continue;
+            }
+            attrLines.push_back(fmt("  %1", trim(line)));
+        }
+        finalAttrLines = attrLines;
+
+        if (actualValue < rule.threshold) {
+            const char* suffix = rule.hasPercent ? "%" : "";
+            failLog =
+                fmt("【魔魂不满足保留条件，已分解】\n魔魂名称:%1\n魔魂等级:%2\n词条要求:%3>=%4%7,当前%3:%5%7\n词条属性:\n%6",
+                    soulName,
+                    level,
+                    rule.displayName,
+                    rule.threshold,
+                    actualValue,
+                    join(attrLines, "\n"),
+                    suffix);
+            allConditionsPassed = false;
+            break;
+        }
+    }
+
+    if (!allConditionsPassed) {
+        ++g_decomposeCount;
+        MaaContextRunTask(context, "MonsterSoulUpgradePageReturnAndDecompose", "{}");
+        LogUtils::log(failLog, "#f59e0b");
+    }
+    else {
+        ++g_keepCount;
+        ++g_startGridPos;
+        MaaContextRunTask(context, "MonsterSoulUpgradePageReturnAndLock", "{}");
+        LogUtils::log(
+            fmt("【魔魂满足条件，已锁定】\n魔魂名称:%1\n魔魂等级:%2\n词条属性:\n%3", soulName, finalLevel, join(finalAttrLines, "\n")),
+            "#22c55e");
+    }
+    return true;
+}
+
+// 魔魂升级配置
+MaaBool monsterSoulUpgradeConfigCheck(
     MaaContext* context,
     MaaTaskId taskId,
     const char* nodeName,
@@ -702,66 +636,108 @@ MaaBool upgradeMonsterSoul(
         LogUtils::log("当前服务器未配置魔魂升级策略,在启动游戏任务中可进行配置", "#ef4444");
         return false;
     }
-    int maxUpgradeCount = (g_user_soul.count != 0) ? g_user_soul.count : 10;
 
-    std::set<std::string> targetSoulNames;
-    getTargetSoul(targetSoulNames);
+    g_startGridPos = -1;
+    g_keepCount = 0;
+    g_decomposeCount = 0;
+    g_curRound = 1;
+    g_maxUpgradeCount = g_user_soul.count ? g_user_soul.count : INT_MAX;
+    auto attach = getNodeAttach(context, nodeName);
+    g_mongsterSoulFullFlag = attach.get("monster_soul_full_flag", json::value(false)).as_boolean();
 
+    getTargetSoul(g_targetSoulNames);
     // 保留条件组（组间 OR)
-    std::vector<ConditionGroup> conditionGroups;
-    getConditionGroups(conditionGroups);
+    getConditionGroups(g_conditionGroups);
+    return true;
+}
 
-    int upgradeCount = 0, keepCount = 0, decomposeCount = 0;
-    int startGridPos = -1;
-    int round = 0;
+MaaBool findTargetMonsterSoul(
+    MaaContext* context,
+    MaaTaskId taskId,
+    const char* nodeName,
+    const char* customRecognitionName,
+    const char* customRecognitionParam,
+    const MaaImageBuffer* image,
+    const MaaRect* roi,
+    void* transArg,
+    MaaRect* outBox,
+    MaaStringBuffer* outDetail)
+{
+    // 背包魔魂已满时，升级到背包容量以下就停止
+    if (g_mongsterSoulFullFlag) {
+        int curCount = 0;
+        int capacity = 0;
+        readBagCount(context, curCount, capacity);
+        if (g_startGridPos == -1 && curCount >= capacity) {
+            LogUtils::log(fmt("背包魔魂已满(%1/%2)，开始升级魔魂", curCount, capacity), "#3b82f6");
+        }
+        if (curCount < capacity) {
+            return false;
+        }
+    }
+    int cnt = 0;
     while (true) {
         if (MaaTaskerStopping(MaaContextGetTasker(context))) {
-            break;
+            return false;
         }
-        if (g_user_soul.countMode == 1 && round >= maxUpgradeCount) {
-            break;
-        }
-        std::string progress = (g_user_soul.countMode == 0) ? fmt("第%1次", round + 1) : fmt("[%1/%2]", round + 1, maxUpgradeCount);
-        LogUtils::log(fmt("魔魂升级%1", progress), "#3b82f6");
-        if (!doOneUpgrade(context, targetSoulNames, conditionGroups, upgradeCount, keepCount, decomposeCount, startGridPos)) {
-            break;
-        }
-        round++;
-    }
 
-    LogUtils::log(fmt("魔魂升级完毕: 共升级%1个,保留%2个,分解%3个", upgradeCount, keepCount, decomposeCount), "#22c55e");
-    return true;
+        auto* controller = MaaTaskerGetController(MaaContextGetTasker(context));
+        TargetSoulInfo targetSoulInfo;
+        auto find = scanPageForTargetSoul(context, targetSoulInfo);
+        if (!find) {
+            MaaContextRunTask(context, "MonsterSoulPageSwipeUp", "{}");
+            if (g_startGridPos != -1) {
+                g_startGridPos = 0;
+                if (++cnt >= 3) {
+                    // 连续滑动三次没找到退出
+                    return false;
+                }
+            }
+            continue;
+        }
+        g_startGridPos = targetSoulInfo.gridPosition;
+        outBox->x = targetSoulInfo.clickBox.x;
+        outBox->y = targetSoulInfo.clickBox.y;
+        outBox->width = targetSoulInfo.clickBox.width;
+        outBox->height = targetSoulInfo.clickBox.height;
+        return true;
+    }
 }
 
-static bool readBagCount(MaaContext* context, int& x, int& y)
+// 魔魂升级前做二次检查
+MaaBool upgradeMonsterSoulCheck(
+    MaaContext* context,
+    MaaTaskId taskId,
+    const char* nodeName,
+    const char* customRecognitionName,
+    const char* customRecognitionParam,
+    const MaaImageBuffer* image,
+    const MaaRect* roi,
+    void* transArg,
+    MaaRect* outBox,
+    MaaStringBuffer* outDetail)
 {
-    const char* json = R"({"count":{"recognition":"OCR","roi":[262,16,103,42],"expected":"\\d+/\\d+","only_rec":true}})";
-    auto buf = MaaStringBufferCreate();
-    MaaRect box;
     ScreenCap cap(context);
-    if (!doRecognition(context, cap.img, "count", json, &box, buf)) {
-        MaaStringBufferDestroy(buf);
+    // 魔魂检查
+    std::string soulName;
+    if (!getSoulName(context, "UpgradeMonsterTargetSoulCheck", soulName) || !g_targetSoulNames.count(soulName)) {
         return false;
     }
-    std::string detail(MaaStringBufferGet(buf), MaaStringBufferSize(buf));
-    MaaStringBufferDestroy(buf);
-    auto parsed = json::parse(detail).value_or(json::value { });
-    // 合并所有OCR结果，避免"150/200"被拆成"150"和"/200"
-    std::string text;
-    for (auto& item : parsed["all"].as_array()) {
-        text += item["text"].as_string();
-    }
-    auto p = text.find('/');
-    if (p == std::string::npos) {
+
+    // 等级检查
+    int curLevel = getSoulLevel(context, "UpgradeMonsterSoulLevelCheck");
+    if (curLevel < 1 || curLevel >= 8) {
         return false;
     }
-    x = std::atoi(text.substr(0, p).c_str());
-    y = std::atoi(text.substr(p + 1).c_str());
+    // 魔魂已上锁检查
+    if (doRecognition(context, cap.img, "UpgradeMonsterSoulLockedCheck", "{}", nullptr, nullptr)) {
+        return false;
+    }
+
     return true;
 }
 
-// ──── 背包魔魂已满时升级 ────
-MaaBool checkBagAndUpgradeSoul(
+MaaBool monsterSoulUpgradeFinish(
     MaaContext* context,
     MaaTaskId taskId,
     const char* nodeName,
@@ -771,43 +747,17 @@ MaaBool checkBagAndUpgradeSoul(
     const MaaRect* box,
     void* transArg)
 {
-    int x = 0, y = 0;
-    if (!readBagCount(context, x, y)) {
-        LogUtils::log("读取背包魔魂数量失败", "#ef4444");
-        return false;
-    }
-    LogUtils::log(fmt("背包魔魂数量: %1/%2", x, y), "#3b82f6");
-
-    while (x >= y) {
-        if (MaaTaskerStopping(MaaContextGetTasker(context))) {
-            return false;
-        }
-
-        int need = x - y + 1;
-        LogUtils::log(fmt("背包已满(%1/%2)，升级%3个魔魂", x, y, need), "#f59e0b");
-
-        auto defaultCfg = getDefaultSoulUpgradeConfig();
-        std::string conditionsJson = defaultCfg["conditions"].to_string();
-        char param[1024];
-        snprintf(
-            param,
-            sizeof(param),
-            R"({"count":%d,"countMode":1,"decompose":true,"mode":0,"souls":[],"conditions":%s})",
-            need,
-            conditionsJson.c_str());
-        upgradeMonsterSoul(context, taskId, nodeName, customActionName, param, recoId, box, transArg);
-
-        if (!readBagCount(context, x, y)) {
-            LogUtils::log("读取背包数量失败", "#ef4444");
-            break;
-        }
-    }
-
+    LogUtils::log(
+        fmt("魔魂升级完成，共升级%1个魔魂，保留%2个，分解%3个", g_decomposeCount + g_keepCount, g_keepCount, g_decomposeCount),
+        "#22c55e");
     return true;
 }
 
 void registerCustomMonsterSoulUpgrade(MaaResource* resource, void* userData)
 {
     registerCustomAction(resource, "UpgradeMonsterSoul", upgradeMonsterSoul, userData);
-    registerCustomAction(resource, "CheckBagAndUpgradeSoul", checkBagAndUpgradeSoul, userData);
+    registerCustomAction(resource, "MonsterSoulUpgradeConfigCheck", monsterSoulUpgradeConfigCheck, userData);
+    registerCustomAction(resource, "MonsterSoulUpgradeFinish", monsterSoulUpgradeFinish, userData);
+    registerCustomRecognition(resource, "UpgradeMonsterSoulCheck", upgradeMonsterSoulCheck, userData);
+    registerCustomRecognition(resource, "FindTargetMonsterSoul", findTargetMonsterSoul, userData);
 }

@@ -1,0 +1,3 @@
+- 用户群: [1126541763](https://qm.qq.com/q/XliBHJk5Sa)
+- 开源代码: [GitHub](https://github.com/Halo629/MaaDxcb3)
+- 问题反馈: [GitHub Issue](https://github.com/Halo629/MaaDxcb3/issues)

@@ -1,7 +1,5 @@
 #include "Comm.h"
 
-namespace custom_battle
-{
 using namespace std::string_literals;
 
 static int readRemainingTime(MaaContext* context)
@@ -355,5 +353,3 @@ void registerCustomBattle(MaaResource* res, void* user_data)
 {
     registerCustomAction(res, "BattleAI", battleAI, user_data);
 }
-
-} // namespace custom_battle

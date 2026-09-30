@@ -225,10 +225,14 @@
 		"desc": "魔魂满时升级魔魂",
 		"recognition": "And",
 		"all_of": ["InMonsterSoulListPage"],
+		"max_hit": 1,
 		"action": "Custom",
-		"custom_action": "CheckBagAndUpgradeSoul",
+		"custom_action": "MonsterSoulUpgradeConfigCheck",
+		"attach": {"monster_soul_full_flag": true},
 		"next": [
-			"SceneBack"
+			"[JumpBack]SelectSortModeByLevel",
+			"MonsterSoulBatchUpgrade",
+			"[JumpBack]SceneEnterMonsterSoulBag"
 		]
 	}
 }

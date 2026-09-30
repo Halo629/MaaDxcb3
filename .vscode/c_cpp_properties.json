@@ -5,8 +5,8 @@
             "includePath": [
                 "${workspaceFolder}/src",
                 "${workspaceFolder}/src/**",
-                "D:/MaaFramework/install/include",
-                "D:/MaaFramework/source/MaaUtils/include",
+                "G:/workspace/maaframework/MAA-win-x86_64-v5.13.0/include",
+                "G:/workspace/MAA-projects/MaaDxcb3/third_party",
                 "D:/MaaFramework/source/MaaUtils/MaaDeps/vcpkg/installed/maa-x64-windows/include"
             ],
             "defines": [
@@ -16,7 +16,6 @@
                 "WIN32"
             ],
             "compilerPath": "cl.exe",
-            "compileCommands": "${workspaceFolder}/compile_commands.json",
             "cStandard": "c17",
             "cppStandard": "c++17",
             "intelliSenseMode": "windows-msvc-x64"

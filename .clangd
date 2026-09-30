@@ -1,0 +1,6 @@
+CompileFlags:
+  Add:
+    - -IG:/workspace/maaframework/MAA-win-x86_64-v5.13.0/include
+    - -IG:/workspace/MAA-projects/MaaDxcb3/third_party
+    - -IG:/workspace/MAA-projects/MaaDxcb3/src
+    - -std=c++17

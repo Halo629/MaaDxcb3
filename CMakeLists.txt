@@ -23,7 +23,7 @@ endif()
 set(MAA_ROOT "G:/workspace/maaframework/MAA-win-x86_64-v5.13.0" CACHE PATH "MaaFramework install prefix")
 
 # ─── meojson（header-only）───────────────────────────────────────
-set(MEOJSON_INCLUDE "D:/MaaFramework/source/MaaUtils/include" CACHE PATH "meojson include dir")
+set(MEOJSON_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/third_party" CACHE PATH "meojson include dir")
 
 # ─── 源文件 ──────────────────────────────────────────────────────
 file(GLOB CUSTOM_SRCS

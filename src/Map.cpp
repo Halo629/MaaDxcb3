@@ -1,8 +1,4 @@
 #include "Comm.h"
-
-namespace custom_map
-{
-
 constexpr int kMaxMapDist = 350;
 
 struct MapNode
@@ -476,4 +472,3 @@ void registerCustomMap(MaaResource* res, void* user_data)
     registerCustomRecognition(res, "HarwoodMapHandler", harwoodMapHandler, user_data);
 }
 
-} // namespace custom_map
