@@ -74,6 +74,13 @@ jobs:
           New-Item install/agent -ItemType Directory -Force
           Copy-Item build/Release/cpp-service.exe install/agent/cpp-service.exe -Force
 
+      # 用 MaaFramework 的 Python 绑定计算资源 hash，回填 interface.json（version + hash）
+      - name: Fill interface.json (version + resource hash)
+        shell: pwsh
+        run: |
+          python -m pip install --quiet maafw
+          python tools/fill_interface.py --version "${{ github.ref_name }}" --interface install/interface.json
+
       - name: Convert PNG to ICO
         shell: pwsh
         run: |
