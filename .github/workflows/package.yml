@@ -14,63 +14,70 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # meojson 头文件（header-only JSON），编译 cpp-service 需要，来自 MaaUtils 仓库
-      - name: Checkout MaaUtils (meojson)
-        uses: actions/checkout@v4
-        with:
-          repository: MaaXYZ/MaaUtils
-          path: maautils
-
-      # 下载 MaaFramework SDK（编译需要 include/lib，运行需要 bin 里的 DLL）
-      - name: Download MaaFramework
-        uses: robinraju/release-downloader@v1.11
+      # 动态获取 MaaFramework / MXU 的 latest 正式版 tag（排除 draft）
+      - name: Get latest MaaFramework release
+        id: maafw-latest
+        uses: step-security/github-action-get-latest-release@v0.8.2
         with:
           repository: MaaXYZ/MaaFramework
-          tag: v5.13.0
-          fileName: "MAA-win-x86_64-v5.13.0.zip"
-          out-file-path: downloads/maafw
+          excludes: "draft"
 
-      # 下载 MXU 前端（含 mxu.exe）
-      - name: Download MXU
-        uses: robinraju/release-downloader@v1.11
+      - name: Get latest MXU release
+        id: mxu-latest
+        uses: step-security/github-action-get-latest-release@v0.8.2
         with:
           repository: MistEO/MXU
-          latest: true
+          excludes: "draft"
+
+      # 下载 MaaFramework：include/lib 用于编译 agent，bin 用于运行时 DLL
+      - name: Download MaaFramework
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: MaaXYZ/MaaFramework
+          fileName: "MAA-win-x86_64*.zip"
+          tag: ${{ steps.maafw-latest.outputs.release }}
+          out-file-path: deps
+          extract: true
+
+      # 下载 MXU：前端外壳 mxu.exe
+      - name: Download MXU
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: MistEO/MXU
           fileName: "*win-x86_64*.zip"
-          out-file-path: downloads/mxu
-
-      - name: Extract MaaFramework
-        shell: pwsh
-        run: |
-          Expand-Archive -Path (Get-ChildItem downloads/maafw/*.zip | Select-Object -First 1).FullName -DestinationPath downloads/maafw/sdk
-          Get-ChildItem downloads/maafw/sdk
-
-      - name: Extract MXU
-        shell: pwsh
-        run: |
-          Expand-Archive -Path (Get-ChildItem downloads/mxu/*.zip | Select-Object -First 1).FullName -DestinationPath install
-          Get-ChildItem install -Recurse -Depth 1 | Select-Object -First 40
+          tag: ${{ steps.mxu-latest.outputs.release }}
+          out-file-path: downloads/MXU
+          extract: true
 
       - name: Build cpp-service
         shell: pwsh
         run: |
-          $sdk = (Get-ChildItem downloads/maafw/sdk -Directory | Select-Object -First 1).FullName
-          cmake -B build -DCMAKE_BUILD_TYPE=Release "-DMAA_ROOT=$sdk" "-DMEOJSON_INCLUDE=${{ github.workspace }}/maautils/include"
+          $sdk = if (Test-Path "deps/include") { "deps" } else { (Get-ChildItem deps -Directory | Select-Object -First 1).FullName }
+          cmake -B build -DCMAKE_BUILD_TYPE=Release "-DMAA_ROOT=$sdk" "-DMEOJSON_INCLUDE=${{ github.workspace }}/third_party"
           cmake --build build --config Release
 
       - name: Assemble
         shell: pwsh
         run: |
-          # 1. mxu.exe 改名
-          $mxu = Get-ChildItem install -Recurse -Filter mxu.exe | Select-Object -First 1
-          Move-Item $mxu.FullName (Join-Path $mxu.DirectoryName "MaaDxcb3.exe")
+          $sdk = if (Test-Path "deps/include") { "deps" } else { (Get-ChildItem deps -Directory | Select-Object -First 1).FullName }
 
-          # 2. 项目文件
+          New-Item install -ItemType Directory -Force
+
+          # 1. MXU 前端：mxu.exe 改名
+          $mxu = Get-ChildItem downloads/MXU -Recurse -Filter mxu.exe | Select-Object -First 1
+          if (-not $mxu) { throw "mxu.exe not found" }
+          Copy-Item $mxu.FullName "install/MaaDxcb3.exe"
+
+          # 2. MaaFramework DLL 覆盖 maafw
+          New-Item install/maafw -ItemType Directory -Force
+          Copy-Item "$sdk/bin/*" install/maafw/ -Recurse -Force
+
+          # 3. 项目文件
           Copy-Item interface.json install/ -Force
           Copy-Item resource install/ -Recurse -Force
           Copy-Item assets install/ -Recurse -Force
 
-          # 3. agent（Release 编译产物，interface.json 引用 agent/cpp-service）
+          # 4. agent（动态编译的 cpp-service）
           New-Item install/agent -ItemType Directory -Force
           Copy-Item build/Release/cpp-service.exe install/agent/cpp-service.exe -Force
 
@@ -85,14 +92,13 @@ jobs:
         shell: pwsh
         run: |
           python -m pip install --quiet Pillow
-          python -c "from PIL import Image; im=Image.open('resource/MaaDxcb3.png'); im.save('MaaDxcb3.ico', sizes=[(16,16),(24,24),(32,32),(48,48),(64,64),(128,128),(256,256),(512,512)])"
+          python -c "from PIL import Image; im=Image.open('assets/MaaDxcb3.png'); im.save('MaaDxcb3.ico', sizes=[(16,16),(24,24),(32,32),(48,48),(64,64),(128,128),(256,256),(512,512)])"
 
       - name: Set exe icon
         shell: pwsh
         run: |
           Invoke-WebRequest https://github.com/electron/rcedit/releases/download/v2.0.0/rcedit-x64.exe -OutFile rcedit.exe
-          $exe = Get-ChildItem install -Recurse -Filter MaaDxcb3.exe | Select-Object -First 1
-          .\rcedit.exe $exe.FullName --set-icon MaaDxcb3.ico
+          .\rcedit.exe "install/MaaDxcb3.exe" --set-icon MaaDxcb3.ico
 
       - name: Package zip
         shell: pwsh
