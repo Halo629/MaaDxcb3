@@ -7,8 +7,6 @@
 	"license": "assets/LICENSE_SHORT.md",
 	"icon": "./assets/MaaDxcb3.png",
 	"github": "https://github.com/Halo629/MaaDxcb3",
-	"mirrorchyan_rid": "MaaDxcb3",
-	"mirrorchyan_multiplatform": true,
 	"controller": [
 		{
 			"name": "ADB",
@@ -75,7 +73,7 @@
 		//飞艇珍奇
 		"assets/tasks/AirshipTreasure.json",
 		//天界岛
-		"assets/tasks/CelestialIsle.json",
+		//"assets/tasks/CelestialIsle.json",
 		//天选曜惠
 		"assets/tasks/ChosenRadiance.json",
 		//宫廷棋
@@ -87,23 +85,19 @@
 		//大泽远征
 		"assets/tasks/GreatMarshExpedition.json",
 		//哈伍德城堡
-		"assets/tasks/HarwoodCastle.json",
+		//"assets/tasks/HarwoodCastle.json",
 		//铭心礼遇
 		"assets/tasks/HeartGift.json",
 		//猎场盛宴
 		"assets/tasks/HuntingGroundFeast.json",
-		//狩猎季
+		//夜之狩猎
 		"assets/tasks/HuntingSeason.json",
-		//万象秘契
-		"assets/tasks/MyriadSecretPact.json",
-		//诸界之门
-		"assets/tasks/RealmGate.json",
 		//溯回之筳
 		"assets/tasks/RetraceBanquet.json",
 		//掠影之境
 		"assets/tasks/ShadowMirror.json",
 		//永夏远征
-		"assets/tasks/SummerExpedition.json",
+		//"assets/tasks/SummerExpedition.json",
 		//树枝活动：夏夜荷塘/颂礼幽廊
 		"assets/tasks/BranchActivity.json",
 		//塔罗牌
