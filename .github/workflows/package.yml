@@ -52,14 +52,14 @@ jobs:
       - name: Build cpp-service
         shell: pwsh
         run: |
-          $sdk = if (Test-Path "deps/include") { "deps" } else { (Get-ChildItem deps -Directory | Select-Object -First 1).FullName }
+          $sdk = if (Test-Path "deps/include") { "${{ github.workspace }}/deps" } else { (Get-ChildItem deps -Directory | Select-Object -First 1).FullName }
           cmake -B build -DCMAKE_BUILD_TYPE=Release "-DMAA_ROOT=$sdk" "-DMEOJSON_INCLUDE=${{ github.workspace }}/third_party"
           cmake --build build --config Release
 
       - name: Assemble
         shell: pwsh
         run: |
-          $sdk = if (Test-Path "deps/include") { "deps" } else { (Get-ChildItem deps -Directory | Select-Object -First 1).FullName }
+          $sdk = if (Test-Path "deps/include") { "${{ github.workspace }}/deps" } else { (Get-ChildItem deps -Directory | Select-Object -First 1).FullName }
 
           New-Item install -ItemType Directory -Force
 
