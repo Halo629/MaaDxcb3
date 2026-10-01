@@ -22,8 +22,8 @@ Powered by [MaaFramework](https://github.com/MaaXYZ/MaaFramework) & [MXU](https:
 
 ### 📅 日常任务
 
-- 🤖 **管家任务** - 一键完成每日日常（女神像收益领取、农场生产产品、挑战盗宝贼费迪南德、奥术灰烬收益领取、通天塔每日收益领取、荒魂搜索、灵龛中的工坊、秘境洞穴、比比奇的坩埚、无尽的财富岛、马车商店购买、每日魂师指南、每周魂师指南、藏宝图领取、成功挑战5次灵魂之墓、挑战1次破碎之境、升格之路页购买羁时碎片、物品页购买旅者沙钟、物品页购买矿原石、物品页购买美食积分商品、食物页购买美食积分、魂墓页购买纹章宝盒、重铸2次装备、铭刻1次装备）
-- 🎁 **日常奖励领取** - 自动领取每日奖励（每日免费玉领取、月卡领取、领取邮件、公会商店购买招魂师卷轴、公会挑战&购买、珍藏商店购买招魂师卷轴、基础月卡到期自动购买、进阶月卡到期自动使用背包中的进阶月卡）
+- 🤖 **管家任务** - 一键完成每日日常（女神像收益领取、农场生产产品、挑战盗宝贼费迪南德、奥术灰烬收益领取、通天塔每日收益领取、荒魂搜索、灵龛中的工坊、秘境洞穴、比比奇的坩埚、无尽的财富岛、马车商店购买、每日魂师指南、每周魂师指南、藏宝图领取）
+- 🎁 **日常奖励领取** - 自动领取每日奖励（领取邮件、每日免费玉领取、月卡领取、公会挑战&商店购买、珍藏商店购买招魂师卷轴、基础月卡到期自动购买等）
 
 ### 📆 周常任务
 
@@ -41,18 +41,13 @@ Powered by [MaaFramework](https://github.com/MaaXYZ/MaaFramework) & [MXU](https:
 - 💎 **萃石成英**
 - 🌟 **织星成辉**
 - 🚀 **飞艇珍奇**
-- 🏝️ **天界岛**
 - ✨ **天选曜惠**
 - ♟️ **宫廷棋**
 - 🍲 **美食祭**
 - 👺 **地精飞艇**
 - 🗺️ **大泽远征**
-- 🏰 **哈伍德城堡**
 - 💝 **铭心礼遇**
 - 🦌 **猎场盛宴**
-- 🏹 **狩猎季**
-- 📜 **万象秘契**
-- 🚪 **诸界之门**
 - 🍽️ **溯回之筳**
 - 🪞 **掠影之境**
 - ☀️ **永夏远征**
@@ -63,8 +58,7 @@ Powered by [MaaFramework](https://github.com/MaaXYZ/MaaFramework) & [MXU](https:
 ### 📜 其他
 
 - ⛓️ **奥术监牢**
-- 👻 **升级魔魂** - 按保留条件自动升级、分解或锁定魔魂
-- 🔣 **升级符文**
+- 👻 **升级魔魂**
 - ⚰️ **魂墓挑战**
 - 📖 **解锁食谱**
 
@@ -73,16 +67,18 @@ Powered by [MaaFramework](https://github.com/MaaXYZ/MaaFramework) & [MXU](https:
 从 [Releases](https://github.com/Halo629/MaaDxcb3/releases) 下载最新版本，解压后运行 `MaaDxcb3.exe`（目前仅支持 Windows）。
 
 ## 👥 加入社区
+来和大家一起玩耍吧！
 
-用户 QQ 群：[1126541763](https://qm.qq.com/q/XliBHJk5Sa)
+- 💬 **用户 QQ 群**: [1126541763](https://qm.qq.com/q/XliBHJk5Sa)
+  使用问题、功能建议、闲聊摸鱼，欢迎来撩~
 
 ## ☕ 赞助
 
-如果这个项目对你有帮助，欢迎赞助支持：
+如果 MaaDxcb3 帮你省下了不少时间，不妨请开发者喝杯咖啡？
 
-<a href="https://afdian.com/a/Halo629">
-  <img width="200" src="https://pic1.afdiancdn.com/static/img/welcome/button-sponsorme.png">
-</a>
+你的支持是我们持续更新的最大动力！💖
+
+[<img width="200" alt="赞助我们" src="https://pic1.afdiancdn.com/static/img/welcome/button-sponsorme.png">](https://afdian.com/a/Halo629)
 
 ## 📄 License
 
