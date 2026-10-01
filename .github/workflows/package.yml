@@ -100,16 +100,16 @@ jobs:
       - name: Package zip
         shell: pwsh
         run: |
-          Compress-Archive -Path install/* -DestinationPath MaaDxcb3-win-x86_64.zip
+          Compress-Archive -Path install/* -DestinationPath MaaDxcb3-win-x86_64-${{ github.ref_name }}.zip
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: MaaDxcb3-win-x86_64
-          path: MaaDxcb3-win-x86_64.zip
+          path: MaaDxcb3-win-x86_64-${{ github.ref_name }}.zip
 
       - name: Release
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
-          files: MaaDxcb3-win-x86_64.zip
+          files: MaaDxcb3-win-x86_64-${{ github.ref_name }}.zip
