@@ -14,23 +14,33 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 下载 MaaFramework：include/lib 用于编译 agent，bin 用于运行时 DLL（latest 正式版）
+      # 读取依赖版本（本地和 CI 共用同一个版本文件）
+      - name: Read deps versions
+        id: deps
+        shell: pwsh
+        run: |
+          $maafw = (Get-Content deps.versions | Where-Object { $_ -like 'maafw=*' }) -replace 'maafw=', ''
+          $mxu = (Get-Content deps.versions | Where-Object { $_ -like 'mxu=*' }) -replace 'mxu=', ''
+          echo "maafw=$maafw" >> $env:GITHUB_OUTPUT
+          echo "mxu=$mxu" >> $env:GITHUB_OUTPUT
+
+      # 下载 MaaFramework：include/lib 用于编译 agent，bin 用于运行时 DLL
       - name: Download MaaFramework
         uses: robinraju/release-downloader@v1
         with:
           repository: MaaXYZ/MaaFramework
           fileName: "MAA-win-x86_64*.zip"
-          latest: true
+          tag: ${{ steps.deps.outputs.maafw }}
           out-file-path: deps
           extract: true
 
-      # 下载 MXU：前端外壳 mxu.exe（latest 正式版）
+      # 下载 MXU：前端外壳 mxu.exe
       - name: Download MXU
         uses: robinraju/release-downloader@v1
         with:
           repository: MistEO/MXU
           fileName: "*win-x86_64*.zip"
-          latest: true
+          tag: ${{ steps.deps.outputs.mxu }}
           out-file-path: downloads/MXU
           extract: true
 
