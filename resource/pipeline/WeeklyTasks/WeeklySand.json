@@ -90,15 +90,15 @@
 		"box_index": 1,
 		"action": "Click",
 		"post_wait_freezes": {
-			"time": 300,
-			"target": [260, 540, 200, 200],
+			"time": 500,
+			"target": [260, 540, 400, 400],
 			"timeout": 2000
 		},
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
 		"next": [
-			"JadeNotEnoughAndQuit",
+			"HandleJadeNotEnoughDialog",
 			"[JumpBack]WeeklySandBuy",
 			"WeeklySandBuyDone"
 		]
@@ -111,7 +111,7 @@
 		"order_by": "Vertical",
 		"action": "Click",
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [168, 364, 361, 576],
 			"timeout": 2000
 		},
@@ -119,27 +119,9 @@
 		"post_delay": 0,
 		"rate_limit": 0,
 		"next": [
-			"JadeNotEnough",
+			"HasJadeNotEnoughDialog",
 			"[JumpBack]ConfirmButton",
 			"HandleRewardDialog"
-		]
-	},
-	"JadeNotEnough": {
-		"desc": "宝玉不足",
-		"recognition": "OCR",
-		"expected": "宝玉不足|不足",
-		"roi": [178, 512, 353, 147]
-	},
-	"JadeNotEnoughAndQuit": {
-		"desc": "宝玉不足,退出",
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0,
-		"recognition": "And",
-		"all_of": ["JadeNotEnough"],
-		"next": [
-			"[JumpBack]ConfirmButton",
-			"SceneBack"
 		]
 	},
 	"WeeklySandBuyDone": {

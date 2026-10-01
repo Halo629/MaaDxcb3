@@ -380,7 +380,7 @@ static bool findRecipeInList(MaaContext* context, MaaController* ctrl, const std
             std::string detail(MaaStringBufferGet(buf), MaaStringBufferSize(buf));
             auto j = json::parse(detail).value_or(json::value { });
             for (auto& item : j["all"].as_array()) {
-                if (item["text"].as_string().find(name) != std::string::npos) {
+                if (item["text"].as_string() == name) {
                     outBox->x = item["box"][0].as_integer();
                     outBox->y = item["box"][1].as_integer();
                     outBox->width = item["box"][2].as_integer();

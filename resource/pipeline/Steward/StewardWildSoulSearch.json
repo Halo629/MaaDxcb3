@@ -101,26 +101,21 @@
 		"recognition": "And",
 		"all_of": ["InWildSoulPage"],
 		"next": [
-			"WildSoulSearchHasSummon",
-			"WildSoulSearchStartSearch",
+			"[JumpBack]WildSoulSearchSummon",
+			"[JumpBack]WildSoulSearchCollectReborn",
+			"[JumpBack]WildSoulSearchStartSearch",
 			"WildSoulSearchComplete"
 		]
 	},
-	"WildSoulSearchHasSummon": {
-		"desc": "有召唤按钮",
-		"recognition": "And",
-		"all_of": [
-			"InWildSoulPage",
-			{
-				"recognition": "OCR",
-				"expected": "召唤",
-				"roi": [244, 875, 240, 109]
-			}
-		],
-		"box_index": 1,
+	"WildSoulSearchSummon": {
+		"desc": "召唤",
+		"recognition": "OCR",
+		"expected": "召唤",
+		"roi": [244, 875, 240, 109],
 		"action": "Click",
+		"post_delay": 500,
 		"next": [
-			"WildSoulSearchStartSearch",
+			"InWildSoulPage",
 			"[JumpBack]WildSoulSearchClickToCompleteSummon"
 		]
 	},
@@ -128,7 +123,7 @@
 		"recognition": "DirectHit",
 		"action": "Click",
 		"target": [322, 364, 74, 115],
-		"post_delay": 600
+		"post_delay": 1000
 	},
 	"WildSoulSearchStartSearch": {
 		"desc": "点击开始搜索",
@@ -139,11 +134,8 @@
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [260, 540, 200, 200],
-			"timeout": 5000
-		},
-		"next": [
-			"WildSoulSearchComplete"
-		]
+			"timeout": 2000
+		}
 	},
 	"WildSoulSearchComplete": {
 		"desc": "放弃按钮出现，搜索已开始",
@@ -152,6 +144,19 @@
 		"roi": [221, 868, 274, 121],
 		"next": [
 			"SceneBack"
+		]
+	},
+	"WildSoulSearchCollectReborn": {
+		"desc": "领取再生者",
+		"recognition": "OCR",
+		"expected": "待领取|领取",
+		"roi": [576, 212, 84, 24],
+		"only_rec": true,
+		"action": "Click",
+		"target_offset": [0, -30, 0, 0],
+		"next": [
+			"InWildSoulPage",
+			"[JumpBack]WildSoulSearchClickToCompleteSummon"
 		]
 	}
 }

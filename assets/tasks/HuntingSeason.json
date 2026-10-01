@@ -2,7 +2,7 @@
     "task": [
         {
             "name": "HuntingSeason",
-            "label": "🏹狩猎季",
+            "label": "🏹夜之狩猎",
             "entry": "HuntingSeasonStart",
             "group": [
                 "activity_tasks"

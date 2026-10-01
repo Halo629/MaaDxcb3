@@ -50,8 +50,8 @@
 		"order_by": "Score",
 		"action": "Click",
 		"post_wait_freezes": {
-			"time": 300,
-			"target": [158, 514, 413, 152],
+			"time": 500,
+			"target": [158, 514, 413, 400],
 			"timeout": 2000
 		}
 	},

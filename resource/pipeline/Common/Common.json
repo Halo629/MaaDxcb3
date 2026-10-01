@@ -71,6 +71,25 @@
 			"timeout": 2000
 		}
 	},
+	"HandleJadeNotEnoughDialog": {
+		"desc": "关闭宝玉不足弹框",
+		"recognition": "And",
+		"all_of": ["HasJadeNotEnoughDialog"],
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"pre_wait_freezes": {
+			"time": 300,
+			"target": [274, 462, 170, 487],
+			"timeout": 2000
+		},
+		"action": "ClickKey",
+		"key": 111,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [274, 462, 170, 487],
+			"timeout": 2000
+		}
+	},
 	"BattleVictoryDialog": {
 		"desc": "战斗胜利弹框",
 		"recognition": "OCR",

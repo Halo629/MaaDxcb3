@@ -128,9 +128,9 @@
 		"action": "Click",
 		"target_offset": [0, -50, 0, 0],
 		"post_wait_freezes": {
-			"time": 300,
-			"timeout": 2000,
-			"target": [0, 0, 200, 200]
+			"time": 500,
+			"timeout": 3000,
+			"target": [0, 0, 400, 400]
 		}
 	},
 	"SceneEnterShatteredRealm": {
