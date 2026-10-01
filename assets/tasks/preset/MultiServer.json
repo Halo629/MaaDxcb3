@@ -7,18 +7,14 @@
             "task": [
                 {
                     "name": "LaunchGame",
-                    "enabled": true
-                },
-                {
-                    "name": "SwitchServer",
                     "option": {
+                        "SwitchToTargetServer": "Yes",
                         "TargetServerName": {
                             "TargetServerNameValue": "服务器1"
                         },
                         "TargetServerLine": {
                             "TargetServerLineValue": "1线"
-                        },
-                        "SwitchToTargetServer": "Yes"
+                        }
                     },
                     "enabled": true
                 },
@@ -47,15 +43,15 @@
                     "enabled": true
                 },
                 {
-                    "name": "SwitchServer",
+                    "name": "LaunchGame",
                     "option": {
+                        "SwitchToTargetServer": "Yes",
                         "TargetServerName": {
                             "TargetServerNameValue": "服务器2"
                         },
                         "TargetServerLine": {
                             "TargetServerLineValue": "1线"
-                        },
-                        "SwitchToTargetServer": "Yes"
+                        }
                     },
                     "enabled": true
                 },

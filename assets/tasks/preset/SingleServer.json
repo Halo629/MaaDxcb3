@@ -10,10 +10,6 @@
                     "enabled": true
                 },
                 {
-                    "name": "SwitchServer",
-                    "enabled": true
-                },
-                {
                     "name": "DailyRewards",
                     "enabled": true
                 },
