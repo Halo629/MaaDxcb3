@@ -18,6 +18,12 @@ Powered by [MaaFramework](https://github.com/MaaXYZ/MaaFramework) & [MXU](https:
 
 </div>
 
+## 📖 使用须知
+
+这是一个**正在快速迭代**的项目，可能会有一些小 BUG 出没 🐛（我们会努力消灭它们的！）
+
+遇到问题？欢迎来提 [ISSUE](https://github.com/Halo629/MaaDxcb3/issues) 反馈，我们会第一时间处理！后续会陆续支持其他活动任务，敬请期待 ✨
+
 ## ✨ 主要功能
 
 ### 📅 日常任务

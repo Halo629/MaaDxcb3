@@ -6,7 +6,7 @@
 		"action": {"type": "Click"},
 		"pre_delay": 0,
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [0, 0, 100, 100],
 			"timeout": 2000
 		},
