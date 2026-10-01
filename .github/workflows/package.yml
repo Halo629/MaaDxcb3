@@ -14,38 +14,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 动态获取 MaaFramework / MXU 的 latest 正式版 tag（排除 draft）
-      - name: Get latest MaaFramework release
-        id: maafw-latest
-        uses: step-security/github-action-get-latest-release@v0.8.2
-        with:
-          repository: MaaXYZ/MaaFramework
-          excludes: "draft"
-
-      - name: Get latest MXU release
-        id: mxu-latest
-        uses: step-security/github-action-get-latest-release@v0.8.2
-        with:
-          repository: MistEO/MXU
-          excludes: "draft"
-
-      # 下载 MaaFramework：include/lib 用于编译 agent，bin 用于运行时 DLL
+      # 下载 MaaFramework：include/lib 用于编译 agent，bin 用于运行时 DLL（latest 正式版）
       - name: Download MaaFramework
         uses: robinraju/release-downloader@v1
         with:
           repository: MaaXYZ/MaaFramework
           fileName: "MAA-win-x86_64*.zip"
-          tag: ${{ steps.maafw-latest.outputs.release }}
+          latest: true
           out-file-path: deps
           extract: true
 
-      # 下载 MXU：前端外壳 mxu.exe
+      # 下载 MXU：前端外壳 mxu.exe（latest 正式版）
       - name: Download MXU
         uses: robinraju/release-downloader@v1
         with:
           repository: MistEO/MXU
           fileName: "*win-x86_64*.zip"
-          tag: ${{ steps.mxu-latest.outputs.release }}
+          latest: true
           out-file-path: downloads/MXU
           extract: true
 
