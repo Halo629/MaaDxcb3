@@ -71,6 +71,8 @@ jobs:
           Copy-Item interface.json install/ -Force
           Copy-Item resource install/ -Recurse -Force
           Copy-Item assets install/ -Recurse -Force
+          Copy-Item README.md install/ -Force
+          Copy-Item LICENSE install/ -Force
 
           # 4. agent（动态编译的 cpp-service）
           New-Item install/agent -ItemType Directory -Force
