@@ -669,7 +669,7 @@
 	"HasJadeNotEnoughDialog": {
 		"desc": "判断是否有宝玉不足弹窗",
 		"recognition": "OCR",
-		"roi": [295, 544, 126, 93],
+		"roi": [285, 562, 160, 62],
 		"expected": "宝玉不足",
 		"pre_delay": 0,
 		"post_delay": 0,

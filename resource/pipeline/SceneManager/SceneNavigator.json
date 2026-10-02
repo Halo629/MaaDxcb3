@@ -256,9 +256,9 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"post_wait_freezes": {
-			"time": 400,
+			"time": 500,
 			"timeout": 2000,
-			"target": [0, 0, 200, 200]
+			"target": [18, 263, 684, 674]
 		},
 		"next": [
 			"[JumpBack]HandlePastActivitySettlement",
@@ -293,9 +293,11 @@
 		],
 		"box_index": 1,
 		"action": "Click",
-		"next": [
-			"InGamePlayGrowthPage"
-		]
+		"post_wait_freezes": {
+			"time": 500,
+			"timeout": 2000,
+			"target": [18, 263, 684, 674]
+		}
 	},
 	"SceneEnterGamePlayLimited": {
 		"desc": "从任意界面回到更多玩法-限时界面",
@@ -321,12 +323,14 @@
 		],
 		"box_index": 1,
 		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"timeout": 2000,
+			"target": [18, 263, 684, 674]
+		},
 		"pre_delay": 0,
 		"post_delay": 0,
-		"rate_limit": 0,
-		"next": [
-			"InGamePlayLimitedPage"
-		]
+		"rate_limit": 0
 	},
 	"SceneEnterGamePlayDaily": {
 		"desc": "从任意界面回到更多玩法-日常界面",
@@ -352,12 +356,14 @@
 		],
 		"box_index": 1,
 		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"timeout": 2000,
+			"target": [18, 263, 684, 674]
+		},
 		"pre_delay": 0,
 		"post_delay": 0,
-		"rate_limit": 0,
-		"next": [
-			"InGamePlayDailyPage"
-		]
+		"rate_limit": 0
 	},
 	"SceneEnterSoulTomb": {
 		"desc": "从任意界面回灵魂之墓界面",
@@ -447,11 +453,13 @@
 		],
 		"box_index": 1,
 		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"timeout": 2000,
+			"target": [18, 263, 684, 674]
+		},
 		"pre_delay": 0,
-		"post_delay": 0,
-		"next": [
-			"InGamePlayPermanentPage"
-		]
+		"post_delay": 0
 	},
 	"SceneEnterSteward": {
 		"desc": "从任意界面回到管家界面",
@@ -473,14 +481,10 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"timeout": 2000,
 			"target": [262, 265, 243, 255]
-		},
-		"next": [
-			"InStewardPage",
-			"_SceneEnterStewardPage"
-		]
+		}
 	},
 	"SceneEnterSpiritSummonTome": {
 		"desc": "从任意界面回到唤灵之典卷轴界面",
@@ -501,9 +505,9 @@
 		"end": [666, 1065],
 		"duration": 100,
 		"post_wait_freezes": {
-			"time": 200,
-			"target": [162, 1026, 390, 152],
-			"timeout": 2000
+			"time": 500,
+			"timeout": 2000,
+			"target": [18, 263, 684, 674]
 		}
 	},
 	"_SceneEnterSpiritSummonTomePage": {
@@ -549,7 +553,7 @@
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [186, 403, 326, 569],
-			"timeout": 5000
+			"timeout": 2000
 		}
 	},
 	"SoulMasterGuideGotoWeeklyPage": {
@@ -561,7 +565,7 @@
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [186, 403, 326, 569],
-			"timeout": 5000
+			"timeout": 2000
 		}
 	},
 	"_SceneEnterSoulMasterGuidePage": {
@@ -572,9 +576,11 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"next": [
-			"InSoulMasterGuidePage"
-		]
+		"post_wait_freezes": {
+			"time": 500,
+			"timeout": 2000,
+			"target": [18, 263, 684, 674]
+		}
 	},
 	"SceneEnterTreasureMapPage": {
 		"desc": "从任意界面回到藏宝图界面",
@@ -593,9 +599,11 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"next": [
-			"InTreasureMapPage"
-		]
+		"post_wait_freezes": {
+			"time": 500,
+			"timeout": 2000,
+			"target": [18, 263, 684, 674]
+		}
 	},
 	"SceneEnterSelectDestination": {
 		"desc": "从任意界面进入选择目的地界面",
@@ -649,7 +657,7 @@
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [179, 224, 369, 732],
-			"timeout": 5000
+			"timeout": 2000
 		},
 		"pre_delay": 0,
 		"post_delay": 0,
@@ -662,7 +670,7 @@
 		"all_of": ["SelectDestinationPageHasOriginWorld"],
 		"action": "Click",
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [45, 1023, 639, 29],
 			"timeout": 2000
 		},

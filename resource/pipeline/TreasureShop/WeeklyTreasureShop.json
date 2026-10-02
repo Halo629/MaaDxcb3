@@ -6,6 +6,7 @@
 		"rate_limit": 0,
 		"max_hit": 1,
 		"next": [
+			"HandleJadeNotEnoughDialog",
 			"[JumpBack]WeeklyTreasureShopBuyWeeklyFreeJade",
 			"[JumpBack]WeeklyTreasureShopBuyScroll",
 			"[JumpBack]WeeklyTreasureShopBuyHeraldicChest",
@@ -56,6 +57,7 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"next": [
+			"HasJadeNotEnoughDialog",
 			"TreasureShopBuyConfirm"
 		]
 	},
@@ -78,6 +80,7 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"next": [
+			"HasJadeNotEnoughDialog",
 			"TreasureShopBuyConfirm"
 		]
 	},
@@ -100,6 +103,7 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"next": [
+			"HasJadeNotEnoughDialog",
 			"TreasureShopBuyConfirm"
 		]
 	},

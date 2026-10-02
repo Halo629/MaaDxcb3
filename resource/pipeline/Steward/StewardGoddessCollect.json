@@ -15,10 +15,10 @@
 	"DailyGoddessCollectEntry": {
 		"desc": "在主页有女神像",
 		"recognition": "And",
-		"all_of": ["HasGoddessIcon"],
-		"pre_delay": 0,
-		"post_delay": 0,
-		"post_wait_freezes": 200,
+		"all_of": ["InCampfire", "HasGoddessIcon"],
+		"pre_delay": 200,
+		"post_delay": 500,
+		"box_index": 1,
 		"action": "Click",
 		"next": [
 			"[JumpBack]DailyGoddessQuickCollect",
