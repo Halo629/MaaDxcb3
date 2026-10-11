@@ -16,15 +16,15 @@
 		"all_of": [
 			{
 				"recognition": "OCR",
-				"roi": [240, 539, 225, 106],
-				"expected": "确认退出"
+				"roi": [212, 559, 268, 71],
+				"expected": "确认退出游戏吗|确认退出"
 			},
 			"CancelButton"
 		],
 		"box_index": 1,
 		"pre_delay": 0,
 		"action": "Click",
-		"post_delay": 500
+		"post_delay": 1000
 	},
 	"__ScenePrivateAnyExit": {
 		"desc": "按 ESC 键退出当前界面",
@@ -33,7 +33,17 @@
 			"type": "ClickKey",
 			"param": {"key": 111}
 		},
-		"post_delay": 200
+		"post_delay": 500
+	},
+	"__ScenePrivateAnyExitOnce": {
+		"desc": "按一次 ESC 键退出当前界面",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"action": {
+			"type": "ClickKey",
+			"param": {"key": 111}
+		},
+		"post_delay": 500
 	},
 	"__ScenePrivateWaitBlackScreen": {
 		"recognition": {

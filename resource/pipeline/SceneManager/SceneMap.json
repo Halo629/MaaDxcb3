@@ -50,7 +50,21 @@
 		"rate_limit": 0,
 		"action": "Click",
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
+			"target": [193, 198, 371, 771],
+			"timeout": 2000
+		}
+	},
+	"SwitchMapListDescendingSort": {
+		"desc": "切换地图列表为倒序",
+		"recognition": "OCR",
+		"expected": "正序",
+		"roi": [565, 52, 104, 34],
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
 			"target": [193, 198, 371, 771],
 			"timeout": 2000
 		}
@@ -77,6 +91,21 @@
 		"recognition": "TemplateMatch",
 		"template": "ferdinand.png",
 		"roi": [478, 158, 113, 849],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"MapOfFerdinand": {
+		"desc": "费迪南德所在地图",
+		"recognition": "And",
+		"all_of": [
+			"FerdinandPos",
+			{
+				"recognition": "OCR",
+				"roi": "FerdinandPos",
+				"roi_offset": [-210, 58, 132, -35]
+			}
+		],
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0

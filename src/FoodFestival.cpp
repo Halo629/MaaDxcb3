@@ -11,8 +11,6 @@ struct FoodInfo
     std::string name;
     MaaRect box;
     int quantity = 0;
-    int perClick = 0; // 每次点击贡献值
-    int donated = 0;  // 本次已捐赠次数
 };
 
 // OCR [334,196,71,40] 识别 "+x" 获取 per-click 值
@@ -47,7 +45,7 @@ static int getCurrentContribution(MaaContext* context)
     return val;
 }
 
-// 识别饱腹度: 使用 CurrentSatiety 任务 (SatietyColor ColorMatch + OCR "x/y") 取 x
+// 识别饱腹度
 static int getCurSatiety(MaaContext* context)
 {
     ScreenCap cap(context);
@@ -56,29 +54,15 @@ static int getCurSatiety(MaaContext* context)
     if (doRecognition(context, cap.img, "CurrentSatiety", "{}", nullptr, buf)) {
         std::string detail(MaaStringBufferGet(buf), MaaStringBufferSize(buf));
         auto j = json::parse(detail).value_or(json::value { });
-
-        // CurrentSatiety 是 And 识别，detail 是子识别结果数组；取 OCR 子结果里的 "x/y"
         std::string text;
-        if (j.is_array()) {
-            for (auto& sub : j.as_array()) {
-                if (!sub.is_object() || sub.get("algorithm", json::value("")).as_string() != "OCR") {
-                    continue;
-                }
-                auto d = sub.get("detail", json::value { });
-                if (auto& best = d["best"]; best.is_object()) {
-                    text = best["text"].as_string();
-                }
-                else if (auto& all = d["all"]; all.is_array() && !all.empty()) {
-                    text = all[0]["text"].as_string();
-                }
-                break;
-            }
+        if (auto& best = j["best"]; best.is_object()) {
+            text = best["text"].as_string();
+        }
+        else if (auto& all = j["all"]; all.is_array() && !all.empty()) {
+            text = all[0]["text"].as_string();
         }
 
-        auto slash = text.find('/');
-        if (slash != std::string::npos) {
-            val = std::atoi(text.substr(0, slash).c_str());
-        }
+        val = std::atoi(text.c_str());
     }
     MaaStringBufferDestroy(buf);
     return val;
@@ -158,7 +142,7 @@ static std::string refineFoodName(MaaContext* context, const MaaImageBuffer* img
     snprintf(
         ocrJson,
         sizeof(ocrJson),
-        R"({"refine":{"recognition":"OCR","roi":[%d,%d,%d,%d],"only_rec":true}})",
+        R"({"refine":{"recognition":"OCR","roi":[%d,%d,%d,%d],"replace":[["燉","炖"]],"only_rec":true}})",
         colorBox.x - 2,
         colorBox.y - 2,
         colorBox.width + 4,
@@ -194,7 +178,7 @@ static std::vector<FoodInfo> getCanContributeFoodList(MaaContext* context)
     ScreenCap cap(context);
     for (auto& roi : kCellRois) {
         char json[256];
-        snprintf(json, sizeof(json), R"({"FoodCell":{"recognition":"OCR","roi":[%d,%d,%d,%d]}})", roi.x, roi.y, roi.width, roi.height);
+        snprintf(json, sizeof(json), R"({"FoodCell":{"recognition":"OCR","roi":[%d,%d,%d,%d],"replace":[["燉","炖"]]}})", roi.x, roi.y, roi.width, roi.height);
 
         auto buf = MaaStringBufferCreate();
         MaaRect dummy;
@@ -260,8 +244,8 @@ MaaBool foodFestivalDonate(
     const int targetSatiety = 50;
 
     // 读取当前饱腹度
-    int curSatiety = getCurSatiety(context);
-    if (curSatiety >= targetSatiety) {
+    int initialSatiety = getCurSatiety(context);
+    if (initialSatiety >= targetSatiety) {
         return true;
     }
 
@@ -273,6 +257,7 @@ MaaBool foodFestivalDonate(
     }
 
     // 2. 逐个食物捐赠
+    int curSatiety = initialSatiety;
     for (auto& foodInfo : foodList) {
         if (curSatiety >= targetSatiety) {
             break;
@@ -281,28 +266,18 @@ MaaBool foodFestivalDonate(
             continue;
         }
 
-        // 点击食物
-        auto* ctrl = MaaTaskerGetController(MaaContextGetTasker(context));
-        auto cid = MaaControllerPostClick(ctrl, foodInfo.box.x + foodInfo.box.width / 2, foodInfo.box.y + foodInfo.box.height / 2 - 50);
-        MaaControllerWait(ctrl, cid);
-        Sleep(500);
-
-        // 第一次点击获取单次贡献值，getCurrentContribution 显示当前食物累加后的值
-        foodInfo.perClick = getCurrentContribution(context);
-        int beforeFoodSatiety = curSatiety;
-        curSatiety += foodInfo.perClick;
-        int clicks = 1;
-
-        // 持续点击直到上限或达标
-        while (curSatiety < targetSatiety && clicks < foodInfo.quantity) {
-            ctrl = MaaTaskerGetController(MaaContextGetTasker(context));
-            cid = MaaControllerPostClick(ctrl, foodInfo.box.x + foodInfo.box.width / 2, foodInfo.box.y + foodInfo.box.height / 2 - 50);
+        // 逐个点击该食物，数量上限内达标即停
+        for (int i = 0; i < foodInfo.quantity; ++i) {
+            auto* ctrl = MaaTaskerGetController(MaaContextGetTasker(context));
+            auto cid = MaaControllerPostClick(ctrl, foodInfo.box.x + foodInfo.box.width / 2, foodInfo.box.y + foodInfo.box.height / 2 - 50);
             MaaControllerWait(ctrl, cid);
             Sleep(300);
-            ++clicks;
 
-            int curVal = getCurrentContribution(context);
-            curSatiety = beforeFoodSatiety + curVal;
+            // 当前饱腹度 = 进入时饱腹度 + 累计值
+            curSatiety = initialSatiety + getCurrentContribution(context);
+            if (curSatiety >= targetSatiety) {
+                break;
+            }
         }
     }
     return true;

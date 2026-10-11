@@ -51,11 +51,22 @@
 		],
 		"action": "Custom",
 		"custom_action": "FoodFestivalDonate",
+		"timeout": 5000,
 		"next": [
 			"HandleRewardDialog",
+			"NotSelectFood",
 			"[JumpBack]ConfirmButton",
 			"[JumpBack]FoodFestivalFoodGrant"
+		],
+		"on_error": [
+			"ActivityError"
 		]
+	},
+	"NotSelectFood": {
+		"desc": "未选择食物",
+		"recognition": "OCR",
+		"expected": "尚未选取食物|未选取",
+		"roi": [267, 525, 183, 38]
 	},
 	"FoodFestivalProduceFood": {
 		"desc": "美食祭当前食物不足,需要生产食物",
@@ -98,14 +109,27 @@
 	},
 	"FoodFestivalFoodGrant": {
 		"desc": "给予",
-		"recognition": "OCR",
-		"expected": "给予",
-		"roi": [301, 1065, 111, 76],
+		"recognition": "And",
+		"all_of": [
+			{
+				"desc": "给予获得盘子才点击给予",
+				"recognition": "OCR",
+				"expected": "[1-9]\\d*",
+				"roi": [374, 946, 58, 37],
+				"only_rec": true
+			},
+			{
+				"recognition": "OCR",
+				"expected": "给予",
+				"roi": [301, 1065, 111, 76]
+			}
+		],
+		"box_index": 1,
 		"action": "Click",
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [301, 1065, 111, 76],
-			"timeout": 3000
+			"timeout": 2000
 		}
 	},
 	"InBarrelManDialogPage": {
@@ -150,16 +174,9 @@
 	},
 	"CurrentSatiety": {
 		"desc": "获取当前饱腹度",
-		"recognition": "And",
-		"all_of": [
-			"SatietyColor",
-			{
-				"recognition": "OCR",
-				"roi": "SatietyColor",
-				"roi_offset": [-2, -2, 4, 4],
-				"expected": ["\\d+/\\d+"],
-				"only_rec": true
-			}
-		]
+		"recognition": "OCR",
+		"roi": [332, 235, 76, 22],
+		"expected": ["\\d+/\\d+"],
+		"only_rec": true
 	}
 }

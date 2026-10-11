@@ -224,7 +224,7 @@ static void battleCry(MaaContext* context, int cryColumn)
     if (col.beginX != 0 || col.beginY != 0) {
         auto s = MaaControllerPostSwipe(ctrl, col.beginX, col.beginY, col.endX, col.endY, col.duration);
         MaaControllerWait(ctrl, s);
-        Sleep(1500);
+        Sleep(2000);
     }
 }
 

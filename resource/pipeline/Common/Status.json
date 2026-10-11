@@ -365,7 +365,10 @@
 		"roi": [301, 68, 122, 57],
 		"pre_delay": 0,
 		"post_delay": 0,
-		"rate_limit": 0
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "FailTask",
+		"focus": {"Node.Recognition.Succeeded": "未加入公会"}
 	},
 	"InGuildChallengePage": {
 		"desc": "判断是否在公会挑战页面",

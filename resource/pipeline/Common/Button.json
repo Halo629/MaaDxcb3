@@ -55,6 +55,19 @@
 			"timeout": 2000
 		}
 	},
+	"LeaveButton": {
+		"desc": "通用离开按钮",
+		"recognition": "TemplateMatch",
+		"roi": [0, 400, 720, 820],
+		"template": "button/leave_btn.png",
+		"order_by": "Score",
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [158, 514, 413, 400],
+			"timeout": 2000
+		}
+	},
 	"CollapseSideBar": {
 		"desc": "收起侧边栏",
 		"recognition": "And",

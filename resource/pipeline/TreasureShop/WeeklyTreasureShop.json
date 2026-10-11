@@ -58,7 +58,8 @@
 		"post_delay": 0,
 		"next": [
 			"HasJadeNotEnoughDialog",
-			"TreasureShopBuyConfirm"
+			"HandleRewardDialog",
+			"[JumpBack]TreasureShopBuyConfirm"
 		]
 	},
 	"WeeklyTreasureShopBuyHeraldicChest": {
@@ -81,7 +82,8 @@
 		"post_delay": 0,
 		"next": [
 			"HasJadeNotEnoughDialog",
-			"TreasureShopBuyConfirm"
+			"HandleRewardDialog",
+			"[JumpBack]TreasureShopBuyConfirm"
 		]
 	},
 	"WeeklyTreasureShopBuyOldCovenant": {
@@ -104,7 +106,8 @@
 		"post_delay": 0,
 		"next": [
 			"HasJadeNotEnoughDialog",
-			"TreasureShopBuyConfirm"
+			"HandleRewardDialog",
+			"[JumpBack]TreasureShopBuyConfirm"
 		]
 	},
 	"WeeklyTreasureShopDone": {
@@ -113,7 +116,10 @@
 		"all_of": ["InWeeklyTreasureShop"],
 		"pre_delay": 0,
 		"post_delay": 0,
-		"rate_limit": 0
+		"rate_limit": 0,
+		"next": [
+			"PressEsc"
+		]
 	},
 	"WeeklyTreasureShopEntry": {
 		"desc": "打开珍藏商店每周礼包购买页面",

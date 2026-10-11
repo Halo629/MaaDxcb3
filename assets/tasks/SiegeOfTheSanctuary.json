@@ -1,0 +1,12 @@
+{
+    "task": [
+        {
+            "name": "SiegeOfTheSanctuary",
+            "label": "🏰庇护所之围",
+            "entry": "SiegeOfTheSanctuaryStart",
+            "group": [
+                "activity_tasks"
+            ]
+        }
+    ]
+}

@@ -29,7 +29,7 @@
 		"recognition": "DirectHit",
 		"action": "ClickKey",
 		"key": 111,
-		"post_delay": 200
+		"post_delay": 500
 	},
 	"ClickBlankArea1": {
 		"desc": "点击任意空白位置关闭",
@@ -88,7 +88,11 @@
 			"time": 500,
 			"target": [274, 462, 170, 487],
 			"timeout": 2000
-		}
+		},
+		"next": [
+			"PressEsc"
+		],
+		"focus": {"Node.Recognition.Succeeded": "宝玉不足"}
 	},
 	"BattleVictoryDialog": {
 		"desc": "战斗胜利弹框",
@@ -227,7 +231,7 @@
 		"all_of": ["InDialoguePage"],
 		"action": "Click",
 		"pre_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [14, 1020, 701, 249],
 			"timeout": 2000
 		}

@@ -103,9 +103,6 @@
 			"time": 500,
 			"target": [144, 386, 459, 563],
 			"timeout": 3000
-		},
-		"next": [
-			"HandleRewardDialog"
-		]
+		}
 	}
 }

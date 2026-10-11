@@ -232,5 +232,22 @@
 			"CancelButton"
 		],
 		"focus": {"Node.Recognition.Succeeded": "活动提醒:请选择奖励后再开始任务"}
+	},
+	"BranchActivityReachedMaxLevel": {
+		"desc": "树枝活动已达最大等级",
+		"recognition": "And",
+		"all_of": [
+			"InBranchActivityPage",
+			{
+				"recognition": "OCR",
+				"expected": "已达最大等级|最大等级",
+				"roi": [283, 241, 158, 35],
+				"only_rec": true
+			}
+		],
+		"focus": {"Node.Recognition.Succeeded": "活动提醒:已达最大等级"},
+		"next": [
+			"BranchActivityDone"
+		]
 	}
 }

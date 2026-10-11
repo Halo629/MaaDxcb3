@@ -22,8 +22,8 @@
 			{
 				"recognition": "ColorMatch",
 				"method": 40,
-				"lower": [20, 50, 50],
-				"upper": [35, 255, 255],
+				"lower": [19, 150, 200],
+				"upper": [35, 200, 255],
 				"roi": "__ScenePrivateStewardHasShrineWorkshop",
 				"count": 20
 			}

@@ -4,11 +4,7 @@
 		"expected": "返回冒险|冒险",
 		"roi": [8, 1029, 122, 149],
 		"action": "Click",
-		"post_delay": 3000,
-		"next": [
-			"InMap",
-			"__ScenePrivatePressEscUntilExitGame"
-		]
+		"post_delay": 3000
 	},
 	"__ScenePrivateReturnSecretRealm": {
 		"recognition": "OCR",

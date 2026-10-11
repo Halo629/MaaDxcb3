@@ -228,6 +228,20 @@ enum class MapIndex
     Map_Gremid,        // 格雷米德
     FurnaceCity        // 熔炉之城
 };
+
+struct ShopItemConfig
+{
+    const char* foundKey;   // 已找到（购买完成）标志在 attach 中的键名
+    const char* enabledKey; // 是否购买的配置开关在 attach 中的键名
+    uint32_t bit;           // 在掩码中的位
+};
+
+constexpr std::array<ShopItemConfig, 4> shopItemList = {{
+    {"timeBondFragmentFound",  "timeBondFragmentEnabled",  0U},
+    {"starsprigTwigFound",     "starsprigTwigEnabled",     1U},
+    {"ouroborosRingFound",     "ouroborosRingEnabled",     2U},
+    {"heartbeatRubbingFound",  "heartbeatRubbingEnabled",  3U}}};
+
 extern std::unordered_map<std::string, MapIndex> mapTable;
 std::string getMapName(MapIndex idx);
 

@@ -4,13 +4,25 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
+		"anchor": {"ActivityGoto": "RetraceBanquetEntry"},
 		"next": [
 			"[JumpBack]RetraceBanquetDailyPageCollectEntry",
 			"[JumpBack]RetraceBanquetTaskEnable",
 			"RetraceBanquetCollect",
-			"[JumpBack]__SceneGamePlayLimitedEntryRetraceBanquet",
-			"[JumpBack]SceneEnterGamePlayLimited"
+			"[JumpBack]ActivityLimitedEnter"
 		]
+	},
+	"RetraceBanquetEntry": {
+		"desc": "限时页面进入溯回之筳",
+		"recognition": "TemplateMatch",
+		"template": "activities/RetraceBanquet/RetraceBanquetIcon.png",
+		"roi": [15, 69, 701, 997],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [15, 69, 701, 997],
+			"timeout": 2000
+		}
 	},
 	"RetraceBanquetTaskEnable": {
 		"desc": "活动未完成任务激活",
@@ -83,7 +95,7 @@
 		]
 	},
 	"RetraceBanquetThisTermPageCollectEntry": {
-		"desc": "荣光复铸本期页面领取入口",
+		"desc": "溯回之筳本期页面领取入口",
 		"recognition": "OCR",
 		"expected": "本期",
 		"roi": [132, 1020, 468, 89],

@@ -33,7 +33,7 @@ static std::string refineFoodName(MaaContext* context, const MaaImageBuffer* img
     snprintf(
         ocrJson,
         sizeof(ocrJson),
-        R"({"refine":{"recognition":"OCR","roi":[%d,%d,%d,%d],"only_rec":true}})",
+        R"({"refine":{"recognition":"OCR","roi":[%d,%d,%d,%d],"replace":[["燉","炖"]],"only_rec":true}})",
         colorBox.x - 2,
         colorBox.y - 2,
         colorBox.width + 4,
@@ -59,7 +59,14 @@ static std::string refineFoodName(MaaContext* context, const MaaImageBuffer* img
 static void scanCell(MaaContext* context, const MaaImageBuffer* img, const MaaRect& roi, bool& hasUnlockedRecipe, bool& hasNew)
 {
     char json[256];
-    snprintf(json, sizeof(json), R"({"cell":{"recognition":"OCR","roi":[%d,%d,%d,%d]}})", roi.x, roi.y, roi.width, roi.height);
+    snprintf(
+        json,
+        sizeof(json),
+        R"({"cell":{"recognition":"OCR","roi":[%d,%d,%d,%d],"replace":[["燉","炖"]]}})",
+        roi.x,
+        roi.y,
+        roi.width,
+        roi.height);
 
     auto buf = MaaStringBufferCreate();
     MaaRect dummy;
@@ -380,7 +387,24 @@ static bool findRecipeInList(MaaContext* context, MaaController* ctrl, const std
             std::string detail(MaaStringBufferGet(buf), MaaStringBufferSize(buf));
             auto j = json::parse(detail).value_or(json::value { });
             for (auto& item : j["all"].as_array()) {
-                if (item["text"].as_string() == name) {
+                std::string text = item["text"].as_string();
+                if (text.empty()) {
+                    continue;
+                }
+                if (text != name) {
+                    // 二次识别（颜色+OCR）提高准确率
+                    MaaRect itemBox = {
+                        item["box"][0].as_integer(),
+                        item["box"][1].as_integer(),
+                        item["box"][2].as_integer(),
+                        item["box"][3].as_integer(),
+                    };
+                    std::string refined = refineFoodName(context, cap.img, itemBox);
+                    if (!refined.empty()) {
+                        text = refined;
+                    }
+                }
+                if (text == name) {
                     outBox->x = item["box"][0].as_integer();
                     outBox->y = item["box"][1].as_integer();
                     outBox->width = item["box"][2].as_integer();
@@ -467,7 +491,7 @@ MaaBool cookSpecifiedFood(
         postWaitFreezes(context);
         adjustQuantity(context, targetCount);
         MaaContextRunTask(context, "CookingBtn", "{}");
-        LogUtils::log(fmt("烹饪食物: [%1] 烹饪完成", recipeName), "#22c55e");
+        LogUtils::log(fmt("烹饪食物: [%1] 烹饪完成，生产 %2 个", recipeName, targetCount), "#22c55e");
         return true;
     }
 
@@ -493,7 +517,7 @@ MaaBool cookSpecifiedFood(
 
     selectAllIngredients(context, ctrl, ingIt->second, recipeName);
     MaaContextRunTask(context, "CookingBtn", "{}");
-    LogUtils::log(fmt("烹饪食物: [%1] 已解锁", recipeName), "#22c55e");
+    LogUtils::log(fmt("烹饪食物: [%1] 已解锁（还需生产 %2 个）", recipeName, targetCount - 1), "#22c55e");
 
     if (targetCount <= 1) {
         return true;

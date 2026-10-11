@@ -1,178 +1,642 @@
 {
-    "CarriageShopBuyTimeBondFragmentEntry": {
-        "desc": "羁时碎片-升格之路页面购买",
-        "recognition": "And",
-        "all_of": [
-            "InCarriageShop"
-        ],
-        "max_hit": 1,
-        "enabled": false,
-        "next": [
-            "CarriageShopBuyOnAscensionPage",
-            "[JumpBack]CarriageShopClickAscensionTab",
-            "[JumpBack]CarriageShopSwipeLeft",
-            "AscensionPageDone"
-        ]
-    },
-    "CarriageShopClickAscensionTab": {
-        "desc": "点击升格之路标签",
-        "recognition": "And",
-        "all_of": [
-            "CarriageShopHasAscensionTab"
-        ],
-        "action": "Click",
-        "post_wait_freezes": {
-            "time": 300,
-            "target": [
-                160,
-                580,
-                391,
-                473
-            ],
-            "timeout": 2000
-        }
-    },
-    "CarriageShopBuyOnAscensionPage": {
-        "desc": "已在升格之路页面",
-        "recognition": "And",
-        "all_of": [
-            "InCarriageShopAscensionPage"
-        ],
-        "next": [
-            "CarriageShopBuyTimeBondFragmentItem",
-            "[JumpBack]__AscensionPageSwipeUp",
-            "AscensionPageDone"
-        ]
-    },
-    "AscensionPageDone": {
-        "desc": "升格之路页已完成",
-        "recognition": "And",
-        "all_of": [
-            "InCarriageShopAscensionPage"
-        ],
-        "pre_delay": 0,
-        "post_delay": 0,
-        "rate_limit": 0
-    },
-    "CarriageShopTimeBondFragmentFound": {
-        "desc": "找到羁时碎片",
-        "pre_delay": 0,
-        "post_delay": 0,
-        "rate_limit": 0,
-        "recognition": "TemplateMatch",
-        "template": "carriage_shop/TimeBondFragment.png",
-        "roi": [
-            67,
-            395,
-            584,
-            580
-        ],
-        "threshold": 0.8
-    },
-    "OuroborosRingNotEnough": {
-        "desc": "衔尾之环不足",
-        "recognition": "And",
-        "all_of": [
-            "CarriageShopTimeBondFragmentFound",
-            {
-                "recognition": "ColorMatch",
-                "method": 40,
-                "lower": [
-                    0,
-                    80,
-                    80
-                ],
-                "upper": [
-                    10,
-                    255,
-                    255
-                ],
-                "roi": "CarriageShopTimeBondFragmentFound",
-                "roi_offset": [
-                    26,
-                    150,
-                    -10,
-                    -30
-                ],
-                "count": 10
-            }
-        ],
-        "pre_delay": 0,
-        "post_delay": 0,
-        "rate_limit": 0
-    },
-    "CarriageShopBuyTimeBondFragmentItem": {
-        "desc": "购买羁时碎片",
-        "recognition": "And",
-        "all_of": [
-            "CarriageShopTimeBondFragmentFound"
-        ],
-        "pre_delay": 0,
-        "post_delay": 0,
-        "rate_limit": 0,
-        "next": [
-            "OuroborosRingNotEnough",
-            "[JumpBack]CarriageShopTryBuyTimeBondFragmentItem",
-            "CarriageShopBuyItemDone"
-        ]
-    },
-    "CarriageShopTryBuyTimeBondFragmentItem": {
-        "desc": "购买羁时碎片",
-        "recognition": "And",
-        "all_of": [
-            "CarriageShopTimeBondFragmentFound"
-        ],
-        "pre_delay": 0,
-        "post_delay": 0,
-        "rate_limit": 0,
-        "action": "Click",
-        "target": "CarriageShopTimeBondFragmentFound",
-        "target_offset": [
-            26,
-            150,
-            -10,
-            -30
-        ],
-        "post_wait_freezes": {
-            "time": 300,
-            "target": [
-                236,
-                380,
-                259,
-                528
-            ],
-            "timeout": 2000
-        },
-        "next": [
-            "CarriageShopBatchPurchaseTipBoxHandle",
-            "CarriageShopBuyItemDone"
-        ]
-    },
-    "__AscensionPageSwipeUp": {
-        "desc": "升格之路页向上滑动查看更多",
-        "action": "Swipe",
-        "begin": [
-            450,
-            850
-        ],
-        "end": [
-            450,
-            700
-        ],
-        "duration": 100,
-        "max_hit": 5,
-        "post_wait_freezes": {
-            "time": 300,
-            "target": [
-                97,
-                418,
-                532,
-                634
-            ],
-            "timeout": 3000
-        },
-        "pre_delay": 0,
-        "post_delay": 0,
-        "rate_limit": 0
-    }
+	"CarriageShopAscensionPageBuy": {
+		"desc": "升格之路页面购买",
+		"recognition": "And",
+		"all_of": ["InCarriageShop"],
+		"max_hit": 1,
+		"next": [
+			"[JumpBack]AscensionPageShopAssistantInit",
+			"CarriageShopBuyOnAscensionPage",
+			"[JumpBack]SceneEnterCarriageShopAscensionPage"
+		]
+	},
+	"AscensionPageShopAssistantInit": {
+		"desc": "清除升格之路页面的购买信息,自定义识别使用该信息判断物品是否买完",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InCarriageShopAscensionPage"],
+		"action": "Custom",
+		"custom_action": "ShopAssistant",
+		"attach": {
+			"initFlag": true,
+			"timeBondFragmentEnabled": true,
+			"starsprigTwigEnabled": true,
+			"ouroborosRingEnabled": true,
+			"heartbeatRubbingEnabled": true
+		}
+	},
+	"CarriageShopBuyOnAscensionPage": {
+		"desc": "在升格之路页面购买商品",
+		"recognition": "And",
+		"all_of": ["InCarriageShopAscensionPage"],
+		"next": [
+			"CarriageShopShopFinishCheck",
+			"[JumpBack]CarriageShopBuyTimeBondFragmentStart",
+			"[JumpBack]CarriageShopBuyStarsprigTwigStart",
+			"[JumpBack]CarriageShopBuyOuroborosRingStart",
+			"[JumpBack]CarriageShopBuyHeartbeatRubbingStart",
+			"[JumpBack]CarriageShopTimeBondFragmentSoldout",
+			"[JumpBack]CarriageShopStarsprigTwigSoldout",
+			"[JumpBack]CarriageShopOuroborosRingSoldout",
+			"[JumpBack]CarriageShopHeartbeatRubbingSoldout",
+			"[JumpBack]__AscensionPageSwipeUp",
+			"CarriageShopBuyItemDone"
+		]
+	},
+	"CarriageShopTimeBondFragmentFound": {
+		"desc": "找到羁时碎片",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "items/TimeBondFragment.png",
+		"roi": [61, 402, 604, 701],
+		"threshold": 0.75
+	},
+	"CarriageShopStarsprigTwigFound": {
+		"desc": "找到云汉短枝",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "items/StarsprigTwig.png",
+		"roi": [61, 402, 604, 701],
+		"threshold": 0.75
+	},
+	"CarriageShopOuroborosRingFound": {
+		"desc": "找到衔尾之环",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "items/OuroborosRing.png",
+		"roi": [61, 402, 604, 701],
+		"threshold": 0.75
+	},
+	"CarriageShopHeartbeatRubbingFound": {
+		"desc": "找到心音拓片",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "items/HeartbeatRubbing.png",
+		"roi": [61, 402, 604, 701],
+		"threshold": 0.75
+	},
+	"CarriageShopStarsprigTwigRemaining": {
+		"desc": "衔尾之环剩余数量",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"CarriageShopStarsprigTwigFound",
+			{
+				"recognition": "OCR",
+				"roi": "CarriageShopStarsprigTwigFound",
+				"roi_offset": [80, -30, -75, -100],
+				"only_rec": true
+			}
+		]
+	},
+	"CarriageShopOuroborosRingRemaining": {
+		"desc": "衔尾之环剩余数量",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"CarriageShopOuroborosRingFound",
+			{
+				"recognition": "OCR",
+				"roi": "CarriageShopOuroborosRingFound",
+				"roi_offset": [80, -30, -75, -100],
+				"only_rec": true
+			}
+		]
+	},
+	"CarriageShopHeartbeatRubbingRemaining": {
+		"desc": "心音拓片剩余数量",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"CarriageShopHeartbeatRubbingFound",
+			{
+				"recognition": "OCR",
+				"roi": "CarriageShopHeartbeatRubbingFound",
+				"roi_offset": [80, -30, -75, -100],
+				"only_rec": true
+			}
+		]
+	},
+	"CarriageShopShopFinishCheck": {
+		"desc": "物品买完检查",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InCarriageShopAscensionPage",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "ShopFinishCheck"
+			}
+		]
+	},
+	"CarriageShopBuyTimeBondFragmentStart": {
+		"desc": "购买羁时碎片入口",
+		"recognition": "And",
+		"all_of": [
+			"CarriageShopTimeBondFragmentFound",
+			{
+				"recognition": "TemplateMatch",
+				"template": "carriage_shop/OuroborosRingPay.png",
+				"roi": "CarriageShopTimeBondFragmentFound",
+				"roi_offset": [13, 169, -28, -67]
+			}
+		],
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ShopAssistant",
+		"attach": {"timeBondFragmentFound": true},
+		"next": [
+			"CarriageShopBuyTimeBondFragmentOuroborosRingNotEnough",
+			"[JumpBack]CarriageShopBuyTimeBondFragment",
+			"CarriageShopBuyItemDone"
+		]
+	},
+	"CarriageShopBuyTimeBondFragment": {
+		"desc": "购买羁时碎片",
+		"recognition": "And",
+		"all_of": [
+			"CarriageShopTimeBondFragmentFound",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [0, 0, 200],
+				"upper": [0, 0, 255],
+				"roi": "CarriageShopTimeBondFragmentFound",
+				"roi_offset": [67, 186, -86, -99],
+				"count": 15
+			}
+		],
+		"box_index": 1,
+		"pre_delay": 0,
+		"post_delay": 200,
+		"rate_limit": 0,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [61, 402, 604, 701],
+			"timeout": 2000
+		},
+		"next": [
+			"CarriageShopBatchPurchaseTipBoxHandle",
+			"CarriageShopBuyItemDone"
+		]
+	},
+	"CarriageShopBuyTimeBondFragmentOuroborosRingNotEnough": {
+		"desc": "购买羁时碎片衔尾之环不足",
+		"recognition": "And",
+		"all_of": [
+			"CarriageShopTimeBondFragmentFound",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [0, 80, 80],
+				"upper": [10, 255, 255],
+				"roi": "CarriageShopTimeBondFragmentFound",
+				"roi_offset": [67, 186, -86, -99],
+				"count": 15
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"CarriageShopBuyStarsprigTwigStart": {
+		"desc": "购买云汉短枝入口",
+		"recognition": "And",
+		"all_of": [
+			"CarriageShopStarsprigTwigFound",
+			{
+				"recognition": "TemplateMatch",
+				"template": "carriage_shop/TrialStonePay.png",
+				"roi": "CarriageShopStarsprigTwigFound",
+				"roi_offset": [13, 169, -28, -67]
+			}
+		],
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ShopAssistant",
+		"attach": {"starsprigTwigFound": true},
+		"next": [
+			"CarriageShopBuyStarsprigTwigTrialStoneNotEnough",
+			"[JumpBack]CarriageShopBuyStarsprigTwig",
+			"CarriageShopBuyItemDone"
+		]
+	},
+	"CarriageShopBuyStarsprigTwig": {
+		"desc": "滑动购买云汉短枝",
+		"recognition": "And",
+		"all_of": ["CarriageShopStarsprigTwigFound"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 500,
+		"action": "Custom",
+		"custom_action": "CarriageShopSlideBuy",
+		"custom_action_param": {
+			"slider": "CarriageShopFindSlider",
+			"trialStone": "CarriageShopTrialStoneCount",
+			"remaining": "CarriageShopStarsprigTwigRemaining",
+			"canBuyCheck": "CarriageShopCanBuyAfterSlide",
+			"price": 3,
+			"sliderLength": 350,
+			"quantityOffset": [-15, 35, 25, 0],
+			"plusPos": [579, 819],
+			"minusPos": [111, 823]
+		},
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [160, 580, 391, 473],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]CarriageShopSlideBuyClick",
+			"CarriageShopBuyItemDone"
+		]
+	},
+	"test": {
+		"recognition": "OCR",
+		"roi": [156, 843, 55, 36],
+		"only_rec": true
+	},
+	"CarriageShopBuyStarsprigTwigTrialStoneNotEnough": {
+		"desc": "购买云汉短枝试炼石不足",
+		"recognition": "And",
+		"all_of": [
+			"CarriageShopStarsprigTwigFound",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [0, 80, 80],
+				"upper": [10, 255, 255],
+				"roi": "CarriageShopStarsprigTwigFound",
+				"roi_offset": [67, 186, -86, -99],
+				"count": 15
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"CarriageShopBuyOuroborosRingStart": {
+		"desc": "购买衔尾之环入口",
+		"recognition": "And",
+		"all_of": [
+			"CarriageShopOuroborosRingFound",
+			{
+				"recognition": "TemplateMatch",
+				"template": "carriage_shop/TrialStonePay.png",
+				"roi": "CarriageShopOuroborosRingFound",
+				"roi_offset": [13, 169, -28, -67]
+			}
+		],
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ShopAssistant",
+		"attach": {"ouroborosRingFound": true},
+		"next": [
+			"CarriageShopBuyOuroborosRingTrialStoneNotEnough",
+			"[JumpBack]CarriageShopBuyOuroborosRing",
+			"CarriageShopBuyItemDone"
+		]
+	},
+	"CarriageShopBuyOuroborosRing": {
+		"desc": "购买衔尾之环",
+		"recognition": "And",
+		"all_of": ["CarriageShopOuroborosRingFound"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 500,
+		"action": "Custom",
+		"custom_action": "CarriageShopSlideBuy",
+		"custom_action_param": {
+			"slider": "CarriageShopFindSlider",
+			"trialStone": "CarriageShopTrialStoneCount",
+			"remaining": "CarriageShopOuroborosRingRemaining",
+			"canBuyCheck": "CarriageShopCanBuyAfterSlide",
+			"price": 4,
+			"sliderLength": 350,
+			"quantityOffset": [-15, 35, 25, 0],
+			"plusPos": [579, 819],
+			"minusPos": [111, 823]
+		},
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [160, 580, 391, 473],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]CarriageShopSlideBuyClick",
+			"CarriageShopBuyItemDone"
+		]
+	},
+	"CarriageShopBuyOuroborosRingTrialStoneNotEnough": {
+		"desc": "购买衔尾之环试炼石不足",
+		"recognition": "And",
+		"all_of": [
+			"CarriageShopOuroborosRingFound",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [0, 80, 80],
+				"upper": [10, 255, 255],
+				"roi": "CarriageShopOuroborosRingFound",
+				"roi_offset": [67, 186, -86, -99],
+				"count": 15
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"CarriageShopBuyHeartbeatRubbingStart": {
+		"desc": "购买心音拓片入口",
+		"recognition": "And",
+		"all_of": [
+			"CarriageShopHeartbeatRubbingFound",
+			{
+				"recognition": "TemplateMatch",
+				"template": "carriage_shop/TrialStonePay.png",
+				"roi": "CarriageShopHeartbeatRubbingFound",
+				"roi_offset": [13, 169, -28, -67]
+			}
+		],
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ShopAssistant",
+		"attach": {"heartbeatRubbingFound": true},
+		"next": [
+			"CarriageShopBuyHeartbeatRubbingTrialStoneNotEnough",
+			"[JumpBack]CarriageShopBuyHeartbeatRubbing",
+			"CarriageShopBuyItemDone"
+		]
+	},
+	"CarriageShopBuyHeartbeatRubbing": {
+		"desc": "购买心音拓片",
+		"recognition": "And",
+		"all_of": ["CarriageShopHeartbeatRubbingFound"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 500,
+		"action": "Custom",
+		"custom_action": "CarriageShopSlideBuy",
+		"custom_action_param": {
+			"slider": "CarriageShopFindSlider",
+			"trialStone": "CarriageShopTrialStoneCount",
+			"remaining": "CarriageShopHeartbeatRubbingRemaining",
+			"canBuyCheck": "CarriageShopCanBuyAfterSlide",
+			"price": 4,
+			"sliderLength": 350,
+			"quantityOffset": [-15, 35, 25, 0],
+			"plusPos": [579, 819],
+			"minusPos": [111, 823]
+		},
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [160, 580, 391, 473],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]CarriageShopSlideBuyClick",
+			"CarriageShopBuyItemDone"
+		]
+	},
+	"CarriageShopBuyHeartbeatRubbingTrialStoneNotEnough": {
+		"desc": "购买心音拓片试炼石不足",
+		"recognition": "And",
+		"all_of": [
+			"CarriageShopHeartbeatRubbingFound",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [0, 80, 80],
+				"upper": [10, 255, 255],
+				"roi": "CarriageShopHeartbeatRubbingFound",
+				"roi_offset": [67, 186, -86, -99],
+				"count": 15
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"CarriageShopCanBuyAfterSlide": {
+		"desc": "滑动后可以购买(颜色校验)",
+		"recognition": "And",
+		"all_of": [
+			"CarriageShopBuyCount",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [0, 0, 200],
+				"upper": [30, 10, 255],
+				"roi": "CarriageShopBuyCount",
+				"roi_offset": [45, 162, -58, -1]
+			}
+		],
+		"box_index": 1
+	},
+	"CarriageShopSlideBuyClick": {
+		"desc": "滑动后点击购买",
+		"recognition": "And",
+		"all_of": ["CarriageShopCanBuyAfterSlide"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 1000,
+			"target": [61, 402, 604, 701],
+			"timeout": 3000
+		}
+	},
+	"CarriageShopTrialStoneCount": {
+		"desc": "试炼石数量",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "carriage_shop/TrialStone.png",
+				"roi": [537, 0, 162, 261],
+				"sub_name": "TrialStonePos"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 20],
+				"upper": [35, 80, 255],
+				"roi": "TrialStonePos",
+				"roi_offset": [50, 7, 30, -8],
+				"count": 10,
+				"sub_name": "TrialStoneColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "TrialStoneColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"CarriageShopTimeBondFragmentSoldout": {
+		"desc": "羁时碎片已售罄",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"expected": "^羁时碎片$",
+				"roi": [61, 402, 604, 701],
+				"sub_name": "ItemName"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "售罄|售",
+				"roi": "ItemName",
+				"roi_offset": [7, -85, -10, 15]
+			}
+		],
+		"action": "Custom",
+		"custom_action": "ShopAssistant",
+		"attach": {"timeBondFragmentFound": true}
+	},
+	"CarriageShopStarsprigTwigSoldout": {
+		"desc": "云汉短枝已售罄",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"expected": "^云汉短枝$",
+				"roi": [61, 402, 604, 701],
+				"sub_name": "ItemName"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "售罄|售",
+				"roi": "ItemName",
+				"roi_offset": [7, -85, -10, 15]
+			}
+		],
+		"action": "Custom",
+		"custom_action": "ShopAssistant",
+		"attach": {"starsprigTwigFound": true}
+	},
+	"CarriageShopOuroborosRingSoldout": {
+		"desc": "衔尾之环已售罄",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"expected": "^衔尾之环$",
+				"roi": [61, 402, 604, 701],
+				"sub_name": "ItemName"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "售罄|售",
+				"roi": "ItemName",
+				"roi_offset": [7, -85, -10, 15]
+			}
+		],
+		"action": "Custom",
+		"custom_action": "ShopAssistant",
+		"attach": {"ouroborosRingFound": true}
+	},
+	"CarriageShopHeartbeatRubbingSoldout": {
+		"desc": "心音拓片已售罄",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"expected": "^心音拓片$",
+				"roi": [61, 402, 604, 701],
+				"sub_name": "ItemName"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "售罄|售",
+				"roi": "ItemName",
+				"roi_offset": [7, -85, -10, 15]
+			}
+		],
+		"action": "Custom",
+		"custom_action": "ShopAssistant",
+		"attach": {"heartbeatRubbingFound": true}
+	},
+	"__AscensionPageSwipeUp": {
+		"desc": "升格之路页向上滑动查看更多",
+		"action": "Swipe",
+		"begin": [450, 850],
+		"end": [450, 600],
+		"duration": 500,
+		"max_hit": 10,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [97, 418, 532, 634],
+			"timeout": 3000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"CarriageShopClickAscensionTab": {
+		"desc": "点击升格之路标签",
+		"recognition": "And",
+		"all_of": ["CarriageShopHasAscensionTab"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [160, 580, 391, 473],
+			"timeout": 2000
+		}
+	},
+	"CarriageShopSlideBuyMultiple": {
+		"desc": "马车商店升格之路页面滑动购买(一次买多个)",
+		"action": "Custom",
+		"custom_action": "CarriageShopSlideBuyAct"
+	}
 }

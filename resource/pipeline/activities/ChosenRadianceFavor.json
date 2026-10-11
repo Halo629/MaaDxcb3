@@ -4,10 +4,40 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
+		"anchor": {"ActivityGoto": "ChosenRadianceEntry"},
 		"next": [
-			"__SceneGamePlayLimitedEntryChosenRadiance",
-			"[JumpBack]SceneEnterGamePlayLimited"
+			"ChosenRadianceCollect",
+			"[JumpBack]ChosenRadianceRealEntry",
+			"ChosenRadianceComplete",
+			"[JumpBack]ActivityLimitedEnter"
 		]
+	},
+	"ChosenRadianceEntry": {
+		"desc": "限时页面识别天选曜惠活动",
+		"recognition": "And",
+		"all_of": ["__SceneGamePlayLimitedPageHasChosenRadiance"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ChosenRadianceRealEntry": {
+		"desc": "真正进入天选曜惠活动(有红点提示才进)",
+		"recognition": "And",
+		"all_of": [
+			"__SceneGamePlayLimitedPageHasChosenRadiance",
+			{
+				"recognition": "TemplateMatch",
+				"template": "common/RedNotice2.png",
+				"roi": "__SceneGamePlayLimitedPageHasChosenRadiance",
+				"roi_offset": [300, -60, -240, -90]
+			}
+		],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [141, 1172, 556, 105],
+			"timeout": 2000
+		}
 	},
 	"ChosenRadianceComplete": {
 		"desc": "天选曜惠已完成",
@@ -18,19 +48,6 @@
 		"desc": "天选曜惠已完成",
 		"next": [
 			"SceneBack"
-		]
-	},
-	"__SceneGamePlayLimitedEntryChosenRadiance": {
-		"desc": "在限时页面进入天选曜惠",
-		"recognition": "And",
-		"all_of": ["InGamePlayLimitedPage"],
-		"next": [
-			"ChosenRadianceCollect",
-			"[JumpBack]__SceneGamePlayLimitedPageGotoChosenRadiance",
-			"ChosenRadianceComplete",
-			"[JumpBack]ChosenRadianceSwipeToTop",
-			"[JumpBack]ChosenRadianceSwipe",
-			"ChosenRadianceDone"
 		]
 	},
 	"ChosenRadianceCollect": {
@@ -403,72 +420,11 @@
 		"expected": "售罄|售|罄",
 		"roi": [517, 244, 126, 95]
 	},
-	"__SceneGamePlayLimitedPageHasChosenRadianceTips": {
-		"desc": "天选曜惠活动提示",
-		"recognition": "And",
-		"all_of": [
-			"__SceneGamePlayLimitedPageHasChosenRadiance",
-			{
-				"recognition": "TemplateMatch",
-				"template": "common/RedNotice2.png",
-				"roi": "__SceneGamePlayLimitedPageHasChosenRadiance",
-				"roi_offset": [300, -60, -240, -90]
-			}
-		]
-	},
-	"__SceneGamePlayLimitedPageGotoChosenRadiance": {
-		"desc": "点击前往天选曜惠",
-		"recognition": "And",
-		"all_of": [
-			"__SceneGamePlayLimitedPageHasChosenRadianceTips"
-		],
-		"action": "Click",
-		"post_wait_freezes": {
-			"time": 500,
-			"target": [256, 503, 281, 451],
-			"timeout": 2000
-		},
-		"next": [
-			"InChosenRadiancePage"
-		]
-	},
 	"__SceneGamePlayLimitedPageHasChosenRadiance": {
 		"desc": "限时页面识别到天选曜惠",
 		"recognition": "TemplateMatch",
 		"template": "activities/ChosenRadianceFavor/ChosenRadianceIcon.png",
 		"roi": [15, 69, 701, 997],
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0
-	},
-	"ChosenRadianceSwipeToTop": {
-		"desc": "快速滑到最上方",
-		"action": "Swipe",
-		"begin": [400, 200],
-		"end": [400, 900],
-		"duration": 100,
-		"max_hit": 1,
-		"post_wait_freezes": {
-			"time": 500,
-			"target": [353, 192, 328, 732],
-			"timeout": 5000
-		},
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0
-	},
-	"ChosenRadianceSwipe": {
-		"desc": "向上滑动查找",
-		"action": "Swipe",
-		"begin": [400, 800],
-		"end": [400, 600],
-		"duration": 200,
-		"max_hit": 3,
-		"post_wait_freezes": {
-			"time": 500,
-			"target": [353, 192, 328, 732],
-			"timeout": 5000
-		},
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0

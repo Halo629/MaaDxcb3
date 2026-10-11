@@ -2,11 +2,12 @@
 	"StewardFerdinandSub": {
 		"pre_delay": 0,
 		"post_delay": 0,
+		"rate_limit": 0,
 		"max_hit": 1,
 		"desc": "费迪南德挑战",
 		"next": [
+			"[JumpBack]CollapseSideBar",
 			"FerdinandBattleEntry",
-			"[JumpBack]SceneCollapseSideBar",
 			"[JumpBack]SceneClickCampFire",
 			"[JumpBack]SceneEnterMainPage"
 		],
@@ -14,23 +15,360 @@
 	},
 	"FerdinandBattleEntry": {
 		"recognition": "And",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
 		"all_of": ["InSelectDestinationPage"],
 		"next": [
 			"[JumpBack]SwitchMapListAscendingSort",
 			"[JumpBack]FindFerdinandSwipe",
-			"FindFerdinandAndAttack",
+			"[JumpBack]FindFerdinandMapEntry",
+			"[JumpBack]FerdinandInIsleOfTimesEnd",
+			"[JumpBack]FerdinandInCrescentCounty",
+			"[JumpBack]FerdinandInHolyCityMonastery",
+			"[JumpBack]FerdinandInGremid",
+			"[JumpBack]FerdinandInFurnaceCity",
+			"BattleAI",
+			"[JumpBack]FerdinandStartAttack",
+			"[JumpBack]AttackFerdinand",
 			"SceneBack"
 		]
 	},
-	"FindFerdinandAndAttack": {
-		"desc": "寻找费迪南德并攻击",
-		"recognition": "And",
-		"all_of": ["FerdinandPos"],
+	"FerdinandNotFound": {
+		"desc": "未找到费迪南德",
 		"action": "Custom",
-		"custom_action": "FindFerdinand",
+		"custom_action": "FailTask",
+		"focus": {"Node.Recognition.Succeeded": "未找到费迪南德"}
+	},
+	"FerdinandInIsleOfTimesEnd": {
+		"desc": "在时之尽头的孤岛寻找费迪南德",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InIsleOfTimesEnd"],
 		"next": [
-			"BattleAI"
+			"[JumpBack]FerdinandInIsleOfTimesEndSwipeLeft",
+			"HasFerdinand",
+			"FerdinandNotFound"
 		]
+	},
+	"FerdinandInIsleOfTimesEndSwipeLeft": {
+		"desc": "往左滑动找费迪南德",
+		"action": "Swipe",
+		"begin": [500, 800],
+		"end": [400, 800],
+		"duration": 100,
+		"pre_delay": 500,
+		"max_hit": 1,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [193, 513, 358, 513],
+			"timeout": 2000
+		},
+		"next": [
+			"IsleOfTimesEndCrossFortressEntry",
+			"FerdinandInIsleOfTimesEndSwipeRight"
+		]
+	},
+	"FerdinandInIsleOfTimesEndSwipeRight": {
+		"desc": "往右滑动找费迪南德",
+		"action": "Swipe",
+		"begin": [300, 800],
+		"end": [600, 800],
+		"duration": 100,
+		"pre_delay": 500,
+		"max_hit": 1,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [193, 513, 358, 513],
+			"timeout": 2000
+		}
+	},
+	"IsleOfTimesEndClickFortress": {
+		"desc": "点击寒石堡垒",
+		"recognition": "And",
+		"all_of": ["HasColdstoneFortress"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [193, 513, 358, 513],
+			"timeout": 5000
+		}
+	},
+	"FerdinandInIsleOfTimesEndCrossFortress": {
+		"desc": "点击穿越堡垒",
+		"recognition": "OCR",
+		"expected": "穿越堡垒|穿越",
+		"roi": [238, 725, 254, 235],
+		"action": "Click",
+		"pre_delay": 1000,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [193, 513, 358, 513],
+			"timeout": 5000
+		}
+	},
+	"IsleOfTimesEndCrossFortressEntry": {
+		"desc": "穿越寒石堡垒",
+		"recognition": "And",
+		"all_of": ["HasFerdinand"],
+		"next": [
+			"[JumpBack]IsleOfTimesEndCrossFortressEntrySwipeRight",
+			"FerdinandInIsleOfTimesEndCrossFortress",
+			"[JumpBack]IsleOfTimesEndClickFortress"
+		]
+	},
+	"IsleOfTimesEndCrossFortressEntrySwipeRight": {
+		"desc": "往右滑动穿越寒石堡垒",
+		"action": "Swipe",
+		"begin": [400, 800],
+		"end": [500, 800],
+		"duration": 100,
+		"max_hit": 1,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [193, 513, 358, 513],
+			"timeout": 2000
+		}
+	},
+	"FerdinandInCrescentCounty": {
+		"desc": "在新月郡寻找费迪南德",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InCrescentCounty"],
+		"next": [
+			"HasFerdinand",
+			"[JumpBack]FerdinandInCrescentCountySwipeLeft",
+			"[JumpBack]FerdinandInCrescentCountySwipeUp",
+			"[JumpBack]FerdinandInCrescentCountySwipeRight",
+			"FerdinandNotFound"
+		]
+	},
+	"FerdinandInCrescentCountySwipeLeft": {
+		"desc": "往左滑动找费迪南德",
+		"action": "Swipe",
+		"begin": [500, 800],
+		"end": [400, 800],
+		"duration": 100,
+		"max_hit": 4,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [193, 513, 358, 513],
+			"timeout": 2000
+		}
+	},
+	"FerdinandInCrescentCountySwipeRight": {
+		"desc": "往右滑动找费迪南德",
+		"action": "Swipe",
+		"begin": [400, 800],
+		"end": [500, 800],
+		"duration": 100,
+		"max_hit": 4,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [193, 513, 358, 513],
+			"timeout": 2000
+		}
+	},
+	"FerdinandInCrescentCountySwipeUp": {
+		"desc": "往上滑动找费迪南德",
+		"action": "Swipe",
+		"begin": [500, 800],
+		"end": [500, 700],
+		"duration": 100,
+		"max_hit": 1,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [193, 513, 358, 513],
+			"timeout": 2000
+		}
+	},
+	"FerdinandInHolyCityMonastery": {
+		"desc": "在圣城修道院寻找费迪南德",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InHolyCityMonastery"],
+		"next": [
+			"HasFerdinand",
+			"[JumpBack]FerdinandInHolyCityMonasterySwipeDown",
+			"[JumpBack]FerdinandInHolyCityMonasterySwipeRight",
+			"[JumpBack]FerdinandInHolyCityMonasterySwipeLeft",
+			"FerdinandNotFound"
+		]
+	},
+	"FerdinandInHolyCityMonasterySwipeDown": {
+		"desc": "往下滑动找费迪南德",
+		"action": "Swipe",
+		"begin": [500, 700],
+		"end": [500, 800],
+		"duration": 100,
+		"max_hit": 1,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [193, 513, 358, 513],
+			"timeout": 2000
+		}
+	},
+	"FerdinandInHolyCityMonasterySwipeRight": {
+		"desc": "往右滑动找费迪南德",
+		"action": "Swipe",
+		"begin": [400, 800],
+		"end": [500, 800],
+		"duration": 100,
+		"max_hit": 1,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [193, 513, 358, 513],
+			"timeout": 2000
+		}
+	},
+	"FerdinandInHolyCityMonasterySwipeLeft": {
+		"desc": "往左滑动找费迪南德",
+		"action": "Swipe",
+		"begin": [500, 800],
+		"end": [400, 800],
+		"duration": 100,
+		"max_hit": 5,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [193, 513, 358, 513],
+			"timeout": 2000
+		}
+	},
+	"FerdinandInGremid": {
+		"desc": "在格雷米德寻找费迪南德",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InGremid"],
+		"next": [
+			"HasFerdinand",
+			"[JumpBack]FerdinandInGremidSwipeLeft",
+			"[JumpBack]FerdinandInGremidSwipeRight",
+			"FerdinandNotFound"
+		]
+	},
+	"FerdinandInGremidSwipeLeft": {
+		"desc": "往左滑动找费迪南德",
+		"action": "Swipe",
+		"begin": [500, 800],
+		"end": [400, 800],
+		"duration": 100,
+		"max_hit": 1,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [193, 513, 358, 513],
+			"timeout": 2000
+		}
+	},
+	"FerdinandInGremidSwipeRight": {
+		"desc": "往右滑动找费迪南德",
+		"action": "Swipe",
+		"begin": [200, 800],
+		"end": [300, 800],
+		"duration": 100,
+		"max_hit": 3,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [193, 513, 358, 513],
+			"timeout": 2000
+		}
+	},
+	"FerdinandInFurnaceCity": {
+		"desc": "在熔炉之城寻找费迪南德",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InFurnaceCity"],
+		"next": [
+			"HasFerdinand",
+			"[JumpBack]FerdinandInFurnaceCitySwipeRight",
+			"[JumpBack]FerdinandInFurnaceCitySwipeDown",
+			"[JumpBack]FerdinandInFurnaceCitySwipeLeft",
+			"[JumpBack]FerdinandInFurnaceCitySwipeUp",
+			"FerdinandNotFound"
+		]
+	},
+	"FerdinandInFurnaceCitySwipeRight": {
+		"desc": "往右滑动找费迪南德",
+		"action": "Swipe",
+		"begin": [500, 800],
+		"end": [600, 800],
+		"duration": 100,
+		"max_hit": 4,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [193, 513, 358, 513],
+			"timeout": 2000
+		}
+	},
+	"FerdinandInFurnaceCitySwipeDown": {
+		"desc": "往下滑动找费迪南德",
+		"action": "Swipe",
+		"begin": [500, 800],
+		"end": [500, 900],
+		"duration": 100,
+		"max_hit": 3,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [193, 513, 358, 513],
+			"timeout": 2000
+		}
+	},
+	"FerdinandInFurnaceCitySwipeLeft": {
+		"desc": "往左滑动找费迪南德",
+		"action": "Swipe",
+		"begin": [500, 800],
+		"end": [400, 800],
+		"duration": 100,
+		"max_hit": 4,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [193, 513, 358, 513],
+			"timeout": 2000
+		}
+	},
+	"FerdinandInFurnaceCitySwipeUp": {
+		"desc": "往上滑动找费迪南德",
+		"action": "Swipe",
+		"begin": [500, 800],
+		"end": [500, 700],
+		"duration": 100,
+		"max_hit": 4,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [193, 513, 358, 513],
+			"timeout": 2000
+		}
+	},
+	"AttackFerdinand": {
+		"desc": "微调费迪南德位置并点击",
+		"recognition": "And",
+		"all_of": ["HasFerdinand"],
+		"action": "Custom",
+		"custom_action": "AdjustFerdinandPosition",
+		"next": [
+			"ClickFerdinand"
+		]
+	},
+	"ClickFerdinand": {
+		"desc": "点击费迪南德",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["HasFerdinand"],
+		"action": "Click",
+		"target_offset": [32, -51, -72, 1],
+		"post_wait_freezes": {
+			"time": 1000,
+			"target": [260, 500, 315, 613],
+			"timeout": 10000
+		}
+	},
+	"FerdinandStartAttack": {
+		"desc": "点击发起攻击",
+		"max_hit": 1,
+		"recognition": "OCR",
+		"expected": "发起攻击",
+		"roi": [291, 738, 145, 100],
+		"action": "Click",
+		"post_delay": 1000
 	},
 	"FindFerdinandSwipe": {
 		"desc": "地图列表向下滑动一次寻找费迪南德",
@@ -39,5 +377,13 @@
 		"begin": [360, 400],
 		"end": [360, 600],
 		"duration": 100
+	},
+	"FindFerdinandMapEntry": {
+		"desc": "读取费迪南德所在地图并进入",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["FerdinandPos"],
+		"action": "Custom",
+		"custom_action": "FerdinandMapEntry"
 	}
 }

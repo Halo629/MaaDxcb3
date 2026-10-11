@@ -5,33 +5,6 @@
 const int one_second_delay = 1000;
 const int two_second_delay = 2000;
 
-bool isRoiUnchanged(MaaContext* context, const MaaRect& roi, int waitMs)
-{
-    auto* ctrl = MaaTaskerGetController(MaaContextGetTasker(context));
-
-    auto snap = [&]() -> std::vector<uint8_t> {
-        auto* img = MaaImageBufferCreate();
-        auto id = MaaControllerPostScreencap(ctrl);
-        MaaControllerWait(ctrl, id);
-        MaaControllerCachedImage(ctrl, img);
-        int w = MaaImageBufferWidth(img);
-        int ch = MaaImageBufferChannels(img);
-        auto* raw = (uint8_t*)MaaImageBufferGetRawData(img);
-        std::vector<uint8_t> out(roi.width * roi.height * ch);
-        int stride = w * ch;
-        for (int y = 0; y < roi.height; ++y) {
-            memcpy(&out[y * roi.width * ch], &raw[(roi.y + y) * stride + roi.x * ch], roi.width * ch);
-        }
-        MaaImageBufferDestroy(img);
-        return out;
-    };
-
-    auto a = snap();
-    Sleep(waitMs);
-    auto b = snap();
-    return a == b;
-}
-
 ScreenCap::ScreenCap(MaaContext* c)
     : img(MaaImageBufferCreate())
 {
@@ -188,46 +161,25 @@ std::string getMapOfRole(MaaContext* context, MaaRect* outBox)
 std::string getMapOfFerdinand(MaaContext* context, MaaRect* outBox)
 {
     ScreenCap cap(context);
-    auto* tasker = MaaContextGetTasker(context);
-
-    auto id = MaaContextRunRecognition(context, "FerdinandPos", "{}", cap.img);
-    if (id == MaaInvalidId) {
-        return { };
+    auto buf = MaaStringBufferCreate();
+    MaaRect box;
+    std::string result;
+    if (doRecognition(context, cap.img, "MapOfFerdinand", "{}", outBox ? outBox : &box, buf)) {
+        std::string detail(MaaStringBufferGet(buf), MaaStringBufferSize(buf));
+        auto j = json::parse(detail).value_or(json::value { });
+        // MapOfFerdinand 是 And 识别，detail 是子结果数组，取第二个（OCR）的文本
+        if (j.is_array() && j.as_array().size() >= 2) {
+            auto& ocrDetail = j.as_array()[1]["detail"];
+            if (auto& best = ocrDetail["best"]; best.is_object()) {
+                result = best["text"].as_string();
+            }
+            else if (auto& all = ocrDetail["all"]; all.is_array() && !all.empty()) {
+                result = all[0]["text"].as_string();
+            }
+        }
     }
-    MaaBool hit = false;
-    MaaTaskerGetRecognitionDetail(tasker, id, nullptr, nullptr, &hit, outBox, nullptr, nullptr, nullptr);
-    if (!hit) {
-        return { };
-    }
-
-    char ocrJson[256];
-    snprintf(
-        ocrJson,
-        sizeof(ocrJson),
-        R"({"mapName":{"recognition":"OCR","roi":[%d,%d,%d,%d]}})",
-        outBox->x - 250,
-        outBox->y + 50,
-        220,
-        70);
-    auto buffer = MaaStringBufferCreate();
-    MaaRect ocrBox;
-    id = MaaContextRunRecognition(context, "mapName", ocrJson, cap.img);
-    if (id == MaaInvalidId) {
-        MaaStringBufferDestroy(buffer);
-        return { };
-    }
-    MaaTaskerGetRecognitionDetail(tasker, id, nullptr, nullptr, &hit, &ocrBox, buffer, nullptr, nullptr);
-    if (!hit) {
-        MaaStringBufferDestroy(buffer);
-        return { };
-    }
-    std::string detail(MaaStringBufferGet(buffer), MaaStringBufferSize(buffer));
-    MaaStringBufferDestroy(buffer);
-    auto j = json::parse(detail).value_or(json::value { });
-    if (auto& best = j["best"]; best.is_object()) {
-        return best["text"].as_string();
-    }
-    return { };
+    MaaStringBufferDestroy(buf);
+    return result;
 }
 
 json::value getCurMapList(MaaContext* context)
@@ -624,6 +576,55 @@ static MaaBool SaveConfigAct(
     return true;
 }
 
+// 判断节点是否 enabled（拿不到数据或字段时默认 enabled）
+static bool isNodeEnabled(MaaContext* context, const char* nodeName)
+{
+    auto buf = MaaStringBufferCreate();
+    if (!MaaContextGetNodeData(context, nodeName, buf)) {
+        MaaStringBufferDestroy(buf);
+        return true;
+    }
+    std::string raw(MaaStringBufferGet(buf), MaaStringBufferSize(buf));
+    MaaStringBufferDestroy(buf);
+
+    auto node = json::parse(raw);
+    if (!node) {
+        return true;
+    }
+    auto enabled = (*node)["enabled"];
+    return enabled.is_boolean() ? enabled.as_boolean() : true;
+}
+
+// 获取节点 focus 里的中文名称（去掉 "开始任务:" 前缀），拿不到返回空串
+static std::string getNodeFocusDesc(MaaContext* context, const char* nodeName)
+{
+    auto buf = MaaStringBufferCreate();
+    if (!MaaContextGetNodeData(context, nodeName, buf)) {
+        MaaStringBufferDestroy(buf);
+        return { };
+    }
+    std::string raw(MaaStringBufferGet(buf), MaaStringBufferSize(buf));
+    MaaStringBufferDestroy(buf);
+
+    auto node = json::parse(raw);
+    if (!node) {
+        return { };
+    }
+    auto focus = (*node)["focus"];
+    if (!focus.is_object()) {
+        return { };
+    }
+    for (auto& [event, msg] : focus.as_object()) {
+        std::string text = msg.as_string();
+        const std::string prefix = "开始任务:";
+        if (text.rfind(prefix, 0) == 0) {
+            text = text.substr(prefix.size());
+        }
+        return text;
+    }
+    return { };
+}
+
 // 运行若干子任务（entry），子任务列表由 custom_action_param.sub 传入。
 // continue: 某子任务失败后是否继续跑剩余子任务（默认 false，立即停止）
 // strict:   有子任务失败时是否判定整个动作失败（默认 true）
@@ -664,9 +665,15 @@ MaaBool SubTaskAct(
             continue;
         }
 
+        // 跳过已禁用的子任务
+        if (!isNodeEnabled(context, name.c_str())) {
+            continue;
+        }
+
         MaaTaskId sub_id = MaaContextRunTask(context, name.c_str(), "{}");
         if (sub_id == MaaInvalidId) {
-            LogUtils::log(fmt("SubTask: 运行子任务失败 %1", name), "#f59e0b");
+            std::string desc = getNodeFocusDesc(context, name.c_str());
+            LogUtils::log(fmt("任务失败:%1", desc.empty() ? name : desc), "#f59e0b");
             has_failure = true;
             if (!continue_on_failure) {
                 break;
@@ -678,7 +685,8 @@ MaaBool SubTaskAct(
         MaaSize node_id_list_size = 0;
         MaaTaskerGetTaskDetail(tasker, sub_id, nullptr, nullptr, &node_id_list_size, &status);
         if (status != MaaStatus_Succeeded) {
-            LogUtils::log(fmt("SubTask: 子任务失败 %1 (status=%2)", name, (int)status), "#f59e0b");
+            std::string desc = getNodeFocusDesc(context, name.c_str());
+            LogUtils::log(fmt("任务失败:%1", desc.empty() ? name : desc), "#f59e0b");
             has_failure = true;
             if (!continue_on_failure) {
                 break;
@@ -706,6 +714,12 @@ MaaBool checkRoleInTargetMap(
     std::string targetMap;
     auto param = json::parse(custom_recognition_param ? custom_recognition_param : "{}").value_or(json::value { });
     targetMap = param.get("map_name", json::value("")).as_string();
+
+    // custom_recognition_param 未指定时，从节点 attach 读取 map_name，便于公共节点参数化
+    if (targetMap.empty()) {
+        targetMap = getNodeAttach(context, node_name).get("map_name", json::value("")).as_string();
+    }
+
     if (targetMap.empty()) {
         LogUtils::log("重置地图: 未指定地图名称", "#ef4444");
         return false;
@@ -717,7 +731,15 @@ MaaBool checkRoleInTargetMap(
         return false;
     }
 
-    if (mapOfRole.find(targetMap) == std::string::npos) {
+    // map_name 支持 "a|b|c" 多选，任一命中即通过
+    bool matched = false;
+    for (auto& alt : split(targetMap, '|')) {
+        if (mapOfRole.find(alt) != std::string::npos) {
+            matched = true;
+            break;
+        }
+    }
+    if (!matched) {
         return false;
     }
 
@@ -749,11 +771,382 @@ MaaBool checkRoleInTargetMap(
     return false;
 }
 
+static uint32_t g_shopMask = 0;        // 已找到（购买完成）的商品位掩码
+static uint32_t g_shopEnabledMask = 0; // 启用购买的商品位掩码（由配置开关决定）
+MaaBool shopAssistant(
+    MaaContext* context,
+    MaaTaskId taskId,
+    const char* nodeName,
+    const char* customActionName,
+    const char* customActionParam,
+    MaaRecoId recoId,
+    const MaaRect* box,
+    void* transArg)
+{
+    auto attach = getNodeAttach(context, nodeName);
+    bool initFlag = attach.get("initFlag", json::value(false)).as_boolean();
+
+    if (initFlag) {
+        // 初始化：清空状态，读取各商品开关
+        g_shopMask = 0;
+        g_shopEnabledMask = 0;
+        for (auto& item : shopItemList) {
+            if (attach.get(item.enabledKey, json::value(true)).as_boolean()) {
+                g_shopEnabledMask |= (1U << item.bit);
+            }
+        }
+    }
+    // 每次调用都累加已找到的商品
+    for (auto& item : shopItemList) {
+        if (attach.get(item.foundKey, json::value(false)).as_boolean()) {
+            g_shopMask |= (1U << item.bit);
+        }
+    }
+    return true;
+}
+
+MaaBool shopFinishCheck(
+    MaaContext* context,
+    MaaTaskId taskId,
+    const char* nodeName,
+    const char* customRecognitionName,
+    const char* customRecognitionParam,
+    const MaaImageBuffer* image,
+    const MaaRect* roi,
+    void* transArg,
+    MaaRect* outBox,
+    MaaStringBuffer* outDetail)
+{
+    const uint32_t targetMask = g_shopEnabledMask;
+    if (targetMask == 0) {
+        return true; // 未启用任何商品，视为完成
+    }
+    return (g_shopMask & targetMask) == targetMask;
+}
+
+// ──── 马车商店滑动购买 ────
+// 读试炼石数量与剩余数量，算出购买数量 N，点击滑块到对应比例，再按实际数量 +/- 微调。
+// custom_action_param：
+//   slider          滑块(thumb)识别节点名
+//   trialStone      试炼石数量 OCR 节点名
+//   remaining       剩余数量 OCR 节点名
+//   price           单价(试炼石/个)
+//   sliderLength    滑轨长度 px（默认 350）
+//   quantityOffset  数量框相对 thumb box 的偏移 [dx,dy,dw,dh]（默认 [-10,35,20,0]）
+//   plusPos         + 按钮绝对屏幕坐标 [x,y]
+//   minusPos        - 按钮绝对屏幕坐标 [x,y]
+//   canBuyTask      可购买校验 task 名（可选，用于判断当前数量是否买得起）
+
+// 读取定长 int 数组，缺省用 def 补齐
+static std::vector<int> readIntArray(const json::value& v, std::vector<int> def)
+{
+    if (!v.is_array()) {
+        return def;
+    }
+    auto& arr = v.as_array();
+    std::vector<int> out = def;
+    for (size_t i = 0; i < arr.size() && i < out.size(); ++i) {
+        out[i] = arr[i].as_integer();
+    }
+    return out;
+}
+
+// 递归查找 OCR detail 中的文本：优先 best（最佳/过滤后结果），其次 filtered，最后 all
+static std::string findOcrText(const json::value& v)
+{
+    if (v.is_object()) {
+        const auto& obj = v.as_object();
+
+        // best：最佳结果（对象，含 text）
+        if (obj.contains("best")) {
+            const auto& best = obj.at("best");
+            if (best.is_object()) {
+                const auto& bestObj = best.as_object();
+                if (bestObj.contains("text")) {
+                    std::string t = bestObj.at("text").as_string();
+                    if (!t.empty()) {
+                        return t;
+                    }
+                }
+            }
+        }
+
+        // filtered / all：结果数组，取第一个的 text
+        for (const char* key : { "filtered", "all" }) {
+            if (obj.contains(key)) {
+                const auto& arr = obj.at(key);
+                if (arr.is_array() && !arr.as_array().empty()) {
+                    const auto& first = arr.as_array()[0];
+                    if (first.is_object()) {
+                        const auto& firstObj = first.as_object();
+                        if (firstObj.contains("text")) {
+                            std::string t = firstObj.at("text").as_string();
+                            if (!t.empty()) {
+                                return t;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // 递归子对象（And 节点 detail 是子结果数组）
+        for (const auto& [k, child] : obj) {
+            std::string r = findOcrText(child);
+            if (!r.empty()) {
+                return r;
+            }
+        }
+    }
+    else if (v.is_array()) {
+        for (const auto& child : v.as_array()) {
+            std::string r = findOcrText(child);
+            if (!r.empty()) {
+                return r;
+            }
+        }
+    }
+    return {};
+}
+
+// 从 OCR 识别 detail(json) 中提取第一段连续数字
+static bool extractNumberFromDetail(const std::string& detail, int& outValue)
+{
+    auto j = json::parse(detail);
+    if (!j) {
+        return false;
+    }
+    std::string text = findOcrText(*j);
+    if (text.empty()) {
+        return false;
+    }
+
+    std::string digits;
+    for (char c : text) {
+        if (c >= '0' && c <= '9') {
+            digits += c;
+        }
+        else if (!digits.empty()) {
+            break;
+        }
+    }
+    if (digits.empty()) {
+        outValue = 0;
+        return true;
+    }
+    outValue = std::atoi(digits.c_str());
+    return true;
+}
+
+// 运行指定识别节点(OCR/And)，提取其中的数字
+static bool readNumberFromNode(MaaContext* context, const char* nodeName, int& outValue)
+{
+    ScreenCap cap(context);
+    auto detailBuf = MaaStringBufferCreate();
+    MaaRect box;
+    if (!doRecognition(context, cap.img, nodeName, "{}", &box, detailBuf)) {
+        MaaStringBufferDestroy(detailBuf);
+        return false;
+    }
+    std::string detail(MaaStringBufferGet(detailBuf), MaaStringBufferSize(detailBuf));
+    MaaStringBufferDestroy(detailBuf);
+    return extractNumberFromDetail(detail, outValue);
+}
+
+// 直接 OCR 指定 roi 中的数字
+static bool readNumberFromRoi(MaaContext* context, const MaaRect& roi, int& outValue)
+{
+    ScreenCap cap(context);
+    auto* tasker = MaaContextGetTasker(context);
+    std::string param = fmt(R"({"roi":[%1,%2,%3,%4],"only_rec":true})", roi.x, roi.y, roi.width, roi.height);
+    auto id = MaaContextRunRecognitionDirect(context, "OCR", param.c_str(), cap.img);
+    if (id == MaaInvalidId) {
+        return false;
+    }
+    auto detailBuf = MaaStringBufferCreate();
+    MaaBool hit = false;
+    MaaRect box;
+    MaaTaskerGetRecognitionDetail(tasker, id, nullptr, nullptr, &hit, &box, detailBuf, nullptr, nullptr);
+    if (!hit) {
+        MaaStringBufferDestroy(detailBuf);
+        return false;
+    }
+    std::string detail(MaaStringBufferGet(detailBuf), MaaStringBufferSize(detailBuf));
+    MaaStringBufferDestroy(detailBuf);
+    return extractNumberFromDetail(detail, outValue);
+}
+
+// 精确点击指定坐标
+static void clickPoint(MaaContext* context, int x, int y)
+{
+    auto* ctrl = MaaTaskerGetController(MaaContextGetTasker(context));
+    auto id = MaaControllerPostClick(ctrl, x, y);
+    MaaControllerWait(ctrl, id);
+}
+
+// 运行指定 task 并判断是否成功
+static bool runTaskSuccess(MaaContext* context, const char* taskName)
+{
+    auto* tasker = MaaContextGetTasker(context);
+    MaaTaskId id = MaaContextRunTask(context, taskName, "{}");
+    if (id == MaaInvalidId) {
+        return false;
+    }
+    MaaStatus status = MaaStatus_Invalid;
+    MaaSize nodeCount = 0;
+    MaaTaskerGetTaskDetail(tasker, id, nullptr, nullptr, &nodeCount, &status);
+    return status == MaaStatus_Succeeded;
+}
+
+static MaaBool CarriageShopSlideBuyAct(
+    MaaContext* context,
+    MaaTaskId taskId,
+    const char* nodeName,
+    const char* customActionName,
+    const char* customActionParam,
+    MaaRecoId recoId,
+    const MaaRect* box,
+    void* transArg)
+{
+    if (!box) {
+        return false;
+    }
+    auto param = json::parse(customActionParam ? customActionParam : "{}").value_or(json::value { });
+
+    std::string sliderNode = param.get("slider", json::value("")).as_string();
+    std::string trialStoneNode = param.get("trialStone", json::value("")).as_string();
+    std::string remainingNode = param.get("remaining", json::value("")).as_string();
+    std::string canBuyCheck = param.get("canBuyCheck", json::value("")).as_string();
+    int price = param.get("price", json::value(0)).as_integer();
+    int sliderLength = param.get("sliderLength", json::value(350)).as_integer();
+
+    if (sliderNode.empty() || trialStoneNode.empty() || remainingNode.empty() || price <= 0 || sliderLength <= 0) {
+        LogUtils::error("CarriageShopSlideBuy: custom_action_param 参数不完整");
+        return false;
+    }
+
+    auto qOffset = readIntArray(param.get("quantityOffset", json::value()), { -10, 35, 20, 0 });
+    auto plusPos = readIntArray(param.get("plusPos", json::value()), { 0, 0 });
+    auto minusPos = readIntArray(param.get("minusPos", json::value()), { 0, 0 });
+
+    // 读试炼石数量与商品剩余数量
+    int trialStone = 0;
+    int remaining = 0;
+    if (!readNumberFromNode(context, trialStoneNode.c_str(), trialStone) ||
+        !readNumberFromNode(context, remainingNode.c_str(), remaining)) {
+        return true;
+    }
+
+    // 计算购买数量与比例
+    int buyCount = (std::min)(remaining, trialStone / price);
+    if (buyCount <= 0 || remaining <= 0) {
+        return true; // 买不起或无剩余，跳过
+    }
+   
+    MaaRect thumbBox;
+    const int maxClickRetry = 20;
+    for (int attempt = 0; attempt < maxClickRetry; ++attempt) {
+        auto* ctrl = MaaTaskerGetController(MaaContextGetTasker(context));
+        auto rid = MaaControllerPostClick(ctrl, box->x + box->width / 2, box->y + box->height / 2);
+        MaaControllerWait(ctrl, rid);
+        Sleep(500);
+         // 识别滑块
+        ScreenCap cap(context);
+        
+        if (doRecognition(context, cap.img, sliderNode.c_str(), "{}", &thumbBox, nullptr)) {
+            break;
+        }
+    }
+    
+    
+    if (buyCount == remaining) {
+        setNextNode(context, nodeName, "CarriageShopSlideBuyMax");
+        return true;
+    }
+
+    // 点击滑块目标位置
+    double ratio = (std::min)(1.0, static_cast<double>(buyCount) / remaining);
+    int clickX = thumbBox.x + static_cast<int>(ratio * sliderLength);
+    int clickY = thumbBox.y + thumbBox.height / 2;
+    clickPoint(context, clickX, clickY);
+    Sleep(500);
+
+    // 读取当前购买数量（重新识别滑块 → 数量框 → OCR）
+    auto readCurrentQuantity = [&](int& out) -> bool {
+        ScreenCap cap(context);
+        MaaRect tb;
+        if (!doRecognition(context, cap.img, sliderNode.c_str(), "{}", &tb, nullptr)) {
+            tb = thumbBox;
+        }
+        MaaRect qb;
+        qb.x = tb.x + qOffset[0];
+        qb.y = tb.y + qOffset[1];
+        qb.width = tb.width + qOffset[2];
+        qb.height = tb.height + qOffset[3];
+        return readNumberFromRoi(context, qb, out);
+    };
+
+    // 读实际数量并用 +/- 微调，最多重试 maxRetry 次
+    const int maxRetry = 10;
+    for (int attempt = 0; attempt < maxRetry; ++attempt) {
+         if (MaaTaskerStopping(MaaContextGetTasker(context))) {
+            return true;
+        }
+        int actual = 0;
+        if (!readCurrentQuantity(actual)) {
+            // 读不到数量，可能滑块没点中，重新点滑块后重试
+            clickPoint(context, clickX, clickY);
+            Sleep(500);
+            continue;
+        }
+
+        int diff = buyCount - actual;
+        if (diff == 0) {
+            break; // 命中目标数量，进入可购买校验
+        }
+
+        // 用 +/- 微调
+        int adjustX = diff > 0 ? plusPos[0] : minusPos[0];
+        int adjustY = diff > 0 ? plusPos[1] : minusPos[1];
+        int steps = diff > 0 ? diff : -diff;
+        for (int i = 0; i < steps; ++i) {
+            clickPoint(context, adjustX, adjustY);
+            Sleep(500);
+        }
+        Sleep(500); // 等界面更新，下一轮重新校验
+    }
+
+    // 校验当前数量是否可购买（试炼石是否够），不够就点 - 递减
+    if (!canBuyCheck.empty()) {
+        for (int attempt = 0; attempt < maxRetry; ++attempt) {
+             if (MaaTaskerStopping(MaaContextGetTasker(context))) {
+            return true;
+        }
+            if (runTaskSuccess(context, canBuyCheck.c_str())) {
+                return true; // 可购买
+            }
+            // 不可购买：读当前数量，<=1 就返回
+            int cur = 0;
+            if (readCurrentQuantity(cur) && cur <= 1) {
+                return true; // 已减到 1，不能再减
+            }
+            // 点 - 递减
+            clickPoint(context, minusPos[0], minusPos[1]);
+            Sleep(500);
+        }
+    }
+
+    return true;
+}
+
 void registerCustomComm(MaaResource* res, void* user_data)
 {
     registerCustomAction(res, "ClearHitCount", ClearHitCountAct, user_data);
     registerCustomAction(res, "FailTask", FailTaskAct, user_data);
     registerCustomAction(res, "SaveConfig", SaveConfigAct, user_data);
     registerCustomAction(res, "SubTask", SubTaskAct, user_data);
+    registerCustomAction(res, "ShopAssistant", shopAssistant, user_data);
+    registerCustomAction(res, "CarriageShopSlideBuy", CarriageShopSlideBuyAct, user_data);
+    registerCustomRecognition(res, "ShopFinishCheck", shopFinishCheck, user_data);
     registerCustomRecognition(res, "CheckRoleInTargetMap", checkRoleInTargetMap, user_data);
 }

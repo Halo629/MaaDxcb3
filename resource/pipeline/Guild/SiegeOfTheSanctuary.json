@@ -1,0 +1,854 @@
+{
+	"SiegeOfTheSanctuaryStart": {
+		"desc": "工会活动庇护所之围入口",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"SiegeOfTheSanctuaryEntry",
+			"[JumpBack]SceneEnterGuildSiegeOfTheSanctuary"
+		]
+	},
+	"InSiegeOfTheSanctuaryPage": {
+		"desc": "在庇护所之围页面",
+		"recognition": "TemplateMatch",
+		"template": "guild/SanctuaryCastle.png",
+		"roi": [166, 90, 417, 677]
+	},
+	"SiegeOfTheSanctuaryEntry": {
+		"desc": "庇护所之围入口",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InSiegeOfTheSanctuaryPage"],
+		"next": [
+			"[JumpBack]SiegeOfTheSanctuaryRiskStart",
+			"[JumpBack]SiegeOfTheSanctuaryMarketStart",
+			"[JumpBack]SiegeOfTheSanctuaryGateResistCalamityStart",
+			"[JumpBack]SiegeOfTheSanctuaryGateChallegeCalamityStart",
+			"[JumpBack]SiegeOfTheSanctuaryIdolStart",
+			"SiegeOfTheSanctuaryDone"
+		]
+	},
+	"SiegeOfTheSanctuaryDone": {"desc": "庇护所之围完成", "next": "PressEsc"},
+	"SiegeOfTheSanctuaryStorageExchangeStart": {
+		"desc": "仓库兑换入口",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"SiegeOfTheSanctuaryStorageExchangeEntry",
+			"[JumpBack]SiegeOfTheSanctuaryStorageEntry"
+		]
+	},
+	"SiegeOfTheSanctuaryStorageExchangeEntry": {
+		"desc": "仓库兑换",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InSiegeOfTheSanctuaryStoragePage"],
+		"next": [
+			"[JumpBack]HandleRewardDialog"
+		]
+	},
+	"SiegeOfTheSanctuaryStorageExchangeButton1": {
+		"desc": "兑换按钮1",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"expected": "(?<![已])(兑换)",
+				"roi": [263, 384, 199, 157],
+				"order_by": "Vertical",
+				"sub_name": "ExchangeButton"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [22, 200, 210],
+				"upper": [25, 210, 220],
+				"roi": "ExchangeButton",
+				"count": 20
+			}
+		]
+	},
+	"SiegeOfTheSanctuaryIdolStart": {
+		"desc": "神像召唤入口",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"SiegeOfTheSanctuaryIdolSummonFoodNotEnough",
+			"[JumpBack]HandleRewardDialog",
+			"[JumpBack]SiegeOfTheSanctuaryIdolSummon",
+			"[JumpBack]SiegeOfTheSanctuaryIdolSelectSpirit",
+			"SiegeOfTheSanctuaryIdolSummonDone",
+			"[JumpBack]SiegeOfTheSanctuaryIdolEntry"
+		]
+	},
+	"SiegeOfTheSanctuaryIdolSummonFoodNotEnough": {
+		"desc": "神像召唤食物不足",
+		"recognition": "ColorMatch",
+		"method": 40,
+		"lower": [0, 240, 200],
+		"upper": [0, 255, 255],
+		"roi": [350, 1050, 44, 21],
+		"count": 20,
+		"action": "ClickKey",
+		"key": 111,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [125, 242, 456, 851],
+			"timeout": 2000
+		}
+	},
+	"SiegeOfTheSanctuaryIdolSelectSpirit": {
+		"desc": "神像召唤选择灵体",
+		"recognition": "And",
+		"all_of": [
+			"InSiegeOfTheSanctuaryIdolPage",
+			{
+				"recognition": "OCR",
+				"expected": "蕴含|气息|环绕",
+				"roi": [65, 292, 606, 706]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [0, -100, 0, 0],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [125, 242, 456, 851],
+			"timeout": 2000
+		}
+	},
+	"SiegeOfTheSanctuaryIdolSummon": {
+		"desc": "神像召唤灵体",
+		"recognition": "And",
+		"all_of": [
+			"InSiegeOfTheSanctuaryIdolPage",
+			{
+				"recognition": "OCR",
+				"expected": "召唤",
+				"roi": [283, 1079, 136, 48],
+				"sub_name": "SummonSpirit"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [22, 200, 210],
+				"upper": [25, 210, 220],
+				"roi": "SummonSpirit",
+				"count": 20
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [125, 242, 456, 851],
+			"timeout": 2000
+		},
+		"next": [
+			"InSiegeOfTheSanctuaryIdolPage",
+			"[JumpBack]SiegeOfTheSanctuaryIdolSummonClickToCompleteSummon"
+		]
+	},
+	"SiegeOfTheSanctuaryIdolSummonClickToCompleteSummon": {
+		"recognition": "DirectHit",
+		"action": "Click",
+		"target": [322, 364, 74, 115],
+		"post_delay": 1000
+	},
+	"SiegeOfTheSanctuaryIdolSummonDone": {
+		"desc": "召唤完成",
+		"recognition": "And",
+		"all_of": ["InSiegeOfTheSanctuaryIdolPage"],
+		"action": "ClickKey",
+		"key": 111,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [125, 242, 456, 851],
+			"timeout": 2000
+		}
+	},
+	"SiegeOfTheSanctuaryGateResistCalamityStart": {
+		"desc": "大门抵御灾厄",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"SiegeOfTheSanctuaryGateResistCalamity",
+			"SiegeOfTheSanctuaryGateResistCalamityDone",
+			"[JumpBack]SiegeOfTheSanctuaryGateEntry"
+		]
+	},
+	"SiegeOfTheSanctuaryGateChallegeCalamityStart": {
+		"desc": "大门挑战灾厄",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"[JumpBack]BattleAI",
+			"[JumpBack]SiegeOfTheSanctuaryGateChallegeCalamity",
+			"SiegeOfTheSanctuaryGateChallengeCalamityDone",
+			"[JumpBack]SiegeOfTheSanctuaryGateEntry"
+		]
+	},
+	"SiegeOfTheSanctuaryGateResistCalamityFailed": {
+		"desc": "抵御灾厄挑战失败，退出",
+		"recognition": "And",
+		"all_of": ["BattleResultFail"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"[JumpBack]HandleBattleEnd",
+			"SiegeOfTheSanctuaryGateResistCalamityDone"
+		]
+	},
+	"SiegeOfTheSanctuaryGateResistCalamityFailedVictory": {
+		"desc": "抵御灾厄挑战胜利，继续挑战",
+		"recognition": "And",
+		"all_of": ["BattleResultVictory"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"[JumpBack]HandleBattleEnd",
+			"SiegeOfTheSanctuaryGateResistCalamity",
+			"SiegeOfTheSanctuaryGateResistCalamityDone"
+		]
+	},
+	"SiegeOfTheSanctuaryGateResistCalamityDone": {
+		"desc": "抵御灾厄完成",
+		"recognition": "And",
+		"all_of": ["InSiegeOfTheSanctuaryGatePage"]
+	},
+	"SiegeOfTheSanctuaryGateChallengeCalamityDone": {
+		"desc": "挑战灾厄完成",
+		"recognition": "And",
+		"all_of": ["InSiegeOfTheSanctuaryGatePage"],
+		"pre_delay": 500,
+		"action": "ClickKey",
+		"key": 111,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [125, 242, 456, 851],
+			"timeout": 2000
+		}
+	},
+	"SiegeOfTheSanctuaryGateChallegeCalamity": {
+		"desc": "挑战灾厄",
+		"recognition": "And",
+		"all_of": [
+			"InSiegeOfTheSanctuaryGatePage",
+			{
+				"recognition": "OCR",
+				"expected": "挑战灾厄|挑战",
+				"roi": [265, 375, 184, 55],
+				"sub_name": "ChallengeCalamity"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [22, 200, 210],
+				"upper": [25, 210, 220],
+				"roi": "ChallengeCalamity",
+				"count": 15
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_delay": 500
+	},
+	"SiegeOfTheSanctuaryGateResistCalamity": {
+		"desc": "抵御灾厄挑战",
+		"recognition": "And",
+		"all_of": [
+			"InSiegeOfTheSanctuaryGatePage",
+			{
+				"recognition": "OCR",
+				"expected": "挑战",
+				"roi": [525, 602, 140, 419]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_delay": 500,
+		"anchor": {
+			"BattleVictoryAction": "SiegeOfTheSanctuaryGateResistCalamityFailedVictory",
+			"BattleFailedAction": "SiegeOfTheSanctuaryGateResistCalamityFailed"
+		},
+		"next": [
+			"BattleAI",
+			"SiegeOfTheSanctuaryGateResistCalamity"
+		]
+	},
+	"SiegeOfTheSanctuaryMarketStart": {
+		"desc": "庇护所之围市场",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"SiegeOfTheSanctuaryMarketBuyItemsStart",
+			"[JumpBack]SiegeOfTheSanctuaryMarketEntry"
+		]
+	},
+	"SiegeOfTheSanctuaryMarketBuyItemsStart": {
+		"desc": "市场页面购买商品入口",
+		"recognition": "And",
+		"all_of": ["InSiegeOfTheSanctuaryMarketPage"],
+		"next": [
+			"[JumpBack]SiegeOfTheSanctuaryMarketBuyItems",
+			"SiegeOfTheSanctuaryMarketPageQuit"
+		]
+	},
+	"SiegeOfTheSanctuaryMarketBuyItems": {
+		"desc": "市场购买商品",
+		"recognition": "Or",
+		"any_of": [
+			"SiegeOfTheSanctuaryMarketEmblemChestCanBuy",
+			"SiegeOfTheSanctuaryMarketFluoriteRawOreCanBuy",
+			"SiegeOfTheSanctuaryMarketSmokyQuartzRawOreCanBuy",
+			"SiegeOfTheSanctuaryMarketLeatherCanBuy",
+			"SiegeOfTheSanctuaryMarketDarkBerryCanBuy"
+		],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [125, 242, 456, 851],
+			"timeout": 2000
+		}
+	},
+	"SiegeOfTheSanctuaryMarketFindEmblemChest": {
+		"desc": "在市场页面找到纹章宝盒",
+		"recognition": "TemplateMatch",
+		"template": "items/EmblemChest.png",
+		"roi": [65, 276, 600, 750],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"SiegeOfTheSanctuaryMarketFindFluoriteRawOre": {
+		"desc": "在市场页面找到萤晶矿原石",
+		"recognition": "TemplateMatch",
+		"template": "items/FluoriteRawOre.png",
+		"roi": [65, 276, 600, 750],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"SiegeOfTheSanctuaryMarketFindSmokyQuartzRawOre": {
+		"desc": "在市场页面找到烟晶矿原石",
+		"recognition": "TemplateMatch",
+		"template": "items/SmokyQuartzRawOre.png",
+		"roi": [65, 276, 600, 750],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"SiegeOfTheSanctuaryMarketFindLeather": {
+		"desc": "在市场页面找到皮革",
+		"recognition": "TemplateMatch",
+		"template": "items/Leather.png",
+		"roi": [65, 276, 600, 750],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"SiegeOfTheSanctuaryMarketFindDarkBerry": {
+		"desc": "在市场页面找到黑暗浆果",
+		"recognition": "TemplateMatch",
+		"template": "items/DarkBerry.png",
+		"roi": [65, 276, 600, 750],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"SiegeOfTheSanctuaryMarketEmblemChestCanBuy": {
+		"desc": "纹章宝盒可购买",
+		"recognition": "And",
+		"all_of": [
+			"SiegeOfTheSanctuaryMarketFindEmblemChest",
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/SanctuaryMarketFood.png",
+				"roi": "SiegeOfTheSanctuaryMarketFindEmblemChest",
+				"roi_offset": [0, 171, 1, -76]
+			},
+			{
+				"recognition": "OCR",
+				"expected": "\\d+",
+				"roi": "SiegeOfTheSanctuaryMarketFindEmblemChest",
+				"roi_offset": [0, 171, 1, -76],
+				"sub_name": "EmblemChestPrice"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [0, 0, 100],
+				"upper": [255, 50, 255],
+				"roi": "EmblemChestPrice",
+				"count": 15
+			}
+		],
+		"box_index": 2
+	},
+	"SiegeOfTheSanctuaryMarketFluoriteRawOreCanBuy": {
+		"desc": "萤晶矿原石可购买",
+		"recognition": "And",
+		"all_of": [
+			"SiegeOfTheSanctuaryMarketFindFluoriteRawOre",
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/SanctuaryMarketFood.png",
+				"roi": "SiegeOfTheSanctuaryMarketFindFluoriteRawOre",
+				"roi_offset": [0, 171, 1, -76]
+			},
+			{
+				"recognition": "OCR",
+				"expected": "\\d+",
+				"roi": "SiegeOfTheSanctuaryMarketFindFluoriteRawOre",
+				"roi_offset": [0, 171, 1, -76],
+				"sub_name": "FluoriteRawOrePrice"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [0, 0, 100],
+				"upper": [255, 50, 255],
+				"roi": "FluoriteRawOrePrice",
+				"count": 15
+			}
+		],
+		"box_index": 2
+	},
+	"SiegeOfTheSanctuaryMarketSmokyQuartzRawOreCanBuy": {
+		"desc": "烟晶矿原石可购买",
+		"recognition": "And",
+		"all_of": [
+			"SiegeOfTheSanctuaryMarketFindSmokyQuartzRawOre",
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/SanctuaryMarketFood.png",
+				"roi": "SiegeOfTheSanctuaryMarketFindSmokyQuartzRawOre",
+				"roi_offset": [0, 171, 1, -76]
+			},
+			{
+				"recognition": "OCR",
+				"expected": "\\d+",
+				"roi": "SiegeOfTheSanctuaryMarketFindSmokyQuartzRawOre",
+				"roi_offset": [0, 171, 1, -76],
+				"sub_name": "SmokyQuartzRawOrePrice"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [0, 0, 100],
+				"upper": [255, 50, 255],
+				"roi": "SmokyQuartzRawOrePrice",
+				"count": 15
+			}
+		],
+		"box_index": 2
+	},
+	"SiegeOfTheSanctuaryMarketLeatherCanBuy": {
+		"desc": "皮革可购买",
+		"recognition": "And",
+		"all_of": [
+			"SiegeOfTheSanctuaryMarketFindLeather",
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/SanctuaryMarketFood.png",
+				"roi": "SiegeOfTheSanctuaryMarketFindLeather",
+				"roi_offset": [0, 171, 1, -76]
+			},
+			{
+				"recognition": "OCR",
+				"expected": "\\d+",
+				"roi": "SiegeOfTheSanctuaryMarketFindLeather",
+				"roi_offset": [0, 171, 1, -76],
+				"sub_name": "LeatherPrice"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [0, 0, 100],
+				"upper": [255, 50, 255],
+				"roi": "LeatherPrice",
+				"count": 15
+			}
+		],
+		"box_index": 2
+	},
+	"SiegeOfTheSanctuaryMarketDarkBerryCanBuy": {
+		"desc": "黑暗浆果可购买",
+		"recognition": "And",
+		"all_of": [
+			"SiegeOfTheSanctuaryMarketFindDarkBerry",
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/SanctuaryMarketFood.png",
+				"roi": "SiegeOfTheSanctuaryMarketFindDarkBerry",
+				"roi_offset": [0, 171, 1, -76]
+			},
+			{
+				"recognition": "OCR",
+				"expected": "\\d+",
+				"roi": "SiegeOfTheSanctuaryMarketFindDarkBerry",
+				"roi_offset": [0, 171, 1, -76],
+				"sub_name": "DarkBerryPrice"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [0, 0, 100],
+				"upper": [255, 50, 255],
+				"roi": "DarkBerryPrice",
+				"count": 15
+			}
+		],
+		"box_index": 2
+	},
+	"SiegeOfTheSanctuaryRiskStart": {
+		"desc": "庇护所之围冒险",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"[JumpBack]BattleAI",
+			"[JumpBack]SiegeOfTheSanctuaryRiskStartChallenge",
+			"SiegeOfTheSanctuaryRiskExploreEntry",
+			"[JumpBack]SiegeOfTheSanctuaryRiskEntry"
+		]
+	},
+	"SiegeOfTheSanctuaryRiskPageQuit": {
+		"desc": "退出冒险页面",
+		"recognition": "And",
+		"all_of": [
+			"InSiegeOfTheSanctuaryRiskPage",
+			{
+				"recognition": "OCR",
+				"expected": "放弃",
+				"roi": [302, 958, 112, 52]
+			}
+		],
+		"action": "ClickKey",
+		"key": 111,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [125, 242, 456, 851],
+			"timeout": 2000
+		}
+	},
+	"SiegeOfTheSanctuaryMarketPageQuit": {
+		"desc": "退出市场页面",
+		"recognition": "And",
+		"all_of": [
+			"InSiegeOfTheSanctuaryMarketPage",
+			{
+				"recognition": "OCR",
+				"expected": "离开",
+				"roi": [297, 1120, 117, 37]
+			}
+		],
+		"next": [
+			"PressEsc"
+		]
+	},
+	"SiegeOfTheSanctuaryHasRiskRemainingCount": {
+		"desc": "冒险挑战次数",
+		"recognition": "OCR",
+		"expected": "2/2|1/2",
+		"roi": [408, 917, 43, 24],
+		"only_rec": true
+	},
+	"SiegeOfTheSanctuaryRiskStartChallenge": {
+		"desc": "开始挑战",
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InSiegeOfTheSanctuaryRiskPage",
+			"SiegeOfTheSanctuaryHasRiskRemainingCount",
+			{
+				"recognition": "OCR",
+				"expected": "开始挑战",
+				"roi": [270, 948, 186, 73]
+			}
+		],
+		"box_index": 2,
+		"action": "Click",
+		"post_delay": 1000
+	},
+	"SiegeOfTheSanctuaryRiskExploreEntry": {
+		"desc": "开始探索入口",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InSiegeOfTheSanctuaryRiskPage"],
+		"next": [
+			"SiegeOfTheSanctuaryRiskStartFarmExplore",
+			"[JumpBack]SiegeOfTheSanctuaryRiskExplorePageEntry"
+		]
+	},
+	"SiegeOfTheSanctuaryRiskStartFarmExplore": {
+		"desc": "开始探索农场",
+		"recognition": "And",
+		"all_of": ["InSiegeOfTheSanctuaryExplorePage"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"SiegeOfTheSanctuaryRiskPageQuit",
+			"[JumpBack]HandleRewardDialog",
+			"[JumpBack]SiegeOfTheSanctuaryRiskCollectExploreReward",
+			"[JumpBack]SiegeOfTheSanctuaryRiskExploreAutoFormation",
+			"[JumpBack]SiegeOfTheSanctuaryRiskExploreSelectFormation",
+			"[JumpBack]SiegeOfTheSanctuaryRiskStartExplore",
+			"[JumpBack]SiegeOfTheSanctuaryRiskSelectFarmExplore"
+		]
+	},
+	"SiegeOfTheSanctuaryExploreFarmSelected": {
+		"desc": "已选择农场",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "guild/ExploreSelected.png",
+		"roi": [519, 248, 129, 78]
+	},
+	"SiegeOfTheSanctuaryRiskSelectFarmExplore": {
+		"desc": "选择探索农场",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "农场",
+		"roi": [574, 272, 66, 30],
+		"only_rec": true,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [125, 242, 456, 851],
+			"timeout": 2000
+		}
+	},
+	"SiegeOfTheSanctuaryRiskCollectExploreReward": {
+		"desc": "领取探索奖励",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "领取奖励|领取|奖励",
+		"roi": [269, 960, 165, 47],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [125, 242, 456, 851],
+			"timeout": 2000
+		}
+	},
+	"SiegeOfTheSanctuaryRiskStartExplore": {
+		"desc": "开始探索",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"SiegeOfTheSanctuaryExploreFarmSelected",
+			{
+				"recognition": "OCR",
+				"expected": "开始探索|探索",
+				"roi": [270, 960, 174, 49]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [125, 242, 456, 851],
+			"timeout": 2000
+		}
+	},
+	"SiegeOfTheSanctuaryRiskExploreAutoFormation": {
+		"desc": "一键编队",
+		"recognition": "OCR",
+		"expected": "一键编队|编队",
+		"roi": [74, 1091, 580, 92],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [125, 242, 456, 851],
+			"timeout": 2000
+		},
+		"next": [
+			"SiegeOfTheSanctuaryRiskExploreAutoFormationConfirm"
+		]
+	},
+	"SiegeOfTheSanctuaryRiskExploreAutoFormationConfirm": {
+		"desc": "一键编队确认",
+		"recognition": "OCR",
+		"expected": "确认",
+		"roi": [74, 1091, 580, 92],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [125, 242, 456, 851],
+			"timeout": 2000
+		}
+	},
+	"SiegeOfTheSanctuaryRiskExploreSelectFormation": {
+		"desc": "选择编队",
+		"recognition": "TemplateMatch",
+		"template": "guild/SelectFormation.png",
+		"roi": [110, 420, 521, 70],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [125, 242, 456, 851],
+			"timeout": 2000
+		}
+	},
+	"SiegeOfTheSanctuaryRiskExplorePageEntry": {
+		"desc": "进入探索页面",
+		"recognition": "OCR",
+		"expected": "坚壁清野|坚壁|清野",
+		"roi": [164, 1048, 399, 45],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [125, 242, 456, 851],
+			"timeout": 2000
+		}
+	},
+	"InSiegeOfTheSanctuaryExplorePage": {
+		"desc": "在探索页面",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"expected": "坚壁清野|坚壁|清野",
+				"roi": [164, 1048, 399, 45],
+				"sub_name": "ExplorePageEntry"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [14, 140, 70],
+				"upper": [18, 200, 200],
+				"expected": "坚壁清野|坚壁|清野",
+				"roi": "ExplorePageEntry",
+				"count": 50
+			}
+		]
+	},
+	"InSiegeOfTheSanctuaryRiskPage": {
+		"desc": "在冒险页面",
+		"recognition": "OCR",
+		"expected": "强敌狩猎|坚壁清野",
+		"roi": [164, 1048, 399, 45]
+	},
+	"InSiegeOfTheSanctuaryMarketPage": {
+		"desc": "在市场页面",
+		"recognition": "OCR",
+		"expected": "市场",
+		"roi": [264, 183, 94, 42]
+	},
+	"SiegeOfTheSanctuaryRiskEntry": {
+		"desc": "庇护所之围进入冒险页面",
+		"recognition": "OCR",
+		"expected": "冒险",
+		"roi": [290, 911, 134, 94],
+		"action": "Click",
+		"target_offset": [0, -60, 0, 0],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [125, 242, 456, 851],
+			"timeout": 2000
+		}
+	},
+	"SiegeOfTheSanctuaryMarketEntry": {
+		"desc": "庇护所之围进入市场页面",
+		"recognition": "OCR",
+		"expected": "市场",
+		"roi": [487, 926, 116, 103],
+		"action": "Click",
+		"target_offset": [0, -60, 0, 0],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [125, 242, 456, 851],
+			"timeout": 2000
+		}
+	},
+	"SiegeOfTheSanctuaryGateEntry": {
+		"desc": "庇护所之围进入大门页面",
+		"recognition": "OCR",
+		"expected": "大门",
+		"roi": [273, 1040, 184, 129],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [125, 242, 456, 851],
+			"timeout": 2000
+		}
+	},
+	"InSiegeOfTheSanctuaryGatePage": {
+		"desc": "在庇护所之围大门页面",
+		"recognition": "OCR",
+		"expected": "下一次血月灾厄倒计时|下一次|血月灾厄|灾厄|倒计时",
+		"roi": [148, 443, 430, 55]
+	},
+	"SiegeOfTheSanctuaryIdolEntry": {
+		"desc": "庇护所之围进入神像页面",
+		"recognition": "OCR",
+		"expected": "神像",
+		"roi": [85, 756, 171, 102],
+		"target_offset": [0, -60, 0, 0],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [125, 242, 456, 851],
+			"timeout": 2000
+		}
+	},
+	"InSiegeOfTheSanctuaryIdolPage": {
+		"desc": "在庇护所之围神像页面",
+		"recognition": "OCR",
+		"expected": "渥金女神像|渥金|女神像",
+		"roi": [269, 176, 184, 51]
+	},
+	"SiegeOfTheSanctuaryStorageEntry": {
+		"desc": "庇护所之围进入仓库页面",
+		"recognition": "OCR",
+		"expected": "仓库",
+		"roi": [483, 739, 197, 99],
+		"target_offset": [0, -60, 0, 0],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [125, 242, 456, 851],
+			"timeout": 2000
+		}
+	},
+	"InSiegeOfTheSanctuaryStoragePage": {
+		"desc": "在庇护所之围仓库页面",
+		"recognition": "OCR",
+		"expected": "仓库",
+		"roi": [302, 136, 108, 43]
+	}
+}

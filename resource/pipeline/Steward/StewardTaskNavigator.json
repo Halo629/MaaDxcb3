@@ -1,0 +1,117 @@
+{
+	"SceneEnterStewardTask": {
+		"desc": "从管家页面进入管家任务导航",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"[Anchor]InStewardTaskPageAnchor",
+			"[JumpBack][Anchor]StewardTaskAnchor",
+			"[JumpBack]StewardTaskEntry",
+			"StewardTaskDone",
+			"[JumpBack]StewardPageSwipeUp",
+			"[JumpBack]StewardPageSwipeDown",
+			"[JumpBack]SceneEnterSteward"
+		]
+	},
+	"StewardTaskDone": {
+		"desc": "管家任务执行完成",
+		"recognition": "And",
+		"all_of": [
+			"InStewardPage",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [0, 0, 110],
+				"upper": [0, 0, 150],
+				"roi": "[Anchor]StewardTaskAnchor",
+				"count": 20
+			}
+		]
+	},
+	"StewardTaskEntry": {
+		"desc": "进入管家任务页面",
+		"recognition": "And",
+		"all_of": [
+			"InStewardPage",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [19, 150, 200],
+				"upper": [35, 200, 255],
+				"roi": "[Anchor]StewardTaskAnchor",
+				"count": 20,
+				"sub_name": "StewardTaskBox"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "前往",
+				"roi": "StewardTaskBox",
+				"roi_offset": [0, -20, 400, 40]
+			}
+		],
+		"box_index": 2,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [260, 540, 400, 400],
+			"timeout": 3000
+		}
+	},
+	"StewardPageHasShrineWorkshop": {
+		"desc": "管家页面识别灵龛工坊",
+		"recognition": "OCR",
+		"expected": "灵龛中的工坊|工坊",
+		"roi": [94, 261, 525, 748]
+	},
+	"StewardPageHasCarriageshop": {
+		"desc": "管家页面识别马车商店",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": [
+			"InStewardPage",
+			{
+				"recognition": "OCR",
+				"expected": "马车",
+				"roi": [94, 261, 525, 748]
+			}
+		],
+		"box_index": 1
+	},
+	"StewardPageSwipeUp": {
+		"desc": "在管家页面上滑",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InStewardPage"],
+		"action": "Swipe",
+		"begin": [400, 850],
+		"end": [400, 350],
+		"duration": 100,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [104, 272, 515, 733],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"StewardPageSwipeDown": {
+		"desc": "在管家页面下滑",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InStewardPage"],
+		"action": "Swipe",
+		"begin": [400, 350],
+		"end": [400, 850],
+		"duration": 100,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [104, 272, 515, 733],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	}
+}

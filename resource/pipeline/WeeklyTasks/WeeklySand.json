@@ -5,17 +5,28 @@
 		"post_delay": 0,
 		"rate_limit": 0,
 		"next": [
-			"[JumpBack]FreeSandCollectEntry",
-			"WeeklySandBuyStart",
+			"[JumpBack]FreeSandCollectStart",
+			"[JumpBack]WeeklySandBuyStart",
+			"__ScenePrivateNextTrue"
+		],
+		"focus": {"Node.Recognition.Succeeded": "开始任务:炼成阵沙子领取"}
+	},
+	"FreeSandCollectStart": {
+		"desc": "免费沙领取",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"FreeSandCollectEntry",
 			"WeeklySandNone",
 			"[JumpBack]SceneEnterMainPage"
-		],
-		"focus": "开始任务:炼成阵沙子领取"
+		]
 	},
 	"FreeSandCollectEntry": {
-		"desc": "在主页并且有免费沙提醒图标",
+		"desc": "免费沙领取",
 		"recognition": "And",
-		"all_of": ["InMainPage", "HasFreeSandNotice"],
+		"all_of": ["InCampfire", "HasFreeSandNotice"],
 		"box_index": 1,
 		"action": "Click",
 		"pre_wait_freezes": {
@@ -36,7 +47,7 @@
 		"roi": [235, 887, 264, 165],
 		"template": "sand/goto_collect_sand.png",
 		"pre_delay": 0,
-		"post_delay": 0,
+		"post_delay": 500,
 		"rate_limit": 0,
 		"action": "Click",
 		"pre_wait_freezes": {
@@ -58,7 +69,7 @@
 		"post_delay": 0,
 		"rate_limit": 0,
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [260, 540, 200, 200],
 			"timeout": 2000
 		},
@@ -68,6 +79,7 @@
 	},
 	"WeeklySandBuyStart": {
 		"desc": "每周沙子购买",
+		"max_hit": 1,
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
@@ -130,5 +142,9 @@
 			"SceneBack"
 		]
 	},
-	"WeeklySandNone": {"desc": "炼成阵沙子完成"}
+	"WeeklySandNone": {
+		"desc": "炼成阵沙子完成",
+		"recognition": "And",
+		"all_of": ["InCampfire"]
+	}
 }

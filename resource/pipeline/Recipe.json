@@ -136,12 +136,7 @@
 			"RecipeLocked"
 		]
 	},
-	"RecipeLocked": {
-		"desc": "食谱已解锁,没有弹窗",
-		"action": "Click",
-		"target": [72, 1054, 80, 40],
-		"post_delay": 500
-	},
+	"RecipeLocked": {"desc": "食谱已解锁,没有弹窗"},
 	"NewRecipeGet": {
 		"desc": "获得新食谱",
 		"recognition": "OCR",
@@ -183,6 +178,9 @@
 	"RecipeOcrArea": {
 		"desc": "食谱OCR识别区域",
 		"recognition": "OCR",
-		"roi": [27, 334, 658, 817]
+		"roi": [27, 334, 658, 817],
+		"replace": [
+			["燉", "炖"]
+		]
 	}
 }

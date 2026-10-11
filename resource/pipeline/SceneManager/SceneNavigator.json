@@ -8,6 +8,7 @@
 			"InMainPage",
 			"[JumpBack]__ScenePrivateCurrentEventExit",
 			"[JumpBack]SceneBack",
+			"[JumpBack]LeaveButton",
 			"[JumpBack]__ScenePrivateReturnSecretRealm",
 			"[JumpBack]__ScenePrivateReturnRisk",
 			"[JumpBack]LoginPageClickStartGameButton",
@@ -184,7 +185,7 @@
 		"rate_limit": 0
 	},
 	"SceneEnterGuild": {
-		"desc": "从任意界面回到公会挑战界面",
+		"desc": "从任意界面回到公会界面",
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
@@ -234,6 +235,74 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0
+	},
+	"SceneEnterGuildSiegeOfTheSanctuary": {
+		"desc": "从任意界面回到公会庇护所之围活动页面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InSiegeOfTheSanctuaryPage",
+			"SiegeOfTheSanctuaryNotActivated",
+			"NotJoinInGuild",
+			"[JumpBack]SiegeOfTheSanctuaryPageEntry",
+			"[JumpBack]SceneEnterGuild"
+		]
+	},
+	"SiegeOfTheSanctuaryNotActivated": {
+		"desc": "庇护所之围活动未开始",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InGuildPage",
+			{
+				"recognition": "OCR",
+				"expected": "开始",
+				"roi": [394, 735, 273, 46]
+			}
+		],
+		"next": [
+			"ActivityNotEnabled"
+		]
+	},
+	"SiegeOfTheSanctuaryPageEntry": {
+		"desc": "进入庇护所之围页面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InGuildPage",
+			{
+				"recognition": "OCR",
+				"expected": "庇护所之围|庇护所|庇护",
+				"roi": [443, 875, 159, 46]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [84, 720, 493, 378],
+			"timeout": 2000
+		},
+		"next": [
+			"InSiegeOfTheSanctuaryPage",
+			"[JumpBack]ConfirmButton",
+			"[JumpBack]SiegeOfTheSanctuaryCloseTipBox"
+		]
+	},
+	"SiegeOfTheSanctuaryCloseTipBox": {
+		"desc": "庇护所之围页面关闭弹窗",
+		"action": "Click",
+		"target": [253, 57, 101, 48],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [84, 720, 493, 378],
+			"timeout": 2000
+		}
 	},
 	"SceneEnterGamePlay": {
 		"desc": "从任意界面回到更多玩法界面",
@@ -605,95 +674,6 @@
 			"target": [18, 263, 684, 674]
 		}
 	},
-	"SceneEnterSelectDestination": {
-		"desc": "从任意界面进入选择目的地界面",
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0,
-		"next": [
-			"[JumpBack]SceneCollapseSideBar",
-			"SceneSelectDestination",
-			"[JumpBack]SceneClickCampFire",
-			"[JumpBack]SceneEnterMainPage"
-		]
-	},
-	"SceneSelectDestination": {
-		"desc": "选择目的地",
-		"recognition": "And",
-		"all_of": ["InSelectDestinationPage"],
-		"next": [
-			"[JumpBack]SwitchMapListAscendingSort",
-			"[Anchor]ResetMiniMapAnchor",
-			"[Anchor]SelectMiniMapAnchor",
-			"[JumpBack][Anchor]SelectWorldMapAnchor",
-			"[JumpBack]DestinationPageSwipeUp",
-			"SceneSelectDestinationError"
-		]
-	},
-	"SceneSelectDestinationError": {
-		"desc": "进入地图失败,未找到地图",
-		"next": [
-			"SceneBack"
-		],
-		"focus": {"Node.Recognition.Succeeded": "进入地图失败,未找到地图"}
-	},
-	"CheckRoleInTargetMap": {
-		"desc": "判断角色是否在目标地图",
-		"recognition": "Custom",
-		"custom_recognition": "CheckRoleInTargetMap",
-		"custom_recognition_param": {"map_name": ""}
-	},
-	"DestinationPageSwipeUp": {
-		"desc": "选择目的地页面向上滑",
-		"recognition": "And",
-		"all_of": ["MapListSwipePos"],
-		"action": "Swipe",
-		"begin": "MapListSwipePos",
-		"end": "MapListSwipePos",
-		"begin_offset": [50, 0, 0, 0],
-		"end_offset": [50, -200, 0, 0],
-		"duration": 200,
-		"max_hit": 10,
-		"post_wait_freezes": {
-			"time": 500,
-			"target": [179, 224, 369, 732],
-			"timeout": 2000
-		},
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0
-	},
-	"OriginWorldMap": {
-		"desc": "源世界地图",
-		"max_hit": 1,
-		"recognition": "And",
-		"all_of": ["SelectDestinationPageHasOriginWorld"],
-		"action": "Click",
-		"post_wait_freezes": {
-			"time": 500,
-			"target": [45, 1023, 639, 29],
-			"timeout": 2000
-		},
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0
-	},
-	"ClearOriginWorldMapMaxHit": {
-		"desc": "清除OriginWorldMap的max_hit,在重置源世界地图时调用",
-		"action": "Custom",
-		"custom_action": "ClearHitCount",
-		"custom_action_param": {
-			"nodes": ["OriginWorldMap"]
-		}
-	},
-	"SceneCollapseSideBar": {
-		"desc": "出发前往地图前收起侧边栏",
-		"recognition": "And",
-		"all_of": ["InCampfire", "HasCollapseIcon"],
-		"box_index": 1,
-		"action": "Click",
-		"post_delay": 500
-	},
 	"SceneClickCampFire": {
 		"desc": "点击营火",
 		"recognition": "TemplateMatch",
@@ -841,6 +821,8 @@
 		"desc": "美食祭活动未开启",
 		"recognition": "And",
 		"all_of": ["InCampfire"],
+		"action": "Custom",
+		"custom_action": "FailTask",
 		"focus": {"Node.Recognition.Succeeded": "美食祭活动未开启"}
 	},
 	"SceneEnterBarrelMan": {
@@ -854,6 +836,29 @@
 			"FoodFestivalNotEnabled",
 			"[JumpBack]SceneEnterMainPage"
 		]
+	},
+	"SceneEnterGoblinAirship": {
+		"desc": "从任意界面回到地精飞艇界面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InGoblinAirship",
+			"[JumpBack]BoardTheAirship",
+			"[JumpBack]GreetGoblin",
+			"[JumpBack]HandleDialogue",
+			"[JumpBack]GoblinAirshipEntry",
+			"GoblinAirshipNotEnabled",
+			"[JumpBack]SceneEnterMainPage"
+		]
+	},
+	"GoblinAirshipNotEnabled": {
+		"desc": "地精飞艇未开启",
+		"recognition": "And",
+		"all_of": ["InCampfire"],
+		"action": "Custom",
+		"custom_action": "FailTask",
+		"focus": {"Node.Recognition.Succeeded": "地精飞艇活动未开启"}
 	},
 	"InNightmareMirrorPage": {
 		"desc": "在咒魇水鉴页面",

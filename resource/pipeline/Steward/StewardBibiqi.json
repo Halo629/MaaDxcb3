@@ -139,7 +139,6 @@
 		"action": "Click",
 		"pre_delay": 0,
 		"post_delay": 5000,
-		//等待祈愿动画
 		"rate_limit": 0,
 		"next": [
 			"HandleRewardDialog",

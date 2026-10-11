@@ -24,7 +24,7 @@
 		}
 	],
 	"agent": [
-		{"child_exec": "agent/cpp-service"}
+		{"child_exec": "agent/cpp-service-debug"}
 	],
 	"group": [
 		{
@@ -84,6 +84,8 @@
 		"assets/tasks/GoblinAirship.json",
 		//大泽远征
 		"assets/tasks/GreatMarshExpedition.json",
+		//庇护所之围
+		"assets/tasks/SiegeOfTheSanctuary.json",
 		//哈伍德城堡
 		//"assets/tasks/HarwoodCastle.json",
 		//铭心礼遇

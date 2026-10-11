@@ -152,7 +152,7 @@
 		"post_delay": 0,
 		"rate_limit": 0,
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [260, 540, 200, 200],
 			"timeout": 5000
 		},
@@ -330,6 +330,11 @@
 		"post_delay": 0,
 		"rate_limit": 0,
 		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [260, 540, 200, 200],
+			"timeout": 2000
+		},
 		"next": [
 			"EngraveDoneConfirm"
 		]
@@ -344,9 +349,9 @@
 		"rate_limit": 0,
 		"action": "Click",
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [260, 540, 200, 200],
-			"timeout": 5000
+			"timeout": 2000
 		}
 	},
 	"ReforgeEntry": {
@@ -357,7 +362,11 @@
 		"post_delay": 0,
 		"rate_limit": 0,
 		"action": "Click",
-		"post_wait_freezes": 300
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [260, 540, 200, 200],
+			"timeout": 2000
+		}
 	},
 	"ReforgeSelectFirstRole": {
 		"desc": "选择第一个人物",
@@ -395,8 +404,8 @@
 		"action": "Click",
 		"target": [559, 857, 31, 36],
 		"post_wait_freezes": {
-			"time": 300,
-			"target": [73, 308, 574, 690],
+			"time": 500,
+			"target": [260, 540, 200, 200],
 			"timeout": 2000
 		},
 		"pre_delay": 0,
@@ -412,7 +421,7 @@
 		"action": "Click",
 		"target": [620, 830, 80, 92],
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [73, 308, 574, 690],
 			"timeout": 2000
 		},
@@ -429,7 +438,7 @@
 		"action": "Click",
 		"target": [533, 923, 82, 90],
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [73, 308, 574, 690],
 			"timeout": 2000
 		},
@@ -446,7 +455,7 @@
 		"action": "Click",
 		"target": [619, 923, 82, 91],
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [73, 308, 574, 690],
 			"timeout": 2000
 		},
@@ -463,7 +472,7 @@
 		"action": "Click",
 		"target": [528, 1008, 91, 92],
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [73, 308, 574, 690],
 			"timeout": 2000
 		},
@@ -480,7 +489,7 @@
 		"action": "Click",
 		"target": [618, 1006, 83, 92],
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [73, 308, 574, 690],
 			"timeout": 2000
 		},
@@ -498,7 +507,7 @@
 		"rate_limit": 0,
 		"action": "Click",
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [73, 308, 574, 690],
 			"timeout": 2000
 		},
@@ -617,7 +626,7 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [277, 356, 178, 555],
 			"timeout": 2000
 		},
@@ -643,7 +652,7 @@
 		"order_by": "Vertical",
 		"action": "Click",
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [277, 356, 178, 555],
 			"timeout": 2000
 		},
@@ -660,7 +669,7 @@
 		"roi": [268, 1131, 199, 47],
 		"action": "Click",
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [277, 356, 178, 555],
 			"timeout": 2000
 		},
@@ -679,7 +688,7 @@
 		"order_by": "Vertical",
 		"action": "Click",
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [277, 356, 178, 555],
 			"timeout": 2000
 		},
@@ -709,7 +718,7 @@
 		"box_index": 2,
 		"action": "Click",
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [277, 356, 178, 555],
 			"timeout": 2000
 		}
@@ -728,7 +737,7 @@
 		"duration": 200,
 		"max_hit": 3,
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [277, 356, 178, 555],
 			"timeout": 2000
 		}
@@ -755,12 +764,16 @@
 		],
 		"action": "Click",
 		"post_wait_freezes": {
-			"time": 400,
+			"time": 600,
 			"target": [242, 464, 265, 428],
 			"timeout": 2000
 		},
+		"timeout": 5000,
 		"next": [
 			"HandleRewardDialog"
+		],
+		"on_error": [
+			"ActivityAlwaysTrue"
 		]
 	},
 	"ActivityNotEnabled": {
@@ -768,6 +781,12 @@
 		"action": "Custom",
 		"custom_action": "FailTask",
 		"focus": {"Node.Recognition.Succeeded": "活动未开放"}
+	},
+	"ActivityError": {
+		"desc": "活动任务执行出错",
+		"action": "Custom",
+		"custom_action": "FailTask",
+		"focus": {"Node.Recognition.Succeeded": "活动任务执行出错"}
 	},
 	"ActivityAlwaysTrue": {"desc": "活动公共退出节点"},
 	"ActivityCommonFreeCollect": {

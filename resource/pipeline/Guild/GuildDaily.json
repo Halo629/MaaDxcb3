@@ -16,10 +16,7 @@
 	"NotJoinInGuild": {
 		"desc": "未加入公会",
 		"recognition": "And",
-		"all_of": ["InNoGuildPage"],
-		"next": [
-			"SceneBack"
-		]
+		"all_of": ["InNoGuildPage"]
 	},
 	"GuildDailyChallengeNotice": {
 		"desc": "公会每日挑战提醒识别",

@@ -8,6 +8,7 @@
 			"WeeklyNightmareMirrorDone",
 			"WeeklyNightmareMirrorTicketNotEnough",
 			"[JumpBack]WeeklyNightmareMirrorSkipAnim",
+			"[JumpBack]HandleRewardDialog",
 			"[JumpBack]WeeklyNightmareMirrorExtract",
 			"[JumpBack]SceneEnterNightmareMirror"
 		]
@@ -86,18 +87,16 @@
 	},
 	"WeeklyNightmareMirrorExtract": {
 		"desc": "每周咒魇水鉴抽取",
+		"max_hit": 2,
 		"recognition": "OCR",
 		"expected": "1次|次",
 		"roi": [153, 996, 104, 38],
 		"only_rec": true,
 		"action": "Click",
 		"post_wait_freezes": {
-			"time": 500,
+			"time": 800,
 			"target": [130, 686, 194, 325],
 			"timeout": 2000
-		},
-		"next": [
-			"HandleRewardDialog"
-		]
+		}
 	}
 }

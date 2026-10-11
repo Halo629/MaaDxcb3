@@ -37,11 +37,28 @@
 		"post_delay": 0,
 		"rate_limit": 0,
 		"next": [
+			"AlchemyActivityObjectNotSelected",
 			"[JumpBack]AlchemyActivityGiftPageCollect",
 			"[JumpBack]AlchemyActivityAlchemyPageCollect",
 			"[JumpBack]AlchemyActivityFeedbackPageCollect",
 			"AlchemyActivityDone"
 		]
+	},
+	"AlchemyActivityObjectNotSelected": {
+		"desc": "炼金目标未选择",
+		"recognition": "And",
+		"all_of": ["SelectAlchemyObject"],
+		"next": [
+			"[JumpBack]ConfirmButton",
+			"ActivityCommonQuit"
+		],
+		"focus": {"Node.Recognition.Succeeded": "请先选择炼金目标后再开始任务"}
+	},
+	"SelectAlchemyObject": {
+		"desc": "选择炼金目标",
+		"recognition": "OCR",
+		"expected": "请先选择炼金目标|选择|炼金|目标",
+		"roi": [244, 514, 221, 143]
 	},
 	"AlchemyActivityGiftPageCollect": {
 		"desc": "活动礼包页面收集",

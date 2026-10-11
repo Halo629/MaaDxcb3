@@ -1,0 +1,361 @@
+{
+	"SceneEnterSelectDestination": {
+		"desc": "从任意界面进入选择目的地界面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"[JumpBack]SceneCollapseSideBar",
+			"SceneSelectDestination",
+			"[JumpBack]SceneClickCampFire",
+			"[JumpBack]SceneEnterMainPage"
+		]
+	},
+	"SceneSelectDestination": {
+		"desc": "选择目的地",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InSelectDestinationPage"],
+		"next": [
+			"InMap",
+			"[JumpBack][Anchor]SelectMapOrder",
+			"[Anchor]ResetMiniMapAnchor",
+			"[JumpBack][Anchor]SelectMiniMapAnchor",
+			"[JumpBack][Anchor]SelectWorldMapAnchor",
+			"[JumpBack]DestinationPageSwipeUp",
+			"SceneSelectDestinationError"
+		]
+	},
+	"SceneSelectDestinationError": {
+		"desc": "进入地图失败,未找到地图",
+		"recognition": "And",
+		"all_of": ["InSelectDestinationPage"],
+		"next": [
+			"SceneBack"
+		],
+		"focus": {"Node.Recognition.Succeeded": "进入地图失败,未找到地图"}
+	},
+	"DestinationPageSwipeUp": {
+		"desc": "选择目的地页面向上滑",
+		"recognition": "And",
+		"all_of": ["MapListSwipePos"],
+		"action": "Swipe",
+		"begin": "MapListSwipePos",
+		"end": "MapListSwipePos",
+		"begin_offset": [50, 0, 0, 0],
+		"end_offset": [50, -200, 0, 0],
+		"duration": 200,
+		"max_hit": 10,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [179, 224, 369, 732],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"OriginWorldMap": {
+		"desc": "源世界地图",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["SelectDestinationPageHasOriginWorld"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [45, 1023, 639, 29],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ClearOriginWorldMapMaxHit": {
+		"desc": "清除OriginWorldMap的max_hit,在重置源世界地图时调用",
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["OriginWorldMap"]
+		}
+	},
+	"SceneCollapseSideBar": {
+		"desc": "出发前往地图前收起侧边栏",
+		"recognition": "And",
+		"all_of": ["InCampfire", "HasCollapseIcon"],
+		"box_index": 1,
+		"action": "Click",
+		"post_delay": 500
+	},
+	"ResetIsleOfTimesEnd": {
+		"desc": "重置时之尽头的孤岛",
+		"recognition": "Custom",
+		"custom_recognition": "CheckRoleInTargetMap",
+		"attach": {"map_name": "时之尽头的孤岛|时之尽头|孤岛"},
+		"target_offset": [100, 0, 0, 0],
+		"action": "Click",
+		"post_delay": 3000,
+		"next": [
+			"InCampfire",
+			"[JumpBack]__ScenePrivateReturnSecretRealm"
+		]
+	},
+	"ResetCrescentCounty": {
+		"desc": "重置新月郡",
+		"recognition": "Custom",
+		"custom_recognition": "CheckRoleInTargetMap",
+		"attach": {"map_name": "新月郡|新月"},
+		"target_offset": [100, 0, 0, 0],
+		"action": "Click",
+		"post_delay": 3000,
+		"next": [
+			"InCampfire",
+			"[JumpBack]__ScenePrivateReturnSecretRealm"
+		]
+	},
+	"ResetHolyCityMonastery": {
+		"desc": "重置圣城修道院",
+		"recognition": "Custom",
+		"custom_recognition": "CheckRoleInTargetMap",
+		"attach": {"map_name": "圣城修道院|圣城|修道院"},
+		"target_offset": [100, 0, 0, 0],
+		"action": "Click",
+		"post_delay": 3000,
+		"next": [
+			"InCampfire",
+			"[JumpBack]__ScenePrivateReturnSecretRealm"
+		]
+	},
+	"ResetGremid": {
+		"desc": "重置格雷米德",
+		"recognition": "Custom",
+		"custom_recognition": "CheckRoleInTargetMap",
+		"attach": {"map_name": "格雷米德|格雷"},
+		"target_offset": [100, 0, 0, 0],
+		"action": "Click",
+		"post_delay": 3000,
+		"next": [
+			"InCampfire",
+			"[JumpBack]__ScenePrivateReturnSecretRealm"
+		]
+	},
+	"ResetFurnaceCity": {
+		"desc": "重置熔炉之城",
+		"recognition": "Custom",
+		"custom_recognition": "CheckRoleInTargetMap",
+		"attach": {"map_name": "熔炉之城|熔炉"},
+		"target_offset": [100, 0, 0, 0],
+		"action": "Click",
+		"post_delay": 3000,
+		"next": [
+			"InCampfire",
+			"[JumpBack]__ScenePrivateReturnSecretRealm"
+		]
+	},
+	"MapListClickIsleOfTimesEnd": {
+		"desc": "地图列表点击时之尽头的孤岛",
+		"recognition": "And",
+		"all_of": [
+			"InNowadaysPage",
+			{
+				"recognition": "OCR",
+				"expected": "时之尽头的孤岛|时之尽头|孤岛",
+				"roi": [205, 194, 363, 781]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 4000,
+		"rate_limit": 0
+	},
+	"InIsleOfTimesEnd": {
+		"desc": "在时之尽头的孤岛",
+		"recognition": "OCR",
+		"expected": "时之尽头的孤岛|时之尽头|孤岛",
+		"roi": [94, 63, 187, 43],
+		"pre_delay": 1500,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"MapListClickCrescentCounty": {
+		"desc": "地图列表点击新月郡",
+		"recognition": "And",
+		"all_of": [
+			"InNowadaysPage",
+			{
+				"recognition": "OCR",
+				"expected": "新月郡|新月",
+				"roi": [205, 194, 363, 781]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 4000,
+		"rate_limit": 0
+	},
+	"InCrescentCounty": {
+		"desc": "在新月郡",
+		"recognition": "OCR",
+		"expected": "新月郡|新月",
+		"roi": [94, 63, 187, 43],
+		"pre_delay": 1500,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"MapListClickHolyCityMonastery": {
+		"desc": "地图列表点击圣城修道院",
+		"recognition": "And",
+		"all_of": [
+			"InNowadaysPage",
+			{
+				"recognition": "OCR",
+				"expected": "圣城修道院|圣城|修道院",
+				"roi": [205, 194, 363, 781]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 4000,
+		"rate_limit": 0
+	},
+	"InHolyCityMonastery": {
+		"desc": "在圣城修道院",
+		"recognition": "OCR",
+		"expected": "圣城修道院|圣城|修道院",
+		"roi": [94, 63, 187, 43],
+		"pre_delay": 1500,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"MapListClickGremid": {
+		"desc": "地图列表点击格雷米德",
+		"recognition": "And",
+		"all_of": [
+			"InNowadaysPage",
+			{
+				"recognition": "OCR",
+				"expected": "格雷米德|格雷",
+				"roi": [205, 194, 363, 781]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 4000,
+		"rate_limit": 0
+	},
+	"InGremid": {
+		"desc": "在格雷米德",
+		"recognition": "OCR",
+		"expected": "格雷米德|格雷",
+		"roi": [94, 63, 187, 43],
+		"pre_delay": 1500,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"MapListClickFurnaceCity": {
+		"desc": "地图列表点击熔炉之城",
+		"recognition": "And",
+		"all_of": [
+			"InNowadaysPage",
+			{
+				"recognition": "OCR",
+				"expected": "熔炉之城|熔炉",
+				"roi": [205, 194, 363, 781]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 4000,
+		"rate_limit": 0
+	},
+	"InFurnaceCity": {
+		"desc": "在熔炉之城",
+		"recognition": "OCR",
+		"expected": "熔炉之城|熔炉",
+		"roi": [94, 63, 187, 43],
+		"pre_delay": 1500,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"SceneEnterIsleOfTimesEnd": {
+		"desc": "进入时之尽头的孤岛",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {
+			"SelectMapOrder": "SwitchMapListAscendingSort",
+			"SelectMiniMapAnchor": "MapListClickIsleOfTimesEnd",
+			"ResetMiniMapAnchor": "ResetIsleOfTimesEnd"
+		},
+		"next": [
+			"InIsleOfTimesEnd",
+			"[JumpBack]SceneEnterSelectDestination"
+		]
+	},
+	"SceneEnterCrescentCounty": {
+		"desc": "进入新月郡",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {
+			"SelectMapOrder": "SwitchMapListAscendingSort",
+			"SelectMiniMapAnchor": "MapListClickCrescentCounty",
+			"ResetMiniMapAnchor": "ResetCrescentCounty"
+		},
+		"next": [
+			"InCrescentCounty",
+			"[JumpBack]SceneEnterSelectDestination"
+		]
+	},
+	"SceneEnterHolyCityMonastery": {
+		"desc": "进入圣城修道院",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {
+			"SelectMapOrder": "SwitchMapListAscendingSort",
+			"SelectMiniMapAnchor": "MapListClickHolyCityMonastery",
+			"ResetMiniMapAnchor": "ResetHolyCityMonastery"
+		},
+		"next": [
+			"InHolyCityMonastery",
+			"[JumpBack]SceneEnterSelectDestination"
+		]
+	},
+	"SceneEnterGremid": {
+		"desc": "进入格雷米德",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {
+			"SelectMapOrder": "SwitchMapListAscendingSort",
+			"SelectMiniMapAnchor": "MapListClickGremid",
+			"ResetMiniMapAnchor": "ResetGremid"
+		},
+		"next": [
+			"InGremid",
+			"[JumpBack]SceneEnterSelectDestination"
+		]
+	},
+	"SceneEnterFurnaceCity": {
+		"desc": "进入熔炉之城",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {
+			"SelectMapOrder": "SwitchMapListAscendingSort",
+			"SelectMiniMapAnchor": "MapListClickFurnaceCity",
+			"ResetMiniMapAnchor": "ResetFurnaceCity"
+		},
+		"next": [
+			"InFurnaceCity",
+			"[JumpBack]SceneEnterSelectDestination"
+		]
+	}
+}

@@ -5,16 +5,42 @@
 		"post_delay": 0,
 		"rate_limit": 0,
 		"max_hit": 1,
+		"anchor": {
+			"InStewardTaskPageAnchor": "InCarriageShop",
+			"StewardTaskAnchor": "StewardPageHasCarriageshop"
+		},
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["StewardPageSwipeUp", "StewardPageSwipeDown"]
+		},
 		"next": [
+			"[JumpBack]CarriageShopCollectReward",
 			"[JumpBack]CarriageShopBuyItem",
 			"[JumpBack]CarriageShopBuyFood",
 			"[JumpBack]CarriageShopBuyEquipment",
 			"[JumpBack]CarriageShopBuyEmblemChestEntry",
-			"[JumpBack]CarriageShopBuyTimeBondFragmentEntry",
+			"[JumpBack]CarriageShopAscensionPageBuy",
 			"CarriageShopShoppingDone",
-			"[JumpBack]SceneEnterCarriageShop"
+			"StewardTaskDone",
+			"[JumpBack]SceneEnterStewardTask"
 		],
 		"focus": {"Node.Recognition.Succeeded": "开始任务:马车商店购买商品"}
+	},
+	"CarriageShopCollectReward": {
+		"desc": "马车商店领取奖励",
+		"recognition": "OCR",
+		"expected": "待领取|领取",
+		"roi": [604, 346, 63, 28],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [61, 402, 604, 701],
+			"timeout": 3000
+		},
+		"next": [
+			"HandleRewardDialog"
+		]
 	},
 	"CarriageShopShoppingDone": {
 		"recognition": "And",
@@ -23,22 +49,99 @@
 		"post_delay": 0,
 		"rate_limit": 0,
 		"next": [
-			"[JumpBack]SceneBack",
-			"InMainPageArea"
+			"SceneBack"
 		]
+	},
+	"SceneEnterCarriageShopItemPage": {
+		"desc": "从马车商店进入物品页",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InCarriageShop"],
+		"next": [
+			"InCarriageShopItemPage",
+			"[JumpBack]CarriageShopClickItemTab",
+			"[JumpBack]CarriageShopSwipeRight"
+		]
+	},
+	"SceneEnterCarriageShopFoodPage": {
+		"desc": "从马车商店进入食物页",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InCarriageShop"],
+		"next": [
+			"InCarriageShopFoodPage",
+			"[JumpBack]CarriageShopClickFoodTab",
+			"[JumpBack]CarriageShopSwipeRight"
+		]
+	},
+	"SceneEnterCarriageShopEquipmentPage": {
+		"desc": "从马车商店进入装备页",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InCarriageShop"],
+		"next": [
+			"InCarriageShopEquipmentPage",
+			"[JumpBack]CarriageShopClickEquipmentTab",
+			"[JumpBack]CarriageShopSwipeRight"
+		]
+	},
+	"SceneEnterCarriageShopSoulTombPage": {
+		"desc": "从马车商店进入魂墓页",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InCarriageShop"],
+		"next": [
+			"InCarriageShopSoulTombPage",
+			"[JumpBack]CarriageShopClickSoulTombTab",
+			"[JumpBack]CarriageShopSwipeLeft"
+		]
+	},
+	"SceneEnterCarriageShopAscensionPage": {
+		"desc": "从马车商店进入升格之路页",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InCarriageShop"],
+		"next": [
+			"InCarriageShopAscensionPage",
+			"[JumpBack]CarriageShopClickAscensionTab",
+			"[JumpBack]CarriageShopSwipeLeft"
+		]
+	},
+	"CarriageShopClickItemTab": {
+		"desc": "点击物品标签",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "物品",
+		"roi": [132, 1189, 545, 87],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [160, 580, 391, 473],
+			"timeout": 2000
+		}
 	},
 	"CarriageShopSwipeLeft": {
 		"desc": "向左滑动露出更多标签",
-		"recognition": "And",
-		"all_of": ["InCarriageShop"],
 		"action": "Swipe",
 		"begin": [600, 1230],
 		"end": [500, 1230],
 		"duration": 100,
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [138, 1184, 549, 92],
-			"timeout": 3000
+			"timeout": 2000
 		},
 		"max_hit": 4,
 		"pre_delay": 0,
@@ -47,16 +150,14 @@
 	},
 	"CarriageShopSwipeRight": {
 		"desc": "向右滑动露出更多标签",
-		"recognition": "And",
-		"all_of": ["InCarriageShop"],
 		"action": "Swipe",
 		"begin": [160, 1230],
 		"end": [700, 1230],
 		"duration": 100,
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [138, 1184, 549, 92],
-			"timeout": 3000
+			"timeout": 2000
 		},
 		"pre_delay": 0,
 		"post_delay": 0,
@@ -71,7 +172,7 @@
 		"max_hit": 6,
 		"post_wait_freezes": {
 			"time": 300,
-			"target": [97, 418, 532, 634],
+			"target": [61, 402, 604, 701],
 			"timeout": 2000
 		},
 		"pre_delay": 0,
@@ -84,8 +185,8 @@
 		"expected": "购买数量|数量",
 		"roi": [300, 741, 127, 538]
 	},
-	"CarriageShopSlideBuy": {
-		"desc": "滑动购买",
+	"CarriageShopSlideBuyMax": {
+		"desc": "滑动购买最大数量",
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
@@ -96,13 +197,14 @@
 		"end": [680, 900],
 		"duration": 200,
 		"post_wait_freezes": {
-			"time": 300,
-			"target": [97, 418, 532, 634],
-			"timeout": 3000
+			"time": 500,
+			"target": [61, 402, 604, 701],
+			"timeout": 2000
 		},
 		"next": [
+			"HandleRewardDialog",
 			"CarriageShopSlideBuyConfirm",
-			"CarriageShopSlideBuy"
+			"CarriageShopSlideBuyMax"
 		]
 	},
 	"CarriageShopSlideBuyConfirm": {
@@ -113,14 +215,10 @@
 		"target": "CarriageShopBuyCount",
 		"target_offset": [0, 180, 0, 0],
 		"post_wait_freezes": {
-			"time": 300,
-			"target": [97, 418, 532, 634],
+			"time": 1000,
+			"target": [61, 402, 604, 701],
 			"timeout": 2000
-		},
-		"next": [
-			"HandleRewardDialog",
-			"CarriageShopBuyItemDone"
-		]
+		}
 	},
 	"CarriageShopFindSlider": {
 		"desc": "识别数量滑块",
@@ -166,9 +264,9 @@
 		"end": [680, 900],
 		"duration": 200,
 		"post_wait_freezes": {
-			"time": 300,
-			"target": [97, 418, 532, 634],
-			"timeout": 3000
+			"time": 500,
+			"target": [61, 402, 604, 701],
+			"timeout": 2000
 		},
 		"pre_delay": 0,
 		"post_delay": 0,

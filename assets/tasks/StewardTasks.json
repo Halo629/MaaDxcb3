@@ -141,6 +141,7 @@
 		"StewardCarriageShopSub": {
 			"type": "switch",
 			"label": "马车商店购买",
+			"default_case": "Yes",
 			"cases": [
 				{
 					"name": "Yes",
@@ -153,7 +154,10 @@
 						"BuyFoodItems",
 						"BuyFoodPoints",
 						"BuyEmblemChest",
-						"BuyTimeBondFragment"
+						"BuyTimeBondFragment",
+						"BuyStarsprigTwig",
+						"BuyOuroborosRing",
+						"BuyHeartbeatRubbing"
 					]
 				},
 				{
@@ -267,13 +271,94 @@
 				{
 					"name": "Yes",
 					"pipeline_override": {
-						"CarriageShopBuyTimeBondFragmentEntry": {"enabled": true}
+						"CarriageShopBuyTimeBondFragmentStart": {"enabled": true}
+					},
+					"AscensionPageShopAssistantInit": {
+						"attach": {"timeBondFragmentEnabled": true}
 					}
 				},
 				{
 					"name": "No",
 					"pipeline_override": {
-						"CarriageShopBuyTimeBondFragmentEntry": {"enabled": false}
+						"CarriageShopBuyTimeBondFragmentStart": {"enabled": false}
+					},
+					"AscensionPageShopAssistantInit": {
+						"attach": {"timeBondFragmentEnabled": false}
+					}
+				}
+			]
+		},
+		"BuyStarsprigTwig": {
+			"type": "switch",
+			"label": "升格之路页购买云汉短枝",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"CarriageShopBuyStarsprigTwigStart": {"enabled": true}
+					},
+					"AscensionPageShopAssistantInit": {
+						"attach": {"starsprigTwigEnabled": true}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"CarriageShopBuyStarsprigTwigStart": {"enabled": false}
+					},
+					"AscensionPageShopAssistantInit": {
+						"attach": {"starsprigTwigEnabled": false}
+					}
+				}
+			]
+		},
+		"BuyOuroborosRing": {
+			"type": "switch",
+			"label": "升格之路页购买衔尾之环",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"CarriageShopBuyOuroborosRingStart": {"enabled": true}
+					},
+					"AscensionPageShopAssistantInit": {
+						"attach": {"ouroborosRingEnabled": true}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"CarriageShopBuyOuroborosRingStart": {"enabled": false}
+					},
+					"AscensionPageShopAssistantInit": {
+						"attach": {"ouroborosRingEnabled": false}
+					}
+				}
+			]
+		},
+		"BuyHeartbeatRubbing": {
+			"type": "switch",
+			"label": "升格之路页购买心音拓片",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"CarriageShopBuyHeartbeatRubbingStart": {"enabled": true},
+						"AscensionPageShopAssistantInit": {
+							"attach": {"heartbeatRubbingEnabled": true}
+						}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"CarriageShopBuyHeartbeatRubbingStart": {"enabled": false}
+					},
+					"AscensionPageShopAssistantInit": {
+						"attach": {"heartbeatRubbingEnabled": false}
 					}
 				}
 			]
