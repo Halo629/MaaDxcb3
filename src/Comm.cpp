@@ -824,18 +824,46 @@ MaaBool shopFinishCheck(
     return (g_shopMask & targetMask) == targetMask;
 }
 
+MaaBool itemNotBought(
+    MaaContext* context,
+    MaaTaskId taskId,
+    const char* nodeName,
+    const char* customRecognitionName,
+    const char* customRecognitionParam,
+    const MaaImageBuffer* image,
+    const MaaRect* roi,
+    void* transArg,
+    MaaRect* outBox,
+    MaaStringBuffer* outDetail)
+{
+    auto param = json::parse(customRecognitionParam ? customRecognitionParam : "{}").value_or(json::value { });
+    std::string foundKey = param.get("foundKey", json::value("")).as_string();
+    if (foundKey.empty()) {
+        LogUtils::error("ItemNotBought: 缺少 custom_recognition_param.foundKey");
+        return false;
+    }
+
+    for (auto& item : shopItemList) {
+        if (foundKey == item.foundKey) {
+            return (g_shopMask & (1U << item.bit)) == 0;
+        }
+    }
+
+    LogUtils::error(fmt("ItemNotBought: 未找到商品 %1", foundKey));
+    return false;
+}
+
 // ──── 马车商店滑动购买 ────
-// 读试炼石数量与剩余数量，算出购买数量 N，点击滑块到对应比例，再按实际数量 +/- 微调。
+// 读货币数量与商品单价，滑到最大实测滑轨两端并读最大数量，算出购买数量后线性插值点出目标，再用 +/- 模板按钮微调。
+// 注意：商品点击由外部 pipeline 节点完成，进入此 action 时购买弹窗必须已打开。
 // custom_action_param：
-//   slider          滑块(thumb)识别节点名
-//   trialStone      试炼石数量 OCR 节点名
-//   remaining       剩余数量 OCR 节点名
-//   price           单价(试炼石/个)
-//   sliderLength    滑轨长度 px（默认 350）
-//   quantityOffset  数量框相对 thumb box 的偏移 [dx,dy,dw,dh]（默认 [-10,35,20,0]）
-//   plusPos         + 按钮绝对屏幕坐标 [x,y]
-//   minusPos        - 按钮绝对屏幕坐标 [x,y]
-//   canBuyTask      可购买校验 task 名（可选，用于判断当前数量是否买得起）
+//   currencyCount   货币数量 OCR 节点名（可为普通 OCR 或 And 节点）—— 必填
+//   unitPrice       商品单价 OCR 节点名（默认 CarriageShopSlideBuyUnitPrice）
+//   slider          滑块(thumb)识别节点名（默认 CarriageShopFindSlider）
+//   increaseButton  + 按钮 TemplateMatch 节点名（默认 CarriageShopIncreaseButton）
+//   decreaseButton  - 按钮 TemplateMatch 节点名（默认 CarriageShopDecreaseButton）
+//   quantityOffset  数量框相对 thumb box 的偏移 [dx,dy,dw,dh]（默认 [-15,35,25,0]）
+//   canBuyCheck     可购买校验 task 名（默认 CarriageShopCanBuyAfterSlide）
 
 // 读取定长 int 数组，缺省用 def 补齐
 static std::vector<int> readIntArray(const json::value& v, std::vector<int> def)
@@ -851,8 +879,8 @@ static std::vector<int> readIntArray(const json::value& v, std::vector<int> def)
     return out;
 }
 
-// 递归查找 OCR detail 中的文本：优先 best（最佳/过滤后结果），其次 filtered，最后 all
-static std::string findOcrText(const json::value& v)
+// 递归收集 OCR detail 中的所有文本（含 And 节点子结果的递归）
+static void collectOcrTexts(const json::value& v, std::vector<std::string>& out)
 {
     if (v.is_object()) {
         const auto& obj = v.as_object();
@@ -865,24 +893,25 @@ static std::string findOcrText(const json::value& v)
                 if (bestObj.contains("text")) {
                     std::string t = bestObj.at("text").as_string();
                     if (!t.empty()) {
-                        return t;
+                        out.push_back(t);
                     }
                 }
             }
         }
 
-        // filtered / all：结果数组，取第一个的 text
+        // filtered / all：结果数组，收集每个的 text
         for (const char* key : { "filtered", "all" }) {
             if (obj.contains(key)) {
                 const auto& arr = obj.at(key);
-                if (arr.is_array() && !arr.as_array().empty()) {
-                    const auto& first = arr.as_array()[0];
-                    if (first.is_object()) {
-                        const auto& firstObj = first.as_object();
-                        if (firstObj.contains("text")) {
-                            std::string t = firstObj.at("text").as_string();
-                            if (!t.empty()) {
-                                return t;
+                if (arr.is_array()) {
+                    for (const auto& item : arr.as_array()) {
+                        if (item.is_object()) {
+                            const auto& itemObj = item.as_object();
+                            if (itemObj.contains("text")) {
+                                std::string t = itemObj.at("text").as_string();
+                                if (!t.empty()) {
+                                    out.push_back(t);
+                                }
                             }
                         }
                     }
@@ -892,54 +921,69 @@ static std::string findOcrText(const json::value& v)
 
         // 递归子对象（And 节点 detail 是子结果数组）
         for (const auto& [k, child] : obj) {
-            std::string r = findOcrText(child);
-            if (!r.empty()) {
-                return r;
-            }
+            collectOcrTexts(child, out);
         }
     }
     else if (v.is_array()) {
         for (const auto& child : v.as_array()) {
-            std::string r = findOcrText(child);
-            if (!r.empty()) {
-                return r;
-            }
+            collectOcrTexts(child, out);
         }
     }
-    return {};
 }
 
-// 从 OCR 识别 detail(json) 中提取第一段连续数字
-static bool extractNumberFromDetail(const std::string& detail, int& outValue)
+// 从 OCR 识别 detail(json) 中提取数字。subName 非空时定位 And 节点中 name==subName 的子结果
+static bool extractNumberFromDetail(const std::string& detail, const char* subName, int& outValue)
 {
     auto j = json::parse(detail);
     if (!j) {
         return false;
     }
-    std::string text = findOcrText(*j);
-    if (text.empty()) {
-        return false;
+
+    const json::value* target = &(*j);
+    if (subName && subName[0] != '\0') {
+        if (!j->is_array()) {
+            return false;
+        }
+        target = nullptr;
+        for (const auto& sub : j->as_array()) {
+            if (sub.is_object() && sub.as_object().contains("name")) {
+                if (sub.as_object().at("name").as_string() == subName) {
+                    target = &sub;
+                    break;
+                }
+            }
+        }
+        if (!target) {
+            LogUtils::error(fmt("extractNumberFromDetail: 未找到子结果 %1", subName));
+            return false;
+        }
     }
 
-    std::string digits;
-    for (char c : text) {
-        if (c >= '0' && c <= '9') {
-            digits += c;
+    std::vector<std::string> texts;
+    collectOcrTexts(*target, texts);
+
+    for (const auto& text : texts) {
+        std::string digits;
+        for (char c : text) {
+            if (c >= '0' && c <= '9') {
+                digits += c;
+            }
+            else if (!digits.empty()) {
+                break;
+            }
         }
-        else if (!digits.empty()) {
-            break;
+        if (!digits.empty()) {
+            outValue = std::atoi(digits.c_str());
+            return true;
         }
     }
-    if (digits.empty()) {
-        outValue = 0;
-        return true;
-    }
-    outValue = std::atoi(digits.c_str());
+
+    outValue = 0;
     return true;
 }
 
-// 运行指定识别节点(OCR/And)，提取其中的数字
-static bool readNumberFromNode(MaaContext* context, const char* nodeName, int& outValue)
+// 运行指定识别节点(OCR/And)，提取其中的数字。subName 非空时从 And 节点指定子结果读取
+static bool readNumberFromNode(MaaContext* context, const char* nodeName, const char* subName, int& outValue)
 {
     ScreenCap cap(context);
     auto detailBuf = MaaStringBufferCreate();
@@ -950,7 +994,7 @@ static bool readNumberFromNode(MaaContext* context, const char* nodeName, int& o
     }
     std::string detail(MaaStringBufferGet(detailBuf), MaaStringBufferSize(detailBuf));
     MaaStringBufferDestroy(detailBuf);
-    return extractNumberFromDetail(detail, outValue);
+    return extractNumberFromDetail(detail, subName, outValue);
 }
 
 // 直接 OCR 指定 roi 中的数字
@@ -973,7 +1017,7 @@ static bool readNumberFromRoi(MaaContext* context, const MaaRect& roi, int& outV
     }
     std::string detail(MaaStringBufferGet(detailBuf), MaaStringBufferSize(detailBuf));
     MaaStringBufferDestroy(detailBuf);
-    return extractNumberFromDetail(detail, outValue);
+    return extractNumberFromDetail(detail, nullptr, outValue);
 }
 
 // 精确点击指定坐标
@@ -998,6 +1042,43 @@ static bool runTaskSuccess(MaaContext* context, const char* taskName)
     return status == MaaStatus_Succeeded;
 }
 
+// 从一点滑动到另一点
+static void swipeTo(MaaContext* context, int x1, int y1, int x2, int y2, int duration)
+{
+    auto* ctrl = MaaTaskerGetController(MaaContextGetTasker(context));
+    auto id = MaaControllerPostSwipe(ctrl, x1, y1, x2, y2, duration);
+    MaaControllerWait(ctrl, id);
+}
+
+// 运行识别节点，取识别框
+static bool findNodeBox(MaaContext* context, const char* nodeName, MaaRect& outBox)
+{
+    ScreenCap cap(context);
+    return doRecognition(context, cap.img, nodeName, "{}", &outBox, nullptr);
+}
+
+// 读取 handle 相对位置的数量（数量框 = handle box + qOffset）
+static bool readQuantityAtHandle(MaaContext* context, const MaaRect& handleBox, const std::vector<int>& qOffset, int& out)
+{
+    MaaRect qb;
+    qb.x = handleBox.x + qOffset[0];
+    qb.y = handleBox.y + qOffset[1];
+    qb.width = handleBox.width + qOffset[2];
+    qb.height = handleBox.height + qOffset[3];
+    return readNumberFromRoi(context, qb, out);
+}
+
+// 识别按钮(模板)并点击中心
+static bool findAndClickButton(MaaContext* context, const char* buttonNode)
+{
+    MaaRect btnBox;
+    if (!findNodeBox(context, buttonNode, btnBox)) {
+        return false;
+    }
+    clickPoint(context, btnBox.x + btnBox.width / 2, btnBox.y + btnBox.height / 2);
+    return true;
+}
+
 static MaaBool CarriageShopSlideBuyAct(
     MaaContext* context,
     MaaTaskId taskId,
@@ -1008,131 +1089,130 @@ static MaaBool CarriageShopSlideBuyAct(
     const MaaRect* box,
     void* transArg)
 {
-    if (!box) {
-        return false;
-    }
     auto param = json::parse(customActionParam ? customActionParam : "{}").value_or(json::value { });
 
-    std::string sliderNode = param.get("slider", json::value("")).as_string();
-    std::string trialStoneNode = param.get("trialStone", json::value("")).as_string();
-    std::string remainingNode = param.get("remaining", json::value("")).as_string();
-    std::string canBuyCheck = param.get("canBuyCheck", json::value("")).as_string();
-    int price = param.get("price", json::value(0)).as_integer();
-    int sliderLength = param.get("sliderLength", json::value(350)).as_integer();
+    std::string sliderNode = param.get("slider", json::value("CarriageShopFindSlider")).as_string();
+    std::string currencyNode = param.get("currencyCount", json::value("")).as_string();
+    std::string unitPriceNode = param.get("unitPrice", json::value("CarriageShopSlideBuyUnitPrice")).as_string();
+    std::string increaseBtn = param.get("increaseButton", json::value("CarriageShopIncreaseButton")).as_string();
+    std::string decreaseBtn = param.get("decreaseButton", json::value("CarriageShopDecreaseButton")).as_string();
+    std::string canBuyCheck = param.get("canBuyCheck", json::value("CarriageShopCanBuyAfterSlide")).as_string();
+    auto qOffset = readIntArray(param.get("quantityOffset", json::value()), { -15, 35, 25, 0 });
 
-    if (sliderNode.empty() || trialStoneNode.empty() || remainingNode.empty() || price <= 0 || sliderLength <= 0) {
-        LogUtils::error("CarriageShopSlideBuy: custom_action_param 参数不完整");
+    if (currencyNode.empty()) {
+        LogUtils::error("CarriageShopSlideBuy: 缺少 currencyCount 配置");
         return false;
     }
 
-    auto qOffset = readIntArray(param.get("quantityOffset", json::value()), { -10, 35, 20, 0 });
-    auto plusPos = readIntArray(param.get("plusPos", json::value()), { 0, 0 });
-    auto minusPos = readIntArray(param.get("minusPos", json::value()), { 0, 0 });
-
-    // 读试炼石数量与商品剩余数量
-    int trialStone = 0;
-    int remaining = 0;
-    if (!readNumberFromNode(context, trialStoneNode.c_str(), trialStone) ||
-        !readNumberFromNode(context, remainingNode.c_str(), remaining)) {
+    // 读货币数量（currencyCount 节点可为普通 OCR 或 And 节点，readNumberFromNode 均能解析）
+    int currency = 0;
+    if (!readNumberFromNode(context, currencyNode.c_str(), "TrialStoneCount", currency)) {
         return true;
     }
 
-    // 计算购买数量与比例
-    int buyCount = (std::min)(remaining, trialStone / price);
-    if (buyCount <= 0 || remaining <= 0) {
-        return true; // 买不起或无剩余，跳过
-    }
-   
+    // 商品已由外部节点点击打开购买弹窗，这里直接识别数量滑块,未识别到滑块由外部重新点击
     MaaRect thumbBox;
-    const int maxClickRetry = 20;
-    for (int attempt = 0; attempt < maxClickRetry; ++attempt) {
-        auto* ctrl = MaaTaskerGetController(MaaContextGetTasker(context));
-        auto rid = MaaControllerPostClick(ctrl, box->x + box->width / 2, box->y + box->height / 2);
-        MaaControllerWait(ctrl, rid);
-        Sleep(500);
-         // 识别滑块
-        ScreenCap cap(context);
-        
-        if (doRecognition(context, cap.img, sliderNode.c_str(), "{}", &thumbBox, nullptr)) {
-            break;
-        }
-    }
-    
-    
-    if (buyCount == remaining) {
-        setNextNode(context, nodeName, "CarriageShopSlideBuyMax");
+    if (!findNodeBox(context, sliderNode.c_str(), thumbBox)) {
         return true;
     }
 
-    // 点击滑块目标位置
-    double ratio = (std::min)(1.0, static_cast<double>(buyCount) / remaining);
-    int clickX = thumbBox.x + static_cast<int>(ratio * sliderLength);
-    int clickY = thumbBox.y + thumbBox.height / 2;
+    // 读商品单价（在弹窗中识别）
+    int unitPrice = 0;
+    if (!readNumberFromNode(context, unitPriceNode.c_str(), "UnitPrice", unitPrice) || unitPrice <= 0) {
+        LogUtils::error("CarriageShopSlideBuy: 读取单价失败");
+        return false;
+    }
+
+    // 记录滑轨起点，滑到最大
+    MaaRect startBox = thumbBox;
+    int startX = startBox.x + startBox.width / 2;
+    int startY = startBox.y + startBox.height / 2;
+    swipeTo(context, startX, startY, startX + 600, startY, 200); // 向右滑 600px 到最大
+    Sleep(500);
+
+    // 识别滑轨终点，读最大数量
+    MaaRect endBox;
+    if (!findNodeBox(context, sliderNode.c_str(), endBox)) {
+        endBox = startBox;
+    }
+    int maxQuantity = 0;
+    if (!readQuantityAtHandle(context, endBox, qOffset, maxQuantity) || maxQuantity < 1) {
+        LogUtils::error("CarriageShopSlideBuy: 读取最大数量失败");
+        return false;
+    }
+
+    // 计算购买数量（受货币数量限制，最大数量已从滑轨实际测得）
+    int buyCount = (std::min)(maxQuantity, currency / unitPrice);
+    if (buyCount <= 0) {
+        return true;
+    }
+
+    // 目标 >= 最大，已滑到最大，直接返回（pipeline 后续点购买）
+    if (buyCount >= maxQuantity) {
+        return true;
+    }
+
+    // 线性插值（滑块最小是 1，整体 -1）
+    int endX = endBox.x + endBox.width / 2;
+    int endY = endBox.y + endBox.height / 2;
+    int clickX = startX + (endX - startX) * (buyCount - 1) / (maxQuantity - 1);
+    int clickY = startY + (endY - startY) * (buyCount - 1) / (maxQuantity - 1);
     clickPoint(context, clickX, clickY);
     Sleep(500);
 
-    // 读取当前购买数量（重新识别滑块 → 数量框 → OCR）
-    auto readCurrentQuantity = [&](int& out) -> bool {
-        ScreenCap cap(context);
-        MaaRect tb;
-        if (!doRecognition(context, cap.img, sliderNode.c_str(), "{}", &tb, nullptr)) {
-            tb = thumbBox;
-        }
-        MaaRect qb;
-        qb.x = tb.x + qOffset[0];
-        qb.y = tb.y + qOffset[1];
-        qb.width = tb.width + qOffset[2];
-        qb.height = tb.height + qOffset[3];
-        return readNumberFromRoi(context, qb, out);
-    };
-
-    // 读实际数量并用 +/- 微调，最多重试 maxRetry 次
+    // 读实际数量并用 +/- 模板按钮微调
     const int maxRetry = 10;
     for (int attempt = 0; attempt < maxRetry; ++attempt) {
-         if (MaaTaskerStopping(MaaContextGetTasker(context))) {
+        if (MaaTaskerStopping(MaaContextGetTasker(context))) {
             return true;
         }
+        MaaRect curBox;
+        if (!findNodeBox(context, sliderNode.c_str(), curBox)) {
+            curBox = endBox;
+        }
         int actual = 0;
-        if (!readCurrentQuantity(actual)) {
-            // 读不到数量，可能滑块没点中，重新点滑块后重试
-            clickPoint(context, clickX, clickY);
+        if (!readQuantityAtHandle(context, curBox, qOffset, actual)) {
+            clickPoint(context, clickX, clickY); // 读不到数量，重新点滑块
             Sleep(500);
             continue;
         }
 
         int diff = buyCount - actual;
         if (diff == 0) {
-            break; // 命中目标数量，进入可购买校验
+            break; // 命中目标数量
         }
 
-        // 用 +/- 微调
-        int adjustX = diff > 0 ? plusPos[0] : minusPos[0];
-        int adjustY = diff > 0 ? plusPos[1] : minusPos[1];
+        const char* btnNode = diff > 0 ? increaseBtn.c_str() : decreaseBtn.c_str();
         int steps = diff > 0 ? diff : -diff;
-        for (int i = 0; i < steps; ++i) {
-            clickPoint(context, adjustX, adjustY);
-            Sleep(500);
+        if (steps > 30) {
+            steps = 30; // 防误识别点太多
         }
-        Sleep(500); // 等界面更新，下一轮重新校验
+        for (int i = 0; i < steps; ++i) {
+            findAndClickButton(context, btnNode);
+            Sleep(200);
+        }
+        Sleep(300); // 等界面更新，下一轮重新校验
     }
 
-    // 校验当前数量是否可购买（试炼石是否够），不够就点 - 递减
+    // 校验当前数量是否可购买，不够就点 - 递减
     if (!canBuyCheck.empty()) {
         for (int attempt = 0; attempt < maxRetry; ++attempt) {
-             if (MaaTaskerStopping(MaaContextGetTasker(context))) {
-            return true;
-        }
+            if (MaaTaskerStopping(MaaContextGetTasker(context))) {
+                return true;
+            }
             if (runTaskSuccess(context, canBuyCheck.c_str())) {
                 return true; // 可购买
             }
-            // 不可购买：读当前数量，<=1 就返回
+            MaaRect curBox;
+            if (!findNodeBox(context, sliderNode.c_str(), curBox)) {
+                curBox = endBox;
+            }
             int cur = 0;
-            if (readCurrentQuantity(cur) && cur <= 1) {
+            if (readQuantityAtHandle(context, curBox, qOffset, cur) && cur <= 1) {
                 return true; // 已减到 1，不能再减
             }
-            // 点 - 递减
-            clickPoint(context, minusPos[0], minusPos[1]);
-            Sleep(500);
+            findAndClickButton(context, decreaseBtn.c_str());
+            Sleep(300);
         }
     }
 
@@ -1148,5 +1228,6 @@ void registerCustomComm(MaaResource* res, void* user_data)
     registerCustomAction(res, "ShopAssistant", shopAssistant, user_data);
     registerCustomAction(res, "CarriageShopSlideBuy", CarriageShopSlideBuyAct, user_data);
     registerCustomRecognition(res, "ShopFinishCheck", shopFinishCheck, user_data);
+    registerCustomRecognition(res, "ItemNotBought", itemNotBought, user_data);
     registerCustomRecognition(res, "CheckRoleInTargetMap", checkRoleInTargetMap, user_data);
 }

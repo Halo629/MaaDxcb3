@@ -5,6 +5,8 @@
 		"post_delay": 0,
 		"rate_limit": 0,
 		"next": [
+			"[JumpBack]ActivityCommonCollect",
+			"[JumpBack]WeeklyNightmareRewardCollect",
 			"WeeklyNightmareMirrorDone",
 			"WeeklyNightmareMirrorTicketNotEnough",
 			"[JumpBack]WeeklyNightmareMirrorSkipAnim",
@@ -26,7 +28,6 @@
 			}
 		],
 		"next": [
-			"[JumpBack]WeeklyNightmareRewardCollect",
 			"SceneEnterMainPage"
 		]
 	},
@@ -40,10 +41,7 @@
 			"time": 500,
 			"target": [130, 686, 194, 325],
 			"timeout": 2000
-		},
-		"next": [
-			"ActivityCommonCollect"
-		]
+		}
 	},
 	"WeeklyNightmareMirrorSkipAnim": {
 		"desc": "跳过动画",

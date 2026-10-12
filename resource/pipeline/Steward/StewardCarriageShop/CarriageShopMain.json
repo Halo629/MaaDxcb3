@@ -15,6 +15,7 @@
 			"nodes": ["StewardPageSwipeUp", "StewardPageSwipeDown"]
 		},
 		"next": [
+			"[JumpBack]HandleRewardDialog",
 			"[JumpBack]CarriageShopCollectReward",
 			"[JumpBack]CarriageShopBuyItem",
 			"[JumpBack]CarriageShopBuyFood",
@@ -33,14 +34,12 @@
 		"expected": "待领取|领取",
 		"roi": [604, 346, 63, 28],
 		"action": "Click",
+		"target_offset": [17, -45, -32, 0],
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [61, 402, 604, 701],
 			"timeout": 3000
-		},
-		"next": [
-			"HandleRewardDialog"
-		]
+		}
 	},
 	"CarriageShopShoppingDone": {
 		"recognition": "And",
@@ -185,6 +184,22 @@
 		"expected": "购买数量|数量",
 		"roi": [300, 741, 127, 538]
 	},
+	"CarriageShopIncreaseButton": {
+		"desc": "增加数量按钮",
+		"recognition": "TemplateMatch",
+		"template": "button/IncreaseButton.png",
+		"roi": [69, 694, 581, 245],
+		"order_by": "Score",
+		"threshold": 0.7
+	},
+	"CarriageShopDecreaseButton": {
+		"desc": "减少数量按钮",
+		"recognition": "TemplateMatch",
+		"template": "button/DecreaseButton.png",
+		"roi": [69, 694, 581, 245],
+		"order_by": "Score",
+		"threshold": 0.7
+	},
 	"CarriageShopSlideBuyMax": {
 		"desc": "滑动购买最大数量",
 		"pre_delay": 0,
@@ -202,7 +217,6 @@
 			"timeout": 2000
 		},
 		"next": [
-			"HandleRewardDialog",
 			"CarriageShopSlideBuyConfirm",
 			"CarriageShopSlideBuyMax"
 		]
@@ -255,22 +269,19 @@
 		"post_delay": 0,
 		"rate_limit": 0
 	},
-	"CarriageShopSlideMax": {
-		"desc": "拖动滑块到最右边(最大数量)",
+	"CarriageShopSlideBuyUnitPrice": {
+		"desc": "滑动购买单价识别",
 		"recognition": "And",
-		"all_of": ["CarriageShopFindSlider"],
-		"action": "Swipe",
-		"begin": "CarriageShopFindSlider",
-		"end": [680, 900],
-		"duration": 200,
-		"post_wait_freezes": {
-			"time": 500,
-			"target": [61, 402, 604, 701],
-			"timeout": 2000
-		},
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0
+		"all_of": [
+			"CarriageShopBuyCount",
+			{
+				"recognition": "OCR",
+				"sub_name": "UnitPrice",
+				"roi": "CarriageShopBuyCount",
+				"roi_offset": [38, 165, -55, -4],
+				"only_rec": true
+			}
+		]
 	},
 	"CarriageShopBuyItemDone": {"desc": "购买商品完成"}
 }

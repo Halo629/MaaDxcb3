@@ -210,7 +210,8 @@
 			"HandleGoblinRewardDialog",
 			"[JumpBack]HandleDialogue",
 			"[JumpBack]BattleAI",
-			"[JumpBack]SetOffExploreDialogue"
+			"[JumpBack]SetOffExploreDialogue",
+			"[JumpBack]SetOffExploreEvent"
 		],
 		"on_error": [
 			"ActivityAlwaysTrue"
@@ -221,6 +222,18 @@
 		"recognition": "OCR",
 		"expected": "战斗|来吧|被动防御|防御|坚守|暂避锋芒|暂避|锋芒|好机会|机会|正面|迎敌",
 		"roi": [328, 734, 343, 287],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [171, 464, 420, 426],
+			"timeout": 2000
+		}
+	},
+	"SetOffExploreEvent": {
+		"desc": "出发探索事件",
+		"recognition": "OCR",
+		"expected": "我这里还有一些|皮革|还有一些|我这里",
+		"roi": [230, 785, 490, 204],
 		"action": "Click",
 		"post_wait_freezes": {
 			"time": 500,

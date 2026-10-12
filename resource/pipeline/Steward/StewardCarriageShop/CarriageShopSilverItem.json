@@ -57,9 +57,9 @@
 		"action": "Click",
 		"target_offset": [300, 0, 0, 0],
 		"post_wait_freezes": {
-			"time": 500,
+			"time": 800,
 			"target": [61, 402, 604, 701],
-			"timeout": 2000
+			"timeout": 3000
 		},
 		"pre_delay": 0,
 		"post_delay": 0,

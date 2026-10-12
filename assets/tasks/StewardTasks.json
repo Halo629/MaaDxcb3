@@ -149,15 +149,7 @@
 						"StewardCarriageShopSub": {"enabled": true}
 					},
 					"option": [
-						"BuyWandererHourglass",
-						"BuyOre",
-						"BuyFoodItems",
-						"BuyFoodPoints",
-						"BuyEmblemChest",
-						"BuyTimeBondFragment",
-						"BuyStarsprigTwig",
-						"BuyOuroborosRing",
-						"BuyHeartbeatRubbing"
+						"BuyItems"
 					]
 				},
 				{
@@ -168,197 +160,95 @@
 				}
 			]
 		},
-		"BuyWandererHourglass": {
-			"type": "switch",
-			"label": "物品页购买旅者沙钟",
-			"default_case": "Yes",
+		"BuyItems": {
+			"type": "checkbox",
+			"label": "购买商品",
+			"description": "勾选需要购买的商品，可多选",
+			"default_case": [
+				"BuyWandererHourglass",
+				"BuyOre",
+				"BuyFoodItems",
+				"BuyFoodPoints",
+				"BuyEmblemChest",
+				"BuyTimeBondFragment",
+				"BuyStarsprigTwig",
+				"BuyOuroborosRing",
+				"BuyHeartbeatRubbing"
+			],
 			"cases": [
 				{
-					"name": "Yes",
+					"name": "BuyWandererHourglass",
+					"label": "物品页购买旅者沙钟",
 					"pipeline_override": {
 						"CarriageShopBuyWandererHourglassStart": {"enabled": true}
 					}
 				},
 				{
-					"name": "No",
-					"pipeline_override": {
-						"CarriageShopBuyWandererHourglassStart": {"enabled": false}
-					}
-				}
-			]
-		},
-		"BuyOre": {
-			"type": "switch",
-			"label": "物品页购买矿原石",
-			"default_case": "Yes",
-			"cases": [
-				{
-					"name": "Yes",
+					"name": "BuyOre",
+					"label": "物品页购买矿原石",
 					"pipeline_override": {
 						"CarriageShopBuyOreItemStart": {"enabled": true}
 					}
 				},
 				{
-					"name": "No",
-					"pipeline_override": {
-						"CarriageShopBuyOreItemStart": {"enabled": false}
-					}
-				}
-			]
-		},
-		"BuyFoodItems": {
-			"type": "switch",
-			"label": "物品页购买美食积分商品",
-			"default_case": "Yes",
-			"cases": [
-				{
-					"name": "Yes",
+					"name": "BuyFoodItems",
+					"label": "物品页购买美食积分商品",
 					"pipeline_override": {
 						"CarriageShopBuyFoodPointsItemStart": {"enabled": true}
 					}
 				},
 				{
-					"name": "No",
-					"pipeline_override": {
-						"CarriageShopBuyFoodPointsItemStart": {"enabled": false}
-					}
-				}
-			]
-		},
-		"BuyFoodPoints": {
-			"type": "switch",
-			"label": "食物页购买美食积分",
-			"default_case": "Yes",
-			"cases": [
-				{
-					"name": "Yes",
+					"name": "BuyFoodPoints",
+					"label": "食物页购买美食积分",
 					"pipeline_override": {
 						"CarriageShopBuyFoodPointsStart": {"enabled": true}
 					}
 				},
 				{
-					"name": "No",
-					"pipeline_override": {
-						"CarriageShopBuyFoodPointsStart": {"enabled": false}
-					}
-				}
-			]
-		},
-		"BuyEmblemChest": {
-			"type": "switch",
-			"label": "魂墓页购买纹章宝盒",
-			"default_case": "Yes",
-			"cases": [
-				{
-					"name": "Yes",
+					"name": "BuyEmblemChest",
+					"label": "魂墓页购买纹章宝盒",
 					"pipeline_override": {
 						"CarriageShopBuyEmblemChestEntry": {"enabled": true}
 					}
 				},
 				{
-					"name": "No",
+					"name": "BuyTimeBondFragment",
+					"label": "升格之路页购买羁时碎片",
 					"pipeline_override": {
-						"CarriageShopBuyEmblemChestEntry": {"enabled": false}
-					}
-				}
-			]
-		},
-		"BuyTimeBondFragment": {
-			"type": "switch",
-			"label": "升格之路页购买羁时碎片",
-			"default_case": "Yes",
-			"cases": [
-				{
-					"name": "Yes",
-					"pipeline_override": {
-						"CarriageShopBuyTimeBondFragmentStart": {"enabled": true}
-					},
-					"AscensionPageShopAssistantInit": {
-						"attach": {"timeBondFragmentEnabled": true}
+						"CarriageShopBuyTimeBondFragmentStart": {"enabled": true},
+						"AscensionPageShopAssistantInit": {
+							"attach": {"timeBondFragmentEnabled": true}
+						}
 					}
 				},
 				{
-					"name": "No",
+					"name": "BuyStarsprigTwig",
+					"label": "升格之路页购买云汉短枝",
 					"pipeline_override": {
-						"CarriageShopBuyTimeBondFragmentStart": {"enabled": false}
-					},
-					"AscensionPageShopAssistantInit": {
-						"attach": {"timeBondFragmentEnabled": false}
-					}
-				}
-			]
-		},
-		"BuyStarsprigTwig": {
-			"type": "switch",
-			"label": "升格之路页购买云汉短枝",
-			"default_case": "Yes",
-			"cases": [
-				{
-					"name": "Yes",
-					"pipeline_override": {
-						"CarriageShopBuyStarsprigTwigStart": {"enabled": true}
-					},
-					"AscensionPageShopAssistantInit": {
-						"attach": {"starsprigTwigEnabled": true}
+						"CarriageShopBuyStarsprigTwigStart": {"enabled": true},
+						"AscensionPageShopAssistantInit": {
+							"attach": {"starsprigTwigEnabled": true}
+						}
 					}
 				},
 				{
-					"name": "No",
+					"name": "BuyOuroborosRing",
+					"label": "升格之路页购买衔尾之环",
 					"pipeline_override": {
-						"CarriageShopBuyStarsprigTwigStart": {"enabled": false}
-					},
-					"AscensionPageShopAssistantInit": {
-						"attach": {"starsprigTwigEnabled": false}
-					}
-				}
-			]
-		},
-		"BuyOuroborosRing": {
-			"type": "switch",
-			"label": "升格之路页购买衔尾之环",
-			"default_case": "Yes",
-			"cases": [
-				{
-					"name": "Yes",
-					"pipeline_override": {
-						"CarriageShopBuyOuroborosRingStart": {"enabled": true}
-					},
-					"AscensionPageShopAssistantInit": {
-						"attach": {"ouroborosRingEnabled": true}
+						"CarriageShopBuyOuroborosRingStart": {"enabled": true},
+						"AscensionPageShopAssistantInit": {
+							"attach": {"ouroborosRingEnabled": true}
+						}
 					}
 				},
 				{
-					"name": "No",
-					"pipeline_override": {
-						"CarriageShopBuyOuroborosRingStart": {"enabled": false}
-					},
-					"AscensionPageShopAssistantInit": {
-						"attach": {"ouroborosRingEnabled": false}
-					}
-				}
-			]
-		},
-		"BuyHeartbeatRubbing": {
-			"type": "switch",
-			"label": "升格之路页购买心音拓片",
-			"default_case": "Yes",
-			"cases": [
-				{
-					"name": "Yes",
+					"name": "BuyHeartbeatRubbing",
+					"label": "升格之路页购买心音拓片",
 					"pipeline_override": {
 						"CarriageShopBuyHeartbeatRubbingStart": {"enabled": true},
 						"AscensionPageShopAssistantInit": {
 							"attach": {"heartbeatRubbingEnabled": true}
 						}
-					}
-				},
-				{
-					"name": "No",
-					"pipeline_override": {
-						"CarriageShopBuyHeartbeatRubbingStart": {"enabled": false}
-					},
-					"AscensionPageShopAssistantInit": {
-						"attach": {"heartbeatRubbingEnabled": false}
 					}
 				}
 			]

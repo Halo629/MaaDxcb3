@@ -34,13 +34,22 @@
 		],
 		"action": "Click",
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [72, 1076, 583, 109],
 			"timeout": 2000
 		},
 		"next": [
 			"[JumpBack]GuildChallengeQuickBattle",
 			"[JumpBack]GuildChallengeBattle",
+			"GuildChallengeSceneBack"
+		]
+	},
+	"GuildChallengeSceneBack": {
+		"desc": "公会挑战完成返回",
+		"recognition": "OCR",
+		"expected": "快速战斗|快速|战斗",
+		"roi": [24, 1074, 195, 106],
+		"next": [
 			"SceneBack"
 		]
 	},
@@ -126,7 +135,7 @@
 		"next": [
 			"[JumpBack]GuildChallengeQuickBattle",
 			"[JumpBack]GuildChallengeBattle",
-			"SceneBack"
+			"GuildChallengeSceneBack"
 		]
 	},
 	"GuildShop": {
