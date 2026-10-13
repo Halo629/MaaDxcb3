@@ -6,6 +6,8 @@
 	"contact": "./assets/contact.md",
 	"license": "assets/LICENSE_SHORT.md",
 	"icon": "./assets/MaaDxcb3.png",
+	"mirrorchyan_rid": "MaaDxcb3",
+	"mirrorchyan_multiplatform": true,
 	"github": "https://github.com/Halo629/MaaDxcb3",
 	"controller": [
 		{
