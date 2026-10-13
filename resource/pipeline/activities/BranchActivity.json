@@ -7,6 +7,7 @@
 		"recognition": "DirectHit",
 		"anchor": {"ActivityGoto": "BranchActivityEntry"},
 		"next": [
+			"BranchActivityReachedMaxLevel",
 			"BranchActivityPageNotSelectReward",
 			"[JumpBack]BranchActivityTaskPageHandle",
 			"BranchActivityCelebrationPageCollectEntry",

@@ -70,8 +70,7 @@
 			"[JumpBack]SearchForFuel",
 			"[JumpBack]CollectSupplies",
 			"SetOffExploreFuelNotEnough",
-			"[JumpBack]SetOffExploreEntry",
-			"[JumpBack]SetOffTreasureHuntEntry"
+			"[JumpBack]SetOffExploreEntry"
 		]
 	},
 	"GoblinAirshipDone": {
@@ -187,7 +186,7 @@
 		"all_of": [
 			{
 				"recognition": "OCR",
-				"expected": "出发探索|探索",
+				"expected": "出发探索|出发寻宝|探索|寻宝",
 				"roi": [23, 1045, 690, 110]
 			},
 			{
@@ -208,6 +207,12 @@
 		"timeout": 5000,
 		"next": [
 			"HandleGoblinRewardDialog",
+			"[JumpBack]HandleRewardDialog",
+			"[JumpBack]TreasureHuntGreenChest",
+			"[JumpBack]TreasureHuntBlueChest",
+			"TreasureHuntFullyLoaded",
+			"[JumpBack]TreasureHuntOtherChests",
+			"[JumpBack]TreasureHuntCollectTreasure",
 			"[JumpBack]HandleDialogue",
 			"[JumpBack]BattleAI",
 			"[JumpBack]SetOffExploreDialogue",
@@ -241,40 +246,10 @@
 			"timeout": 2000
 		}
 	},
-	"SetOffTreasureHuntEntry": {
-		"desc": "出发寻宝入口",
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0,
-		"recognition": "And",
-		"all_of": [
-			{
-				"recognition": "OCR",
-				"expected": "出发寻宝|寻宝",
-				"roi": [23, 1045, 690, 110]
-			},
-			{
-				"recognition": "ColorMatch",
-				"method": 40,
-				"lower": [19, 50, 120],
-				"upper": [21, 60, 170],
-				"roi": [359, 1047, 33, 23],
-				"count": 15
-			}
-		],
-		"next": [
-			"[JumpBack]HandleRewardDialog",
-			"[JumpBack]TreasureHuntGreenChest",
-			"[JumpBack]TreasureHuntBlueChest",
-			"TreasureHuntFullyLoaded",
-			"[JumpBack]TreasureHuntOtherChests",
-			"[JumpBack]TreasureHuntCollectTreasure"
-		]
-	},
 	"TreasureHuntCollectTreasure": {
 		"desc": "领取宝物",
 		"recognition": "OCR",
-		"expected": "领取宝物|领取|宝物",
+		"expected": "领取宝物|领取|宝物|偷偷潜入|潜入",
 		"roi": [276, 688, 165, 266],
 		"action": "Click",
 		"post_wait_freezes": {
