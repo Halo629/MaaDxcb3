@@ -23,7 +23,8 @@
 		"recognition": "And",
 		"all_of": ["InSiegeOfTheSanctuaryPage"],
 		"next": [
-			"[JumpBack]SiegeOfTheSanctuaryRiskStart",
+			"[JumpBack]SiegeOfTheSanctuaryRiskChallengeStart",
+			"[JumpBack]SiegeOfTheSanctuaryRiskExploreStart",
 			"[JumpBack]SiegeOfTheSanctuaryMarketStart",
 			"[JumpBack]SiegeOfTheSanctuaryGateResistCalamityStart",
 			"[JumpBack]SiegeOfTheSanctuaryGateChallegeCalamityStart",
@@ -521,17 +522,45 @@
 		],
 		"box_index": 2
 	},
-	"SiegeOfTheSanctuaryRiskStart": {
-		"desc": "庇护所之围冒险",
+	"SiegeOfTheSanctuaryRiskChallengeStart": {
+		"desc": "庇护所之围冒险挑战",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"anchor": {
+			"BattleFailedAction": "SoulTombBattleFailedRecord"
+		},
+		"next": [
+			"SiegeOfTheSanctuaryRiskHandleBattleFailed",
+			"[JumpBack]BattleAI",
+			"[JumpBack]SiegeOfTheSanctuaryRiskStartChallenge",
+			"SiegeOfTheSanctuaryRiskNoRemainingCount"
+		]
+	},
+	"SiegeOfTheSanctuaryRiskExploreStart": {
+		"desc": "庇护所之围冒险探索",
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
 		"max_hit": 1,
 		"next": [
-			"[JumpBack]BattleAI",
-			"[JumpBack]SiegeOfTheSanctuaryRiskStartChallenge",
 			"SiegeOfTheSanctuaryRiskExploreEntry",
 			"[JumpBack]SiegeOfTheSanctuaryRiskEntry"
+		]
+	},
+	"SiegeOfTheSanctuaryRiskBattleFailed": {
+		"desc": "庇护所之围冒险战斗失败",
+		"recognition": "And",
+		"all_of": ["BattleResultFail"]
+	},
+	"SiegeOfTheSanctuaryRiskHandleBattleFailed": {
+		"desc": "庇护所之围冒险战斗失败,退出挑战",
+		"recognition": "And",
+		"all_of": ["BattleResultFail"],
+		"next": [
+			"InSiegeOfTheSanctuaryRiskPage",
+			"[JumpBack]HandleBattleEnd"
 		]
 	},
 	"SiegeOfTheSanctuaryRiskPageQuit": {
@@ -572,6 +601,13 @@
 		"desc": "冒险挑战次数",
 		"recognition": "OCR",
 		"expected": "2/2|1/2",
+		"roi": [408, 917, 43, 24],
+		"only_rec": true
+	},
+	"SiegeOfTheSanctuaryRiskNoRemainingCount": {
+		"desc": "没有冒险挑战次数",
+		"recognition": "OCR",
+		"expected": "0/2|0/",
 		"roi": [408, 917, 43, 24],
 		"only_rec": true
 	},
