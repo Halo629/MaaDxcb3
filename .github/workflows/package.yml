@@ -108,11 +108,23 @@ jobs:
           name: MaaDxcb3-win-x86_64
           path: MaaDxcb3-win-x86_64-${{ github.ref_name }}.zip
 
+      - name: Generate release notes
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: bash
+        run: |
+          NOTES=$(gh api "repos/$GITHUB_REPOSITORY/releases/generate-notes" \
+            -f tag_name="${{ github.ref_name }}" \
+            --jq '.body')
+          printf '%s\n\n---\n\n[已有Mirror酱CDK？前往Mirror酱高速下载](https://mirrorchyan.com/zh/projects?rid=MaaDxcb3)\n' "$NOTES" > release_body.md
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Release
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
           files: MaaDxcb3-win-x86_64-${{ github.ref_name }}.zip
+          body_path: release_body.md
 
       - name: Trigger MirrorChyanUploading
         if: startsWith(github.ref, 'refs/tags/')
