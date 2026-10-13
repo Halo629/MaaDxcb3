@@ -97,7 +97,9 @@ jobs:
         shell: pwsh
         run: |
           Invoke-WebRequest https://github.com/electron/rcedit/releases/download/v2.0.0/rcedit-x64.exe -OutFile rcedit.exe
-          .\rcedit.exe "install/MaaDxcb3.exe" --set-icon MaaDxcb3.ico
+          .\rcedit.exe "install/MaaDxcb3.exe" --set-icon MaaDxcb3.ico `
+            --set-version-string ProductName "MaaDxcb3" `
+            --set-version-string FileDescription "MaaDxcb3"
 
       - name: Package zip
         shell: pwsh
