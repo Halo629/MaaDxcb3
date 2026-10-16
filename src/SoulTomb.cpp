@@ -17,13 +17,15 @@ MaaBool adjustSoulTombLevel(
     const MaaRect* box,
     void* transArg)
 {
-    g_soulTombConsecutiveFails = 0;
-    g_soulTombSessionWin = 0;
-    g_soulTombSessionLose = 0;
-
     auto attach = getNodeAttach(context, nodeName);
     std::string mode = attach.get("target_level", json::value("current")).as_string();
+    bool startAdjust = attach.get("start_adjust", json::value(false)).as_boolean();
 
+    if (startAdjust) {
+        g_soulTombConsecutiveFails = 0;
+        g_soulTombSessionWin = 0;
+        g_soulTombSessionLose = 0;
+    }
     if (mode == "current") {
         return true; // 不调整
     }

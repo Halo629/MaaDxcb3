@@ -56,7 +56,8 @@
 		"desc": "调整魂墓挑战开始强度",
 		"max_hit": 1,
 		"action": "Custom",
-		"custom_action": "AdjustSoulTombLevel"
+		"custom_action": "AdjustSoulTombLevel",
+		"attach": {"start_adjust": true}
 	},
 	"SoulTombLevelMax": {
 		"desc": "调整到最大等级",
