@@ -11,9 +11,9 @@ enum class LogLevel
 };
 
 // 纯 C++ 日志，双写：
-//   - stdout（Info 及以上）：`HH:mm:ss 消息`（对齐 MXU 界面，无日期、无级别）
-//   - 文件（全部级别）：`YYYY-MM-DD HH:mm:ss LEVEL 消息`
-// 参照 MaaEnd go-service 的做法（zerolog MultiLevelWriter 同时写 stdout 与文件）。
+//   - stdout（Info 及以上）：无色消息直接输出；带色消息用 <span style="color:..."> 包裹，
+//     MXU 日志面板通过富文本渲染上色（agent 的 stdout 本身固定渲染为灰色，不识别 ANSI/裸色值）。
+//   - 文件（全部级别）：`LEVEL 消息`（纯文本，便于落盘排查，不带上色标记）。
 class LogUtils
 {
 public:

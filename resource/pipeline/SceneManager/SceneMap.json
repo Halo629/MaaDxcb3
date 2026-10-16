@@ -196,5 +196,12 @@
 			"MazeStartOut",
 			"__ScenePrivateNextTrue"
 		]
+	},
+	"SceneMapCharacterPosition": {
+		"desc": "获取地图中人物坐标",
+		"recognition": "OCR",
+		"expected": "\\(\\d+,\\s*\\d+\\)",
+		"roi": [101, 113, 85, 25],
+		"only_rec": true
 	}
 }

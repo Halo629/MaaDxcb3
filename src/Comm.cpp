@@ -712,11 +712,13 @@ MaaBool checkRoleInTargetMap(
     MaaStringBuffer* out_detail)
 {
     std::string targetMap;
+    bool resetFlag = true;
     auto param = json::parse(custom_recognition_param ? custom_recognition_param : "{}").value_or(json::value { });
     targetMap = param.get("map_name", json::value("")).as_string();
 
     // custom_recognition_param 未指定时，从节点 attach 读取 map_name，便于公共节点参数化
     if (targetMap.empty()) {
+        resetFlag = getNodeAttach(context, node_name).get("reset_flag", json::value(true)).as_boolean();
         targetMap = getNodeAttach(context, node_name).get("map_name", json::value("")).as_string();
     }
 
@@ -741,6 +743,10 @@ MaaBool checkRoleInTargetMap(
     }
     if (!matched) {
         return false;
+    }
+
+    if (!resetFlag) {
+        return true;
     }
 
     // 注意：MapListItemOcr / MapListItemTemplate 是叶子识别节点，roi 覆盖才对它们生效

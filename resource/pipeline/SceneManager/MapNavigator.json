@@ -283,6 +283,123 @@
 		"post_delay": 0,
 		"rate_limit": 0
 	},
+	"MapListClickWildBullValley": {
+		"desc": "地图列表点击蛮牛谷",
+		"recognition": "And",
+		"all_of": [
+			"InNowadaysPage",
+			{
+				"recognition": "OCR",
+				"expected": "蛮牛谷|蛮牛",
+				"roi": [205, 194, 363, 781]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 4000,
+		"rate_limit": 0
+	},
+	"InWildBullValley": {
+		"desc": "在蛮牛谷",
+		"recognition": "OCR",
+		"expected": "蛮牛谷|蛮牛",
+		"roi": [94, 63, 187, 43],
+		"pre_delay": 1500,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ResetWildBullValley": {
+		"desc": "重置蛮牛谷",
+		"recognition": "Custom",
+		"custom_recognition": "CheckRoleInTargetMap",
+		"attach": {"map_name": "蛮牛谷|蛮牛"},
+		"target_offset": [100, 0, 0, 0],
+		"action": "Click",
+		"post_delay": 3000,
+		"next": [
+			"InCampfire",
+			"[JumpBack]__ScenePrivateReturnSecretRealm"
+		]
+	},
+	"MapListClickSilverMoonValley": {
+		"desc": "地图列表点击银月谷",
+		"recognition": "And",
+		"all_of": [
+			"InNowadaysPage",
+			{
+				"recognition": "OCR",
+				"expected": "银月谷",
+				"roi": [205, 194, 363, 781]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 4000,
+		"rate_limit": 0
+	},
+	"InSilverMoonValley": {
+		"desc": "在银月谷",
+		"recognition": "OCR",
+		"expected": "银月谷",
+		"roi": [94, 63, 187, 43],
+		"pre_delay": 1500,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ResetSilverMoonValley": {
+		"desc": "重置银月谷",
+		"recognition": "Custom",
+		"custom_recognition": "CheckRoleInTargetMap",
+		"attach": {"map_name": "银月谷"},
+		"target_offset": [100, 0, 0, 0],
+		"action": "Click",
+		"post_delay": 3000,
+		"next": [
+			"InCampfire",
+			"[JumpBack]__ScenePrivateReturnSecretRealm"
+		]
+	},
+	"MapListClickIserel": {
+		"desc": "地图列表点击伊瑟瑞尔",
+		"recognition": "And",
+		"all_of": [
+			"InNowadaysPage",
+			{
+				"recognition": "OCR",
+				"expected": "伊瑟瑞尔|伊瑟|瑞尔",
+				"roi": [205, 194, 363, 781]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 4000,
+		"rate_limit": 0
+	},
+	"InIserel": {
+		"desc": "在伊瑟瑞尔",
+		"recognition": "OCR",
+		"expected": "伊瑟瑞尔|伊瑟|瑞尔",
+		"roi": [94, 63, 187, 43],
+		"pre_delay": 1500,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ResetIserel": {
+		"desc": "重置伊瑟瑞尔",
+		"recognition": "Custom",
+		"custom_recognition": "CheckRoleInTargetMap",
+		"attach": {"map_name": "伊瑟瑞尔|伊瑟|瑞尔"},
+		"target_offset": [100, 0, 0, 0],
+		"action": "Click",
+		"post_delay": 3000,
+		"next": [
+			"InCampfire",
+			"[JumpBack]__ScenePrivateReturnSecretRealm"
+		]
+	},
 	"SceneEnterIsleOfTimesEnd": {
 		"desc": "进入时之尽头的孤岛",
 		"pre_delay": 0,
@@ -355,6 +472,217 @@
 		},
 		"next": [
 			"InFurnaceCity",
+			"[JumpBack]SceneEnterSelectDestination"
+		]
+	},
+	"NoResetIsleOfTimesEnd": {
+		"desc": "不重置时之尽头的孤岛",
+		"recognition": "Custom",
+		"custom_recognition": "CheckRoleInTargetMap",
+		"attach": {
+			"map_name": "时之尽头的孤岛|时之尽头|孤岛",
+			"reset_flag": false
+		},
+		"next": [
+			"InIsleOfTimesEnd",
+			"[JumpBack]__ScenePrivateReturnRisk",
+			"[JumpBack]SceneBack"
+		]
+	},
+	"NoResetCrescentCounty": {
+		"desc": "不重置新月郡",
+		"recognition": "Custom",
+		"custom_recognition": "CheckRoleInTargetMap",
+		"attach": {"map_name": "新月郡|新月", "reset_flag": false},
+		"next": [
+			"InCrescentCounty",
+			"[JumpBack]__ScenePrivateReturnRisk",
+			"[JumpBack]SceneBack"
+		]
+	},
+	"NoResetHolyCityMonastery": {
+		"desc": "不重置圣城修道院",
+		"recognition": "Custom",
+		"custom_recognition": "CheckRoleInTargetMap",
+		"attach": {"map_name": "圣城修道院|圣城|修道院", "reset_flag": false},
+		"next": [
+			"InHolyCityMonastery",
+			"[JumpBack]__ScenePrivateReturnRisk",
+			"[JumpBack]SceneBack"
+		]
+	},
+	"NoResetGremid": {
+		"desc": "不重置格雷米德",
+		"recognition": "Custom",
+		"custom_recognition": "CheckRoleInTargetMap",
+		"attach": {"map_name": "格雷米德|格雷", "reset_flag": false},
+		"next": [
+			"InGremid",
+			"[JumpBack]__ScenePrivateReturnRisk",
+			"[JumpBack]SceneBack"
+		]
+	},
+	"NoResetFurnaceCity": {
+		"desc": "不重置熔炉之城",
+		"recognition": "Custom",
+		"custom_recognition": "CheckRoleInTargetMap",
+		"attach": {"map_name": "熔炉之城|熔炉", "reset_flag": false},
+		"next": [
+			"InFurnaceCity",
+			"[JumpBack]__ScenePrivateReturnRisk",
+			"[JumpBack]SceneBack"
+		]
+	},
+	"NoResetWildBullValley": {
+		"desc": "不重置蛮牛谷",
+		"recognition": "Custom",
+		"custom_recognition": "CheckRoleInTargetMap",
+		"attach": {"map_name": "蛮牛谷|蛮牛", "reset_flag": false},
+		"next": [
+			"InWildBullValley",
+			"[JumpBack]__ScenePrivateReturnRisk",
+			"[JumpBack]SceneBack"
+		]
+	},
+	"NoResetSilverMoonValley": {
+		"desc": "不重置银月谷",
+		"recognition": "Custom",
+		"custom_recognition": "CheckRoleInTargetMap",
+		"attach": {"map_name": "银月谷", "reset_flag": false},
+		"next": [
+			"InSilverMoonValley",
+			"[JumpBack]__ScenePrivateReturnRisk",
+			"[JumpBack]SceneBack"
+		]
+	},
+	"NoResetIserel": {
+		"desc": "不重置伊瑟瑞尔",
+		"recognition": "Custom",
+		"custom_recognition": "CheckRoleInTargetMap",
+		"attach": {"map_name": "伊瑟瑞尔|伊瑟|瑞尔", "reset_flag": false},
+		"next": [
+			"InIserel",
+			"[JumpBack]__ScenePrivateReturnRisk",
+			"[JumpBack]SceneBack"
+		]
+	},
+	"SceneEnterIsleOfTimesEndNoReset": {
+		"desc": "进入时之尽头的孤岛(不重置地图)",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {
+			"SelectMapOrder": "SwitchMapListAscendingSort",
+			"SelectMiniMapAnchor": "MapListClickIsleOfTimesEnd",
+			"ResetMiniMapAnchor": "NoResetIsleOfTimesEnd"
+		},
+		"next": [
+			"InIsleOfTimesEnd",
+			"[JumpBack]SceneEnterSelectDestination"
+		]
+	},
+	"SceneEnterCrescentCountyNoReset": {
+		"desc": "进入新月郡(不重置地图)",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {
+			"SelectMapOrder": "SwitchMapListAscendingSort",
+			"SelectMiniMapAnchor": "MapListClickCrescentCounty",
+			"ResetMiniMapAnchor": "NoResetCrescentCounty"
+		},
+		"next": [
+			"InCrescentCounty",
+			"[JumpBack]SceneEnterSelectDestination"
+		]
+	},
+	"SceneEnterHolyCityMonasteryNoReset": {
+		"desc": "进入圣城修道院(不重置地图)",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {
+			"SelectMapOrder": "SwitchMapListAscendingSort",
+			"SelectMiniMapAnchor": "MapListClickHolyCityMonastery",
+			"ResetMiniMapAnchor": "NoResetHolyCityMonastery"
+		},
+		"next": [
+			"InHolyCityMonastery",
+			"[JumpBack]SceneEnterSelectDestination"
+		]
+	},
+	"SceneEnterGremidNoReset": {
+		"desc": "进入格雷米德(不重置地图)",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {
+			"SelectMapOrder": "SwitchMapListAscendingSort",
+			"SelectMiniMapAnchor": "MapListClickGremid",
+			"ResetMiniMapAnchor": "NoResetGremid"
+		},
+		"next": [
+			"InGremid",
+			"[JumpBack]SceneEnterSelectDestination"
+		]
+	},
+	"SceneEnterFurnaceCityNoReset": {
+		"desc": "进入熔炉之城(不重置地图)",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {
+			"SelectMapOrder": "SwitchMapListAscendingSort",
+			"SelectMiniMapAnchor": "MapListClickFurnaceCity",
+			"ResetMiniMapAnchor": "NoResetFurnaceCity"
+		},
+		"next": [
+			"InFurnaceCity",
+			"[JumpBack]SceneEnterSelectDestination"
+		]
+	},
+	"SceneEnterWildBullValleyNoReset": {
+		"desc": "进入蛮牛谷(不重置地图)",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {
+			"SelectMapOrder": "SwitchMapListAscendingSort",
+			"SelectMiniMapAnchor": "MapListClickWildBullValley",
+			"ResetMiniMapAnchor": "NoResetWildBullValley"
+		},
+		"next": [
+			"InWildBullValley",
+			"[JumpBack]SceneEnterSelectDestination"
+		]
+	},
+	"SceneEnterSilverMoonValleyNoReset": {
+		"desc": "进入银月谷(不重置地图)",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {
+			"SelectMapOrder": "SwitchMapListAscendingSort",
+			"SelectMiniMapAnchor": "MapListClickSilverMoonValley",
+			"ResetMiniMapAnchor": "NoResetSilverMoonValley"
+		},
+		"next": [
+			"InSilverMoonValley",
+			"[JumpBack]SceneEnterSelectDestination"
+		]
+	},
+	"SceneEnterIserelNoReset": {
+		"desc": "进入伊瑟瑞尔(不重置地图)",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {
+			"SelectMapOrder": "SwitchMapListAscendingSort",
+			"SelectMiniMapAnchor": "MapListClickIserel",
+			"ResetMiniMapAnchor": "NoResetIserel"
+		},
+		"next": [
+			"InIserel",
 			"[JumpBack]SceneEnterSelectDestination"
 		]
 	}

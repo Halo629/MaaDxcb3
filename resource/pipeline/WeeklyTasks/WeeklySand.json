@@ -27,43 +27,27 @@
 		"desc": "免费沙领取",
 		"recognition": "And",
 		"all_of": ["InCampfire", "HasFreeSandNotice"],
-		"box_index": 1,
-		"action": "Click",
-		"pre_wait_freezes": {
-			"time": 500,
-			"target": [97, 556, 440, 492],
-			"timeout": 3000
-		},
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
 		"next": [
-			"FreeSandGotoCollect"
-		]
-	},
-	"FreeSandGotoCollect": {
-		"desc": "点击前往领取",
-		"recognition": "TemplateMatch",
-		"roi": [235, 887, 264, 165],
-		"template": "sand/goto_collect_sand.png",
-		"pre_delay": 0,
-		"post_delay": 500,
-		"rate_limit": 0,
-		"action": "Click",
-		"pre_wait_freezes": {
-			"time": 500,
-			"target": [97, 556, 440, 492],
-			"timeout": 3000
-		},
-		"next": [
-			"FreeSandCollect"
+			"HandleRewardDialog",
+			"[JumpBack]FreeSandCollect",
+			"[JumpBack]RefineFormationEntry"
 		]
 	},
 	"FreeSandCollect": {
 		"desc": "点击领取免费沙",
-		"recognition": "TemplateMatch",
-		"roi": [48, 139, 109, 122],
-		"template": "sand/free_sand.png",
+		"recognition": "And",
+		"all_of": [
+			"InRefineFormationPage",
+			{
+				"recognition": "TemplateMatch",
+				"roi": [48, 139, 109, 122],
+				"template": "sand/free_sand.png"
+			}
+		],
+		"box_index": 1,
 		"action": "Click",
 		"pre_delay": 0,
 		"post_delay": 0,
@@ -72,10 +56,7 @@
 			"time": 500,
 			"target": [260, 540, 200, 200],
 			"timeout": 2000
-		},
-		"next": [
-			"HandleRewardDialog"
-		]
+		}
 	},
 	"WeeklySandBuyStart": {
 		"desc": "每周沙子购买",

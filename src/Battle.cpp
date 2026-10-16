@@ -137,7 +137,7 @@ static bool useSkill(MaaContext* context, const MaaRect& skillPoint)
     ctrl = MaaTaskerGetController(MaaContextGetTasker(context));
     auto rid = MaaControllerPostClick(ctrl, releaseBox.x + releaseBox.width / 2, releaseBox.y + releaseBox.height / 2);
     MaaControllerWait(ctrl, rid);
-    Sleep(two_second_delay);
+    Sleep(2200);
     return false;
 }
 
@@ -224,7 +224,7 @@ static void battleCry(MaaContext* context, int cryColumn)
     if (col.beginX != 0 || col.beginY != 0) {
         auto s = MaaControllerPostSwipe(ctrl, col.beginX, col.beginY, col.endX, col.endY, col.duration);
         MaaControllerWait(ctrl, s);
-        Sleep(2000);
+        Sleep(1600);
     }
 }
 

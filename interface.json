@@ -26,7 +26,7 @@
 		}
 	],
 	"agent": [
-		{"child_exec": "agent/cpp-service-debug"}
+		{"child_exec": "agent/cpp-service"}
 	],
 	"group": [
 		{

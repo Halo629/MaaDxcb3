@@ -543,7 +543,7 @@ MaaBool upgradeMonsterSoul(
         return true;
     }
 
-    LogUtils::log(fmt("魔魂升级第%1次", g_curRound++), "#3b82f6");
+    LogUtils::log(fmt("魔魂升级第%1次(已保留%2个)", g_curRound++, g_keepCount), "#3b82f6");
 
     // 魔魂名称
     std::string soulName;

@@ -60,19 +60,59 @@ LogLevel colorToLevel(const std::string& color)
     return LogLevel::Info;
 }
 
-void write(LogLevel lv, const std::string& message)
+// 判断颜色是否为"无色"：默认白 / 空串直接按纯文本输出，避免把所有日志都套上 span
+static bool isPlainColor(const std::string& color)
+{
+    return color.empty() || color == "#ffffff";
+}
+
+// 转义 HTML 特殊字符，防止消息里的 < > & 破坏内联 HTML 结构
+static std::string escapeHtml(const std::string& s)
+{
+    std::string out;
+    out.reserve(s.size());
+    for (char c : s) {
+        switch (c) {
+        case '&':
+            out += "&amp;";
+            break;
+        case '<':
+            out += "&lt;";
+            break;
+        case '>':
+            out += "&gt;";
+            break;
+        default:
+            out += c;
+            break;
+        }
+    }
+    return out;
+}
+
+void write(LogLevel lv, const std::string& message, const std::string& color = "")
 {
     std::lock_guard<std::mutex> lock(g_mutex);
 
-    // 文件：全部级别，完整时间 + 级别（便于落盘排查）
+    // 文件：全部级别，LEVEL + 纯文本消息（便于落盘排查，不带上色标记）
     if (g_file.is_open()) {
         g_file << levelName(lv) << " " << message << "\n";
         g_file.flush();
     }
 
-    // stdout：Info 及以上，只时间 + 消息（对齐 MXU 界面：无日期、无级别）
-    if (lv >= kStdoutLevel) {
+    // stdout：Info 及以上
+    if (lv < kStdoutLevel) {
+        return;
+    }
+
+    if (isPlainColor(color)) {
         std::cout << message << std::endl;
+    }
+    else {
+        // MXU 日志面板把 agent 的 stdout 统一按灰色(type=agent)渲染，不识别 ANSI 或裸色值；
+        // 唯一能上色的途径是内联 HTML 的 style 属性（MXU 的 DOMPurify 白名单放行了 style）。
+        std::cout << "<span style=\"color:" << color << "\">" << escapeHtml(message)
+                  << "</span>" << std::endl;
     }
 }
 }
@@ -97,15 +137,15 @@ void LogUtils::info(const std::string& message)
 
 void LogUtils::warn(const std::string& message)
 {
-    write(LogLevel::Warn, message);
+    write(LogLevel::Warn, message, "#f59e0b");
 }
 
 void LogUtils::error(const std::string& message)
 {
-    write(LogLevel::Error, message);
+    write(LogLevel::Error, message, "#ef4444");
 }
 
 void LogUtils::log(const std::string& message, const std::string& color)
 {
-    write(colorToLevel(color), message);
+    write(colorToLevel(color), message, color);
 }

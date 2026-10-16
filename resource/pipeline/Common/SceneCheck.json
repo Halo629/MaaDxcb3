@@ -605,7 +605,13 @@
 		"desc": "判断是否有道具标签",
 		"recognition": "OCR",
 		"expected": "道具",
-		"roi": [146, 1100, 504, 69]
+		"roi": [121, 1092, 589, 80]
+	},
+	"HasBagValuableTab": {
+		"desc": "判断是否有贵重品标签",
+		"recognition": "OCR",
+		"expected": "贵重品",
+		"roi": [121, 1092, 589, 80]
 	},
 	"HasEquipmentTab": {
 		"desc": "判断是否有装备标签",

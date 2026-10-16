@@ -26,7 +26,6 @@
 	},
 	"GuildDailyChallengeEntry": {
 		"desc": "公会每日挑战入口",
-		"max_hit": 1,
 		"recognition": "And",
 		"all_of": [
 			"InGuildChallengePage",
@@ -41,7 +40,8 @@
 		"next": [
 			"[JumpBack]GuildChallengeQuickBattle",
 			"[JumpBack]GuildChallengeBattle",
-			"GuildChallengeSceneBack"
+			"GuildChallengeSceneBack",
+			"GuildDailyChallengeEntry"
 		]
 	},
 	"GuildChallengeSceneBack": {
@@ -70,7 +70,7 @@
 		],
 		"action": "Click",
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [72, 1076, 583, 109],
 			"timeout": 2000
 		},
@@ -118,7 +118,6 @@
 	},
 	"GuildEpicChallengeEntry": {
 		"desc": "公会史诗挑战入口",
-		"max_hit": 1,
 		"recognition": "And",
 		"all_of": [
 			"InGuildChallengePage",
@@ -128,14 +127,15 @@
 		"box_index": 1,
 		"action": "Click",
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [53, 1077, 611, 165],
 			"timeout": 2000
 		},
 		"next": [
 			"[JumpBack]GuildChallengeQuickBattle",
 			"[JumpBack]GuildChallengeBattle",
-			"GuildChallengeSceneBack"
+			"GuildChallengeSceneBack",
+			"GuildEpicChallengeEntry"
 		]
 	},
 	"GuildShop": {

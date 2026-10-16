@@ -212,7 +212,7 @@
 		"end": [680, 900],
 		"duration": 200,
 		"post_wait_freezes": {
-			"time": 500,
+			"time": 800,
 			"target": [61, 402, 604, 701],
 			"timeout": 2000
 		},
@@ -232,7 +232,11 @@
 			"time": 1000,
 			"target": [61, 402, 604, 701],
 			"timeout": 2000
-		}
+		},
+		"next": [
+			"HandleRewardDialog",
+			"CarriageShopBuyItemDone"
+		]
 	},
 	"CarriageShopFindSlider": {
 		"desc": "识别数量滑块",

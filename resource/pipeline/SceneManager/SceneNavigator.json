@@ -170,6 +170,8 @@
 	},
 	"ShatteredRealmSwipeUp": {
 		"desc": "向上滑动查找",
+		"recognition": "And",
+		"all_of": ["InGamePlayPermanentPage"],
 		"action": "Swipe",
 		"begin": [400, 800],
 		"end": [400, 600],
@@ -228,9 +230,8 @@
 		"desc": "关闭公会页面的弹窗",
 		"recognition": "And",
 		"all_of": ["InGuildPage"],
-		"next": [
-			"PressEsc"
-		],
+		"action": "Click",
+		"target": [172, 1226, 76, 33],
 		"max_hit": 10,
 		"pre_delay": 0,
 		"post_delay": 0,
@@ -695,6 +696,48 @@
 			"[JumpBack]MonsterSoulPageEntry",
 			"[JumpBack]SceneEnterBag"
 		]
+	},
+	"SceneEnterBagValuableTab": {
+		"desc": "进入背包-贵重品页面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InBagValuablePage",
+			"[JumpBack]BagValuableTabEntry",
+			"[JumpBack]BagPageTabSwipeLeft",
+			"[JumpBack]SceneEnterBag"
+		]
+	},
+	"BagValuableTabEntry": {
+		"desc": "进入背包贵重品页面",
+		"recognition": "And",
+		"all_of": ["HasBagValuableTab"],
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [276, 587, 189, 402],
+			"timeout": 2000
+		}
+	},
+	"BagPageTabSwipeLeft": {
+		"desc": "背包页签左滑",
+		"recognition": "And",
+		"all_of": ["InBagItemPage"],
+		"pre_delay": 500,
+		"action": "Swipe",
+		"begin": [600, 1130],
+		"end": [200, 1130],
+		"duration": 200,
+		"max_hit": 1,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [99, 326, 546, 698],
+			"timeout": 5000
+		}
 	},
 	"SceneEnterBag": {
 		"desc": "进入背包",

@@ -13,13 +13,11 @@
 				"DailyRewardsMonsterSoulSub"
 			],
 			"continue": true,
-			"strict": false
+			"strict": true
 		},
 		"next": [
 			"DailyRewardsDone"
 		]
 	},
-	"DailyRewardsDone": {
-		"desc": "日常奖励领取完成"
-	}
+	"DailyRewardsDone": {"desc": "日常奖励领取完成"}
 }

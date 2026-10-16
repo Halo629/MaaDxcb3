@@ -29,7 +29,7 @@
 		"recognition": "DirectHit",
 		"action": "ClickKey",
 		"key": 111,
-		"post_delay": 500
+		"post_delay": 700
 	},
 	"ClickBlankArea1": {
 		"desc": "点击任意空白位置关闭",
