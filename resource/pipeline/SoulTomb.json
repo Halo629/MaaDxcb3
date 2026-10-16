@@ -179,6 +179,7 @@
 		"rate_limit": 0,
 		"next": [
 			"[JumpBack]HandleBattleEnd",
+			"[JumpBack]SoulTombCloseSuccessBox",
 			"AdjustSoulTombToMaxLevel",
 			"__ScenePrivateNextTrue"
 		]

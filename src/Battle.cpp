@@ -137,7 +137,7 @@ static bool useSkill(MaaContext* context, const MaaRect& skillPoint)
     ctrl = MaaTaskerGetController(MaaContextGetTasker(context));
     auto rid = MaaControllerPostClick(ctrl, releaseBox.x + releaseBox.width / 2, releaseBox.y + releaseBox.height / 2);
     MaaControllerWait(ctrl, rid);
-    Sleep(2200);
+    Sleep(1500);
     return false;
 }
 
@@ -224,7 +224,7 @@ static void battleCry(MaaContext* context, int cryColumn)
     if (col.beginX != 0 || col.beginY != 0) {
         auto s = MaaControllerPostSwipe(ctrl, col.beginX, col.beginY, col.endX, col.endY, col.duration);
         MaaControllerWait(ctrl, s);
-        Sleep(1600);
+        Sleep(1500);
     }
 }
 
@@ -313,7 +313,7 @@ MaaBool battleAI(
         // 技能使用时间判断
         int battleElapsed = (int)((now - startTick) / 1000);
         if (isSkillReady(context, &skillBox) && g_user_battle.firstSkillTime > 0 && battleElapsed >= g_user_battle.firstSkillTime) {
-            if (beanCount >= 5) {
+            if (beanCount >= 4) {
                 // 豆子少于5不使用技能, 使用技能后连续吼两次
                 if (useSkill(context, skillBox)) {
                     for (int i = 0; i < 2; ++i) {
@@ -326,7 +326,9 @@ MaaBool battleAI(
             else if (cryDecision == BATTLE_CRY_BURST && beanCount >= 2) {
                 useSkill(context, skillBox); // burst 阶段有2个及以上豆子就使用技能
             }
-            continue;
+            if (remaining >= 5) {
+                continue;
+            }
         }
 
         if (cryDecision == BATTLE_CRY_BURST) {
