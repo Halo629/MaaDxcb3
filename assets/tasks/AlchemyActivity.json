@@ -9,7 +9,7 @@
             ]
         },
         {
-              "name": "TransmutationCircle",
+            "name": "TransmutationCircle",
             "label": "⚗️点石成金",
             "entry": "AlchemyActivityStart",
             "group": [
@@ -27,6 +27,22 @@
         {
             "name": "StarWeaveGlory",
             "label": "🌟织星成辉",
+            "entry": "AlchemyActivityStart",
+            "group": [
+                "activity_tasks"
+            ]
+        },
+        {
+            "name": "TarotCard",
+            "label": "🃏塔罗牌",
+            "entry": "AlchemyActivityStart",
+            "group": [
+                "activity_tasks"
+            ]
+        },
+        {
+            "name": "WitchsFeastOfMagic",
+            "label": "🧙‍♀️女巫的魔法盛宴",
             "entry": "AlchemyActivityStart",
             "group": [
                 "activity_tasks"

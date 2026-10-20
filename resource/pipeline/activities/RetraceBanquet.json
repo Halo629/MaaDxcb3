@@ -118,10 +118,26 @@
 		"rate_limit": 0,
 		"max_hit": 1,
 		"next": [
+			"RetraceBanquetLotteryOutOfStockThenQuit",
 			"[JumpBack]RetraceBanquetLotteryDrawSkipAnimEntry",
 			"[JumpBack]RetraceBanquetLotteryDraw",
 			"RetraceBanquetLotteryDrawDone",
 			"[JumpBack]RetraceBanquetLotteryDrawPageEntry"
+		]
+	},
+	"RetraceBanquetLotteryOutOfStock": {
+		"desc": "抽奖没有库存",
+		"recognition": "OCR",
+		"expected": "没有库存了|没有库存",
+		"roi": [293, 577, 127, 33],
+		"only_rec": true
+	},
+	"RetraceBanquetLotteryOutOfStockThenQuit": {
+		"desc": "抽奖没有库存,退出",
+		"recognition": "And",
+		"all_of": ["RetraceBanquetLotteryOutOfStock"],
+		"next": [
+			"ConfirmButton"
 		]
 	},
 	"RetraceBanquetLotteryCountColor": {
@@ -163,15 +179,28 @@
 			}
 		],
 		"action": "Click",
-		"post_delay": 200,
+		"post_delay": 500,
+		"timeout": 3000,
 		"next": [
-			"HandleRewardDialog"
+			"HandleRewardDialog",
+			"RetraceBanquetLotteryOutOfStock"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
 		]
 	},
 	"RetraceBanquetLotteryDrawDone": {
 		"desc": "抽奖完成",
 		"recognition": "And",
-		"all_of": ["InRetraceBanquetLotteryDrawPage"]
+		"all_of": [
+			"InRetraceBanquetLotteryDrawPage",
+			{
+				"recognition": "OCR",
+				"expected": "\\b([0-9])\\b",
+				"roi": [516, 55, 43, 23],
+				"only_rec": true
+			}
+		]
 	},
 	"InRetraceBanquetLotteryDrawPage": {
 		"desc": "在抽奖页面",

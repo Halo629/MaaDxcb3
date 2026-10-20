@@ -46,37 +46,44 @@
 		"recognition": "And",
 		"all_of": ["InIsleOfTimesEnd"],
 		"next": [
-			"[JumpBack]FerdinandInIsleOfTimesEndSwipeLeft",
+			"FindFerdinandInFerdinandInIsleOfTimesEndRightArea",
 			"HasFerdinand",
+			"[JumpBack]FerdinandInIsleOfTimesEndSwipeRight",
 			"FerdinandNotFound"
+		]
+	},
+	"FindFerdinandInFerdinandInIsleOfTimesEndRightArea": {
+		"desc": "在地图右边识别到费迪南德",
+		"recognition": "OCR",
+		"expected": ["费迪南德", "费迪", "南德"],
+		"roi": [482, 346, 238, 522],
+		"next": [
+			"FerdinandInIsleOfTimesEndCrossFortress",
+			"[JumpBack]IsleOfTimesEndClickFortress"
 		]
 	},
 	"FerdinandInIsleOfTimesEndSwipeLeft": {
 		"desc": "往左滑动找费迪南德",
 		"action": "Swipe",
 		"begin": [500, 800],
-		"end": [400, 800],
+		"end": [450, 800],
 		"duration": 100,
 		"pre_delay": 500,
-		"max_hit": 1,
+		"max_hit": 2,
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [193, 513, 358, 513],
 			"timeout": 2000
-		},
-		"next": [
-			"IsleOfTimesEndCrossFortressEntry",
-			"FerdinandInIsleOfTimesEndSwipeRight"
-		]
+		}
 	},
 	"FerdinandInIsleOfTimesEndSwipeRight": {
 		"desc": "往右滑动找费迪南德",
 		"action": "Swipe",
 		"begin": [300, 800],
-		"end": [600, 800],
+		"end": [400, 800],
 		"duration": 100,
 		"pre_delay": 500,
-		"max_hit": 1,
+		"max_hit": 2,
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [193, 513, 358, 513],
@@ -104,31 +111,12 @@
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [193, 513, 358, 513],
-			"timeout": 5000
-		}
-	},
-	"IsleOfTimesEndCrossFortressEntry": {
-		"desc": "穿越寒石堡垒",
-		"recognition": "And",
-		"all_of": ["HasFerdinand"],
-		"next": [
-			"[JumpBack]IsleOfTimesEndCrossFortressEntrySwipeRight",
-			"FerdinandInIsleOfTimesEndCrossFortress",
-			"[JumpBack]IsleOfTimesEndClickFortress"
-		]
-	},
-	"IsleOfTimesEndCrossFortressEntrySwipeRight": {
-		"desc": "往右滑动穿越寒石堡垒",
-		"action": "Swipe",
-		"begin": [400, 800],
-		"end": [500, 800],
-		"duration": 100,
-		"max_hit": 1,
-		"post_wait_freezes": {
-			"time": 500,
-			"target": [193, 513, 358, 513],
 			"timeout": 2000
-		}
+		},
+		"next": [
+			"FerdinandInIsleOfTimesEndCrossFortress",
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"FerdinandInCrescentCounty": {
 		"desc": "在新月郡寻找费迪南德",

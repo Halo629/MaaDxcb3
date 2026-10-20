@@ -1,7 +1,6 @@
 #include "Reco.h"
 #include "Comm.h"
 
-void registerCustomMap(MaaResource* res, void* user_data);
 void registerCustomBattle(MaaResource* res, void* user_data);
 void registerCustomFerdinand(MaaResource* res, void* user_data);
 void registerCustomGuild(MaaResource* res, void* user_data);
@@ -23,7 +22,6 @@ void registerCustomDarkSecretTreasure(MaaResource* res, void* user_data);
 
 void registerAllCustomRecognition(MaaResource* res, void* user_data)
 {
-    registerCustomMap(res, user_data);
     registerCustomBattle(res, user_data);
     registerCustomFerdinand(res, user_data);
     registerCustomGuild(res, user_data);

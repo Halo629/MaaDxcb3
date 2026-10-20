@@ -3,6 +3,7 @@
         {
             "name": "ShadowMirror",
             "label": "🪞掠影之境",
+            "description":"能量镜片将在源世界米诺的铁壁之城刷取，请确保解锁该地图并且能打过",
             "entry": "ShadowMirrorStart",
             "group": [
                 "activity_tasks"

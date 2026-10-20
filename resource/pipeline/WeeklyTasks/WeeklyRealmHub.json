@@ -4,33 +4,175 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
+		"anchor": {"WeeklyScheduleTaskStart": "RealmHubTaskStart"},
+		"next": [
+			"WeeklyScheduleEnabled",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"RealmHubTaskStart": {
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
 		"next": [
 			"[JumpBack]CollapseSideBar",
+			"[JumpBack]UseMonthlyCardOptionalChestEntry",
 			"RealmHubPlaneGuildShopping",
 			"[JumpBack]RealmHubPlaneGuildEntry",
+			"[JumpBack]FindAndClickRealmHubInMainPage",
 			"RealmHubPlaneGuildNotFound",
 			"[JumpBack]SceneEnterMainPage"
 		]
 	},
-	"RealmHubPlaneGuildEntry": {
-		"desc": "在主页营火处左滑，找到诸界枢纽",
+	"UseMonthlyCardOptionalChestEntry": {
+		"desc": "使用月卡宝箱换取衔尾之环入口",
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"anchor": {"BagOrder": "BagSelectDefaultSortEntry"},
+		"next": [
+			"BagUseMonthlyCardOptionalChest",
+			"[JumpBack]SceneEnterBag"
+		]
+	},
+	"BagUseMonthlyCardOptionalChest": {
+		"desc": "背包使用月卡宝箱换取衔尾之环",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InBagItemPageSortByDefault"],
+		"next": [
+			"BagItemPageClickMonthlyCardOptionalChest",
+			"[JumpBack]BagUseMonthlyCardOptionalChestSwipeUp",
+			"BagUseMonthlyCardOptionalChestNotFoundChest"
+		]
+	},
+	"BagUseMonthlyCardOptionalChestNotFoundChest": {
+		"desc": "背包未找到月卡宝箱",
+		"next": [
+			"SceneBack"
+		],
+		"focus": {"Node.Recognition.Succeeded": "背包中未找到月卡宝箱"}
+	},
+	"BagUseMonthlyCardOptionalChestDone": {
+		"desc": "背包使用月卡宝箱完成",
+		"next": [
+			"SceneBack"
+		]
+	},
+	"BagUseMonthlyCardOptionalChestSwipeUp": {
+		"desc": "背包道具页面上滑",
+		"action": "Swipe",
+		"begin": [400, 1000],
+		"end": [400, 800],
+		"duration": 200,
+		"max_hit": 2,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 3000
+		}
+	},
+	"BagItemPageFindMonthlyCardOptionalChest": {
+		"desc": "找到紫色宝箱",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "items/MonthlyCardOptionalChest.png",
+				"roi": [30, 52, 688, 1004],
+				"sub_name": "MonthlyCardOptionalChest"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "^自选宝箱$",
+				"roi": "MonthlyCardOptionalChest",
+				"roi_offset": [9, 126, -14, -87],
+				"only_rec": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [135, 170, 70],
+				"upper": [145, 190, 100],
+				"roi": "MonthlyCardOptionalChest",
+				"roi_offset": [5, 94, -96, -97],
+				"count": 20
+			}
+		]
+	},
+	"BagItemPageClickMonthlyCardOptionalChest": {
+		"desc": "背包点击宝箱",
+		"max_hit": 2,
+		"recognition": "And",
+		"all_of": ["BagItemPageFindMonthlyCardOptionalChest"],
+		"action": "Click",
+		"target_offset": [20, 20, -20, -20],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [30, 52, 688, 1004],
+			"timeout": 2000
+		},
+		"next": [
+			"MonthlyCardOptionalChestSelectOuroborosRing",
+			"BagUseMonthlyCardOptionalChestNotFoundChest"
+		]
+	},
+	"MonthlyCardOptionalChestSelectOuroborosRing": {
+		"desc": "月卡箱子选择衔尾之环",
+		"recognition": "And",
+		"all_of": [
+			"MonthlyCardOptionalChestCheck",
+			{
+				"recognition": "OCR",
+				"expected": "选择",
+				"roi": "MonthlyCardOptionalChestCheck",
+				"roi_offset": [21, 168, -45, -82]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [30, 52, 688, 1004],
+			"timeout": 2000
+		},
+		"next": [
+			"[JumpBack]CarriageShopSlideBuyMax",
+			"[JumpBack]UseChest",
+			"BagItemPageClickMonthlyCardOptionalChest",
+			"BagUseMonthlyCardOptionalChestDone"
+		]
+	},
+	"UseChest": {
+		"desc": "只有一个箱子的情况下，没有滑动条，点击使用按钮",
+		"recognition": "OCR",
+		"expected": "使用",
+		"roi": [292, 853, 133, 45],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [30, 52, 688, 1004],
+			"timeout": 2000
+		}
+	},
+	"MonthlyCardOptionalChestCheck": {
+		"desc": "检查是否是月卡宝箱",
+		"recognition": "TemplateMatch",
+		"template": "items/OuroborosRingInChest.png",
+		"roi": [182, 500, 356, 185]
+	},
+	"FindAndClickRealmHubInMainPage": {
+		"desc": "在主页营火处左滑，找到诸界枢纽并点击",
 		"recognition": "And",
 		"all_of": ["InCampfire"],
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"action": "Swipe",
-		"begin": [500, 900],
-		"end": [200, 900],
-		"duration": 100,
-		"post_wait_freezes": {
-			"time": 300,
-			"target": [227, 580, 308, 377],
-			"timeout": 2000
-		},
 		"next": [
 			"RealmHubEntry",
-			"RealmHubPlaneGuildEntry"
+			"[JumpBack]MainPageSwipeLeft"
 		]
 	},
 	"RealmHubEntry": {
@@ -43,38 +185,42 @@
 		"rate_limit": 0,
 		"target_offset": [0, -50, 0, 0],
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [244, 379, 249, 625],
 			"timeout": 15000
-		},
-		"next": [
-			"RealmHubPlaneGuildEntryNode",
-			"RealmHubEntry"
-		]
+		}
 	},
 	"RealmHubPlaneGuildNotFound": {
 		"desc": "未找到位面行会",
 		"recognition": "And",
 		"all_of": [
-			"InRealmHub",
+			"InRealmHubPage",
 			{
 				"recognition": "OCR",
 				"expected": "离开",
 				"roi": [282, 658, 158, 356]
 			}
 		],
+		"box_index": 1,
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
 		"action": "Click",
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [244, 379, 249, 625],
 			"timeout": 2000
-		}
+		},
+		"focus": {"Node.Recognition.Succeeded": "诸界枢纽界面未找到位面行会"}
 	},
-	"RealmHubPlaneGuildEntryNode": {
-		"desc": "进入位面行会",
+	"InRealmHubPage": {
+		"desc": "在诸界枢纽页面",
+		"recognition": "OCR",
+		"expected": "诸界枢纽|诸界|枢纽",
+		"roi": [252, 210, 196, 177]
+	},
+	"RealmHubPageClickPlaneGuild": {
+		"desc": "诸界枢纽页面点击位面行会",
 		"recognition": "OCR",
 		"expected": "位面行会|位面|行会",
 		"roi": [282, 658, 158, 356],
@@ -83,12 +229,18 @@
 			"time": 500,
 			"target": [244, 379, 249, 625],
 			"timeout": 2000
-		},
+		}
+	},
+	"RealmHubPlaneGuildEntry": {
+		"desc": "诸界枢纽页面进入位面行会",
+		"recognition": "And",
+		"all_of": ["InRealmHubPage"],
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
 		"next": [
-			"InRealmHubPlaneGuild"
+			"InRealmHubPlaneGuild",
+			"[JumpBack]RealmHubPageClickPlaneGuild"
 		]
 	},
 	"InRealmHubPlaneGuild": {
@@ -96,15 +248,6 @@
 		"recognition": "OCR",
 		"expected": "位面行会|位面|行会",
 		"roi": [300, 123, 117, 58],
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0
-	},
-	"InRealmHub": {
-		"desc": "在诸界枢纽页面",
-		"recognition": "OCR",
-		"expected": "诸界枢纽|诸界|枢纽",
-		"roi": [296, 242, 128, 65],
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0
@@ -202,7 +345,8 @@
 		],
 		"pre_delay": 0,
 		"post_delay": 0,
-		"rate_limit": 0
+		"rate_limit": 0,
+		"focus": {"Node.Recognition.Succeeded": "衔尾之环不足"}
 	},
 	"RealmHubPlaneGuildTimeBondFragmentSoldout": {
 		"desc": "羁时碎片已售罄",
@@ -244,7 +388,7 @@
 		"desc": "位面行会页面向上滑动查看更多",
 		"action": "Swipe",
 		"begin": [450, 850],
-		"end": [450, 600],
+		"end": [450, 650],
 		"duration": 500,
 		"max_hit": 5,
 		"post_wait_freezes": {
@@ -255,5 +399,15 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0
+	},
+	"MainPageSwipeLeft": {
+		"desc": "在主页左滑",
+		"pre_delay": 0,
+		"post_delay": 500,
+		"rate_limit": 0,
+		"max_hit": 5,
+		"action": "Swipe",
+		"begin": [500, 900],
+		"end": [200, 900]
 	}
 }

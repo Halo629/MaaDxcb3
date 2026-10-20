@@ -1,57 +1,46 @@
 {
 	"HeartGiftStart": {
 		"desc": "铭心礼遇",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {"ActivityGoto": "HeartGiftEntry"},
 		"next": [
+			"[JumpBack]HandleWheelOfDreamDialog",
 			"[JumpBack]HeartGiftCollect",
 			"HeartGiftDone",
-			"[JumpBack]__SceneMonthlyCardPageGotoHeartGiftPage",
-			"[JumpBack]__SceneGamePlayLimitedEntryHeartGift",
-			"[JumpBack]__SceneGamePlayLimitedFindHeartGift",
-			"[JumpBack]SceneEnterGamePlayLimited"
+			"[JumpBack]SceneMonthlyCardPageGotoHeartGiftPage",
+			"[JumpBack]ActivityLimitedEnter"
 		]
 	},
-	"__SceneGamePlayLimitedEntryHeartGift": {
-		"desc": "在限时页面进入铭心礼遇",
-		"recognition": "And",
-		"all_of": ["__SceneGamePlayLimitedPageHasHeartGift"],
-		"next": [
-			"__SceneGamePlayLimitedPageGotoHeartGift"
-		]
-	},
-	"__SceneGamePlayLimitedPageGotoHeartGift": {
-		"desc": "点击前往铭心礼遇",
-		"roi": "__SceneGamePlayLimitedPageHasHeartGift",
+	"HeartGiftEntry": {
+		"desc": "限时页面识别铭心礼遇",
+		"recognition": "TemplateMatch",
+		"template": [
+			"activities/HeartGift/HeartGiftIcon.png"
+		],
+		"roi": [15, 69, 701, 997],
 		"action": "Click",
 		"post_wait_freezes": {
-			"time": 300,
-			"target": [260, 540, 200, 200],
-			"timeout": 5000
+			"time": 500,
+			"target": [15, 69, 701, 997],
+			"timeout": 2000
 		}
-	},
-	"__SceneGamePlayLimitedFindHeartGift": {
-		"desc": "在限时页面查找铭心礼遇",
-		"recognition": "And",
-		"all_of": ["InGamePlayLimitedPage"],
-		"next": [
-			"__SceneGamePlayLimitedPageHasHeartGift",
-			"[JumpBack]HeartGiftSwipeToTop",
-			"[JumpBack]HeartGiftSwipe"
-		]
-	},
-	"__SceneGamePlayLimitedPageHasHeartGift": {
-		"desc": "限时页面识别到铭心礼遇",
-		"recognition": "TemplateMatch",
-		"template": "activities/HeartGift/HeartGiftIcon.png",
-		"roi": [15, 69, 701, 997]
 	},
 	"HeartGiftCollect": {
 		"desc": "铭心礼遇页面点击领取",
 		"recognition": "And",
-		"all_of": ["__HeartGiftHasYellowCollect"],
+		"all_of": [
+			"InHeartGiftPage",
+			"HeartGiftPageHasYellowCollect"
+		],
+		"box_index": 1,
 		"action": "Click",
-		"next": [
-			"__HeartGiftCloseCollectTipBox"
-		]
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [46, 429, 627, 414],
+			"timeout": 2000
+		}
 	},
 	"InHeartGiftPage": {
 		"desc": "在铭心礼遇页面",
@@ -59,86 +48,56 @@
 		"expected": "铭心礼遇",
 		"roi": [299, 286, 120, 60]
 	},
-	"__HeartGiftHasClickCollect": {
-		"desc": "铭心礼遇页面识别点击领取",
-		"recognition": "OCR",
-		"expected": "点击领取",
-		"roi": [260, 697, 197, 93]
-	},
-	"__HeartGiftHasYellowCollect": {
+	"HeartGiftPageHasYellowCollect": {
 		"desc": "铭心礼遇页面识别黄色的点击领取",
 		"recognition": "And",
 		"all_of": [
-			"__HeartGiftHasClickCollect",
+			{
+				"desc": "铭心礼遇页面识别点击领取",
+				"recognition": "OCR",
+				"expected": "点击领取",
+				"roi": [260, 697, 197, 93],
+				"sub_name": "HeartGiftHasClickCollect"
+			},
 			{
 				"recognition": "ColorMatch",
 				"method": 40,
 				"lower": [20, 80, 80],
 				"upper": [35, 255, 255],
-				"roi": "__HeartGiftHasClickCollect",
+				"roi": "HeartGiftHasClickCollect",
 				"count": 500
 			}
-		],
-		"box_index": 1
+		]
 	},
-	"__SceneMonthlyCardPageHasCollectButton": {
-		"desc": "在月卡页面识别是否有领取按钮",
-		"recognition": "TemplateMatch",
-		"template": "activities/HeartGift/HeartGiftCollect.png",
-		"roi": [514, 1152, 206, 115]
-	},
-	"__SceneMonthlyCardPageGotoHeartGiftPage": {
+	"SceneMonthlyCardPageGotoHeartGiftPage": {
 		"desc": "在月卡页面点击领取前往铭心礼遇页面",
 		"recognition": "And",
-		"all_of": ["__SceneMonthlyCardPageHasCollectButton"],
-		"action": "Click"
-	},
-	"__HeartGiftCloseCollectTipBox": {
-		"desc": "关闭铭心礼遇领取弹窗",
+		"all_of": [
+			"InMonthlyCardPage",
+			{
+				"recognition": "OCR",
+				"expected": "铭心礼遇|铭心|礼遇|领取",
+				"roi": [531, 1172, 189, 74]
+			}
+		],
+		"box_index": 1,
 		"action": "Click",
-		"target": [313, 1104, 89, 63]
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [36, 718, 638, 277],
+			"timeout": 2000
+		}
 	},
 	"HeartGiftDone": {
 		"desc": "铭心礼遇已完成",
 		"recognition": "And",
 		"all_of": ["InHeartGiftPage"],
+		"pre_delay": 500,
+		"post_delay": 500,
+		"action": "Click",
+		"target": [308, 178, 116, 60],
 		"next": [
-			"HeartGiftFinish"
+			"PressEsc"
 		]
-	},
-	"HeartGiftFinish": {
-		"desc": "铭心礼遇完成",
-		"recognition": "And",
-		"all_of": ["__HeartGiftHasYellowCollect"],
-		"inverse": true,
-		"next": [
-			"SceneEnterMainPage"
-		]
-	},
-	"HeartGiftSwipeToTop": {
-		"desc": "快速滑到最上方",
-		"action": "Swipe",
-		"begin": [400, 200],
-		"end": [400, 900],
-		"duration": 100,
-		"max_hit": 1,
-		"post_wait_freezes": {
-			"time": 500,
-			"target": [353, 192, 328, 732],
-			"timeout": 5000
-		}
-	},
-	"HeartGiftSwipe": {
-		"desc": "向上滑动查找",
-		"action": "Swipe",
-		"begin": [400, 800],
-		"end": [400, 600],
-		"duration": 200,
-		"max_hit": 5,
-		"post_wait_freezes": {
-			"time": 500,
-			"target": [353, 192, 328, 732],
-			"timeout": 5000
-		}
 	}
 }

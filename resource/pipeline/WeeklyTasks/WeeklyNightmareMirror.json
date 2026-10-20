@@ -1,6 +1,18 @@
 {
-	"NightmareMirrorStart": {
-		"desc": "咒魇水鉴",
+	"WeeklyNightmareMirrorStart": {
+		"desc": "每周咒魇水鉴",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {
+			"WeeklyScheduleTaskStart": "NightmareMirrorTaskStart"
+		},
+		"next": [
+			"WeeklyScheduleEnabled",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"NightmareMirrorTaskStart": {
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,

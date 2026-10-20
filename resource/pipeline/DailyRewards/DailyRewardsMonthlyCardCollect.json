@@ -123,6 +123,7 @@
 			"target": [81, 301, 531, 584],
 			"timeout": 2000
 		},
+		"anchor": {"BagOrder": "BagSelectDefaultSortEntry"},
 		"next": [
 			"BagUseAdvancedCardEntry",
 			"[JumpBack]SceneEnterBag"
@@ -132,7 +133,7 @@
 		"desc": "背包使用进阶月卡",
 		"max_hit": 1,
 		"recognition": "And",
-		"all_of": ["InBagItemPage"],
+		"all_of": ["InBagItemPageSortByDefault"],
 		"next": [
 			"BagItemPageClickAdvancedCard",
 			"[JumpBack]BagItemPageSwipeUp"

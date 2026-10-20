@@ -74,6 +74,6 @@
 		"recognition": "And",
 		"all_of": ["HasCollapseIcon"],
 		"action": "Click",
-		"pre_delay": 0
+		"post_delay": 500
 	}
 }

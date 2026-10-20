@@ -71,7 +71,8 @@
 		"desc": "在登录页",
 		"recognition": "OCR",
 		"expected": "Ver|ver",
-		"roi": [549, 1223, 161, 57]
+		"roi": [558, 1255, 153, 25],
+		"only_rec": true
 	},
 	"InMaze": {
 		"desc": "判断是否在迷宫",
@@ -375,7 +376,7 @@
 		"recognition": "TemplateMatch",
 		"template": "guild/guild_daily_challenge.png",
 		"roi": [37, 489, 317, 236],
-		"pre_delay": 0,
+		"pre_delay": 1000,
 		"post_delay": 0,
 		"rate_limit": 0
 	},
@@ -647,6 +648,14 @@
 		"post_delay": 1000,
 		"rate_limit": 0
 	},
+	"InBagItemPageSortByDefault": {
+		"desc": "判断是否在背包道具页面(使用默认排序)",
+		"recognition": "And",
+		"all_of": ["InBagItemPage", "BagSortByDefaultOrder"],
+		"pre_delay": 0,
+		"post_delay": 1000,
+		"rate_limit": 0
+	},
 	"InBagValuablePage": {
 		"desc": "判断是否在背包贵重品页面",
 		"recognition": "And",
@@ -795,5 +804,56 @@
 				"count": 50
 			}
 		]
+	},
+	"InSkyreachTower": {
+		"desc": "判断是否在通天塔",
+		"recognition": "OCR",
+		"expected": "大厅",
+		"roi": [99, 69, 57, 30],
+		"only_rec": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InSkyreachTowerEntryPage": {
+		"desc": "判断是否在通天塔进入大厅选项页面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "进入通天塔大厅|进入通天塔|通天塔大厅",
+		"roi": [238, 705, 241, 230]
+	},
+	"InSkyreachTowerKlagosSecretCacheEntryPage": {
+		"desc": "判断是否在通天塔进入克拉格斯的秘藏选项页面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"expected": "克拉格斯的秘藏|克拉格斯",
+				"roi": [254, 352, 208, 37],
+				"only_rec": true
+			},
+			{
+				"recognition": "OCR",
+				"expected": "克拉格斯的秘藏|克拉格斯",
+				"roi": [271, 778, 180, 33],
+				"only_rec": true
+			}
+		],
+		"box_index": 1
+	},
+	"InSkyreachTowerKlagosSecretCachePage": {
+		"desc": "判断是否在通天塔克拉格斯的秘藏页面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "克拉格斯的秘藏|克拉格斯",
+		"roi": [258, 140, 203, 33],
+		"only_rec": true
 	}
 }

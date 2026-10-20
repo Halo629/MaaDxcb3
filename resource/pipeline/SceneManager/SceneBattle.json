@@ -203,6 +203,7 @@
 		"all_of": ["InBattleResult"],
 		"post_delay": 1000,
 		"next": [
+			"[JumpBack]ConfirmButton",
 			"[Anchor]BattleVictoryAction",
 			"[Anchor]BattleFailedAction",
 			"[JumpBack]RaiseBattlePower",
@@ -251,7 +252,7 @@
 			{
 				"recognition": "ColorMatch",
 				"method": 40,
-				"lower": [0, 100, 100],
+				"lower": [0, 150, 35],
 				"upper": [10, 255, 255],
 				"roi": "XiaoqingSkill",
 				"count": 100

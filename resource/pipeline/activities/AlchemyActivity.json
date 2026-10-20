@@ -1,6 +1,6 @@
 {
 	"AlchemyActivityStart": {
-		"desc": "炼金活动通用",
+		"desc": "炼金活动+塔罗牌通用",
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
@@ -16,7 +16,10 @@
 		"template": [
 			"activities/AlchemyActivity/PetrifySpiritIcon.png",
 			"activities/AlchemyActivity/StellarWeaveGloryIcon.png",
-			"activities/AlchemyActivity/StoneEssenceIcon.png"
+			"activities/AlchemyActivity/StoneEssenceIcon.png",
+			"activities/AlchemyActivity/TransmutationCircleIcon.png",
+			"activities/AlchemyActivity/TarotCardIcon.png",
+			"activities/AlchemyActivity/WitchsFeastOfMagicIcon.png"
 		],
 		"roi": [15, 69, 701, 997],
 		"action": "Click",
@@ -32,7 +35,7 @@
 	"AlchemyActivityCollectEntry": {
 		"desc": "活动礼包页面收集",
 		"recognition": "And",
-		"all_of": ["InAlchemyActivityPage"],
+		"all_of": ["InAlchemyActivityAlchemyPage"],
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
@@ -131,8 +134,8 @@
 	},
 	"AlchemyActivityAlchemyHasAlchemy": {
 		"recognition": "OCR",
-		"expected": "炼金",
-		"roi": [132, 937, 138, 56]
+		"expected": "炼金|施咒|占卜",
+		"roi": [132, 941, 162, 155]
 	},
 	"AlchemyActivityHasYellowAlchemy": {
 		"desc": "识别黄色炼金",
@@ -168,8 +171,8 @@
 	"InAlchemyActivityAlchemyPage": {
 		"desc": "在活动炼金页面",
 		"recognition": "OCR",
-		"expected": "炼金一次|炼金",
-		"roi": [106, 943, 174, 52]
+		"expected": "炼金一次|炼金|施咒1次|施咒|占卜",
+		"roi": [104, 942, 197, 171]
 	},
 	"InAlchemyActivityFeedbackPage": {
 		"desc": "在活动回馈页面",
@@ -218,7 +221,7 @@
 	"AlchemyActivityGotoAlchemyPage": {
 		"desc": "识别炼金并点击",
 		"recognition": "OCR",
-		"expected": "炼金",
+		"expected": "炼金|占卜|施咒",
 		"roi": [151, 1168, 501, 101],
 		"action": "Click",
 		"post_wait_freezes": {
@@ -250,29 +253,5 @@
 		"next": [
 			"SceneBack"
 		]
-	},
-	"InAlchemyActivityPage": {
-		"desc": "在炼金活动页面",
-		"recognition": "And",
-		"all_of": [
-			{
-				"recognition": "OCR",
-				"expected": "炼金",
-				"roi": [138, 1182, 574, 88]
-			},
-			{
-				"recognition": "OCR",
-				"expected": "回馈",
-				"roi": [138, 1182, 574, 88]
-			},
-			{
-				"recognition": "OCR",
-				"expected": "礼包",
-				"roi": [138, 1182, 574, 88]
-			}
-		],
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0
 	}
 }

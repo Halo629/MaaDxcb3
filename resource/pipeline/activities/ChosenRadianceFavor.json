@@ -84,6 +84,7 @@
 		"recognition": "TemplateMatch",
 		"template": "activities/ChosenRadianceFavor/lindongzhiwen.png",
 		"roi": [141, 1172, 556, 105],
+		"threshold": 0.8,
 		"max_hit": 1,
 		"action": "Click",
 		"post_delay": 500,
@@ -104,6 +105,7 @@
 		"template": "activities/ChosenRadianceFavor/duxinganying.png",
 		"roi": [141, 1172, 556, 105],
 		"max_hit": 1,
+		"threshold": 0.8,
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
@@ -123,6 +125,7 @@
 		"template": "activities/ChosenRadianceFavor/jiaojingzhiying.png",
 		"roi": [141, 1172, 556, 105],
 		"max_hit": 1,
+		"threshold": 0.8,
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
@@ -142,6 +145,7 @@
 		"template": "activities/ChosenRadianceFavor/shengshangqilei.png",
 		"roi": [141, 1172, 556, 105],
 		"max_hit": 1,
+		"threshold": 0.8,
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
@@ -161,6 +165,7 @@
 		"template": "activities/ChosenRadianceFavor/huahunyangu.png",
 		"roi": [141, 1172, 556, 105],
 		"max_hit": 1,
+		"threshold": 0.8,
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
@@ -180,6 +185,7 @@
 		"template": "activities/ChosenRadianceFavor/zhimingshuangying.png",
 		"roi": [141, 1172, 556, 105],
 		"max_hit": 1,
+		"threshold": 0.8,
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
@@ -199,6 +205,7 @@
 		"template": "activities/ChosenRadianceFavor/chishengmeixiao.png",
 		"roi": [141, 1172, 556, 105],
 		"max_hit": 1,
+		"threshold": 0.8,
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
@@ -218,6 +225,7 @@
 		"template": "activities/ChosenRadianceFavor/zhixuzhe.png",
 		"roi": [141, 1172, 556, 105],
 		"max_hit": 1,
+		"threshold": 0.8,
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
@@ -237,6 +245,7 @@
 		"template": "activities/ChosenRadianceFavor/huanghunzhiyi.png",
 		"roi": [141, 1172, 556, 105],
 		"max_hit": 1,
+		"threshold": 0.8,
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
@@ -256,6 +265,7 @@
 		"template": "activities/ChosenRadianceFavor/wenjiankunlun.png",
 		"roi": [141, 1172, 556, 105],
 		"max_hit": 1,
+		"threshold": 0.8,
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
@@ -275,6 +285,7 @@
 		"template": "activities/ChosenRadianceFavor/binghexixin.png",
 		"roi": [141, 1172, 556, 105],
 		"max_hit": 1,
+		"threshold": 0.8,
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
@@ -294,6 +305,7 @@
 		"template": "activities/ChosenRadianceFavor/longzhongniao.png",
 		"roi": [141, 1172, 556, 105],
 		"max_hit": 1,
+		"threshold": 0.8,
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
@@ -313,6 +325,7 @@
 		"template": "activities/ChosenRadianceFavor/jingmoshengcai.png",
 		"roi": [141, 1172, 556, 105],
 		"max_hit": 1,
+		"threshold": 0.8,
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
@@ -332,6 +345,7 @@
 		"template": "activities/ChosenRadianceFavor/fanhuazhizhu.png",
 		"roi": [141, 1172, 556, 105],
 		"max_hit": 1,
+		"threshold": 0.8,
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
@@ -351,6 +365,7 @@
 		"template": "activities/ChosenRadianceFavor/xueji.png",
 		"roi": [141, 1172, 556, 105],
 		"max_hit": 1,
+		"threshold": 0.8,
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
@@ -370,6 +385,7 @@
 		"template": "activities/ChosenRadianceFavor/qianlongzaiyuan.png",
 		"roi": [141, 1172, 556, 105],
 		"max_hit": 1,
+		"threshold": 0.8,
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
@@ -389,6 +405,7 @@
 		"template": "activities/ChosenRadianceFavor/yumianluocha.png",
 		"roi": [141, 1172, 556, 105],
 		"max_hit": 1,
+		"threshold": 0.8,
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {

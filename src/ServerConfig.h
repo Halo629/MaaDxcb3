@@ -31,7 +31,7 @@ struct SwipeCol
 // 战斗配置通用参数
 struct BattleConfigParam
 {
-    int beanColorLower[3] = { 10, 80, 80 };   // ColorMatch 下界 (HSV: H,S,V, 豆子H≈14-30)
+    int beanColorLower[3] = { 10, 80, 50 };   // ColorMatch 下界 (HSV: H,S,V, 豆子H≈14-30)
     int beanColorUpper[3] = { 35, 255, 255 }; // ColorMatch 上界 (HSV: H,S,V)
     int beanColorCount = 250;                 // ColorMatch 连通像素阈值（满豆~308-472px，恢复中~20-152px）
 

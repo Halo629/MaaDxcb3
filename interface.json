@@ -50,6 +50,11 @@
 			"default_expand": true
 		},
 		{
+			"name": "instance_tasks",
+			"label": "副本任务",
+			"default_expand": true
+		},
+		{
 			"name": "other_tasks",
 			"label": "其他任务",
 			"default_expand": true
@@ -57,15 +62,18 @@
 	],
 	"task": [],
 	"import": [
+		"assets/tasks/WeeklyScheduleOption.json",
 		// group: pre_tasks
 		"assets/tasks/LaunchGame.json",
 		// group: daily_tasks
 		"assets/tasks/StewardTasks.json",
 		"assets/tasks/DailyRewards.json",
 		// group: weekly_tasks
+		"assets/tasks/WeeklyCarriageShop.json",
 		"assets/tasks/WeeklyTreasureShop.json",
 		"assets/tasks/WeeklyFormation.json",
 		"assets/tasks/WeeklyRealmHub.json",
+		"assets/tasks/WeeklySkyreachTower.json",
 		"assets/tasks/WeeklyNightmareMirror.json",
 		// group: activity_tasks
 		//荣光复铸/桂影长歌
@@ -88,8 +96,6 @@
 		"assets/tasks/GreatMarshExpedition.json",
 		//庇护所之围
 		"assets/tasks/SiegeOfTheSanctuary.json",
-		//哈伍德城堡
-		//"assets/tasks/HarwoodCastle.json",
 		//铭心礼遇
 		"assets/tasks/HeartGift.json",
 		//猎场盛宴
@@ -104,14 +110,14 @@
 		//"assets/tasks/SummerExpedition.json",
 		//树枝活动：夏夜荷塘/颂礼幽廊
 		"assets/tasks/BranchActivity.json",
-		//塔罗牌
-		"assets/tasks/TarotCard.json",
 		// group: other_tasks
 		"assets/tasks/ArcanePrison.json",
 		"assets/tasks/MonsterSoulUpgrade.json",
 		//"assets/tasks/RuneUpgrade.json",
 		"assets/tasks/SoulTomb.json",
 		"assets/tasks/RecipeUnlock.json",
+		//instance_tasks
+		"assets/tasks/InstanceWildBullValley.json",
 		// preset
 		"assets/tasks/preset/SingleServer.json",
 		"assets/tasks/preset/MultiServer.json",

@@ -6,7 +6,116 @@
             "entry": "HuntingGroundFeastStart",
             "group": [
                 "activity_tasks"
+            ],
+            "option":[
+                "HuntingGroundFeastStrategy"
             ]
         }
-    ]
+    ],
+    "option": {
+        "HuntingGroundFeastStrategy": {
+            "type": "select",
+            "label": "选择活动策略",
+            "description": "智能模式下，将从当前已完成的最高强度开始挑战，失败时根据配置自动降低难度",
+            "default_case": "AutoMode",
+            "cases": [
+                {
+                    "name": "AutoMode",
+                    "label": "智能模式",
+                    "pipeline_override": {
+                        "HuntingGroundFeastAutoLowerLevel": {
+                            "enabled": true
+                        }
+                    },
+                    "option": [
+                        "HuntingGroundFeastLowerFailReduce"
+                    ]
+                },
+                {
+                    "name": "SpecifiedLevel",
+                    "label": "指定等级",
+                    "pipeline_override": {
+                        "HuntingGroundFeastAdjustLevelToSpecified": {
+                            "enabled":true,
+                            "attach": {"target_level": "specified"}
+                        }
+                    },
+                    "option": [
+                        "HuntingGroundFeastSpecifiedLevelInput"
+                    ]
+                }
+            ]
+        },
+        "HuntingGroundFeastSpecifiedLevelInput": {
+            "type": "input",
+            "label": "指定狩猎等级",
+            "description": "狩猎等级(不区分大小写):D、C、B、A、S、SS-1、SS-2...",
+            "inputs":[
+                {
+                    "name": "HuntingGroundFeastSpecifiedLevelValueInput",
+                    "label": "狩猎等级",
+                    "pipeline_type": "string",
+                    "verify": "^(?:D|C|B|A|S|SS-(?:[1-9]|[1-3]\\d|40))$",
+                    "default": "S"
+                }
+            ],
+            "pipeline_override": {
+                "HuntingGroundFeastAdjustLevelToSpecified": {
+                    "attach": {
+                        "level": "{HuntingGroundFeastSpecifiedLevelValueInput}"
+                    }
+                }
+            }
+        },
+        "HuntingGroundFeastLowerFailReduce": {
+            "type": "switch",
+            "label": "连续失败后降低1级难度",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "HuntingGroundFeastAutoLowerLevelCheck": {
+                            "attach": {
+                                "lower_on_fail": true
+                            }
+                        }
+                    },
+                    "option": [
+                        "HuntingGroundFeastLowerFailCount"
+                    ]
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                        "HuntingGroundFeastAutoLowerLevelCheck": {
+                            "attach": {
+                                "lower_on_fail": false
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        "HuntingGroundFeastLowerFailCount": {
+            "type": "input",
+            "label": "连续失败次数",
+            "inputs": [
+                {
+                    "name": "HuntingGroundFeastLowerFailCountValue",
+                    "label": "次数",
+                    "pipeline_type": "int",
+                    "verify": "^(?:[1-9]\\d?|100)$",
+                    "default": "2"
+                }
+            ],
+            "pipeline_override": {
+                "HuntingGroundFeastAutoLowerLevelCheck": {
+                    "attach": {
+                        "lower_fail_count": "{HuntingGroundFeastLowerFailCountValue}"
+                    }
+                }
+            }
+        }
+    }
 }

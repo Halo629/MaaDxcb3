@@ -270,9 +270,21 @@ MaaBool battleAI(
     // attach 里的 quit_immediately 为 true 时，立即退出战斗（不走战吼/技能逻辑）
     auto attach = getNodeAttach(context, node_name);
     bool quitImmediately = attach.get("quit_immediately", json::value(false)).as_boolean();
+    bool disable = attach.get("disable", json::value(false)).as_boolean();
     if (quitImmediately) {
         MaaContextRunTask(context, "QuitBattle", "{}");
         return true;
+    }
+    if (disable) {
+        // 禁用战斗策略,等待战斗结束
+        while (true) {
+            if (MaaTaskerStopping(MaaContextGetTasker(context))) {
+                return true;
+            }
+            if (isBattleEnd(context)) {
+                return true;
+            }
+        }
     }
 
     if (g_user_battle.cryColumn == 0) {

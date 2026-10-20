@@ -1,93 +1,184 @@
 {
-    "DisassembleEquipmentStart": {
-        "desc": "批量分解装备",
-        "recognition": "And",
-        "all_of": [
-            "InEquipmentListPage"
-        ],
-        "pre_delay": 0,
-        "post_delay": 0,
-        "rate_limit": 0,
-        "next": [
-            "DisassembleEquipmentClickEntry"
-        ]
-    },
-    "DisassembleEquipmentClickEntry": {
-        "desc": "点击批量分解按钮",
-        "recognition": "TemplateMatch",
-        "template": "common/MassDisassemble.png",
-        "roi": [
-            228,
-            951,
-            260,
-            126
-        ],
-        "action": "Click",
-        "post_wait_freezes": {
-            "time": 300,
-            "target": [
-                219,
-                516,
-                279,
-                178
-            ],
-            "timeout": 5000
-        },
-        "next": [
-            "DisassembleEquipmentSelectQuality"
-        ]
-    },
-    "DisassembleEquipmentSelectQuality": {
-        "desc": "选择精良品质",
-        "recognition": "OCR",
-        "expected": "精良",
-        "roi": [
-            219,
-            516,
-            279,
-            178
-        ],
-        "action": "Click",
-        "post_wait_freezes": {
-            "time": 300,
-            "target": [
-                0,
-                400,
-                720,
-                520
-            ],
-            "timeout": 5000
-        },
-        "next": [
-            "DisassembleEquipmentConfirm"
-        ]
-    },
-    "DisassembleEquipmentConfirm": {
-        "desc": "点击确定",
-        "recognition": "And",
-        "all_of": [
-            "ConfirmButton"
-        ],
-        "action": "Click",
-        "post_wait_freezes": {
-            "time": 300,
-            "target": [
-                290,
-                350,
-                125,
-                50
-            ],
-            "timeout": 5000
-        },
-        "next": [
-            "[JumpBack]HandleRewardDialog",
-            "DisassembleEquipmentDone"
-        ]
-    },
-    "DisassembleEquipmentDone": {
-        "desc": "分解完成，返回",
-        "next": [
-            "SceneBack"
-        ]
-    }
+	"DisassembleEquipmentStart": {
+		"desc": "批量分解装备",
+		"recognition": "And",
+		"all_of": ["InEquipmentListPage"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"DisassembleEquipmentClickEntry"
+		]
+	},
+	"DisassembleEquipmentClickEntry": {
+		"desc": "点击批量分解按钮",
+		"recognition": "TemplateMatch",
+		"template": "common/MassDisassemble.png",
+		"roi": [228, 951, 260, 126],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [219, 516, 279, 178],
+			"timeout": 5000
+		},
+		"next": [
+			"DisassembleEquipmentSelectQuality"
+		]
+	},
+	"DisassembleEquipmentSelectQuality": {
+		"desc": "选择精良品质",
+		"recognition": "OCR",
+		"expected": "精良",
+		"roi": [219, 516, 279, 178],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [0, 400, 720, 520],
+			"timeout": 5000
+		},
+		"next": [
+			"DisassembleEquipmentConfirm"
+		]
+	},
+	"DisassembleEquipmentConfirm": {
+		"desc": "点击确定",
+		"recognition": "And",
+		"all_of": ["ConfirmButton"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [290, 350, 125, 50],
+			"timeout": 5000
+		},
+		"next": [
+			"[JumpBack]HandleRewardDialog",
+			"DisassembleEquipmentDone"
+		]
+	},
+	"DisassembleEquipmentDone": {
+		"desc": "分解完成，返回",
+		"next": [
+			"SceneBack"
+		]
+	},
+	"WeeklyScheduleEnabled": {
+		"desc": "任务执行周期命中",
+		"recognition": "Custom",
+		"custom_recognition": "WeeklyScheduleRecognition",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"next": [
+			"[Anchor]WeeklyScheduleTaskStart"
+		],
+		"attach": {
+			"monday": false,
+			"tuesday": false,
+			"wednesday": false,
+			"thursday": false,
+			"friday": false,
+			"saturday": false,
+			"sunday": false
+		}
+	},
+	"PurchaseButton": {
+		"desc": "购买时识别购买按钮",
+		"recognition": "TemplateMatch",
+		"template": "common/PurchaseButton.png",
+		"roi": [227, 794, 260, 450],
+		"green_mask": true
+	},
+	"CurrencyEnoughToPurchase": {
+		"desc": "货币足够购买",
+		"recognition": "And",
+		"all_of": [
+			"PurchaseButton",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [0, 0, 200],
+				"upper": [30, 10, 255],
+				"roi": "PurchaseButton",
+				"count": 10,
+				"sub_name": "PriceColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "\\d+",
+				"roi": "PriceColor",
+				"roi_offset": [-2, -2, 4, 4]
+			}
+		],
+		"action": "Click",
+		"target_offset": [70, 10, -150, -30],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [160, 580, 391, 473],
+			"timeout": 2000
+		}
+	},
+	"CurrencyNotEnough": {
+		"desc": "货币不足",
+		"recognition": "And",
+		"all_of": [
+			"PurchaseButton",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [0, 245, 240],
+				"upper": [5, 255, 255],
+				"roi": "PurchaseButton",
+				"count": 10,
+				"sub_name": "PriceColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "\\d+",
+				"roi": "PriceColor",
+				"roi_offset": [-2, -2, 4, 4]
+			}
+		],
+		"action": "ClickKey",
+		"key": 111,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [160, 580, 391, 473],
+			"timeout": 2000
+		}
+	},
+	"SmartSlideBuyPayByMortalWill": {
+		"desc": "滑动购买任意数量(凡人意志支付)",
+		"recognition": "Or",
+		"any_of": ["SliderFound", "PurchaseButton"],
+		"action": "Custom",
+		"custom_action": "CarriageShopSlideBuy",
+		"custom_action_param": {
+			"currencyCount": "MortalWillCount"
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]CurrencyEnoughToPurchase",
+			"PurchaseDone"
+		]
+	},
+	"SmartSlideBuyPayByGodsWeights": {
+		"desc": "滑动购买任意数量(诸神砝码支付)",
+		"recognition": "Or",
+		"any_of": ["SliderFound", "PurchaseButton"],
+		"action": "Custom",
+		"custom_action": "CarriageShopSlideBuy",
+		"custom_action_param": {
+			"currencyCount": "GodsWeightsCount"
+		},
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [160, 580, 391, 473],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]CurrencyEnoughToPurchase",
+			"PurchaseDone"
+		]
+	},
+	"PurchaseDone": {"desc": "购买商品完成"}
 }

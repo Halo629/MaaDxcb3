@@ -202,21 +202,22 @@
 	},
 	"_SceneEnterGuildPage": {
 		"desc": "点击公会图标进入",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
 		"recognition": "And",
 		"all_of": ["HasGuildIcon"],
 		"action": "Click",
+		"post_wait_freezes": {
+			"time": 1000,
+			"timeout": 3000,
+			"target": [78, 190, 565, 679]
+		},
 		"next": [
 			"InGuildPage",
 			"InNoGuildPage",
 			"_SceneEnterGuildPage"
-		],
-		"pre_delay": 0,
-		"post_delay": 0,
-		"post_wait_freezes": {
-			"time": 400,
-			"timeout": 2000,
-			"target": [0, 0, 200, 200]
-		}
+		]
 	},
 	"_SceneExpandSideBar": {
 		"desc": "展开侧边栏",
@@ -691,6 +692,7 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
+		"anchor": {"BagOrder": "InBagItemPage"},
 		"next": [
 			"InMonsterSoulListPage",
 			"[JumpBack]MonsterSoulPageEntry",
@@ -702,6 +704,7 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
+		"anchor": {"BagOrder": "BagSelectDefaultSortEntry"},
 		"next": [
 			"InBagValuablePage",
 			"[JumpBack]BagValuableTabEntry",
@@ -739,13 +742,53 @@
 			"timeout": 5000
 		}
 	},
+	"BagSelectDefaultSort": {
+		"desc": "背包选择默认排序",
+		"recognition": "OCR",
+		"expected": "默认排序|默认",
+		"roi": [511, 67, 120, 140],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [276, 587, 189, 402],
+			"timeout": 2000
+		}
+	},
+	"BagSortByDefaultOrder": {
+		"desc": "背包排序为默认排序",
+		"recognition": "OCR",
+		"expected": "默认排序|默认",
+		"roi": [496, 15, 120, 44]
+	},
+	"BagPageClickSort": {
+		"desc": "背包页面点击排序",
+		"recognition": "OCR",
+		"expected": "排序",
+		"roi": [496, 15, 120, 44],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [276, 587, 189, 402],
+			"timeout": 2000
+		}
+	},
+	"BagSelectDefaultSortEntry": {
+		"desc": "背包选择默认排序",
+		"recognition": "And",
+		"all_of": ["InBagItemPage"],
+		"next": [
+			"BagSortByDefaultOrder",
+			"[JumpBack]BagSelectDefaultSort",
+			"[JumpBack]BagPageClickSort"
+		]
+	},
 	"SceneEnterBag": {
-		"desc": "进入背包",
+		"desc": "进入背包,按照默认排序,可指定anchor修改排序方式",
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
 		"next": [
-			"InBagItemPage",
+			"[Anchor]BagOrder",
 			"[JumpBack]__ScenePrivateClickBag",
 			"[JumpBack]SceneEnterMainPage"
 		]
@@ -947,5 +990,188 @@
 			"target": [353, 192, 328, 732],
 			"timeout": 5000
 		}
+	},
+	"SceneEnterSkyreachTowerKlagosSecretCache": {
+		"desc": "从任意界面进入通天塔克拉格斯的密藏",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InSkyreachTowerKlagosSecretCachePage",
+			"[JumpBack]SkyreachTowerKlagosSecretCacheEntry",
+			"[JumpBack]SkyreachTowerClickKlagosSecretCache",
+			"[JumpBack]SkyreachTowerLobbySwipeRight",
+			"[JumpBack]SkyreachTowerLobbySwipeLeft",
+			"[JumpBack]SkyreachTowerLobbySwipeUp",
+			"[JumpBack]SceneEnterSkyreachTower"
+		]
+	},
+	"SkyreachTowerKlagosSecretCacheEntry": {
+		"desc": "进入克拉格斯的密藏",
+		"recognition": "And",
+		"all_of": ["InSkyreachTowerKlagosSecretCacheEntryPage"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [120, 50, -120, 0],
+			"timeout": 2000
+		}
+	},
+	"SkyreachTowerClickKlagosSecretCache": {
+		"desc": "通天塔大厅点击克拉格斯的密藏",
+		"recognition": "And",
+		"all_of": [
+			"InSkyreachTower",
+			{
+				"recognition": "OCR",
+				"expected": "克拉格斯的密藏|克拉格斯",
+				"roi": [109, 466, 608, 710]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [114, -118, -157, 13],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [120, 50, -120, 0],
+			"timeout": 2000
+		}
+	},
+	"SceneEnterSkyreachTower": {
+		"desc": "从任意界面进入通天塔",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"[JumpBack]CollapseSideBar",
+			"InSkyreachTower",
+			"[JumpBack]SkyreachTowerEntry",
+			"[JumpBack]SceneEnterMainPage"
+		]
+	},
+	"SkyreachTowerLobbySwipeUp": {
+		"desc": "通天塔大厅上滑",
+		"recognition": "And",
+		"all_of": ["InSkyreachTower"],
+		"action": "Swipe",
+		"begin": [250, 1050],
+		"end": [250, 650],
+		"duration": 200,
+		"max_hit": 2,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [120, 510, 598, 633],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"SkyreachTowerLobbySwipeLeft": {
+		"desc": "通天塔大厅左滑",
+		"recognition": "And",
+		"all_of": ["InSkyreachTower"],
+		"action": "Swipe",
+		"begin": [350, 1050],
+		"end": [250, 650],
+		"duration": 200,
+		"max_hit": 3,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [120, 510, 598, 633],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"SkyreachTowerLobbySwipeRight": {
+		"desc": "通天塔大厅右滑",
+		"recognition": "And",
+		"all_of": ["InSkyreachTower"],
+		"action": "Swipe",
+		"begin": [250, 1050],
+		"end": [350, 1050],
+		"duration": 200,
+		"max_hit": 2,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [120, 510, 598, 633],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"SkyreachTowerEntry": {
+		"desc": "从主页进入通天塔",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InCampfire"],
+		"next": [
+			"SkyreachTowerLobbyEntry",
+			"[JumpBack]MainPageFindSkyreachSwipeDown",
+			"[JumpBack]MainPageFindSkyreachSwipeRight",
+			"[JumpBack]MainPageClickSkyreachTower"
+		]
+	},
+	"SkyreachTowerLobbyEntry": {
+		"desc": "进入通天塔大厅",
+		"pre_delay": 0,
+		"post_delay": 3000,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InSkyreachTowerEntryPage"],
+		"action": "Click"
+	},
+	"MainPageClickSkyreachTower": {
+		"desc": "主页点击通天塔",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "通天塔",
+		"roi": [90, 437, 630, 709],
+		"action": "Click",
+		"target_offset": [0, -70, 0, 0],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [120, 510, 598, 633],
+			"timeout": 5000
+		}
+	},
+	"MainPageFindSkyreachSwipeRight": {
+		"desc": "在主页识别通天塔右滑",
+		"action": "Swipe",
+		"begin": [250, 1050],
+		"end": [400, 1050],
+		"duration": 200,
+		"max_hit": 2,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [120, 510, 598, 633],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"MainPageFindSkyreachSwipeDown": {
+		"desc": "在主页识别通天塔下滑",
+		"action": "Swipe",
+		"begin": [250, 550],
+		"end": [250, 850],
+		"duration": 200,
+		"max_hit": 2,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [120, 510, 598, 633],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
 	}
 }

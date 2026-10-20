@@ -28,7 +28,6 @@
 	},
 	"SwitchServer": {
 		"desc": "切换服务器",
-		"recognition": "DirectHit",
 		"enabled": false,
 		"max_hit": 1,
 		"next": [

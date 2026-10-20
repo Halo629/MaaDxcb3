@@ -16,12 +16,24 @@
 	},
 	"AirshipTreasureEntry": {
 		"desc": "限时页面进入飞艇珍奇",
-		"recognition": "TemplateMatch",
-		"template": [
-			"activities/AirshipTreasure/AirshipTreasureIcon1.png",
-			"activities/AirshipTreasure/AirshipTreasureIcon2.png"
+		"recognition": "Or",
+		"any_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": [
+					"activities/AirshipTreasure/AirshipTreasureIcon1.png",
+					"activities/AirshipTreasure/AirshipTreasureIcon2.png",
+					"activities/AirshipTreasure/AirshipTreasureIcon3.png"
+				],
+				"roi": [15, 69, 701, 997],
+				"order_by": "Score"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "飞艇珍奇",
+				"roi": [15, 69, 701, 997]
+			}
 		],
-		"roi": [15, 69, 701, 997],
 		"action": "Click",
 		"post_wait_freezes": {
 			"time": 500,
