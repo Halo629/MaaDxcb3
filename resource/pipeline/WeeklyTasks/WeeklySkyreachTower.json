@@ -1,0 +1,333 @@
+{
+	"WeeklySkyreachTowerStart": {
+		"desc": "每周通天塔兑换",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {
+			"WeeklyScheduleTaskStart": "WeeklySkyreachTowerTaskStart"
+		},
+		"next": [
+			"WeeklyScheduleEnabled",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"WeeklySkyreachTowerTaskStart": {
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"[JumpBack]WeeklySkyreachTowerInit",
+			"SkyreachTowerShopFinishCheck",
+			"[JumpBack]GodsWeightsExchangeStart",
+			"[JumpBack]SkyreachTowerBuyDivineShadeSoulStart",
+			"[JumpBack]GodsWeightSoldout",
+			"[JumpBack]DivineShadeSoulSoldout",
+			"[JumpBack]KlagosSecretCachePageSwipeUpToBottle",
+			"[JumpBack]KlagosSecretCachePageSwipeDown",
+			"SkyreachTowerDone",
+			"[JumpBack]SceneEnterSkyreachTowerKlagosSecretCache"
+		]
+	},
+	"WeeklySkyreachTowerInit": {
+		"desc": "清除通天塔兑换信息,自定义识别使用该信息判断物品是否买完",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InSkyreachTowerKlagosSecretCachePage"],
+		"action": "Custom",
+		"custom_action": "ShopAssistant",
+		"attach": {
+			"initFlag": true,
+			"godsWeightsEnabled": true,
+			"divineShadeSoulEnabled": false
+		}
+	},
+	"GodsWeightSoldout": {
+		"desc": "诸神砝码已售罄",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"expected": "诸神砝码|砝码",
+				"roi": [39, 349, 639, 789],
+				"sub_name": "ItemName"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "售罄|售",
+				"roi": "ItemName",
+				"roi_offset": [7, -85, -10, 15]
+			}
+		],
+		"action": "Custom",
+		"custom_action": "ShopAssistant",
+		"attach": {"godsWeightsFound": true}
+	},
+	"DivineShadeSoulSoldout": {
+		"desc": "神影之魂已售罄",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"expected": "神影之魂|神影",
+				"roi": [39, 349, 639, 789],
+				"sub_name": "ItemName"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "售罄|售",
+				"roi": "ItemName",
+				"roi_offset": [7, -85, -10, 15]
+			}
+		],
+		"action": "Custom",
+		"custom_action": "ShopAssistant",
+		"attach": {"divineShadeSoulFound": true}
+	},
+	"SkyreachTowerShopFinishCheck": {
+		"desc": "检查所有物品是否买完",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InSkyreachTowerKlagosSecretCachePage",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "ShopFinishCheck"
+			}
+		]
+	},
+	"GodsWeightsFound": {
+		"desc": "找到诸神砝码",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "items/GodsWeights.png",
+		"roi": [54, 357, 599, 686],
+		"threshold": 0.75
+	},
+	"DivineShadeSoulFound": {
+		"desc": "找到神影之魂",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "items/DivineShadeSoul.png",
+		"roi": [54, 357, 599, 686],
+		"threshold": 0.75
+	},
+	"GodsWeightsRecord": {
+		"desc": "诸神砝码购买记录",
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "ShopAssistant",
+		"attach": {"godsWeightsFound": true}
+	},
+	"DivineShadeSoulRecord": {
+		"desc": "神影之魂购买记录",
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "ShopAssistant",
+		"attach": {"divineShadeSoulFound": true}
+	},
+	"MortalWillCount": {
+		"desc": "凡人意志数量",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "common/MortalWill.png",
+				"roi": [514, 4, 206, 133],
+				"sub_name": "MortalWillPos"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 20],
+				"upper": [35, 80, 255],
+				"roi": "MortalWillPos",
+				"roi_offset": [36, 3, 62, -4],
+				"count": 10,
+				"sub_name": "MortalWillColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "MortalWillColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "MortalWilCount"
+			}
+		],
+		"box_index": 2,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"GodsWeightsCount": {
+		"desc": "诸神砝码数量",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "common/GodsWeight.png",
+				"roi": [514, 4, 206, 133],
+				"sub_name": "GodsWeightPos"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 20],
+				"upper": [35, 80, 255],
+				"roi": "GodsWeightPos",
+				"roi_offset": [36, 3, 62, -4],
+				"count": 10,
+				"sub_name": "GodsWeightColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "GodsWeightColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "GodsWeightCount"
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"GodsWeightsExchangeStart": {
+		"desc": "通天塔兑换诸神砝码入口",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InSkyreachTowerKlagosSecretCachePage",
+			"GodsWeightsFound"
+		],
+		"next": [
+			"[JumpBack]GodsWeightsRecord",
+			"CurrencyNotEnough",
+			"[JumpBack]GodsWeightsExchange",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"GodsWeightsExchange": {
+		"desc": "通天塔兑换诸神砝码",
+		"recognition": "And",
+		"all_of": [
+			"InSkyreachTowerKlagosSecretCachePage",
+			"GodsWeightsFound"
+		],
+		"box_index": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [160, 580, 391, 473],
+			"timeout": 2000
+		},
+		"next": [
+			"SmartSlideBuyPayByMortalWill",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"SkyreachTowerBuyDivineShadeSoulStart": {
+		"desc": "通天塔购买神影之魂入口",
+		"enabled": false,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InSkyreachTowerKlagosSecretCachePage",
+			"DivineShadeSoulFound"
+		],
+		"next": [
+			"[JumpBack]DivineShadeSoulRecord",
+			"CurrencyNotEnough",
+			"[JumpBack]SkyreachTowerBuyDivineShadeSoul",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"SkyreachTowerBuyDivineShadeSoul": {
+		"desc": "通天塔购买神影之魂",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InSkyreachTowerKlagosSecretCachePage",
+			"DivineShadeSoulFound"
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [160, 580, 391, 473],
+			"timeout": 2000
+		},
+		"next": [
+			"SmartSlideBuyPayByGodsWeights",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"SkyreachTowerDone": {
+		"desc": "通天塔购买完成",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InSkyreachTowerKlagosSecretCachePage"]
+	},
+	"KlagosSecretCachePageSwipeDown": {
+		"desc": "克拉格斯的秘藏页面向下滑动查看更多",
+		"recognition": "And",
+		"all_of": ["InSkyreachTowerKlagosSecretCachePage"],
+		"action": "Swipe",
+		"begin": [450, 650],
+		"end": [450, 850],
+		"duration": 500,
+		"max_hit": 4,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [97, 418, 532, 634],
+			"timeout": 3000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"KlagosSecretCachePageSwipeUpToBottle": {
+		"desc": "克拉格斯的秘藏页面向上滑动到底",
+		"recognition": "And",
+		"all_of": ["InSkyreachTowerKlagosSecretCachePage"],
+		"action": "Swipe",
+		"begin": [460, 1050],
+		"end": [460, 250],
+		"duration": 200,
+		"max_hit": 2,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [97, 418, 532, 634],
+			"timeout": 3000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	}
+}
