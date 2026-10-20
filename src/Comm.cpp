@@ -797,7 +797,7 @@ MaaBool shopAssistant(
         g_shopMask = 0;
         g_shopEnabledMask = 0;
         for (auto& item : shopItemList) {
-            if (attach.get(item.enabledKey, json::value(true)).as_boolean()) {
+            if (attach.get(item.enabledKey, json::value(false)).as_boolean()) {
                 g_shopEnabledMask |= (1U << item.bit);
             }
         }
@@ -865,7 +865,7 @@ MaaBool itemNotBought(
 // custom_action_param：
 //   currencyCount   货币数量 OCR 节点名（可为普通 OCR 或 And 节点）—— 必填
 //   unitPrice       商品单价 OCR 节点名（默认 CarriageShopSlideBuyUnitPrice）
-//   slider          滑块(thumb)识别节点名（默认 CarriageShopFindSlider）
+//   slider          滑块(thumb)识别节点名（默认 SliderFound）
 //   increaseButton  + 按钮 TemplateMatch 节点名（默认 CarriageShopIncreaseButton）
 //   decreaseButton  - 按钮 TemplateMatch 节点名（默认 CarriageShopDecreaseButton）
 //   quantityOffset  数量框相对 thumb box 的偏移 [dx,dy,dw,dh]（默认 [-15,35,25,0]）
@@ -1097,13 +1097,28 @@ static MaaBool CarriageShopSlideBuyAct(
 {
     auto param = json::parse(customActionParam ? customActionParam : "{}").value_or(json::value { });
 
-    std::string sliderNode = param.get("slider", json::value("CarriageShopFindSlider")).as_string();
+    std::string sliderNode = param.get("slider", json::value("SliderFound")).as_string();
     std::string currencyNode = param.get("currencyCount", json::value("")).as_string();
     std::string unitPriceNode = param.get("unitPrice", json::value("CarriageShopSlideBuyUnitPrice")).as_string();
     std::string increaseBtn = param.get("increaseButton", json::value("CarriageShopIncreaseButton")).as_string();
     std::string decreaseBtn = param.get("decreaseButton", json::value("CarriageShopDecreaseButton")).as_string();
     std::string canBuyCheck = param.get("canBuyCheck", json::value("CarriageShopCanBuyAfterSlide")).as_string();
     auto qOffset = readIntArray(param.get("quantityOffset", json::value()), { -15, 35, 25, 0 });
+
+    // 商品已由外部节点点击打开购买弹窗，这里直接识别数量滑块,未识别到滑块由外部重新点击
+    MaaRect thumbBox;
+    MaaRect PurchaseButtonBox;
+    ScreenCap cap(context);
+    bool slideFound = findNodeBox(context, sliderNode.c_str(), thumbBox);
+    bool PurchaseButtonFound = findNodeBox(context, "PurchaseButton", PurchaseButtonBox);
+    
+    if (!slideFound && !PurchaseButtonFound) {
+        return false;
+    }
+
+    if (!slideFound) {
+        return true;
+    }
 
     if (currencyNode.empty()) {
         LogUtils::error("CarriageShopSlideBuy: 缺少 currencyCount 配置");
@@ -1113,12 +1128,6 @@ static MaaBool CarriageShopSlideBuyAct(
     // 读货币数量（currencyCount 节点可为普通 OCR 或 And 节点，readNumberFromNode 均能解析）
     int currency = 0;
     if (!readNumberFromNode(context, currencyNode.c_str(), "TrialStoneCount", currency)) {
-        return true;
-    }
-
-    // 商品已由外部节点点击打开购买弹窗，这里直接识别数量滑块,未识别到滑块由外部重新点击
-    MaaRect thumbBox;
-    if (!findNodeBox(context, sliderNode.c_str(), thumbBox)) {
         return true;
     }
 

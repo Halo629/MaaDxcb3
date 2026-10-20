@@ -14,7 +14,7 @@
 		"desc": "清除升格之路页面的购买信息,自定义识别使用该信息判断物品是否买完",
 		"max_hit": 1,
 		"recognition": "And",
-		"all_of": ["InCarriageShopAscensionPage"],
+		"all_of": ["InSkyreachTowerKlagosSecretCachePage"],
 		"action": "Custom",
 		"custom_action": "ShopAssistant",
 		"attach": {
@@ -83,21 +83,9 @@
 		"roi": [61, 402, 604, 701],
 		"threshold": 0.75
 	},
-	"CarriageShopStarsprigTwigNotBought": {
-		"desc": "云汉短枝没有购买记录",
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0,
-		"recognition": "TemplateMatch",
-		"template": "items/StarsprigTwig.png",
-		"roi": [61, 402, 604, 701],
-		"threshold": 0.75
-	},
 	"CarriageShopBuyStarsprigTwigRecord": {
 		"desc": "云汉短枝购买记录",
 		"max_hit": 1,
-		"recognition": "And",
-		"all_of": ["CarriageShopFindSlider"],
 		"action": "Custom",
 		"custom_action": "ShopAssistant",
 		"attach": {"starsprigTwigFound": true}
@@ -105,8 +93,6 @@
 	"CarriageShopBuyOuroborosRingRecord": {
 		"desc": "衔尾之环购买记录",
 		"max_hit": 1,
-		"recognition": "And",
-		"all_of": ["CarriageShopFindSlider"],
 		"action": "Custom",
 		"custom_action": "ShopAssistant",
 		"attach": {"ouroborosRingFound": true}
@@ -114,8 +100,6 @@
 	"CarriageShopBuyHeartbeatRubbingRecord": {
 		"desc": "心音拓片购买记录",
 		"max_hit": 1,
-		"recognition": "And",
-		"all_of": ["CarriageShopFindSlider"],
 		"action": "Custom",
 		"custom_action": "ShopAssistant",
 		"attach": {"heartbeatRubbingFound": true}
@@ -280,7 +264,7 @@
 		},
 		"next": [
 			"[JumpBack]CarriageShopBuyStarsprigTwigRecord",
-			"CarriageShopSlideBuyTrialStoneNotEnough",
+			"CarriageShopSlideBuyTrialCurrencyNotEnough",
 			"CarriageShopSlideBuyAnyCountByTrialStone",
 			"__ScenePrivateNextTrue"
 		]
@@ -308,7 +292,7 @@
 		},
 		"next": [
 			"[JumpBack]CarriageShopBuyOuroborosRingRecord",
-			"CarriageShopSlideBuyTrialStoneNotEnough",
+			"CarriageShopSlideBuyTrialCurrencyNotEnough",
 			"CarriageShopSlideBuyAnyCountByTrialStone",
 			"__ScenePrivateNextTrue"
 		]
@@ -336,7 +320,7 @@
 		},
 		"next": [
 			"[JumpBack]CarriageShopBuyHeartbeatRubbingRecord",
-			"CarriageShopSlideBuyTrialStoneNotEnough",
+			"CarriageShopSlideBuyTrialCurrencyNotEnough",
 			"CarriageShopSlideBuyAnyCountByTrialStone",
 			"__ScenePrivateNextTrue"
 		]
@@ -504,7 +488,7 @@
 		"desc": "升格之路页向上滑动查看更多",
 		"action": "Swipe",
 		"begin": [450, 850],
-		"end": [450, 600],
+		"end": [450, 650],
 		"duration": 500,
 		"max_hit": 10,
 		"post_wait_freezes": {
@@ -530,7 +514,7 @@
 	"CarriageShopSlideBuyAnyCountByTrialStone": {
 		"desc": "滑动购买任意数量(试炼石支付)",
 		"recognition": "And",
-		"all_of": ["CarriageShopFindSlider"],
+		"all_of": ["SliderFound"],
 		"action": "Custom",
 		"custom_action": "CarriageShopSlideBuy",
 		"custom_action_param": {
@@ -546,11 +530,11 @@
 			"CarriageShopBuyItemDone"
 		]
 	},
-	"CarriageShopSlideBuyTrialStoneNotEnough": {
-		"desc": "滑动购买试炼石不足",
+	"CarriageShopSlideBuyTrialCurrencyNotEnough": {
+		"desc": "滑动购买货币不足",
 		"recognition": "And",
 		"all_of": [
-			"CarriageShopFindSlider",
+			"SliderFound",
 			"CarriageShopBuyCount",
 			{
 				"recognition": "ColorMatch",

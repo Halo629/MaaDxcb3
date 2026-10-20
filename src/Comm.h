@@ -22,6 +22,8 @@
 #include <unordered_set>
 #include <vector>
 #include <windows.h>
+#include <thread>
+#include <chrono>
 
 // ──── 字符串工具（原 Str.h）────
 inline std::string toStr(const std::string& s)
@@ -236,11 +238,14 @@ struct ShopItemConfig
     uint32_t bit;           // 在掩码中的位
 };
 
-constexpr std::array<ShopItemConfig, 4> shopItemList = {{
-    {"timeBondFragmentFound",  "timeBondFragmentEnabled",  0U},
-    {"starsprigTwigFound",     "starsprigTwigEnabled",     1U},
-    {"ouroborosRingFound",     "ouroborosRingEnabled",     2U},
-    {"heartbeatRubbingFound",  "heartbeatRubbingEnabled",  3U}}};
+constexpr std::array<ShopItemConfig, 6> shopItemList = { {
+    { "timeBondFragmentFound", "timeBondFragmentEnabled", 0U },
+    { "starsprigTwigFound", "starsprigTwigEnabled", 1U },
+    { "ouroborosRingFound", "ouroborosRingEnabled", 2U },
+    { "heartbeatRubbingFound", "heartbeatRubbingEnabled", 3U },
+    { "godsWeightsFound", "godsWeightsEnabled", 4U },
+    { "divineShadeSoulFound", "divineShadeSoulEnabled", 5U },
+} };
 
 extern std::unordered_map<std::string, MapIndex> mapTable;
 std::string getMapName(MapIndex idx);
