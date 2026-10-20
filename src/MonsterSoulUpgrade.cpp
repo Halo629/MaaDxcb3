@@ -721,16 +721,19 @@ MaaBool upgradeMonsterSoulCheck(
     // 魔魂检查
     std::string soulName;
     if (!getSoulName(context, "UpgradeMonsterTargetSoulCheck", soulName) || !g_targetSoulNames.count(soulName)) {
+        ++g_startGridPos;
         return false;
     }
 
     // 等级检查
     int curLevel = getSoulLevel(context, "UpgradeMonsterSoulLevelCheck");
     if (curLevel < 1 || curLevel >= 8) {
+        ++g_startGridPos;
         return false;
     }
     // 魔魂已上锁检查
     if (doRecognition(context, cap.img, "UpgradeMonsterSoulLockedCheck", "{}", nullptr, nullptr)) {
+        ++g_startGridPos;
         return false;
     }
 
