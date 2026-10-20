@@ -1,0 +1,383 @@
+{
+	"InstanceWildBullValleyStart": {
+		"desc": "蛮牛谷副本",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"[JumpBack]CollapseSideBar",
+			"[JumpBack]InstanceCragfortStart",
+			"InstanceCragfortDone",
+			"[JumpBack]SceneEnterWildBullValleyInstance",
+			"[JumpBack]SceneEnterWildBullValleyNoReset"
+		]
+	},
+	"InstanceCragfortDone": {
+		"desc": "副本已完成",
+		"recognition": "And",
+		"all_of": ["InstanceNoRemainingTimes"],
+		"next": [
+			"[JumpBack]InstanceCragfortReturnAndLeave",
+			"SceneEnterMainPage"
+		]
+	},
+	"InstanceCragfortReturnAndLeave": {
+		"desc": "副本已完成,返回并离开",
+		"recognition": "OCR",
+		"expected": "返回|离开",
+		"roi": [221, 640, 274, 389],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [128, 529, 587, 487],
+			"timeout": 2000
+		}
+	},
+	"SceneEnterWildBullValleyInstance": {
+		"desc": "进入蛮牛谷副本",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InWildBullValley"],
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": [
+				"InstanceCragfortSwipeRight",
+				"InstanceCragfortSwipeDown",
+				"InstanceCragfortSwipeLeft",
+				"QuitInstanceClickWarden",
+				"QuitInstanceSwipeRight",
+				"InstanceCragfortSwipeUp"
+			]
+		},
+		"next": [
+			"InCragfortMap",
+			"InstanceNoRemainingTimes",
+			"[JumpBack]SceneEntryFortressPass",
+			"[JumpBack]SceneEnterCragfortOutpostInstance",
+			"[JumpBack]SceneEnterCragfortOutpost",
+			"[JumpBack]WildBullValleySwipeUp",
+			"[JumpBack]WildBullValleySwipeRight"
+		]
+	},
+	"InstanceCragfortStart": {
+		"desc": "峭岩堡垒副本入口",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InCragfortMap"],
+		"next": [
+			"[JumpBack]CragfortMapClickWarden",
+			"[JumpBack]CragfortMapGotoFrontline",
+			"[JumpBack]InstanceCragfortKeepGoing",
+			"[JumpBack]SelectNightmareDifficulty",
+			"[JumpBack]InstanceCragfortClickMonster",
+			"[JumpBack]InstanceCragfortSwipeRight",
+			"[JumpBack]InstanceCragfortSwipeDown",
+			"[JumpBack]InstanceCragfortSwipeLeft",
+			"QuitInstance"
+		]
+	},
+	"InstanceCragfortKeepGoing": {
+		"desc": "继续前行",
+		"recognition": "OCR",
+		"expected": "继续前行",
+		"roi": [267, 785, 187, 103],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [128, 529, 587, 487],
+			"timeout": 2000
+		}
+	},
+	"QuitInstance": {
+		"desc": "没找到怪物，退出副本",
+		"pre_delay": 1000,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InWildBullValley",
+			"[JumpBack]LeaveInstance",
+			"[JumpBack]QuitInstanceClickWarden",
+			"[JumpBack]QuitInstanceSwipeRight",
+			"[JumpBack]InstanceCragfortSwipeUp"
+		]
+	},
+	"LeaveInstance": {
+		"desc": "离开峭岩堡垒",
+		"recognition": "OCR",
+		"expected": "离开峭岩堡垒|离开",
+		"roi": [235, 713, 240, 256],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [128, 529, 587, 487],
+			"timeout": 10000
+		}
+	},
+	"QuitInstanceClickWarden": {
+		"desc": "退出时点击守备官",
+		"recognition": "OCR",
+		"expected": "守备官|守备",
+		"action": "Click",
+		"target_offset": [0, -50, 0, 0],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [128, 529, 587, 487],
+			"timeout": 5000
+		}
+	},
+	"QuitInstanceSwipeRight": {
+		"desc": "退出副本右滑",
+		"action": "Swipe",
+		"begin": [400, 1100],
+		"end": [450, 1100],
+		"duration": 200,
+		"max_hit": 3,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [203, 695, 391, 457],
+			"timeout": 2000
+		}
+	},
+	"InstanceCragfortSwipeRight": {
+		"desc": "副本中右滑",
+		"action": "Swipe",
+		"begin": [400, 1100],
+		"end": [550, 1100],
+		"duration": 200,
+		"max_hit": 3,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [203, 695, 391, 457],
+			"timeout": 2000
+		}
+	},
+	"InstanceCragfortSwipeLeft": {
+		"desc": "副本中左滑",
+		"action": "Swipe",
+		"begin": [550, 1100],
+		"end": [400, 1100],
+		"duration": 200,
+		"max_hit": 3,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [203, 695, 391, 457],
+			"timeout": 2000
+		}
+	},
+	"InstanceCragfortSwipeDown": {
+		"desc": "副本中下滑",
+		"action": "Swipe",
+		"begin": [400, 300],
+		"end": [400, 1100],
+		"duration": 100,
+		"max_hit": 2,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [203, 695, 391, 457],
+			"timeout": 2000
+		}
+	},
+	"InstanceCragfortSwipeUp": {
+		"desc": "副本中上滑",
+		"action": "Swipe",
+		"begin": [400, 1100],
+		"end": [400, 300],
+		"duration": 100,
+		"max_hit": 2,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [203, 695, 391, 457],
+			"timeout": 2000
+		}
+	},
+	"SelectNightmareDifficulty": {
+		"desc": "选择噩梦难度",
+		"recognition": "OCR",
+		"expected": "挑战噩梦难度|噩梦",
+		"roi": [231, 628, 240, 296],
+		"action": "Click",
+		"post_delay": 500,
+		"next": [
+			"[JumpBack]BattleAI",
+			"HandleRewardDialog",
+			"SelectNightmareDifficulty"
+		]
+	},
+	"InstanceCragfortClickMonster": {
+		"desc": "点击怪物",
+		"recognition": "OCR",
+		"expected": "来袭的怪物|来袭|怪物",
+		"roi": [147, 369, 465, 684],
+		"target_offset": [18, -68, -20, 10],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [129, 318, 477, 325],
+			"timeout": 4000
+		}
+	},
+	"InWardenPage": {
+		"desc": "在守备官页面",
+		"recognition": "OCR",
+		"expected": "守备官",
+		"roi": [247, 302, 215, 43]
+	},
+	"CragfortMapGotoFrontline": {
+		"desc": "在峭岩堡垒地图中守备官处前往前线战场",
+		"recognition": "And",
+		"all_of": [
+			"InWardenPage",
+			{
+				"recognition": "OCR",
+				"expected": "前往前线战场|前线|战场",
+				"roi": [256, 693, 206, 196]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [128, 529, 587, 487],
+			"timeout": 2000
+		}
+	},
+	"CragfortMapClickWarden": {
+		"desc": "在峭岩堡垒地图中点击守备官",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"expected": "辎重官|辎重|重官",
+				"roi": [17, 640, 703, 292],
+				"sub_name": "Quartermaster"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "守备官",
+				"roi": "Quartermaster",
+				"roi_offset": [60, -60, 120, 80]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [0, -50, 0, 0],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [128, 529, 587, 487],
+			"timeout": 5000
+		}
+	},
+	"InCragfortMap": {
+		"desc": "在峭岩堡垒地图中",
+		"recognition": "OCR",
+		"expected": "峭岩堡垒|堡垒",
+		"roi": [90, 63, 123, 38],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InCragfortOutpostPage": {
+		"desc": "在峭岩堡垒据点页面",
+		"recognition": "OCR",
+		"expected": "峭岩堡垒",
+		"roi": [279, 253, 155, 47],
+		"only_rec": true
+	},
+	"InstanceHasRemainingTimes": {
+		"desc": "副本有挑战次数",
+		"recognition": "OCR",
+		"expected": "剩余副本次数：([1-9]\\d*)|剩余副本次数:([1-9]\\d*)",
+		"roi": [415, 453, 189, 43],
+		"only_rec": true
+	},
+	"InstanceNoRemainingTimes": {
+		"desc": "副本没有有挑战次数",
+		"recognition": "OCR",
+		"expected": "当日已无剩余副本挑战次数|无剩余",
+		"roi": [96, 478, 285, 44],
+		"only_rec": true
+	},
+	"SceneEntryFortressPass": {
+		"desc": "前往堡垒隘口",
+		"recognition": "And",
+		"all_of": [
+			"InstanceHasRemainingTimes",
+			{
+				"recognition": "OCR",
+				"expected": "前往堡垒隘口|堡垒隘口|前往堡垒",
+				"roi": [251, 666, 219, 183]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_delay": 500,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [100, 303, 519, 322],
+			"timeout": 2000
+		}
+	},
+	"SceneEnterCragfortOutpostInstance": {
+		"desc": "进入峭岩堡垒据点中的副本",
+		"recognition": "And",
+		"all_of": [
+			"InCragfortOutpostPage",
+			{
+				"recognition": "OCR",
+				"expected": "登上堡垒隘口|登上堡垒",
+				"roi": [214, 666, 296, 340]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [100, 303, 519, 322],
+			"timeout": 2000
+		}
+	},
+	"SceneEnterCragfortOutpost": {
+		"desc": "进入峭岩堡垒据点",
+		"recognition": "OCR",
+		"expected": "峭岩堡垒|岩堡垒|堡垒",
+		"roi": [122, 512, 598, 662],
+		"action": "Click",
+		"target_offset": [0, -50, 0, 0],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [100, 303, 519, 322],
+			"timeout": 20000
+		}
+	},
+	"WildBullValleySwipeUp": {
+		"desc": "蛮牛谷地图中上滑",
+		"action": "Swipe",
+		"begin": [350, 1100],
+		"end": [350, 300],
+		"duration": 200,
+		"max_hit": 1,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [203, 695, 391, 457],
+			"timeout": 2000
+		}
+	},
+	"WildBullValleySwipeRight": {
+		"desc": "蛮牛谷地图中右滑",
+		"action": "Swipe",
+		"begin": [200, 1100],
+		"end": [600, 1100],
+		"duration": 200,
+		"max_hit": 2,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [203, 695, 391, 457],
+			"timeout": 2000
+		}
+	}
+}

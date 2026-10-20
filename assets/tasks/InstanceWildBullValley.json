@@ -1,0 +1,41 @@
+{
+    "task": [
+        {
+            "name": "InstanceWildBullValley",
+            "label": "🦬蛮牛谷副本",
+            "description":"将会选择噩梦难度,请确保能打过再勾选",
+            "entry": "InstanceWildBullValleyStart",
+            "group": [
+                "instance_tasks"
+            ],
+            "option":[
+                "DisableBattleStrategy"
+            ]
+        }
+    ],
+    "option": {
+        "DisableBattleStrategy": {
+            "type": "switch",
+            "label": "禁用战斗策略(不战吼，适合高练度省时间)",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "BattleAI": {
+                            "attach": {"disable": true}
+                        }
+                    }
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                         "BattleAI": {
+                            "attach": {"disable": false}
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}
