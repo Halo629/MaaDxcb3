@@ -2,9 +2,11 @@
     "task": [
         {
             "name": "WeeklyTreasureShop",
-            "label": "💎每周珍藏商店购买",
+            "label": "💎珍藏商店购买",
+            "description":"珍藏商店购买",
             "entry": "WeeklyTreasureShopSub",
             "option": [
+                "WeeklySchedule",
                 "BuyWeeklyScroll",
                 "BuyWeeklyEmblemChest",
                 "BuyWeeklyOldCovenant"

@@ -1,0 +1,96 @@
+{
+    "option": {
+        "WeeklySchedule": {
+            "type": "checkbox",
+            "label": "任务执行周期",
+            "default_case": [
+                "WeeklyScheduleMonday",
+                "WeeklyScheduleTuesday",
+                "WeeklyScheduleWednesday",
+                "WeeklyScheduleThursday",
+                "WeeklyScheduleFriday",
+                "WeeklyScheduleSaturday",
+                "WeeklyScheduleSunday"
+            ],
+            "cases": [
+                {
+                    "name": "WeeklyScheduleMonday",
+                    "label": "周一",
+                    "pipeline_override": {
+                        "WeeklyScheduleEnabled": {
+                            "attach": {
+                                "monday": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "WeeklyScheduleTuesday",
+                    "label": "周二",
+                    "pipeline_override": {
+                        "WeeklyScheduleEnabled": {
+                            "attach": {
+                                "tuesday": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "WeeklyScheduleWednesday",
+                    "label": "周三",
+                    "pipeline_override": {
+                        "WeeklyScheduleEnabled": {
+                            "attach": {
+                                "wednesday": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "WeeklyScheduleThursday",
+                    "label": "周四",
+                    "pipeline_override": {
+                        "WeeklyScheduleEnabled": {
+                            "attach": {
+                                "thursday": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "WeeklyScheduleFriday",
+                    "label": "周五",
+                    "pipeline_override": {
+                        "WeeklyScheduleEnabled": {
+                            "attach": {
+                                "friday": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "WeeklyScheduleSaturday",
+                    "label": "周六",
+                    "pipeline_override": {
+                        "WeeklyScheduleEnabled": {
+                            "attach": {
+                                "saturday": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "WeeklyScheduleSunday",
+                    "label": "周天",
+                    "pipeline_override": {
+                        "WeeklyScheduleEnabled": {
+                            "attach": {
+                                "sunday": true
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}

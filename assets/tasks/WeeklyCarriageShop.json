@@ -1,0 +1,80 @@
+{
+    "task": [
+        {
+            "name": "WeeklyCarriageShop",
+            "label": "🛒马车商店购买",
+			"description": "马车商店购买(魂墓商店，升格商店)",
+            "entry": "WeeklyCarriageShopShoppingStart",
+            "option": [
+                "WeeklySchedule",
+                "WeeklyCarriageShopBuyItems"
+            ],
+            "group": [
+                "weekly_tasks"
+            ]
+        }
+    ],
+    "option": {
+        "WeeklyCarriageShopBuyItems": {
+			"type": "checkbox",
+			"label": "购买商品",
+			"description": "勾选需要购买的商品",
+			"default_case": [
+				"BuyEmblemChest",
+				"BuyTimeBondFragment",
+				"BuyStarsprigTwig",
+				"BuyOuroborosRing",
+				"BuyHeartbeatRubbing"
+			],
+            "cases": [
+				{
+					"name": "BuyEmblemChest",
+					"label": "魂墓页购买纹章宝盒",
+					"pipeline_override": {
+						"CarriageShopBuyEmblemChestEntry": {"enabled": true}
+					}
+				},
+				{
+					"name": "BuyTimeBondFragment",
+					"label": "升格之路页购买羁时碎片",
+					"pipeline_override": {
+						"CarriageShopBuyTimeBondFragmentStart": {"enabled": true},
+						"AscensionPageShopAssistantInit": {
+							"attach": {"timeBondFragmentEnabled": true}
+						}
+					}
+				},
+				{
+					"name": "BuyStarsprigTwig",
+					"label": "升格之路页购买云汉短枝",
+					"pipeline_override": {
+						"CarriageShopBuyStarsprigTwigStart": {"enabled": true},
+						"AscensionPageShopAssistantInit": {
+							"attach": {"starsprigTwigEnabled": true}
+						}
+					}
+				},
+				{
+					"name": "BuyOuroborosRing",
+					"label": "升格之路页购买衔尾之环",
+					"pipeline_override": {
+						"CarriageShopBuyOuroborosRingStart": {"enabled": true},
+						"AscensionPageShopAssistantInit": {
+							"attach": {"ouroborosRingEnabled": true}
+						}
+					}
+				},
+				{
+					"name": "BuyHeartbeatRubbing",
+					"label": "升格之路页购买心音拓片",
+					"pipeline_override": {
+						"CarriageShopBuyHeartbeatRubbingStart": {"enabled": true},
+						"AscensionPageShopAssistantInit": {
+							"attach": {"heartbeatRubbingEnabled": true}
+						}
+					}
+				}
+			]
+        }
+    }
+}

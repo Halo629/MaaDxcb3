@@ -3,8 +3,10 @@
         {
             "name": "WeeklyFormation",
             "label": "⏳炼成阵",
-            "entry": "WeeklySandSub",
+            "description": "炼成阵领取及购买沙子",
+            "entry": "WeeklyFormationSub",
             "option": [
+                "WeeklySchedule",
                 "FreeSand",
                 "BuySand"
             ],
