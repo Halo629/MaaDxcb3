@@ -232,20 +232,6 @@ bool enterMapByName(MaaContext* context, const std::string& mapName)
     return false;
 }
 
-void clickCampfire(MaaContext* context)
-{
-    constexpr int kMaxRetries = 3;
-    constexpr int kRetryDelayMs = 3000;
-    for (int attempt = 0; attempt < kMaxRetries; ++attempt) {
-        MaaContextRunTask(context, "ClickCampFire", "{}");
-        if (waitUntilRecognitionSuccess(context, "InSelectDestinationPage", "{}", nullptr, nullptr, 3000)) {
-            return;
-        }
-        if (attempt < kMaxRetries - 1) {
-            Sleep(kRetryDelayMs);
-        }
-    }
-}
 
 void setNextNode(MaaContext* context, const char* nodeName, const char* nextNode)
 {

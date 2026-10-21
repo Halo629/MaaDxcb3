@@ -118,17 +118,6 @@
 			"[JumpBack]SceneEnterMainPage"
 		]
 	},
-	"ClickCampFire": {
-		"desc": "点击营火",
-		"recognition": "TemplateMatch",
-		"template": "main_page_icon/campfire.png",
-		"action": "Click",
-		"post_wait_freezes": {
-			"time": 300,
-			"target": [136, 1086, 407, 53],
-			"timeout": 2000
-		}
-	},
 	"MazeEmptyFloor": {
 		"desc": "迷宫中点击空格子地板",
 		"pre_delay": 0,

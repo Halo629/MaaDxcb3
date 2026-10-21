@@ -208,6 +208,7 @@
         "MonsterSoul": {
             "type": "switch",
             "label": "魔物之魂",
+            "description":"需要开通小月卡，解锁魔魂快速入口",
             "cases": [
                 {
                     "name": "Yes",

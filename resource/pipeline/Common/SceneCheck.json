@@ -377,8 +377,8 @@
 		"post_delay": 0,
 		"rate_limit": 0
 	},
-	"HasMonsterSoul": {
-		"desc": "识别魔物之魂",
+	"HasMonsterSoulQuickEntry": {
+		"desc": "有魔物之魂快速入口",
 		"recognition": "OCR",
 		"expected": ["魔物之魂", "之魂"],
 		"roi": [536, 1072, 115, 69],

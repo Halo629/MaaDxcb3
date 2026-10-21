@@ -153,9 +153,6 @@ void loadRecipeConfig();                                                  // 初
 const std::unordered_set<std::string>& getRecipeNames();                  // 食谱名集合
 const std::map<std::string, std::vector<std::string>>& getRecipeConfig(); // 食谱名 → 配方食材列表
 
-// 点击营火
-void clickCampfire(MaaContext* context);
-
 // 从地图列表进入指定地图，返回是否成功
 bool enterMapByName(MaaContext* context, const std::string& mapName);
 

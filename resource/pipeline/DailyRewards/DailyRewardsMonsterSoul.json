@@ -14,25 +14,44 @@
 	"MonsterSoulEntry": {
 		"recognition": "And",
 		"all_of": ["InMainPage"],
-		"action": "Click",
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
 		"next": [
-			"GotoMonsterSoul"
+			"MonsterSoulLoop",
+			"[JumpBack]GotoMonsterSoul",
+			"MonsterSoulQuickEntryNotLock",
+			"[JumpBack]SceneClickCampFire"
 		]
 	},
 	"GotoMonsterSoul": {
 		"recognition": "And",
-		"all_of": ["HasMonsterSoul"],
+		"all_of": [
+			"InSelectDestinationPage",
+			"HasMonsterSoulQuickEntry"
+		],
+		"box_index": 1,
 		"action": "Click",
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"post_wait_freezes": 300,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [193, 198, 371, 771],
+			"timeout": 2000
+		}
+	},
+	"MonsterSoulQuickEntryNotLock": {
+		"desc": "魔魂快速入口未解锁",
+		"recognition": "And",
+		"all_of": ["InSelectDestinationPage"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
 		"next": [
-			"MonsterSoulLoop"
-		]
+			"SceneBack"
+		],
+		"focus": {"Node.Recognition.Succeeded": "未开通小月卡解锁魔魂快速入口"}
 	},
 	"MonsterSoulLoop": {
 		"desc": "魔物之魂循环",
