@@ -137,7 +137,7 @@ MaaBool soulTombBattleAutoLowerLevel(
     int lowerFailCount = attach.get("lower_fail_count", json::value(5)).as_integer();
 
     if (lowerOnFail && g_soulTombConsecutiveFails >= lowerFailCount) {
-        LogUtils::log(fmt("魂墓挑战: 连续失败%1次,降低10级难度", g_soulTombConsecutiveFails), "#ef4444");
+        LogUtils::log(fmt("魂墓挑战: 连续失败%1次,降低10级难度", g_soulTombConsecutiveFails), "#f59e0b");
         g_soulTombConsecutiveFails = 0;
         return true;
     }

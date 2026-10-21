@@ -347,11 +347,11 @@
 		"expected": "峭岩堡垒|岩堡垒|堡垒",
 		"roi": [122, 512, 598, 662],
 		"action": "Click",
-		"target_offset": [0, -50, 0, 0],
+		"target_offset": [42, -150, -47, 8],
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [100, 303, 519, 322],
-			"timeout": 20000
+			"timeout": 10000
 		}
 	},
 	"WildBullValleySwipeUp": {
@@ -371,9 +371,9 @@
 		"desc": "蛮牛谷地图中右滑",
 		"action": "Swipe",
 		"begin": [200, 1100],
-		"end": [600, 1100],
+		"end": [400, 1100],
 		"duration": 200,
-		"max_hit": 2,
+		"max_hit": 6,
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [203, 695, 391, 457],

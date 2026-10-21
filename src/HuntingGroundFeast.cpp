@@ -381,7 +381,7 @@ MaaBool huntingGroundFeastAutoLowerLevelCheck(
     int lowerFailCount = attach.get("lower_fail_count", json::value(2)).as_integer();
 
     if (lowerOnFail && ++g_huntingGroundFeastConsecutiveFailCount >= lowerFailCount) {
-        LogUtils::log(fmt("狩猎盛宴: 连续失败%1次,降低1级难度", g_huntingGroundFeastConsecutiveFailCount), "#ef4444");
+        LogUtils::log(fmt("狩猎盛宴: 连续失败%1次,降低1级难度", g_huntingGroundFeastConsecutiveFailCount), "#f59e0b");
         return true;
     }
     return false;
