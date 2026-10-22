@@ -4,14 +4,24 @@
 		"expected": "返回冒险|冒险",
 		"roi": [8, 1029, 122, 149],
 		"action": "Click",
-		"post_delay": 3000
+		"post_delay": 4000,
+		"pre_wait_freezes": {
+			"time": 500,
+			"target": [2, 0, 295, 202],
+			"timeout": 3000
+		}
 	},
 	"__ScenePrivateReturnSecretRealm": {
 		"recognition": "OCR",
 		"expected": "返回秘境|秘境",
 		"roi": [1, 1043, 143, 237],
 		"action": "Click",
-		"post_delay": 3000
+		"post_delay": 5000,
+		"pre_wait_freezes": {
+			"time": 500,
+			"target": [2, 0, 295, 202],
+			"timeout": 3000
+		}
 	},
 	"__ScenePrivateMazeExit": {
 		"desc": "点击回城按钮退出迷宫",
