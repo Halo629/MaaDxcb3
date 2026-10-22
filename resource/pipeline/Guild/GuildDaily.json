@@ -7,7 +7,7 @@
 		"next": [
 			"[JumpBack]GuildDailyChallengeEntry",
 			"[JumpBack]GuildEpicChallengeEntry",
-			"GuildShop",
+			"GuildShopEntry",
 			"NotJoinInGuild",
 			"[JumpBack]SceneEnterGuild"
 		],
@@ -138,9 +138,30 @@
 			"GuildEpicChallengeEntry"
 		]
 	},
-	"GuildShop": {
-		"desc": "公会商店",
+	"GuildShopEntry": {
+		"desc": "公会商店入口",
 		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InGuildChallengePage"],
+		"next": [
+			"[JumpBack]GuildShopSwipeUpToBottle",
+			"[JumpBack]GuildShopBuyScroll",
+			"[JumpBack]GuildShopBuyHeroSoulStart",
+			"[JumpBack]GuildShopSwipeDown",
+			"GuildShopDone",
+			"[JumpBack]SceneEnterGuildShop"
+		]
+	},
+	"GuildShopDone": {
+		"desc": "公会商店购买完成",
+		"recognition": "And",
+		"all_of": ["InCarriageShop"],
+		"next": [
+			"SceneEnterMainPage"
+		]
+	},
+	"SceneEnterGuildShop": {
+		"desc": "进入公会商店",
 		"recognition": "And",
 		"all_of": [
 			"InGuildChallengePage",
@@ -156,12 +177,105 @@
 			"time": 500,
 			"target": [53, 1077, 611, 165],
 			"timeout": 2000
+		}
+	},
+	"GuildShopOathCount": {
+		"desc": "誓约数量",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Oath.png",
+				"roi": [540, 14, 160, 58],
+				"sub_name": "OathPos"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 20],
+				"upper": [35, 80, 255],
+				"roi": "OathPos",
+				"roi_offset": [50, 7, 30, -8],
+				"count": 10,
+				"sub_name": "OathColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "OathColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "OathCountSub"
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"SmartSlideBuyPayByOath": {
+		"desc": "滑动购买任意数量(誓约支付)",
+		"recognition": "Or",
+		"any_of": ["SliderFound", "PurchaseButton"],
+		"action": "Custom",
+		"custom_action": "CarriageShopSlideBuy",
+		"custom_action_param": {
+			"currencyCount": "GuildShopOathCount",
+			"currencyNodeSub": "OathCountSub"
 		},
 		"next": [
-			"[JumpBack]GuildShopSwipeUpToBottle",
-			"GuildShopBuyScroll",
-			"[JumpBack]GuildShopSwipeDown",
-			"SceneBack"
+			"HandleRewardDialog",
+			"[JumpBack]CurrencyEnoughToPurchase",
+			"PurchaseDone"
+		]
+	},
+	"HeroSoulFound": {
+		"desc": "找到英灵魂魄",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "items/HeroSoul.png",
+		"roi": [54, 357, 599, 686],
+		"threshold": 0.75
+	},
+	"HeroSoulRecord": {
+		"desc": "英灵魂魄购买记录",
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "ShopAssistant",
+		"attach": {"HeroSoulFound": true}
+	},
+	"GuildShopBuyHeroSoul": {
+		"desc": "公会商店购买英灵魂魄",
+		"recognition": "And",
+		"all_of": ["InCarriageShop", "HeroSoulFound"],
+		"box_index": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [160, 580, 391, 473],
+			"timeout": 2000
+		},
+		"next": [
+			"SmartSlideBuyPayByOath",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"GuildShopBuyHeroSoulStart": {
+		"desc": "公会商店购买英灵魂魄入口",
+		"max_hit": 1,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InCarriageShop", "HeroSoulFound"],
+		"next": [
+			"CurrencyNotEnough",
+			"[JumpBack]GuildShopBuyHeroSoul",
+			"__ScenePrivateNextTrue"
 		]
 	},
 	"GuildDoBuyItem": {
@@ -187,6 +301,7 @@
 		"desc": "购买召唤师卷轴",
 		"recognition": "And",
 		"all_of": [
+			"InCarriageShop",
 			"GuildShopHasScroll",
 			{
 				"recognition": "TemplateMatch",
@@ -195,27 +310,29 @@
 				"roi_offset": [0, 160, 120, 45]
 			}
 		],
-		"box_index": 1,
+		"box_index": 2,
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
 		"action": "Click",
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [250, 446, 218, 620],
 			"timeout": 2000
 		}
 	},
 	"GuildShopSwipeUpToBottle": {
 		"desc": "往上滑到底",
+		"recognition": "And",
+		"all_of": ["InCarriageShop"],
 		"action": "Swipe",
 		"begin": [450, 1050],
 		"end": [450, 200],
 		"duration": 100,
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [250, 446, 218, 620],
-			"timeout": 5000
+			"timeout": 3000
 		},
 		"pre_delay": 0,
 		"post_delay": 0,
@@ -224,9 +341,11 @@
 	},
 	"GuildShopSwipeDown": {
 		"desc": "往下滑动",
+		"recognition": "And",
+		"all_of": ["InCarriageShop"],
 		"action": "Swipe",
 		"begin": [360, 650],
-		"end": [360, 800],
+		"end": [360, 750],
 		"duration": 100,
 		"post_wait_freezes": {
 			"time": 300,
@@ -236,6 +355,6 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"max_hit": 2
+		"max_hit": 3
 	}
 }

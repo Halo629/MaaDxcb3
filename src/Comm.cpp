@@ -1085,6 +1085,7 @@ static MaaBool CarriageShopSlideBuyAct(
 
     std::string sliderNode = param.get("slider", json::value("SliderFound")).as_string();
     std::string currencyNode = param.get("currencyCount", json::value("")).as_string();
+    std::string currencyNodeSub = param.get("currencyCountSub", json::value("")).as_string();
     std::string unitPriceNode = param.get("unitPrice", json::value("CarriageShopSlideBuyUnitPrice")).as_string();
     std::string increaseBtn = param.get("increaseButton", json::value("CarriageShopIncreaseButton")).as_string();
     std::string decreaseBtn = param.get("decreaseButton", json::value("CarriageShopDecreaseButton")).as_string();
@@ -1113,7 +1114,7 @@ static MaaBool CarriageShopSlideBuyAct(
 
     // 读货币数量（currencyCount 节点可为普通 OCR 或 And 节点，readNumberFromNode 均能解析）
     int currency = 0;
-    if (!readNumberFromNode(context, currencyNode.c_str(), "TrialStoneCount", currency)) {
+    if (!readNumberFromNode(context, currencyNode.c_str(), currencyNodeSub.c_str(), currency)) {
         return true;
     }
 

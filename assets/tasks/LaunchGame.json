@@ -4,7 +4,8 @@
             "name": "LaunchGame",
             "label": "🎮启动游戏",
             "entry": "LaunchAndEntryGame",
-            "option": [
+            "option": [ 
+                "SelectServer",
                 "SwitchToTargetServer",
                 "BattleConfig",
                 "MonsterSoulUpgradeConfig"
@@ -15,6 +16,37 @@
         }
     ],
     "option": {
+         "SelectServer": {
+            "type": "select",
+            "label": "选择服务器",
+            "default_case": "official",
+            "cases": [
+                {
+                   "name": "official",
+                    "label": "官服",
+                    "pipeline_override": {
+                        "LaunchGameOfficial": {
+                            "enabled": true
+                        },
+                        "QuitGameOfficial": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "bilibili",
+                    "label": "B服",
+                    "pipeline_override": {
+                        "LaunchGameBilibili": {
+                            "enabled": true
+                        },
+                        "QuitGameBilibili": {
+                            "enabled": true
+                        }
+                    }
+                }
+            ]
+        },
         "SwitchToTargetServer": {
             "type": "switch",
             "label": "切换到指定服务器",

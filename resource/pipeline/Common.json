@@ -152,7 +152,8 @@
 		"action": "Custom",
 		"custom_action": "CarriageShopSlideBuy",
 		"custom_action_param": {
-			"currencyCount": "MortalWillCount"
+			"currencyCount": "MortalWillCount",
+			"currencyNodeSub": "MortalWillCountSub"
 		},
 		"next": [
 			"HandleRewardDialog",
@@ -167,7 +168,8 @@
 		"action": "Custom",
 		"custom_action": "CarriageShopSlideBuy",
 		"custom_action_param": {
-			"currencyCount": "GodsWeightsCount"
+			"currencyCount": "GodsWeightsCount",
+			"currencyNodeSub": "GodsWeightsCountSub"
 		},
 		"post_wait_freezes": {
 			"time": 500,

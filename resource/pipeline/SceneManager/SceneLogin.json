@@ -130,7 +130,7 @@
 	"PersonalInfoPageEntry": {
 		"desc": "点击头像前往个人信息页面",
 		"recognition": "And",
-		"all_of": ["InMainPage", "HasSecretRealm"],
+		"all_of": ["InMainPage"],
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
@@ -252,18 +252,57 @@
 	},
 	"LaunchGame": {
 		"desc": "启动游戏",
+		"post_delay": 0,
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"LaunchGameOfficial",
+			"LaunchGameBilibili"
+		]
+	},
+	"LaunchGameOfficial": {
+		"desc": "启动游戏(官服)",
+		"enabled": false,
 		"post_delay": 5000,
 		"pre_delay": 0,
 		"action": "StartApp",
 		"package": "com.leiting.dungeon3"
 	},
+	"LaunchGameBilibili": {
+		"desc": "启动游戏(B服)",
+		"enabled": false,
+		"post_delay": 5000,
+		"pre_delay": 0,
+		"action": "StartApp",
+		"package": "com.leiting.dungeon3.bilibili"
+	},
 	"QuitGame": {
 		"desc": "退出游戏",
+		"post_delay": 0,
+		"pre_delay": 0,
+		"recognition": "DirectHit",
+		"next": [
+			"QuitGameOfficial",
+			"QuitGameBilibili"
+		]
+	},
+	"QuitGameOfficial": {
+		"desc": "退出游戏(官服)",
+		"enabled": false,
 		"post_delay": 3000,
 		"pre_delay": 0,
 		"recognition": "DirectHit",
 		"action": "StopApp",
 		"package": "com.leiting.dungeon3"
+	},
+	"QuitGameBilibili": {
+		"desc": "退出游戏(B服)",
+		"enabled": false,
+		"post_delay": 3000,
+		"pre_delay": 0,
+		"recognition": "DirectHit",
+		"action": "StopApp",
+		"package": "com.leiting.dungeon3.bilibili"
 	},
 	"InGameCheck": {
 		"any_of": [

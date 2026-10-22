@@ -377,7 +377,7 @@
 				"roi": "TrialStoneColor",
 				"roi_offset": [-2, -2, 4, 4],
 				"only_rec": true,
-				"sub_name": "TrialStoneCount"
+				"sub_name": "TrialStoneCountSub"
 			}
 		],
 		"pre_delay": 0,
@@ -518,7 +518,8 @@
 		"action": "Custom",
 		"custom_action": "CarriageShopSlideBuy",
 		"custom_action_param": {
-			"currencyCount": "CarriageShopTrialStoneCount"
+			"currencyCount": "CarriageShopTrialStoneCount",
+			"currencyNodeSub": "TrialStoneCountSub"
 		},
 		"post_wait_freezes": {
 			"time": 500,

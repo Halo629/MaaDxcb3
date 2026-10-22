@@ -22,7 +22,7 @@
 	"InMainPage": {
 		"desc": "在主页且营火可见 → 真正的主页就绪状态",
 		"recognition": "And",
-		"all_of": ["InMainPageArea", "InCampfire"],
+		"all_of": ["HasSecretRealm", "InCampfire"],
 		"box_index": 1,
 		"pre_delay": 0,
 		"post_delay": 0,
@@ -676,9 +676,21 @@
 	},
 	"InPersonalInfoPage": {
 		"desc": "判断是否在个人信息页面",
-		"recognition": "OCR",
-		"expected": "个人信息",
-		"roi": [151, 1097, 128, 90],
+		"recognition": "Or",
+		"any_of": [
+			{
+				"recognition": "OCR",
+				"expected": "个人信息",
+				"roi": [152, 1130, 120, 42],
+				"only_rec": true
+			},
+			{
+				"recognition": "OCR",
+				"expected": "生涯记录|生涯",
+				"roi": [305, 436, 107, 30],
+				"only_rec": true
+			}
+		],
 		"pre_delay": 0,
 		"post_delay": 0
 	},

@@ -282,8 +282,8 @@
 	},
 	"HasSecretRealm": {
 		"desc": "识别招魂师的秘境",
-		"recognition": "TemplateMatch",
-		"template": "main_page_icon/SecretRealm.png",
+		"recognition": "OCR",
+		"expected": "招魂师的秘境|招魂师|秘境",
 		"roi": [1, 4, 285, 164],
 		"pre_delay": 0,
 		"post_delay": 0,
