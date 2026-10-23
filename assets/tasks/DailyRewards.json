@@ -112,7 +112,7 @@
 		"DailyTreasureShop": {
 			"type": "switch",
 			"label": "珍藏商店购买招魂师卷轴",
-			"default_case": "Yes",
+			"default_case": "No",
 			"cases": [
 				{
 					"name": "Yes",
