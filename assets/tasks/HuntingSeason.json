@@ -1,9 +1,9 @@
 {
     "task": [
         {
-            "name": "HuntingSeason",
-            "label": "🏹夜之狩猎",
-            "entry": "HuntingSeasonStart",
+            "name": "HuntingActivity",
+            "label": "🏹万猎狂欢夜",
+            "entry": "HuntingCollectionStart",
             "group": [
                 "activity_tasks"
             ]

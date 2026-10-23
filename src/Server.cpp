@@ -1,5 +1,7 @@
 #include "Comm.h"
 
+static std::vector<std::string> g_server;            // 保持识别顺序
+static std::unordered_set<std::string> g_serverSeen;  // 去重
 // 在服务器列表中查找目标服务器
 MaaBool findTargetServer(
     MaaContext* context,
@@ -22,27 +24,27 @@ MaaBool findTargetServer(
     }
     std::string target = name + line;
 
-    MaaRect outBox;
-    auto detailBuf = MaaStringBufferCreate();
-    if (!doRecognition(context, image, "CustomServerList", "{}", &outBox, detailBuf)) {
-        MaaStringBufferDestroy(detailBuf);
+    auto sub = getAndSubDetail(context, image, "CustomServerList", "ServerName");
+    if (!sub.is_object()) {
+        LogUtils::log("读取服务器列表失败", "#ef4444");
+        return false;
+    }
+    auto& all = sub["all"];
+    if (!all.is_array()) {
         LogUtils::log("读取服务器列表失败", "#ef4444");
         return false;
     }
 
-    std::string detailStr(MaaStringBufferGet(detailBuf), MaaStringBufferSize(detailBuf));
-    MaaStringBufferDestroy(detailBuf);
-
-    auto result = json::parse(detailStr);
-    if (!result || !result->contains("all")) {
-        LogUtils::log("读取服务器列表失败: OCR 结果为空", "#f59e0b");
-        return false;
-    }
-
     // 归一化后做 contains 匹配（去掉冒号空格，避免符号差异）
-    for (auto& item : (*result)["all"].as_array()) {
+    for (auto& item : all.as_array()) {
         std::string text = normalizeServerName(item["text"].as_string());
-        if (text.empty() || text.find(target) == std::string::npos) {
+        if (text.empty()) {
+            continue;
+        }
+        if (g_serverSeen.insert(text).second) {
+            g_server.push_back(text); // 记录识别到的服务器（按识别顺序去重）
+        }
+        if (text.find(target) == std::string::npos) {
             continue;
         }
 
@@ -55,8 +57,6 @@ MaaBool findTargetServer(
 
         return true;
     }
-
-    LogUtils::log(fmt("切换服务器失败,未找到目标服务器:[%1]", target), "#f59e0b");
     return false;
 }
 
@@ -141,9 +141,7 @@ MaaBool GetServerListAct(
     return true;
 }
 
-// OCR 服务器名（roi 通过 custom_action_param 传入）。
-// 调用方无需再按节点名反查识别结果，节点改名/合并不影响。
-MaaBool ReadServerNameAct(
+MaaBool ServerRecord(
     MaaContext* context,
     MaaTaskId task_id,
     const char* node_name,
@@ -153,29 +151,36 @@ MaaBool ReadServerNameAct(
     const MaaRect* box,
     void* trans_arg)
 {
-    auto param = json::parse(custom_action_param ? custom_action_param : "{}").value_or(json::value { });
-    auto roiArr = param.get("roi", json::value { }).as_array();
-    if (roiArr.size() != 4) {
-        LogUtils::log("ReadServerNameAct: custom_action_param.roi 缺失或非法", "#ef4444");
-        return false;
+    auto attach = getNodeAttach(context, node_name);
+    bool init = attach.get("init", json::value(false)).as_boolean();
+    bool output = attach.get("output", json::value(false)).as_boolean();
+
+    if (init) {
+        g_server.clear();
+        g_serverSeen.clear();
+        return true;
     }
 
-    ScreenCap cap(context);
-    char detailJson[256];
-    snprintf(
-        detailJson,
-        sizeof(detailJson),
-        R"({"serverName":{"recognition":"OCR","roi":[%d,%d,%d,%d]}})",
-        roiArr[0].as_integer(),
-        roiArr[1].as_integer(),
-        roiArr[2].as_integer(),
-        roiArr[3].as_integer());
+    if (output) {
+        if (g_server.empty()) {
+            LogUtils::log("未识别到任何服务器", "#ef4444");
+        }
+        else {
+            std::string servers;
+            for (auto& name : g_server) {
+                if (!servers.empty()) {
+                    servers += ", ";
+                }
+                servers += name;
+            }
+            LogUtils::log(fmt("识别到的服务器: %1", servers), "#f59e0b");
+        }
+        return true;
+    }
 
-    std::string name = ocrText(context, cap.img, "serverName", detailJson, nullptr);
-    std::string server = normalizeServerName(name);
-    LogUtils::log(fmt("ReadServerNameAct: 当前服务器 [%1]", server), "#22c55e");
     return true;
 }
+
 
 // 判断是否已在目标服务器页面：OCR 服务器名/线路，与 attach 传入的目标比对。
 MaaBool targetServerCheck(
@@ -207,8 +212,23 @@ MaaBool targetServerCheck(
     if (recoParam.is_object()) {
         isInGame = recoParam.get("isInGame", json::value(false)).as_boolean();
     }
-    const char* serverNameNode = isInGame ? "CustomGetCurrentServerNameInGame" : "CustomCurrentServerName";
-    std::string current = normalizeServerName(ocrText(context, image, serverNameNode, "{}", nullptr));
+    std::string current;
+    if (isInGame) {
+        current = normalizeServerName(ocrText(context, image, "CustomGetCurrentServerNameInGame", "{}", nullptr));
+    }
+    else {
+        // CustomCurrentServerName 是 And 节点，取 LoginPageServerName 子识别的 OCR 结果
+        auto sub = getAndSubDetail(context, image, "CustomCurrentServerName", "LoginPageServerName");
+        if (sub.is_object()) {
+            auto& all = sub["all"];
+            if (all.is_array()) {
+                for (auto& item : all.as_array()) {
+                    current += item["text"].as_string();
+                }
+            }
+        }
+        current = normalizeServerName(current);
+    }
     if (current.empty()) {
         return false;
     }
@@ -225,6 +245,6 @@ void registerCustomServer(MaaResource* res, void* user_data)
 {
     registerCustomRecognition(res, "FindTargetServer", findTargetServer, user_data);
     registerCustomAction(res, "GetServerListAct", GetServerListAct, user_data);
-    registerCustomAction(res, "ReadServerNameAct", ReadServerNameAct, user_data);
+    registerCustomAction(res, "ServerRecord", ServerRecord, user_data);
     registerCustomRecognition(res, "TargetServerCheck", targetServerCheck, user_data);
 }

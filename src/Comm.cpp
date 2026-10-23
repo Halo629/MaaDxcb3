@@ -86,6 +86,34 @@ std::string ocrText(MaaContext* context, const MaaImageBuffer* img, const char* 
     return result;
 }
 
+json::value getAndSubDetail(MaaContext* context, const MaaImageBuffer* img, const char* entry, const char* subName)
+{
+    auto detailBuf = MaaStringBufferCreate();
+    MaaRect box;
+    if (!doRecognition(context, img, entry, "{}", &box, detailBuf)) {
+        MaaStringBufferDestroy(detailBuf);
+        return { };
+    }
+    std::string detail(MaaStringBufferGet(detailBuf), MaaStringBufferSize(detailBuf));
+    MaaStringBufferDestroy(detailBuf);
+    auto j = json::parse(detail).value_or(json::value { });
+
+    if (!j.is_array()) {
+        return { };
+    }
+    for (auto& item : j.as_array()) {
+        if (!item.is_object()) {
+            continue;
+        }
+        auto& name = item["name"];
+        if (name.is_string() && name.as_string() == subName) {
+            auto& sub = item["detail"];
+            return sub.is_object() ? sub : json::value { };
+        }
+    }
+    return { };
+}
+
 // 服务器名归一化：去掉冒号（中英文）和空格/制表符，统一 OCR 结果避免符号差异
 std::string normalizeServerName(const std::string& raw)
 {

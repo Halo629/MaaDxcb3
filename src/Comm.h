@@ -176,6 +176,9 @@ void clickRandomTarget(MaaContext* context, int x, int y, int w, int h);
 
 std::string ocrText(MaaContext* context, const MaaImageBuffer* img, const char* entry, const char* detailJson, MaaRect* box);
 
+// 从 And 节点识别结果中取指定 sub_name 子节点的 detail（含 all/filtered/best），未找到返回空 json::value
+json::value getAndSubDetail(MaaContext* context, const MaaImageBuffer* img, const char* entry, const char* subName);
+
 // 服务器名归一化：去掉冒号（中英文）和空格/制表符，统一 OCR 结果避免符号差异
 std::string normalizeServerName(const std::string& raw);
 

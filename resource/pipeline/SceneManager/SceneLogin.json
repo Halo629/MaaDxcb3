@@ -64,16 +64,57 @@
 		]
 	},
 	"CustomServerList": {
-		"order_by": "Vertical",
-		"recognition": "OCR",
-		"roi": [104, 300, 350, 663]
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"expected": "灵魂连接等级|等级",
+				"roi": [107, 309, 295, 644],
+				"sub_name": "LevelPos"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 150, 150],
+				"upper": [20, 170, 220],
+				"roi": "LevelPos",
+				"roi_offset": [-6, -61, 117, 35],
+				"count": 100,
+				"sub_name": "ServerColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "ServerColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"order_by": "Vertical",
+				"sub_name": "ServerName"
+			}
+		]
 	},
 	"CustomCurrentServerName": {
 		"desc": "识别当前服务器(自定义识别使用)",
 		"post_delay": 0,
 		"pre_delay": 0,
-		"recognition": "OCR",
-		"roi": [10, 1223, 348, 34]
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [0, 0, 40],
+				"upper": [30, 20, 160],
+				"roi": [13, 1224, 263, 30],
+				"count": 100,
+				"sub_name": "LoginPageServerColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "LoginPageServerColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "LoginPageServerName"
+			}
+		]
 	},
 	"CheckTargetServerIfInGame": {
 		"desc": "在游戏中检查当前服务器是否是目标服务器",
@@ -116,17 +157,6 @@
 			"[JumpBack]SceneEnterMainPage"
 		]
 	},
-	"GetCurServerInGame": {
-		"desc": "在游戏中获取当前服务器",
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0,
-		"next": [
-			"ReadServerName",
-			"PersonalInfoPageEntry",
-			"[JumpBack]SceneEnterMainPage"
-		]
-	},
 	"PersonalInfoPageEntry": {
 		"desc": "点击头像前往个人信息页面",
 		"recognition": "And",
@@ -137,30 +167,10 @@
 		"action": "Click",
 		"target": [338, 59, 44, 49],
 		"post_wait_freezes": {
-			"time": 500,
+			"time": 700,
 			"target": [193, 198, 371, 771],
 			"timeout": 2000
 		}
-	},
-	"ReadServerName": {
-		"desc": "确认在个人信息页并读取服务器名称",
-		"recognition": "And",
-		"all_of": ["InPersonalInfoPage"],
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0
-	},
-	"GetServerInpersonalInfoPage": {
-		"desc": "OCR 服务器名并存入 RecInfo",
-		"recognition": "DirectHit",
-		"action": "Custom",
-		"custom_action": "ReadServerNameAct",
-		"custom_action_param": {
-			"roi": [260, 313, 203, 51]
-		},
-		"next": [
-			"PressEsc"
-		]
 	},
 	"FindAndSwitchServerInServerList": {
 		"desc": "在服务器列表中寻找目标服务器并切换",
@@ -169,8 +179,28 @@
 		"post_delay": 0,
 		"pre_delay": 0,
 		"next": [
-			"FindTargetServer"
+			"[JumpBack]StartRecordServer",
+			"FindTargetServer",
+			"[JumpBack]FindTargetServerSwipeUp",
+			"FindTargetServerError"
 		]
+	},
+	"FindTargetServerError": {
+		"desc": "查找目标服务器失败",
+		"action": "Custom",
+		"custom_action": "ServerRecord",
+		"attach": {"output": true},
+		"focus": {"Node.Recognition.Succeeded": "未找到目标服务器"},
+		"next": [
+			"TaskFail"
+		]
+	},
+	"StartRecordServer": {
+		"desc": "开始记录识别到的服务器",
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "ServerRecord",
+		"attach": {"init": true}
 	},
 	"FindTargetServer": {
 		"recognition": "Custom",
@@ -182,6 +212,19 @@
 			"InTargetServer",
 			"[JumpBack]ConfirmButton"
 		]
+	},
+	"FindTargetServerSwipeUp": {
+		"desc": "上滑找服务器",
+		"action": "Swipe",
+		"begin": [400, 900],
+		"end": [400, 700],
+		"duration": 500,
+		"max_hit": 3,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		}
 	},
 	"InMyServerListPage": {
 		"desc": "在我的服务器页面",
@@ -211,6 +254,9 @@
 				"sub_name": "InTargetServer"
 			}
 		],
+		"action": "ClickKey",
+		"key": 111,
+		"post_delay": 700,
 		"next": [
 			"SceneEnterMainPage"
 		]

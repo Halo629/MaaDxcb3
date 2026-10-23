@@ -25,26 +25,146 @@
 			"timeout": 2000
 		},
 		"next": [
+			"FarmAlreadySuperiorProduction",
+			"FarmNotSuperiorProduction"
+		]
+	},
+	"InFarmHarvestPage": {
+		"desc": "在农场收获页面",
+		"recognition": "TemplateMatch",
+		"roi": [203, 1049, 326, 216],
+		"template": "daily/farm_harvest.png",
+		"post_delay": 0
+	},
+	"FarmAlreadySuperiorProduction": {
+		"desc": "已经是特级生产，直接收获后生产",
+		"recognition": "And",
+		"all_of": [
+			"InFarmHarvestPage",
+			{
+				"recognition": "OCR",
+				"expected": "特级生产指南|特级|特",
+				"roi": [74, 626, 152, 35]
+			}
+		],
+		"next": [
+			"[JumpBack]HandleRewardDialog",
 			"[JumpBack]DailyFarmHarvest",
 			"DailyFarmPlant"
 		]
 	},
-	"DailyFarmHarvest": {
-		"desc": "点击收获",
+	"FarmNotSuperiorProduction": {
+		"desc": "不是特级生产，选择特级生产",
+		"recognition": "And",
+		"all_of": ["InFarmHarvestPage"],
+		"next": [
+			"[JumpBack]SuperiorProductionConfirm",
+			"[JumpBack]SelectSuperiorProduction",
+			"[JumpBack]DailyFarmHarvest",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"SelectSuperiorProduction": {
 		"recognition": "TemplateMatch",
-		"roi": [203, 1049, 326, 216],
-		"template": "daily/farm_harvest.png",
-		"max_hit": 1,
+		"template": "daily/FarmSelectProduction.png",
+		"roi": [38, 380, 646, 658],
 		"action": "Click",
 		"pre_delay": 0,
+		"post_delay": 0,
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [260, 540, 200, 200],
-			"timeout": 5000
+			"timeout": 2000
 		},
 		"next": [
-			"HandleRewardDialog"
+			"SuperiorProductionConfirm",
+			"[JumpBack]ClickSuperiorProduction",
+			"[JumpBack]FarmSwipeUp"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
 		]
+	},
+	"SuperiorProductionConfirm": {
+		"desc": "点击特级生产指南后出现的弹框确认",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"expected": "特级生产指南|特级",
+				"roi": [275, 498, 171, 38],
+				"only_rec": true
+			},
+			{
+				"recognition": "OCR",
+				"expected": "生产",
+				"roi": [329, 855, 60, 32],
+				"only_rec": true
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_delay": 0,
+		"pre_delay": 0,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [260, 540, 200, 200],
+			"timeout": 2000
+		}
+	},
+	"ClickSuperiorProduction": {
+		"desc": "点击特级生产指南",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "daily/SuperiorProduction.png",
+				"roi": [89, 358, 546, 648],
+				"sub_name": "SuperiorProduction"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "特级生产指南|特级",
+				"roi": "SuperiorProduction",
+				"roi_offset": [-10, 108, 20, -79],
+				"only_rec": true
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [47, -72, -83, 15],
+		"post_delay": 0,
+		"pre_delay": 0,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [260, 540, 200, 200],
+			"timeout": 2000
+		}
+	},
+	"FarmSwipeUp": {
+		"desc": "上滑查找特级生产指南",
+		"action": "Swipe",
+		"begin": [360, 800],
+		"end": [360, 400],
+		"duration": 200,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		}
+	},
+	"DailyFarmHarvest": {
+		"desc": "点击收获",
+		"recognition": "And",
+		"all_of": ["InFarmHarvestPage"],
+		"action": "Click",
+		"post_delay": 0,
+		"pre_delay": 0,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [260, 540, 200, 200],
+			"timeout": 2000
+		}
 	},
 	"DailyFarmPlant": {
 		"desc": "点击种植",

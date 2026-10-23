@@ -182,5 +182,10 @@
 			"PurchaseDone"
 		]
 	},
-	"PurchaseDone": {"desc": "购买商品完成"}
+	"PurchaseDone": {"desc": "购买商品完成"},
+	"TaskFail": {
+		"desc": "强制停止任务",
+		"action": "Custom",
+		"custom_action": "FailTask"
+	}
 }

@@ -1,0 +1,127 @@
+{
+	"HuntingCollectionStart": {
+		"desc": "狩猎季|夜之狩猎|万猎狂欢夜",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {"ActivityGoto": "ActivityHuntingCollectionEntry"},
+		"next": [
+			"HuntingSeasonEntry",
+			"[JumpBack]ActivityLimitedEnter"
+		]
+	},
+	"ActivityHuntingCollectionEntry": {
+		"desc": "限时页面识别狩猎活动",
+		"recognition": "TemplateMatch",
+		"template": [
+			"activities/HuntingSeason/NightHuntIcon.png",
+			"activities/HuntingSeason/HuntersCarnivalNightIcon.png"
+		],
+		"roi": [15, 69, 701, 997],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [15, 69, 701, 997],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InHuntingSeasonPage": {
+		"desc": "在狩猎活动页面",
+		"recognition": "OCR",
+		"expected": "夜之狩猎|狩猎|万猎狂欢夜|万猎|狂欢",
+		"roi": [299, 78, 124, 47],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HuntingSeasonEntry": {
+		"desc": "狩猎活动入口",
+		"recognition": "And",
+		"all_of": ["InHuntingSeasonPage"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"HuntingRewardCollectDone",
+			"[JumpBack]HandleRewardDialog",
+			"[JumpBack]HuntingReward",
+			"[JumpBack]HuntingSeasonChallenge",
+			"HuntingSeasonDone"
+		]
+	},
+	"HuntingSeasonRemainingCount": {
+		"desc": "剩余挑战次数不为0",
+		"recognition": "OCR",
+		"expected": "[1-3]/3",
+		"roi": [434, 1141, 47, 37],
+		"only_rec": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HuntingSeasonChallenge": {
+		"desc": "挑战",
+		"recognition": "And",
+		"all_of": [
+			"HuntingSeasonRemainingCount",
+			{
+				"recognition": "OCR",
+				"expected": "挑战",
+				"roi": [295, 1182, 119, 63]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 500,
+		"rate_limit": 0,
+		"next": [
+			"BattleAI",
+			"HuntingSeasonChallenge"
+		]
+	},
+	"HuntingRewardCollectDone": {
+		"desc": "狩猎进度奖励已领完",
+		"recognition": "And",
+		"all_of": [
+			"InHuntingSeasonPage",
+			{
+				"recognition": "OCR",
+				"expected": "已领取",
+				"roi": [509, 1051, 76, 42]
+			}
+		],
+		"next": [
+			"SceneBack"
+		],
+		"focus": {
+			"Node.Recognition.Succeeded": "全服收集奖励已领取完，本次不再进行挑战"
+		}
+	},
+	"HuntingReward": {
+		"desc": "狩猎进度奖励",
+		"recognition": "ColorMatch",
+		"method": 40,
+		"lower": [20, 50, 50],
+		"upper": [35, 255, 255],
+		"roi": [521, 1015, 51, 46],
+		"count": 50,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [260, 852, 324, 241],
+			"timeout": 2000
+		}
+	},
+	"HuntingSeasonDone": {
+		"desc": "狩猎季完成",
+		"recognition": "And",
+		"all_of": ["InHuntingSeasonPage"],
+		"next": [
+			"SceneBack"
+		]
+	}
+}

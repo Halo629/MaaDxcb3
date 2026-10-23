@@ -31,13 +31,12 @@
 	},
 	"CancelButton": {
 		"desc": "通用取消按钮（屏幕中间区域）",
-		"recognition": "TemplateMatch",
+		"recognition": "OCR",
 		"roi": [84, 515, 569, 610],
-		"template": "button/cancel_btn.png",
-		"order_by": "Score",
+		"expected": "取消",
 		"action": "Click",
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [158, 514, 413, 152],
 			"timeout": 2000
 		}
