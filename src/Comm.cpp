@@ -474,8 +474,6 @@ MaaBool FailTaskAct(
     const MaaRect* box,
     void* trans_arg)
 {
-    // 先退回主页，再让当前节点 action 失败，触发 error_handling 结束当前 task，不 stop 整个 tasker
-    exitToCampfire(context);
     return false;
 }
 
