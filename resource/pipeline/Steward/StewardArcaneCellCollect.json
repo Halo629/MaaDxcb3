@@ -6,7 +6,8 @@
 		"rate_limit": 0,
 		"max_hit": 1,
 		"next": [
-			"ArcaneCellCollectEntry",
+			"[JumpBack]ArcaneCellCollectEntry",
+			"ArcaneCellCollectDone",
 			"[JumpBack]__ScenePrivateStewardFindArcaneCell",
 			"[JumpBack]__SceneStewardEntryArcaneCell",
 			"__ScenePrivateStewardArcaneCellDone",
@@ -120,41 +121,45 @@
 	},
 	"ArcaneCellCollectEntry": {
 		"desc": "收集奥术灰烬",
+		"max_hit": 1,
 		"recognition": "And",
 		"all_of": ["InArcaneCellPage"],
 		"pre_delay": 0,
 		"post_delay": 0,
 		"next": [
-			"[JumpBack]ArcaneCellCollect",
-			"[JumpBack]ArcaneCellCloseTipBox",
+			"HandleRewardDialog",
+			"ArcaneCellCollectTooMuch",
+			"[JumpBack]ArcaneCellCollect"
+		]
+	},
+	"ArcaneCellCollectDone": {
+		"desc": "收集奥术灰烬完成",
+		"recognition": "And",
+		"all_of": ["InArcaneCellPage"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"next": [
 			"SceneBack"
 		]
 	},
 	"ArcaneCellCollect": {
 		"desc": "收集奥术灰烬",
-		"recognition": "And",
-		"all_of": [
-			"ArcaneCellHasWarpedSoul",
-			{
-				"recognition": "TemplateMatch",
-				"template": "material/arcane_ashes.png",
-				"roi": [91, 814, 116, 145]
-			}
-		],
-		"max_hit": 1,
-		"box_index": 1,
+		"recognition": "TemplateMatch",
+		"template": "material/arcane_ashes.png",
+		"roi": [91, 814, 116, 145],
 		"action": "Click",
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [220, 466, 295, 529],
 			"timeout": 2000
-		},
-		"next": [
-			"HandleRewardDialog",
-			"ArcaneCellCollectFail"
-		]
+		}
 	},
-	"ArcaneCellCollectFail": {"desc": "收集奥术灰烬失败"},
+	"ArcaneCellCollectTooMuch": {
+		"desc": "收集奥术灰烬太频繁",
+		"recognition": "OCR",
+		"expected": "分钟|自动收集|收集",
+		"roi": [61, 695, 319, 110]
+	},
 	"ArcaneCellHasWarpedSoul": {
 		"desc": "奥术监牢页面识别扭动之魂",
 		"recognition": "TemplateMatch",

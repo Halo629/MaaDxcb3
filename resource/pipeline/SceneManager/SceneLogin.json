@@ -306,7 +306,9 @@
 	},
 	"InGameCheck": {
 		"any_of": [
-			"InMainPageArea",
+			"HasSecretRealm",
+			"HasExpeditionTeam",
+			"HasAlchemyLab",
 			"InBattle",
 			"InBattleResult",
 			"InAdventureResult",

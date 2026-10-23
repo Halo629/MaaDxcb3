@@ -4,8 +4,14 @@
 		"recognition": "Or",
 		"any_of": [
 			"HasSecretRealm",
-			"HasExpeditionTeam",
-			"HasAlchemyLab"
+			{
+				"recognition": "OCR",
+				"expected": "冥想之地|冥想|烹饪|席娜|凯|马车商铺|赞歌",
+				"roi": [104, 405, 616, 793],
+				"pre_delay": 0,
+				"post_delay": 0,
+				"rate_limit": 0
+			}
 		],
 		"pre_delay": 0,
 		"post_delay": 0,
@@ -22,9 +28,9 @@
 	"InMainPage": {
 		"desc": "在主页且营火可见 → 真正的主页就绪状态",
 		"recognition": "And",
-		"all_of": ["HasSecretRealm", "InCampfire"],
+		"all_of": ["InMainPageArea", "InCampfire"],
 		"box_index": 1,
-		"pre_delay": 1500,
+		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0
 	},
