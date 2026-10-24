@@ -91,7 +91,7 @@
 			"CarriageShopSoulCount",
 			{
 				"recognition": "OCR",
-				"expected": "^((2[5-9][0-9]|[3-9][0-9]{2})|[1-9][0-9]{3,})万$",
+				"expected": "^((2[5-9][0-9]|[3-9][0-9]{2}|[1-9][0-9]{3,})万|[1-9][0-9]*亿)$",
 				"roi": "CarriageShopSoulCount",
 				"roi_offset": [-2, -2, 4, 4],
 				"only_rec": true

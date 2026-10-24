@@ -6,6 +6,7 @@
 		"rate_limit": 0,
 		"next": [
 			"InMainPage",
+			"[JumpBack]HandleMonthlyCardDialog",
 			"[JumpBack]__ScenePrivateCurrentEventExit",
 			"[JumpBack]SceneBack",
 			"[JumpBack]LeaveButton",

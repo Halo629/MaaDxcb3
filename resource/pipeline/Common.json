@@ -187,5 +187,11 @@
 		"desc": "强制停止任务",
 		"action": "Custom",
 		"custom_action": "FailTask"
+	},
+	"TaskIcon": {
+		"desc": "识别任务图标，用来确定任务区域",
+		"recognition": "TemplateMatch",
+		"template": "common/TaskIcon.png",
+		"roi": [4, 133, 376, 473]
 	}
 }

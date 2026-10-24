@@ -4,7 +4,7 @@
 		"recognition": "And",
 		"all_of": ["HasQuitGameDialog", "CancelButton"],
 		"box_index": 1,
-		"action": {"type": "Click"}
+		"action": "Click"
 	},
 	"HandleConfirmDialog": {
 		"desc": "关闭确认弹窗（点击确认按钮）",

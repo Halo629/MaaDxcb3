@@ -8,7 +8,7 @@ static const std::vector<std::pair<const char*, const char*>> kClueMapNodeTable 
     { "格雷米德|格雷", "SceneEnterGremidNoReset" },
     { "熔炉之城|熔炉", "SceneEnterFurnaceCityNoReset" },
     { "蛮牛谷|蛮牛", "SceneEnterWildBullValleyNoReset" },
-    { "银月谷", "SceneEnterSilverMoonValleyNoReset" },
+    { "银月谷|银月", "SceneEnterSilverMoonValleyNoReset" },
     { "伊瑟瑞尔|伊瑟|瑞尔", "SceneEnterIserelNoReset" },
 };
 
@@ -36,7 +36,7 @@ MaaBool goToClueMap(
         }
     }
 
-    LogUtils::warn(fmt("GoToClueMap: 未识别到线索地图，OCR 文本: %1", text));
+    LogUtils::error(fmt("未识别到当前线索所在地图，OCR 文本: %1", text));
     return false;
 }
 

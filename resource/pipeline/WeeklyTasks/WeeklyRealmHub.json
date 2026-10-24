@@ -82,7 +82,8 @@
 				"recognition": "TemplateMatch",
 				"template": "items/MonthlyCardOptionalChest.png",
 				"roi": [30, 52, 688, 1004],
-				"sub_name": "MonthlyCardOptionalChest"
+				"sub_name": "MonthlyCardOptionalChest",
+				"threshold": 0.8
 			},
 			{
 				"recognition": "OCR",
@@ -100,7 +101,8 @@
 				"roi_offset": [5, 94, -96, -97],
 				"count": 20
 			}
-		]
+		],
+		"box_index": 1
 	},
 	"BagItemPageClickMonthlyCardOptionalChest": {
 		"desc": "背包点击宝箱",
@@ -108,7 +110,7 @@
 		"recognition": "And",
 		"all_of": ["BagItemPageFindMonthlyCardOptionalChest"],
 		"action": "Click",
-		"target_offset": [20, 20, -20, -20],
+		"target_offset": [15, -78, -29, 8],
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [30, 52, 688, 1004],
@@ -140,6 +142,7 @@
 		},
 		"next": [
 			"[JumpBack]CarriageShopSlideBuyMax",
+			"[JumpBack]HandleRewardDialog",
 			"[JumpBack]UseChest",
 			"BagItemPageClickMonthlyCardOptionalChest",
 			"BagUseMonthlyCardOptionalChestDone"
