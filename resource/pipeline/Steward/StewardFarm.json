@@ -31,9 +31,16 @@
 	},
 	"InFarmHarvestPage": {
 		"desc": "在农场收获页面",
-		"recognition": "TemplateMatch",
+		"recognition": "OCR",
 		"roi": [203, 1049, 326, 216],
-		"template": "daily/farm_harvest.png",
+		"expected": "一键收获|收获",
+		"post_delay": 0
+	},
+	"InFarmPlantPage": {
+		"desc": "在农场生产页面",
+		"recognition": "OCR",
+		"roi": [208, 1063, 307, 207],
+		"expected": "一键生产|生产",
 		"post_delay": 0
 	},
 	"FarmAlreadySuperiorProduction": {
@@ -48,15 +55,14 @@
 			}
 		],
 		"next": [
-			"[JumpBack]HandleRewardDialog",
 			"[JumpBack]DailyFarmHarvest",
 			"DailyFarmPlant"
 		]
 	},
 	"FarmNotSuperiorProduction": {
 		"desc": "不是特级生产，选择特级生产",
-		"recognition": "And",
-		"all_of": ["InFarmHarvestPage"],
+		"recognition": "Or",
+		"any_of": ["InFarmHarvestPage", "InFarmPlantPage"],
 		"next": [
 			"[JumpBack]SuperiorProductionConfirm",
 			"[JumpBack]SelectSuperiorProduction",
@@ -162,26 +168,29 @@
 		"pre_delay": 0,
 		"post_wait_freezes": {
 			"time": 500,
-			"target": [260, 540, 200, 200],
+			"target": [110, 338, 543, 619],
 			"timeout": 2000
-		}
+		},
+		"next": [
+			"HandleRewardDialog"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"DailyFarmPlant": {
-		"desc": "点击种植",
-		"recognition": "TemplateMatch",
+		"desc": "点击生产",
+		"recognition": "OCR",
 		"roi": [208, 1063, 307, 207],
-		"template": "daily/farm_plant.png",
+		"expected": "一键生产|生产",
 		"action": "Click",
 		"pre_delay": 0,
 		"post_delay": 0,
 		"post_wait_freezes": {
-			"time": 300,
-			"target": [260, 540, 200, 200],
-			"timeout": 5000
-		},
-		"next": [
-			"SceneBack"
-		]
+			"time": 500,
+			"target": [110, 338, 543, 619],
+			"timeout": 2000
+		}
 	},
 	"DailyFarmDone": {
 		"desc": "没有农场图标",
