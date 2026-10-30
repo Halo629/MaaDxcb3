@@ -113,7 +113,7 @@ MaaBool TreasureSageSubmit(
             }
 
             // 5. 点击提交
-            LogUtils::log(fmt("TreasureSage: 提交「%1」", name), "#22c55e");
+            LogUtils::info(fmt("TreasureSage: 提交「%1」", name));
             auto id = MaaControllerPostClick(ctrl, btnX + 52 / 2, btnY + 35 / 2);
             MaaControllerWait(ctrl, id);
             Sleep(500);

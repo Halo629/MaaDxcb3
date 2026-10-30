@@ -68,10 +68,10 @@ MaaBool shadowMirrorRecord(
             auto slash = countText.find('/');
             int collected = (slash != std::string::npos) ? std::atoi(countText.substr(0, slash).c_str()) : 0;
             g_remainingShards = kMaxShardsPerDay - collected;
-            LogUtils::log(fmt("掠影之境: 今日已获取%1，剩余可获取%2个镜片", collected, g_remainingShards), "#3b82f6");
+            LogUtils::info(fmt("掠影之境: 今日已获取%1，剩余可获取%2个镜片", collected, g_remainingShards));
         }
         else {
-            LogUtils::log("掠影之境: 读取可获得的镜片数量失败", "#f59e0b");
+            LogUtils::warn("掠影之境: 读取可获得的镜片数量失败");
         }
     }
 
@@ -79,7 +79,7 @@ MaaBool shadowMirrorRecord(
         if (g_remainingShards > 0) {
             --g_remainingShards;
         }
-        LogUtils::log(fmt("掠影之境: 获得镜片，还需获取%1个", g_remainingShards), "#22c55e");
+        LogUtils::info(fmt("掠影之境: 获得镜片，还需获取%1个", g_remainingShards));
     }
 
     return true;

@@ -20,12 +20,9 @@ public:
     // 初始化：创建日志目录并打开 debug/cpp-service.log。main 里调用一次。
     static void init(const std::string& logDir = "./debug");
 
-    // 带级别日志（新代码建议用这些）
-    static void debug(const std::string& message);
-    static void info(const std::string& message);
-    static void warn(const std::string& message);
-    static void error(const std::string& message);
-
-    // 兼容旧调用：按颜色映射级别（红=error、黄=warn、其它=info）
-    static void log(const std::string& message, const std::string& color = "#ffffff");
+    // 带级别日志（新代码建议用这些）。show=false 表示只写文件、不展示到界面。
+    static void debug(const std::string& message, bool show = false);
+    static void info(const std::string& message, bool show = true);
+    static void warn(const std::string& message, bool show = true);
+    static void error(const std::string& message, bool show = true);
 };

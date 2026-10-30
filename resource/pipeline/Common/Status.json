@@ -873,5 +873,15 @@
 		"expected": "克拉格斯的秘藏|克拉格斯",
 		"roi": [258, 140, 203, 33],
 		"only_rec": true
+	},
+	"InAlbedoPage": {
+		"desc": "判断是否在雅儿贝德页面",
+		"recognition": "OCR",
+		"expected": "雅儿贝德",
+		"roi": [24, 964, 125, 34],
+		"only_rec": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
 	}
 }

@@ -490,7 +490,7 @@ static bool upgradeToTargetLevel(MaaContext* context, int targetLevel)
     // 检查扭动之魂
     ScreenCap cap(context);
     if (!doRecognition(context, cap.img, "MonsterSoulUpgradeCheckWarpedSoul", "{}", nullptr, nullptr)) {
-        LogUtils::log("升级魔魂失败，扭动之魂不足", "#ef4444");
+        LogUtils::error("升级魔魂失败，扭动之魂不足");
         return false;
     }
     int currentLevel = getSoulLevel(context, "UpgradeMonsterSoulUpgradePageSoulLevel");
@@ -517,7 +517,7 @@ static bool upgradeToTargetLevel(MaaContext* context, int targetLevel)
         else {
             // 升级后等级有变化，但是没达到目标等级，可能是扭动之魂不足
             if (!doRecognition(context, cap.img, "MonsterSoulUpgradeCheckWarpedSoul", "{}", nullptr, nullptr)) {
-                LogUtils::log("升级魔魂失败，扭动之魂不足", "#ef4444");
+                LogUtils::error("升级魔魂失败，扭动之魂不足");
                 return false;
             }
             else {
@@ -543,7 +543,7 @@ MaaBool upgradeMonsterSoul(
         return true;
     }
 
-    LogUtils::log(fmt("魔魂升级第%1次(已保留%2个)", g_curRound++, g_keepCount), "#3b82f6");
+    LogUtils::info(fmt("魔魂升级第%1次(已保留%2个)", g_curRound++, g_keepCount));
 
     // 魔魂名称
     std::string soulName;
@@ -559,7 +559,7 @@ MaaBool upgradeMonsterSoul(
 
     const ConditionGroup* matchedGroup = findMatchingConditionGroup(soulName);
     if (!matchedGroup) {
-        LogUtils::log("当前魔魂升级后不可能满足配置的保留条件,分解", "#f59e0b");
+        LogUtils::warn("当前魔魂升级后不可能满足配置的保留条件,分解");
         ++g_decomposeCount;
         MaaContextRunTask(context, "MonsterSoulUpgradePageReturnAndDecompose", "{}");
         return true;
@@ -608,15 +608,14 @@ MaaBool upgradeMonsterSoul(
     if (!allConditionsPassed) {
         ++g_decomposeCount;
         MaaContextRunTask(context, "MonsterSoulUpgradePageReturnAndDecompose", "{}");
-        LogUtils::log(failLog, "#f59e0b");
+        LogUtils::warn(failLog);
     }
     else {
         ++g_keepCount;
         ++g_startGridPos;
         MaaContextRunTask(context, "MonsterSoulUpgradePageReturnAndLock", "{}");
-        LogUtils::log(
-            fmt("【魔魂满足条件，已锁定】\n魔魂名称:%1\n魔魂等级:%2\n词条属性:\n%3", soulName, finalLevel, join(finalAttrLines, "\n")),
-            "#22c55e");
+        LogUtils::info(
+            fmt("【魔魂满足条件，已锁定】\n魔魂名称:%1\n魔魂等级:%2\n词条属性:\n%3", soulName, finalLevel, join(finalAttrLines, "\n")));
     }
     return true;
 }
@@ -633,7 +632,7 @@ MaaBool monsterSoulUpgradeConfigCheck(
     void* transArg)
 {
     if (g_user_soul.countMode == -1) {
-        LogUtils::log("当前服务器未配置魔魂升级策略,在启动游戏任务中可进行配置", "#ef4444");
+        LogUtils::error("当前服务器未配置魔魂升级策略,在启动游戏任务中可进行配置");
         return false;
     }
 
@@ -669,7 +668,7 @@ MaaBool findTargetMonsterSoul(
         int capacity = 0;
         readBagCount(context, curCount, capacity);
         if (g_startGridPos == -1 && curCount >= capacity) {
-            LogUtils::log(fmt("背包魔魂已满(%1/%2)，开始升级魔魂", curCount, capacity), "#3b82f6");
+            LogUtils::info(fmt("背包魔魂已满(%1/%2)，开始升级魔魂", curCount, capacity));
         }
         if (curCount < capacity) {
             return false;
@@ -750,9 +749,8 @@ MaaBool monsterSoulUpgradeFinish(
     const MaaRect* box,
     void* transArg)
 {
-    LogUtils::log(
-        fmt("魔魂升级完成，共升级%1个魔魂，保留%2个，分解%3个", g_decomposeCount + g_keepCount, g_keepCount, g_decomposeCount),
-        "#22c55e");
+    LogUtils::info(
+        fmt("魔魂升级完成，共升级%1个魔魂，保留%2个，分解%3个", g_decomposeCount + g_keepCount, g_keepCount, g_decomposeCount));
     return true;
 }
 

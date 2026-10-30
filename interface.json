@@ -78,8 +78,10 @@
 		// group: activity_tasks
 		//荣光复铸/桂影长歌
 		"assets/tasks/ActivityCollection1.json",
-		//引石化灵/点石成金/萃石成英/织星成辉
+		//引石化灵/萃石成英/织星成辉
 		"assets/tasks/AlchemyActivity.json",
+		// 点石成金
+		"assets/tasks/TransmutationCircle.json",
 		//飞艇珍奇
 		"assets/tasks/AirshipTreasure.json",
 		//天界岛
@@ -123,5 +125,7 @@
 		"assets/tasks/preset/MultiServer.json",
 		// pretask
 		"assets/tasks/pretasks/LaunchEmulator.json"
+		// test
+		//"assets/tasks/test/TestMoveToPoint.json"
 	]
 }

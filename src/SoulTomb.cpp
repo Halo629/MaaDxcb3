@@ -41,7 +41,7 @@ MaaBool adjustSoulTombLevel(
 
     int targetLevel = attach.get("level", json::value(0)).as_integer();
     if (targetLevel <= 0) {
-        LogUtils::log("魂墓挑战: 未指定目标等级", "#ef4444");
+        LogUtils::error("魂墓挑战: 未指定目标等级");
         return false;
     }
 
@@ -50,7 +50,7 @@ MaaBool adjustSoulTombLevel(
     std::string digits = ocrText(context, cap.img, "CustomGetSoulTombCurLevel", nullptr, nullptr);
 
     if (digits.empty()) {
-        LogUtils::log("魂墓挑战: 读取当前等级失败", "#f59e0b");
+        LogUtils::warn("魂墓挑战: 读取当前等级失败");
         return false;
     }
     int curLevel = std::stoi(digits);
@@ -98,7 +98,7 @@ MaaBool soulTombBattleFailedRecord(
 {
     g_soulTombConsecutiveFails++;
     g_soulTombSessionLose++;
-    LogUtils::log(fmt("魂墓挑战: 战斗失败，本次 %1 胜 %2 败", g_soulTombSessionWin, g_soulTombSessionLose), "#ef4444");
+    LogUtils::error(fmt("魂墓挑战: 战斗失败，本次 %1 胜 %2 败", g_soulTombSessionWin, g_soulTombSessionLose));
     return true;
 }
 
@@ -115,7 +115,7 @@ MaaBool soulTombBattleVictoryRecord(
 {
     g_soulTombConsecutiveFails = 0;
     g_soulTombSessionWin++;
-    LogUtils::log(fmt("魂墓挑战: 战斗胜利，本次 %1 胜 %2 败", g_soulTombSessionWin, g_soulTombSessionLose), "#22c55e");
+    LogUtils::info(fmt("魂墓挑战: 战斗胜利，本次 %1 胜 %2 败", g_soulTombSessionWin, g_soulTombSessionLose));
     return true;
 }
 
@@ -137,7 +137,7 @@ MaaBool soulTombBattleAutoLowerLevel(
     int lowerFailCount = attach.get("lower_fail_count", json::value(5)).as_integer();
 
     if (lowerOnFail && g_soulTombConsecutiveFails >= lowerFailCount) {
-        LogUtils::log(fmt("魂墓挑战: 连续失败%1次,降低10级难度", g_soulTombConsecutiveFails), "#f59e0b");
+        LogUtils::warn(fmt("魂墓挑战: 连续失败%1次,降低10级难度", g_soulTombConsecutiveFails));
         g_soulTombConsecutiveFails = 0;
         return true;
     }

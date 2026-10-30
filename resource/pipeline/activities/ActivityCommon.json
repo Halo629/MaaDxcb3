@@ -69,8 +69,6 @@
 		"rate_limit": 0,
 		"next": [
 			"EquipmentEngraveEntry",
-			"[JumpBack]AlbedoEntry",
-			"[JumpBack]EngraveEntry",
 			"[JumpBack]SceneEnterMainPage"
 		]
 	},
@@ -197,36 +195,23 @@
 			"PressEsc"
 		]
 	},
-	"EngraveEntry": {
-		"desc": "在主页营火处左滑，找到雅儿贝德",
+	"EquipmentEngraveEntry": {
+		"desc": "点击装备铭刻",
 		"recognition": "And",
 		"all_of": ["InMainPage"],
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"action": "Swipe",
-		"begin": [450, 900],
-		"end": [250, 900],
-		"duration": 100,
-		"post_wait_freezes": 300
+		"next": [
+			"[JumpBack]CollapseSideBar",
+			"EquipmentEngraveStart",
+			"[JumpBack]AlbedoEntry",
+			"[JumpBack]FindAlbedoSwipeDown",
+			"[JumpBack]FindAlbedoSwipeLeft"
+		]
 	},
-	"AlbedoEntry": {
-		"desc": "识别并点击雅尔贝德",
-		"recognition": "OCR",
-		"expected": "雅尔贝德|雅尔|贝德",
-		"action": "Click",
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0,
-		"target_offset": [0, -50, 0, 0],
-		"post_wait_freezes": {
-			"time": 500,
-			"target": [55, 1088, 520, 157],
-			"timeout": 15000
-		}
-	},
-	"EquipmentEngraveEntry": {
-		"desc": "点击装备铭刻",
+	"EquipmentEngraveStart": {
+		"desc": "开始装备铭刻",
 		"recognition": "TemplateMatch",
 		"template": "engrave/equipment_engrave.png",
 		"roi": [258, 772, 461, 121],
@@ -241,8 +226,55 @@
 		},
 		"next": [
 			"SelectFirstEquipment",
-			"[JumpBack]SelectEngraveEquipment"
+			"[JumpBack]SelectEngraveEquipment",
+			"EquipmentEngraveStart"
 		]
+	},
+	"AlbedoEntry": {
+		"desc": "识别并点击雅尔贝德",
+		"recognition": "OCR",
+		"expected": "雅尔贝德|雅尔|贝德",
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"target_offset": [0, -50, 0, 0],
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [148, 370, 465, 441],
+			"timeout": 10000
+		}
+	},
+	"FindAlbedoSwipeDown": {
+		"action": "Swipe",
+		"begin": [450, 900],
+		"end": [450, 1050],
+		"duration": 200,
+		"max_hit": 1,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [222, 331, 281, 790],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"FindAlbedoSwipeLeft": {
+		"desc": "在主页营火处左滑，找到雅儿贝德",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Swipe",
+		"begin": [550, 900],
+		"end": [250, 900],
+		"duration": 200,
+		"max_hit": 2,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [222, 331, 281, 790],
+			"timeout": 2000
+		}
 	},
 	"SelectEngraveEquipment": {
 		"desc": "选择铭刻装备",
@@ -779,7 +811,10 @@
 	"ActivityNotEnabled": {
 		"desc": "活动未开放",
 		"action": "Custom",
-		"custom_action": "FailTask",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["SceneEnterMainPage", "TaskFail"]
+		},
 		"focus": {"Node.Recognition.Succeeded": "活动未开放"}
 	},
 	"ActivityError": {

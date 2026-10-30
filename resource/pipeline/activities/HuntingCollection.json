@@ -45,7 +45,6 @@
 		"post_delay": 0,
 		"rate_limit": 0,
 		"next": [
-			"HuntingRewardCollectDone",
 			"[JumpBack]HandleRewardDialog",
 			"[JumpBack]HuntingReward",
 			"[JumpBack]HuntingSeasonChallenge",
@@ -83,38 +82,14 @@
 			"HuntingSeasonChallenge"
 		]
 	},
-	"HuntingRewardCollectDone": {
-		"desc": "狩猎进度奖励已领完",
-		"recognition": "And",
-		"all_of": [
-			"InHuntingSeasonPage",
-			{
-				"recognition": "OCR",
-				"expected": "已领取",
-				"roi": [509, 1051, 76, 42]
-			}
-		],
-		"next": [
-			"SceneBack"
-		],
-		"focus": {
-			"Node.Recognition.Succeeded": "全服收集奖励已领取完，本次不再进行挑战"
-		}
-	},
 	"HuntingReward": {
 		"desc": "狩猎进度奖励",
-		"recognition": "ColorMatch",
-		"method": 40,
-		"lower": [20, 50, 50],
-		"upper": [35, 255, 255],
-		"roi": [521, 1015, 51, 46],
-		"count": 50,
+		"recognition": "OCR",
+		"expected": "请先领取奖励后继续挑战|领取奖励|奖励",
+		"roi": [220, 1141, 279, 35],
+		"only_rec": true,
 		"action": "Click",
-		"post_wait_freezes": {
-			"time": 500,
-			"target": [260, 852, 324, 241],
-			"timeout": 2000
-		}
+		"target": [524, 1022, 39, 33]
 	},
 	"HuntingSeasonDone": {
 		"desc": "狩猎季完成",

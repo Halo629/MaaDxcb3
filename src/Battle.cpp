@@ -288,7 +288,7 @@ MaaBool battleAI(
     }
 
     if (g_user_battle.cryColumn == 0) {
-        LogUtils::log("当前服务器未配置战斗策略,在启动游戏任务中可进行配置", "#ef4444");
+        LogUtils::error("当前服务器未配置战斗策略,在启动游戏任务中可进行配置");
         return true;
     }
     if (!isInBattle(context)) {

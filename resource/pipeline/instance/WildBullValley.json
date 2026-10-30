@@ -71,14 +71,7 @@
 		"all_of": ["InCragfortMap"],
 		"next": [
 			"[JumpBack]CragfortMapClickWarden",
-			"[JumpBack]CragfortMapGotoFrontline",
-			"[JumpBack]InstanceCragfortKeepGoing",
-			"[JumpBack]SelectNightmareDifficulty",
-			"[JumpBack]InstanceCragfortClickMonster",
-			"[JumpBack]InstanceCragfortSwipeRight",
-			"[JumpBack]InstanceCragfortSwipeDown",
-			"[JumpBack]InstanceCragfortSwipeLeft",
-			"QuitInstance"
+			"CragfortMapGotoFrontline"
 		]
 	},
 	"InstanceCragfortKeepGoing": {
@@ -122,6 +115,21 @@
 		"desc": "退出时点击守备官",
 		"recognition": "OCR",
 		"expected": "守备官|守备",
+		"action": "Custom",
+		"custom_action": "AdjustPosition",
+		"custom_action_param": {
+			"target_offset": [0, -50, 0, 0]
+		},
+		"next": [
+			"ClickWarden"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"ClickWarden": {
+		"recognition": "OCR",
+		"expected": "守备官|守备",
 		"action": "Click",
 		"target_offset": [0, -50, 0, 0],
 		"post_wait_freezes": {
@@ -134,7 +142,7 @@
 		"desc": "退出副本右滑",
 		"action": "Swipe",
 		"begin": [400, 1100],
-		"end": [450, 1100],
+		"end": [550, 1100],
 		"duration": 200,
 		"max_hit": 3,
 		"post_wait_freezes": {
@@ -213,6 +221,22 @@
 		"recognition": "OCR",
 		"expected": "来袭的怪物|来袭|怪物",
 		"roi": [147, 369, 465, 684],
+		"action": "Custom",
+		"custom_action": "AdjustPosition",
+		"custom_action_param": {
+			"target_offset": [18, -68, -20, 10]
+		},
+		"next": [
+			"ClickMonster"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"ClickMonster": {
+		"recognition": "OCR",
+		"expected": "来袭的怪物|来袭|怪物",
+		"roi": [147, 369, 465, 684],
 		"target_offset": [18, -68, -20, 10],
 		"action": "Click",
 		"post_wait_freezes": {
@@ -244,7 +268,17 @@
 			"time": 500,
 			"target": [128, 529, 587, 487],
 			"timeout": 2000
-		}
+		},
+		"next": [
+			"CragfortMapGotoFrontline",
+			"[JumpBack]InstanceCragfortKeepGoing",
+			"[JumpBack]SelectNightmareDifficulty",
+			"[JumpBack]InstanceCragfortClickMonster",
+			"[JumpBack]InstanceCragfortSwipeRight",
+			"[JumpBack]InstanceCragfortSwipeDown",
+			"[JumpBack]InstanceCragfortSwipeLeft",
+			"QuitInstance"
+		]
 	},
 	"CragfortMapClickWarden": {
 		"desc": "在峭岩堡垒地图中点击守备官",

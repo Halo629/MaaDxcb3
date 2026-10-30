@@ -1,0 +1,352 @@
+{
+	"TestMoveToPointEntry": {
+		"desc": "测试移动到目标点位（不依赖罗盘）",
+		"next": [
+			"[JumpBack]WallConfig",
+			"[JumpBack]TestMoveToPointCollection1",
+			"[JumpBack]TestMoveToPointCollection2",
+			"[JumpBack]TestMoveToPointCollection3",
+			"[JumpBack]TestMoveToPointCollection4",
+			"[JumpBack]TestMoveToPointCollection5",
+			"[JumpBack]TestMoveToPointCollection6",
+			"TestMoveDone",
+			"[JumpBack]SceneEnterIserelNoReset"
+		]
+	},
+	"TestMoveDone": {
+		"recognition": "And",
+		"all_of": ["InIserel"]
+	},
+	"TestMoveToPointCollection1": {
+		"desc": "测试移动到目标点位1",
+		"recognition": "And",
+		"all_of": ["InIserel"],
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": [
+				"TestMoveToPoint1",
+				"TestMoveToPoint2",
+				"TestMoveToPoint3"
+			]
+		}
+	},
+	"TestMoveToPointCollection2": {
+		"desc": "测试移动到目标点位1",
+		"recognition": "And",
+		"all_of": ["InIserel"],
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": [
+				"TestMoveToPoint1",
+				"TestMoveToPoint3",
+				"TestMoveToPoint2"
+			]
+		}
+	},
+	"TestMoveToPointCollection3": {
+		"desc": "测试移动到目标点位1",
+		"recognition": "And",
+		"all_of": ["InIserel"],
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": [
+				"TestMoveToPoint3",
+				"TestMoveToPoint2",
+				"TestMoveToPoint1"
+			]
+		}
+	},
+	"TestMoveToPointCollection4": {
+		"desc": "测试移动到目标点位1",
+		"recognition": "And",
+		"all_of": ["InIserel"],
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": [
+				"TestMoveToPoint3",
+				"TestMoveToPoint1",
+				"TestMoveToPoint2"
+			]
+		}
+	},
+	"TestMoveToPointCollection5": {
+		"desc": "测试移动到目标点位1",
+		"recognition": "And",
+		"all_of": ["InIserel"],
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": [
+				"TestMoveToPoint2",
+				"TestMoveToPoint3",
+				"TestMoveToPoint1"
+			]
+		}
+	},
+	"TestMoveToPointCollection6": {
+		"desc": "测试移动到目标点位1",
+		"recognition": "And",
+		"all_of": ["InIserel"],
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": [
+				"TestMoveToPoint2",
+				"TestMoveToPoint1",
+				"TestMoveToPoint3"
+			]
+		}
+	},
+	"TestMoveToPoint1": {
+		"desc": "测试移动到目标点位1",
+		"recognition": "And",
+		"all_of": [
+			"InIserel",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "findTargetPoint",
+				"custom_recognition_param": {
+					"point": [19, 73],
+					"target": "避世树屋",
+					"offset": [-42, 43, -57, -5]
+				}
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"focus": {"Node.Recognition.Succeeded": "开始任务:测试移动到目标点位1"}
+	},
+	"TestMoveToPoint2": {
+		"desc": "测试移动到目标点位2",
+		"recognition": "And",
+		"all_of": [
+			"InIserel",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "findTargetPoint",
+				"custom_recognition_param": {
+					"point": [89, 29],
+					"target": "无名遗迹",
+					"offset": [304, -8, -29, 7]
+				}
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"focus": {"Node.Recognition.Succeeded": "开始任务:测试移动到目标点位2"}
+	},
+	"TestMoveToPoint3": {
+		"desc": "测试移动到目标点位3",
+		"recognition": "And",
+		"all_of": [
+			"InIserel",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "findTargetPoint",
+				"custom_recognition_param": {
+					"point": [73, 60],
+					"target": "洛卡兰遗址",
+					"offset": [-97, -12, -70, 6]
+				}
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"focus": {"Node.Recognition.Succeeded": "开始任务:测试移动到目标点位3"}
+	},
+	"MazeCompleteStatus": {
+		"desc": "识别已完成的迷宫",
+		"recognition": "TemplateMatch",
+		"template": "common/MazeCompleteStatus.png",
+		"green_mask": true,
+		"post_delay": 0,
+		"pre_delay": 0,
+		"threshold": 0.8
+	},
+	"MazeIncompleteStatus": {
+		"desc": "识别未完成的迷宫",
+		"recognition": "TemplateMatch",
+		"template": "common/MazeIncompleteStatus.png",
+		"green_mask": true,
+		"post_delay": 0,
+		"pre_delay": 0,
+		"threshold": 0.8
+	},
+	"MazeRecg": {
+		"desc": "识别迷宫",
+		"recognition": "Or",
+		"any_of": ["MazeCompleteStatus", "MazeIncompleteStatus"],
+		"post_delay": 0,
+		"pre_delay": 0
+	},
+	"CompleteMazeNameRecg": {
+		"desc": "识别已完成迷宫名字",
+		"recognition": "And",
+		"all_of": [
+			"MazeCompleteStatus",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 30, 80],
+				"upper": [30, 50, 255],
+				"roi": "MazeCompleteStatus",
+				"roi_offset": [29, 0, 80, 0],
+				"count": 30,
+				"sub_name": "CompleteMazeNameColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "CompleteMazeNameColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "CompleteMazeName"
+			}
+		]
+	},
+	"IncompleteMazeNameRecg": {
+		"desc": "识别未完成迷宫名字",
+		"recognition": "And",
+		"all_of": [
+			"MazeIncompleteStatus",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 30, 80],
+				"upper": [30, 50, 255],
+				"roi": "MazeIncompleteStatus",
+				"roi_offset": [29, 0, 80, 0],
+				"count": 30,
+				"sub_name": "IncompleteMazeNameColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "IncompleteMazeNameColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "IncompleteMazeName"
+			}
+		]
+	},
+	"WallConfig": {
+		"desc": "地图墙配置",
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "DefineMapWalls",
+		"custom_action_param": [
+			{
+				"map": "伊瑟瑞尔",
+				"islands": [
+					{
+						"points": [
+							[70, 45],
+							[95, 45],
+							[95, 20],
+							[70, 20]
+						],
+						"entrance": {"task": "IserelIslandEntrance", "x": 86, "y": 59},
+						"exit": {"task": "IserelIslandExit", "x": 81, "y": 40}
+					}
+				]
+			}
+		]
+	},
+	"IserelIslandEntrance": {
+		"desc": "伊瑟瑞尔岛屿入口(弓手雕像)",
+		"recognition": "OCR",
+		"expected": "弓手雕像|弓手|雕像",
+		"action": "Click",
+		"target_offset": [0, -100, 0, 0],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"next": [
+			"SlideAcrossTheIronChain",
+			"IserelIslandEntrance"
+		]
+	},
+	"IserelIslandExit": {
+		"desc": "伊瑟瑞尔岛屿出口(石柱)",
+		"recognition": "OCR",
+		"expected": "石柱",
+		"action": "Click",
+		"target_offset": [0, -100, 0, 0],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 3000
+		},
+		"next": [
+			"SlideAcrossTheIronChain",
+			"IserelIslandExit"
+		]
+	},
+	"SlideAcrossTheIronChain": {
+		"desc": "滑过铁锁",
+		"recognition": "OCR",
+		"expected": "滑过铁锁|滑过|铁锁",
+		"roi": [261, 726, 221, 194],
+		"action": "Click",
+		"post_delay": 3000,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 2000
+		}
+	},
+	"TargetPoint3": {
+		"recognition": "And",
+		"all_of": [
+			"MazeCompleteStatus",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 30, 80],
+				"upper": [30, 50, 255],
+				"roi": "MazeCompleteStatus",
+				"roi_offset": [29, 0, 80, 0],
+				"count": 30,
+				"sub_name": "CompleteMazeNameColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "避世树屋",
+				"roi": "CompleteMazeNameColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2
+	},
+	"test": {
+		"recognition": "OCR",
+		"expected": "无名遗迹",
+		"roi": [443, 538, 91, 24]
+	}
+}

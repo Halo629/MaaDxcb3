@@ -3,7 +3,7 @@
 		"desc": "点击返回按钮回到上一层",
 		"recognition": "And",
 		"all_of": ["HasReturnButton"],
-		"action": {"type": "Click"},
+		"action": "Click",
 		"pre_delay": 0,
 		"post_wait_freezes": {
 			"time": 500,

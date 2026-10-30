@@ -50,7 +50,7 @@ MaaBool celestialIsleGotoMinerCamp(
         return false; // 不在同一张图，fall through 到 JSON click
     }
 
-    LogUtils::log(fmt("天界岛: 角色已在 %1，需要重置", mapOfRole), "#f59e0b");
+    LogUtils::warn(fmt("天界岛: 角色已在 %1，需要重置", mapOfRole));
     switchMapSort(context, "正序");
     enterMapByName(context, "孤岛");
     exitToCampfire(context);
@@ -121,7 +121,7 @@ MaaBool recordEnemyCard(
         text = all[0]["text"].as_string();
     }
     g_enemyCardCount = std::atoi(text.c_str());
-    LogUtils::log(fmt("天界岛: 敌方卡牌点数: %1", g_enemyCardCount), "#3b82f6");
+    LogUtils::info(fmt("天界岛: 敌方卡牌点数: %1", g_enemyCardCount));
     return true;
 }
 
@@ -468,7 +468,7 @@ MaaBool gambleDecision(
     // 2. 选择牌
     auto selected = selectBestCards(cards, 3);
     if (selected.empty()) {
-        LogUtils::log("天界岛: 无法凑齐对手点数,今日放弃出牌", "#f59e0b");
+        LogUtils::warn("天界岛: 无法凑齐对手点数,今日放弃出牌");
         return true;
     }
 
@@ -476,7 +476,7 @@ MaaBool gambleDecision(
     for (auto& s : selected) {
         totalPoints += s.points;
     }
-    LogUtils::log(fmt("天界岛: 赌博决策完成，对手%1点，我方%2点", g_enemyCardCount, totalPoints), "#22c55e");
+    LogUtils::info(fmt("天界岛: 赌博决策完成，对手%1点，我方%2点", g_enemyCardCount, totalPoints));
 
     // 3. 出牌
     playSelectedCards(context, cards, selected);

@@ -21,7 +21,7 @@ MaaBool arcaneCellBattleFailed(
 {
     g_arcaneCellConsecutiveFails++;
     g_arcaneCellSessionLose++;
-    LogUtils::log(fmt("奥术监牢: 战斗失败，连续失败 %1 次", g_arcaneCellConsecutiveFails), "#ef4444");
+    LogUtils::error(fmt("奥术监牢: 战斗失败，连续失败 %1 次", g_arcaneCellConsecutiveFails));
     return true;
 }
 
@@ -38,7 +38,7 @@ MaaBool arcaneCellBattleVictoryRecord(
 {
     g_arcaneCellConsecutiveFails = 0;
     g_arcaneCellSessionWin++;
-    LogUtils::log(fmt("奥术监牢: 战斗胜利，本次 %1 胜 %2 败", g_arcaneCellSessionWin, g_arcaneCellSessionLose), "#22c55e");
+    LogUtils::info(fmt("奥术监牢: 战斗胜利，本次 %1 胜 %2 败", g_arcaneCellSessionWin, g_arcaneCellSessionLose));
     return true;
 }
 

@@ -14,7 +14,7 @@
 		"desc": "清除升格之路页面的购买信息,自定义识别使用该信息判断物品是否买完",
 		"max_hit": 1,
 		"recognition": "And",
-		"all_of": ["InSkyreachTowerKlagosSecretCachePage"],
+		"all_of": ["InCarriageShopAscensionPage"],
 		"action": "Custom",
 		"custom_action": "ShopAssistant",
 		"attach": {

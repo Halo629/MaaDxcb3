@@ -49,17 +49,6 @@ std::string timestamp()
     return buf;
 }
 
-LogLevel colorToLevel(const std::string& color)
-{
-    if (color == "#ef4444") {
-        return LogLevel::Error; // 红
-    }
-    if (color == "#f59e0b") {
-        return LogLevel::Warn; // 黄
-    }
-    return LogLevel::Info;
-}
-
 // 判断颜色是否为"无色"：默认白 / 空串直接按纯文本输出，避免把所有日志都套上 span
 static bool isPlainColor(const std::string& color)
 {
@@ -90,7 +79,7 @@ static std::string escapeHtml(const std::string& s)
     return out;
 }
 
-void write(LogLevel lv, const std::string& message, const std::string& color = "")
+void write(LogLevel lv, const std::string& message, const std::string& color = "", bool show = true)
 {
     std::lock_guard<std::mutex> lock(g_mutex);
 
@@ -98,6 +87,11 @@ void write(LogLevel lv, const std::string& message, const std::string& color = "
     if (g_file.is_open()) {
         g_file << levelName(lv) << " " << message << "\n";
         g_file.flush();
+    }
+
+    // 只写文件，不展示到界面
+    if (!show) {
+        return;
     }
 
     // stdout：Info 及以上
@@ -125,27 +119,22 @@ void LogUtils::init(const std::string& logDir)
     g_file.open(logDir + "/cpp-service.log", std::ios::out | std::ios::app);
 }
 
-void LogUtils::debug(const std::string& message)
+void LogUtils::debug(const std::string& message, bool show)
 {
-    write(LogLevel::Debug, message);
+    write(LogLevel::Debug, message, "", show);
 }
 
-void LogUtils::info(const std::string& message)
+void LogUtils::info(const std::string& message, bool show)
 {
-    write(LogLevel::Info, message);
+    write(LogLevel::Info, message, "", show);
 }
 
-void LogUtils::warn(const std::string& message)
+void LogUtils::warn(const std::string& message, bool show)
 {
-    write(LogLevel::Warn, message, "#f59e0b");
+    write(LogLevel::Warn, message, "#f59e0b", show);
 }
 
-void LogUtils::error(const std::string& message)
+void LogUtils::error(const std::string& message, bool show)
 {
-    write(LogLevel::Error, message, "#ef4444");
-}
-
-void LogUtils::log(const std::string& message, const std::string& color)
-{
-    write(colorToLevel(color), message, color);
+    write(LogLevel::Error, message, "#ef4444", show);
 }

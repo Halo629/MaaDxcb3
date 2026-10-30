@@ -127,7 +127,6 @@ struct ScreenCap
 };
 
 struct MaaRect;
-bool isRoiUnchanged(MaaContext* context, const MaaRect& roi, int waitMs);
 
 // 等待到达地图界面（出现"返回秘境"）
 bool waitArriveMap(MaaContext* context);
@@ -135,6 +134,9 @@ bool waitArriveMap(MaaContext* context);
 // 读目标所在地图名（通过指定JSON节点），可选返回识别框
 std::string getMapOfRole(MaaContext* context, MaaRect* outBox = nullptr);
 std::string getMapOfFerdinand(MaaContext* context, MaaRect* outBox);
+
+// 读当前所在地图名（通过 CurrentSupportMap 的 InXXX 节点判断）
+std::string getCurrentMap(MaaContext* context);
 
 // OCR 地图列表，返回所有识别项的 json array
 json::value getCurMapList(MaaContext* context);
@@ -179,21 +181,27 @@ std::string ocrText(MaaContext* context, const MaaImageBuffer* img, const char* 
 // 从 And 节点识别结果中取指定 sub_name 子节点的 detail（含 all/filtered/best），未找到返回空 json::value
 json::value getAndSubDetail(MaaContext* context, const MaaImageBuffer* img, const char* entry, const char* subName);
 
+// 获取可操作区域（屏幕减去不可操作区域后的剩余矩形列表）
+std::vector<MaaRect> getClickableAreas(MaaContext* context);
+
+// 快速判断一个点是否在可操作区域内（只需判断是否落在任一不可操作区域内）
+bool isClickable(MaaContext* context, int x, int y);
+
 // 服务器名归一化：去掉冒号（中英文）和空格/制表符，统一 OCR 结果避免符号差异
 std::string normalizeServerName(const std::string& raw);
 
-// 屏幕区域划分 (720×1920 九宫格)
+// 屏幕区域划分 (720×1280 九宫格)
 enum ScreenArea : uint32_t
 {
-    ScreenArea_TopLeft = 1 << 0,   // [0,    0,    240, 640]
-    ScreenArea_TopCenter = 1 << 1, // [240,  0,    240, 640]
-    ScreenArea_TopRight = 1 << 2,  // [480,  0,    240, 640]
-    ScreenArea_MidLeft = 1 << 3,   // [0,    640,  240, 640]
-    ScreenArea_MidCenter = 1 << 4, // [240,  640,  240, 640]
-    ScreenArea_MidRight = 1 << 5,  // [480,  640,  240, 640]
-    ScreenArea_BotLeft = 1 << 6,   // [0,    1280, 240, 640]
-    ScreenArea_BotCenter = 1 << 7, // [240,  1280, 240, 640]
-    ScreenArea_BotRight = 1 << 8,  // [480,  1280, 240, 640]
+    ScreenArea_TopLeft = 1 << 0,   // [0,    0,    240, 427]
+    ScreenArea_TopCenter = 1 << 1, // [240,  0,    240, 427]
+    ScreenArea_TopRight = 1 << 2,  // [480,  0,    240, 427]
+    ScreenArea_MidLeft = 1 << 3,   // [0,    427,  240, 427]
+    ScreenArea_MidCenter = 1 << 4, // [240,  427,  240, 427]
+    ScreenArea_MidRight = 1 << 5,  // [480,  427,  240, 427]
+    ScreenArea_BotLeft = 1 << 6,   // [0,    854,  240, 426]
+    ScreenArea_BotCenter = 1 << 7, // [240,  854,  240, 426]
+    ScreenArea_BotRight = 1 << 8,  // [480,  854,  240, 426]
 
     ScreenArea_TopRow = ScreenArea_TopLeft | ScreenArea_TopCenter | ScreenArea_TopRight,
     ScreenArea_MidRow = ScreenArea_MidLeft | ScreenArea_MidCenter | ScreenArea_MidRight,
@@ -204,21 +212,83 @@ enum ScreenArea : uint32_t
     ScreenArea_Full = ScreenArea_TopRow | ScreenArea_MidRow | ScreenArea_BotRow,
 };
 
-// 720×1920 九宫格区域坐标
+// 720×1280 九宫格区域坐标
 static constexpr MaaRect ScreenAreaBox[] = {
-    { 0, 0, 240, 640 },      // ScreenArea_TopLeft
-    { 240, 0, 240, 640 },    // ScreenArea_TopCenter
-    { 480, 0, 240, 640 },    // ScreenArea_TopRight
-    { 0, 640, 240, 640 },    // ScreenArea_MidLeft
-    { 240, 640, 240, 640 },  // ScreenArea_MidCenter
-    { 480, 640, 240, 640 },  // ScreenArea_MidRight
-    { 0, 1280, 240, 640 },   // ScreenArea_BotLeft
-    { 240, 1280, 240, 640 }, // ScreenArea_BotCenter
-    { 480, 1280, 240, 640 }, // ScreenArea_BotRight
+    { 0, 0, 240, 427 },      // ScreenArea_TopLeft
+    { 240, 0, 240, 427 },    // ScreenArea_TopCenter
+    { 480, 0, 240, 427 },    // ScreenArea_TopRight
+    { 0, 427, 240, 427 },    // ScreenArea_MidLeft
+    { 240, 427, 240, 427 },  // ScreenArea_MidCenter
+    { 480, 427, 240, 427 },  // ScreenArea_MidRight
+    { 0, 854, 240, 426 },    // ScreenArea_BotLeft
+    { 240, 854, 240, 426 },  // ScreenArea_BotCenter
+    { 480, 854, 240, 426 },  // ScreenArea_BotRight
 };
 
 void postWaitFreezes(MaaContext* context, uint32_t areaMask = ScreenArea_MidCenter, int waitTime = 300, int timeout = 3000);
 void postWaitFreezes(MaaContext* context, MaaRect roi, int waitTime = 300, int timeout = 3000);
+
+// ──── 罗盘方位与滑动/点击/走位（通用：秘宝任务与走位测试共用）────
+
+// 罗盘 12 方位（每格 30°，0°=正北，顺时针）
+enum class CompassDir {
+    North = 0,        // 正北
+    NorthByEast = 1,  // 北偏东
+    EastByNorth = 2,  // 东偏北
+    East = 3,         // 正东
+    EastBySouth = 4,  // 东偏南
+    SouthByEast = 5,  // 南偏东
+    South = 6,        // 正南
+    SouthByWest = 7,  // 南偏西
+    WestBySouth = 8,  // 西偏南
+    West = 9,         // 正西
+    WestByNorth = 10, // 西偏北
+    NorthByWest = 11, // 北偏西
+    Unknown = 12,
+};
+
+// 罗盘方位文本 → 12 方位（支持"北偏东""正北""北"等）
+CompassDir parseDirection(const std::string& text);
+
+// 世界坐标向量 → 12 方位（+x=东，+y=北，0°=北顺时针）
+CompassDir vectorToDirection(int dx, int dy);
+
+// 解析 "(19,73)" 或 "(19, 73)" 形式的坐标
+bool parseCoord(const std::string& text, int& x, int& y);
+
+// 点击指定坐标；若不在可操作区域内，朝屏幕中心滑动把点击点拉进可操作区域后再点。
+void clickAdjusted(MaaContext* context, int x, int y);
+
+// 朝某方位滑动屏幕（拖拽视角：滑动方向与观察方向相反，看北=往下滑、看东=往左滑）。
+// 滑动起点必须在可操作区域内；若起点落在据点上滑动变点击弹框，执行 QuitMapOutpost 退出并按上下左右偏移重试。
+void swipeAvoidOutpost(MaaContext* context, CompassDir dir, int dist = 300, int duration = 300);
+
+// 朝目标方向 (dx,dy) 连续滑动屏幕（dx=东分量、dy=北分量，拖拽视角：滑动方向与观察方向相反）。
+// 不量化到 12 方位，方向更精确，避免地图长宽不等时越滑越偏。dist 为滑动距离。
+void swipeToward(MaaContext* context, int dx, int dy, int dist = 300, int duration = 300);
+
+// 屏幕 OCR 查找文字，命中返回 box。
+bool findTextOnScreen(MaaContext* context, const MaaImageBuffer* img, const std::string& text, MaaRect& outBox);
+
+// 走位单步结果
+enum class WalkStep { Found, NotFound, Error };
+
+// 单步走位：读人物坐标 → 朝目标方向滑动 → 找位置名。
+// Found=找到位置名(outBox)；NotFound=没找到(继续滑动)；Error=读坐标/算方向失败。
+WalkStep walkStep(MaaContext* context, int tx, int ty, const std::string& text, MaaRect& outBox);
+
+// 运行一个 pipeline 任务并等待其完成。
+void runTaskAndWait(MaaContext* context, const std::string& task);
+
+// 走到目标点位（含穿墙），返回位置名框。找到返回 true。
+// 墙配置由 DefineMapWalls 动作按地图名定义，这里自动按当前地图查配置、判断是否穿墙。
+bool walkToTargetPoint(
+    MaaContext* context,
+    int tx,
+    int ty,
+    const std::string& text,
+    MaaRect& outBox,
+    int maxAttempts = 30);
 
 // 地图数据
 enum class MapIndex

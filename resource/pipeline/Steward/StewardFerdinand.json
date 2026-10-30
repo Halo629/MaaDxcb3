@@ -28,17 +28,32 @@
 			"[JumpBack]FerdinandInHolyCityMonastery",
 			"[JumpBack]FerdinandInGremid",
 			"[JumpBack]FerdinandInFurnaceCity",
-			"BattleAI",
-			"[JumpBack]FerdinandStartAttack",
 			"[JumpBack]AttackFerdinand",
-			"SceneBack"
+			"SceneEnterMainPage"
 		]
 	},
 	"FerdinandNotFound": {
 		"desc": "未找到费迪南德",
+		"next": [
+			"FerdinandRetry",
+			"FerdinandRetryFailed"
+		],
+		"focus": {"Node.Recognition.Succeeded": "未找到费迪南德,重试"}
+	},
+	"FerdinandRetry": {
+		"desc": "重试费迪南德任务",
+		"max_hit": 5,
 		"action": "Custom",
-		"custom_action": "FailTask",
-		"focus": {"Node.Recognition.Succeeded": "未找到费迪南德"}
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["StewardFerdinandSub"]
+		},
+		"focus": {"Node.Recognition.Succeeded": "重试完成，未找到费迪南德"}
+	},
+	"FerdinandRetryFailed": {
+		"desc": "重试后仍未找到",
+		"action": "Custom",
+		"custom_action": "FailTask"
 	},
 	"FerdinandInIsleOfTimesEnd": {
 		"desc": "在时之尽头的孤岛寻找费迪南德",
@@ -331,7 +346,10 @@
 		"recognition": "And",
 		"all_of": ["HasFerdinand"],
 		"action": "Custom",
-		"custom_action": "AdjustFerdinandPosition",
+		"custom_action": "AdjustPosition",
+		"custom_action_param": {
+			"target_offset": [32, -51, -72, 1]
+		},
 		"next": [
 			"ClickFerdinand"
 		]
@@ -347,7 +365,11 @@
 			"time": 1000,
 			"target": [260, 500, 315, 613],
 			"timeout": 10000
-		}
+		},
+		"next": [
+			"FerdinandStartAttack",
+			"AttackFerdinand"
+		]
 	},
 	"FerdinandStartAttack": {
 		"desc": "点击发起攻击",
@@ -356,7 +378,14 @@
 		"expected": "发起攻击",
 		"roi": [291, 738, 145, 100],
 		"action": "Click",
-		"post_delay": 1000
+		"post_delay": 1000,
+		"next": [
+			"BattleAI",
+			"FerdinandStartAttack"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"FindFerdinandSwipe": {
 		"desc": "地图列表向下滑动一次寻找费迪南德",

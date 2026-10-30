@@ -32,9 +32,11 @@
 		"desc": "进入地图失败,未找到地图",
 		"recognition": "And",
 		"all_of": ["InSelectDestinationPage"],
-		"next": [
-			"SceneBack"
-		],
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["SceneEnterMainPage", "TaskFail"]
+		},
 		"focus": {"Node.Recognition.Succeeded": "进入地图失败,未找到地图"}
 	},
 	"DestinationPageSwipeUp": {
@@ -287,7 +289,7 @@
 		"desc": "地图列表点击蛮牛谷",
 		"recognition": "And",
 		"all_of": [
-			"InNowadaysPage",
+			"InSelectDestinationPage",
 			{
 				"recognition": "OCR",
 				"expected": "蛮牛谷|蛮牛",
@@ -378,12 +380,29 @@
 		"post_delay": 4000,
 		"rate_limit": 0
 	},
+	"MapNameColorMatch": {
+		"desc": "地图名字颜色识别",
+		"recognition": "ColorMatch",
+		"method": 40,
+		"roi": [99, 69, 143, 34],
+		"lower": [15, 0, 150],
+		"upper": [20, 55, 200],
+		"count": 50
+	},
 	"InIserel": {
 		"desc": "在伊瑟瑞尔",
-		"recognition": "OCR",
-		"expected": "伊瑟瑞尔|伊瑟|瑞尔",
-		"roi": [94, 63, 187, 43],
-		"pre_delay": 1500,
+		"recognition": "And",
+		"all_of": [
+			"MapNameColorMatch",
+			{
+				"recognition": "OCR",
+				"expected": "伊瑟瑞尔|伊瑟|瑞尔",
+				"roi": "MapNameColorMatch",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0
 	},
@@ -684,6 +703,19 @@
 		"next": [
 			"InIserel",
 			"[JumpBack]SceneEnterSelectDestination"
+		]
+	},
+	"CurrentSupportMap": {
+		"desc": "当前支持的地图，用于地图寻路用",
+		"recognition": "Or",
+		"any_of": [
+			"InIsleOfTimesEnd",
+			"InCrescentCounty",
+			"InGremid",
+			"InFurnaceCity",
+			"InWildBullValley",
+			"InSilverMoonValley",
+			"InIserel"
 		]
 	}
 }

@@ -3,7 +3,7 @@
         {
             "name": "PetrifySpirit",
             "label": "🪨引石化灵",
-            "entry": "AlchemyActivityStart",
+            "entry": "PetrifySpiritStart",
             "group": [
                 "activity_tasks"
             ]
@@ -11,7 +11,7 @@
         {
             "name": "TransmutationCircle",
             "label": "⚗️点石成金",
-            "entry": "AlchemyActivityStart",
+            "entry": "TransmutationCircleStart",
             "group": [
                 "activity_tasks"
             ]
@@ -19,7 +19,7 @@
         {
             "name": "StoneEssence",
             "label": "💎萃石成英",
-            "entry": "AlchemyActivityStart",
+            "entry": "StoneEssenceStart",
             "group": [
                 "activity_tasks"
             ]
@@ -27,7 +27,7 @@
         {
             "name": "StarWeaveGlory",
             "label": "🌟织星成辉",
-            "entry": "AlchemyActivityStart",
+            "entry": "StellarWeaveGloryStart",
             "group": [
                 "activity_tasks"
             ]
@@ -35,7 +35,7 @@
         {
             "name": "TarotCard",
             "label": "🃏塔罗牌",
-            "entry": "AlchemyActivityStart",
+            "entry": "TarotCardStart",
             "group": [
                 "activity_tasks"
             ]
@@ -43,7 +43,7 @@
         {
             "name": "WitchsFeastOfMagic",
             "label": "🧙‍♀️女巫的魔法盛宴",
-            "entry": "AlchemyActivityStart",
+            "entry": "WitchsFeastOfMagicStart",
             "group": [
                 "activity_tasks"
             ]

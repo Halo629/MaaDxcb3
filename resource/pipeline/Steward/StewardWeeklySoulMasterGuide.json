@@ -25,7 +25,10 @@
 		"desc": "每周魂师指南任务激活",
 		"max_hit": 1,
 		"recognition": "And",
-		"all_of": ["SoulMasterGuideWeeklyNotCompleteTask"],
+		"all_of": [
+			"InSoulMasterGuideWeeklyPage",
+			"SoulMasterGuideWeeklyNotCompleteTask"
+		],
 		"action": "Custom",
 		"custom_action": "SoulMasterGuideWeeklyTasks",
 		"attach": {

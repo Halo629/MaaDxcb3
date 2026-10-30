@@ -19,19 +19,19 @@ MaaBool findTargetServer(
     std::string name = normalizeServerName(attach.get("target_server_name", json::value("")).as_string());
     std::string line = normalizeServerName(attach.get("target_server_line", json::value("")).as_string());
     if (name.empty()) {
-        LogUtils::log("切换服务器失败: 未指定目标服务器名称", "#ef4444");
+        LogUtils::error("切换服务器失败: 未指定目标服务器名称");
         return false;
     }
     std::string target = name + line;
 
     auto sub = getAndSubDetail(context, image, "CustomServerList", "ServerName");
     if (!sub.is_object()) {
-        LogUtils::log("读取服务器列表失败", "#ef4444");
+        LogUtils::error("读取服务器列表失败");
         return false;
     }
     auto& all = sub["all"];
     if (!all.is_array()) {
-        LogUtils::log("读取服务器列表失败", "#ef4444");
+        LogUtils::error("读取服务器列表失败");
         return false;
     }
 
@@ -48,7 +48,7 @@ MaaBool findTargetServer(
             continue;
         }
 
-        LogUtils::log(fmt("找到服务器:[%1],切换中...", text), "#22c55e");
+        LogUtils::info(fmt("找到服务器:[%1],切换中...", text));
 
         out_box->x = item["box"][0].as_integer();
         out_box->y = item["box"][1].as_integer();
@@ -124,7 +124,7 @@ MaaBool GetServerListAct(
         }
         int added = (int)seen.size() - before;
 
-        LogUtils::log(fmt("扫描第%1轮: +%2个新服务器 (累计%3)", round + 1, added, seen.size()), added > 0 ? "#22c55e" : "#6b7280");
+        LogUtils::info(fmt("扫描第%1轮: +%2个新服务器 (累计%3)", round + 1, added, seen.size()));
 
         if (added == 0) {
             break; // 本轮无新增，到底了
@@ -137,7 +137,7 @@ MaaBool GetServerListAct(
         Sleep(500);
     }
 
-    LogUtils::log(fmt("服务器列表扫描完成，共 %1 个", ordered.size()), "#22c55e");
+    LogUtils::info(fmt("服务器列表扫描完成，共 %1 个", ordered.size()));
     return true;
 }
 
@@ -163,7 +163,7 @@ MaaBool ServerRecord(
 
     if (output) {
         if (g_server.empty()) {
-            LogUtils::log("未识别到任何服务器", "#ef4444");
+            LogUtils::error("未识别到任何服务器");
         }
         else {
             std::string servers;
@@ -173,7 +173,7 @@ MaaBool ServerRecord(
                 }
                 servers += name;
             }
-            LogUtils::log(fmt("识别到的服务器: %1", servers), "#f59e0b");
+            LogUtils::warn(fmt("识别到的服务器: %1", servers));
         }
         return true;
     }
@@ -235,7 +235,7 @@ MaaBool targetServerCheck(
 
     bool hit = current.find(target) != std::string::npos;
     if (hit) {
-        LogUtils::log(fmt("已切换到服务器:[%1]", current), "#22c55e");
+        LogUtils::info(fmt("已切换到服务器:[%1]", current));
     }
 
     return hit;

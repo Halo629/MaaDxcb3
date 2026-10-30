@@ -92,9 +92,9 @@ MaaBool endlessWealthIsleAssignChallengeTimes(
     void* transArg)
 {
     int total = readCount(context, { 477, 388, 32, 50 });
-    LogUtils::log(fmt("财富岛: 本期剩余未分配挑战次数：%1", total), "#3b82f6");
+    LogUtils::info(fmt("财富岛: 本期剩余未分配挑战次数：%1", total));
     if (total != 42) {
-        LogUtils::log("财富岛: 本期挑战次数不满42，请手动执行", "#ef4444");
+        LogUtils::error("财富岛: 本期挑战次数不满42，请手动执行");
         return true;
     }
 
@@ -245,7 +245,7 @@ MaaBool endlessWealthIsleExchangeRewards(
         claimed[num] = true;
     }
 
-    LogUtils::log("财富岛: 奖励兑换完成", "#22c55e");
+    LogUtils::info("财富岛: 奖励兑换完成");
     return true;
 }
 

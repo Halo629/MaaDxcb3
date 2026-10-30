@@ -1,0 +1,12 @@
+{
+    "task": [
+        {
+            "name": "TestMoveToPoint",
+            "label": "🧪测试移动到目标点位",
+            "entry": "TestMoveToPointEntry",
+            "group": [
+                "other_tasks"
+            ]
+        }
+    ]
+}

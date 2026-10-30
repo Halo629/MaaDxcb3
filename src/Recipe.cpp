@@ -159,7 +159,7 @@ MaaBool recordLockedRecipe(
     for (auto& r : g_lockedRecipeOrder) {
         list.push_back(r);
     }
-    LogUtils::log(std::string("当前已解锁食谱：") + join(list, ", "), "#22c55e");
+    LogUtils::info(std::string("当前已解锁食谱：") + join(list, ", "));
     return true;
 }
 
@@ -314,7 +314,7 @@ static bool
     for (auto& ing : ings) {
         std::string need = ing;
         if (!selectOneIngredient(context, ctrl, need)) {
-            LogUtils::log(fmt("食谱: 未找到食材 [%1]，跳过 [%2]", need, recipeName), "#f59e0b");
+            LogUtils::warn(fmt("食谱: 未找到食材 [%1]，跳过 [%2]", need, recipeName));
             return false;
         }
     }
@@ -349,7 +349,7 @@ MaaBool cookAllUnlockedRecipes(
             continue;
         }
 
-        LogUtils::log(fmt("开始解锁食谱:[%1]", recipeName), "#3b82f6");
+        LogUtils::info(fmt("开始解锁食谱:[%1]", recipeName));
 
         if (MaaTaskerStopping(tasker)) {
             return false;
@@ -364,14 +364,14 @@ MaaBool cookAllUnlockedRecipes(
         if (selectAllIngredients(context, ctrl, ings, recipeName)) {
             MaaContextRunTask(context, "CookingBtn", "{}");
             ++cooked;
-            LogUtils::log(fmt("食谱:[%1]解锁完成", recipeName), "#22c55e");
+            LogUtils::info(fmt("食谱:[%1]解锁完成", recipeName));
         }
         else {
             ++skipped;
         }
     }
 
-    LogUtils::log(fmt("解锁食谱完成: 解锁 %1 个，跳过 %2 个", cooked, skipped), "#22c55e");
+    LogUtils::info(fmt("解锁食谱完成: 解锁 %1 个，跳过 %2 个", cooked, skipped));
     return true;
 }
 
@@ -476,7 +476,7 @@ MaaBool cookSpecifiedFood(
     std::string recipeName = param.get("name", "");
     int targetCount = param.get("count", 1);
     if (recipeName.empty()) {
-        LogUtils::log("烹饪食物:未指定食物名称", "#ef4444");
+        LogUtils::error("烹饪食物:未指定食物名称");
         return false;
     }
 
@@ -491,16 +491,16 @@ MaaBool cookSpecifiedFood(
         postWaitFreezes(context);
         adjustQuantity(context, targetCount);
         MaaContextRunTask(context, "CookingBtn", "{}");
-        LogUtils::log(fmt("烹饪食物: [%1] 烹饪完成，生产 %2 个", recipeName, targetCount), "#22c55e");
+        LogUtils::info(fmt("烹饪食物: [%1] 烹饪完成，生产 %2 个", recipeName, targetCount));
         return true;
     }
 
     // 2. 未解锁，切烹饪页解锁
-    LogUtils::log(fmt("烹饪食物: [%1] 食谱未解锁,前往解锁食谱", recipeName), "#f59e0b");
+    LogUtils::warn(fmt("烹饪食物: [%1] 食谱未解锁,前往解锁食谱", recipeName));
     const auto& recipes = getRecipeConfig();
     auto ingIt = recipes.find(recipeName);
     if (ingIt == recipes.end()) {
-        LogUtils::log(fmt("烹饪食物: 配置中未找到 [%1]", recipeName), "#ef4444");
+        LogUtils::error(fmt("烹饪食物: 配置中未找到 [%1]", recipeName));
         return false;
     }
 
@@ -517,7 +517,7 @@ MaaBool cookSpecifiedFood(
 
     selectAllIngredients(context, ctrl, ingIt->second, recipeName);
     MaaContextRunTask(context, "CookingBtn", "{}");
-    LogUtils::log(fmt("烹饪食物: [%1] 已解锁（还需生产 %2 个）", recipeName, targetCount - 1), "#22c55e");
+    LogUtils::info(fmt("烹饪食物: [%1] 已解锁（还需生产 %2 个）", recipeName, targetCount - 1));
 
     if (targetCount <= 1) {
         return true;

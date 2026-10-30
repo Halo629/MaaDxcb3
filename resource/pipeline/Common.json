@@ -192,6 +192,20 @@
 		"desc": "识别任务图标，用来确定任务区域",
 		"recognition": "TemplateMatch",
 		"template": "common/TaskIcon.png",
-		"roi": [4, 133, 376, 473]
+		"roi": [4, 133, 376, 473],
+		"green_mask": true,
+		"threshold": 0.8,
+		"order_by": "Vertical"
+	},
+	"QuitMapOutpost": {
+		"desc": "操蛋的滑动机制，地图中滑动起点如果在某个据点，会滑动失败，变成点击据点，用于退出该据点",
+		"recognition": "And",
+		"all_of": ["LeaveButton"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [158, 514, 413, 400],
+			"timeout": 2000
+		}
 	}
 }

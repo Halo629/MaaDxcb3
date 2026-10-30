@@ -130,7 +130,7 @@ MaaBool huntingGroundFeastSkillStatistics(
     if (!doRecognition(context, cap.img, "HuntingGroundFeastHuntingSkillCount", "{}", &resultBox, detailBuf)) {
         MaaStringBufferDestroy(detailBuf);
         g_currentAcquiredHuntingSkillsLimitReached = true;
-        LogUtils::log(fmt("战斗胜利，本次战斗未获得狩猎技巧，今日获取狩猎技巧已达上限"), "#22c55e");
+        LogUtils::info(fmt("战斗胜利，本次战斗未获得狩猎技巧，今日获取狩猎技巧已达上限"));
         return true;
     }
     std::string detail(MaaStringBufferGet(detailBuf), MaaStringBufferSize(detailBuf));
@@ -186,7 +186,7 @@ MaaBool huntingGroundFeastSkillStatistics(
     }
     g_currentAcquiredHuntingSkills += count;
 
-    LogUtils::log(fmt("战斗胜利，获得%1个狩猎技巧，本次已获取%2个狩猎技巧", count, g_currentAcquiredHuntingSkills), "#22c55e");
+    LogUtils::info(fmt("战斗胜利，获得%1个狩猎技巧，本次已获取%2个狩猎技巧", count, g_currentAcquiredHuntingSkills));
     return true;
 }
 
@@ -239,7 +239,7 @@ MaaBool huntingGroundFeastCurLevelRecord(
 {
     ScreenCap cap(context);
     g_currentHuntingGroundFeastLevel = ocrTextFromAnd(context, cap.img, "HuntingGroundFeastCurLevel", "CurLevelText");
-    LogUtils::log(fmt("当前狩猎强度：%1", g_currentHuntingGroundFeastLevel), "#22c55e");
+    LogUtils::info(fmt("当前狩猎强度：%1", g_currentHuntingGroundFeastLevel));
     return true;
 }
 
@@ -272,7 +272,7 @@ MaaBool HuntingGroundFeastLowerDifficulty(
         }
         if (cur < curRank) {
             g_currentHuntingGroundFeastLevel = level;
-            LogUtils::log(fmt("已降低难度至：%1", level), "#22c55e");
+            LogUtils::info(fmt("已降低难度至：%1", level));
             return true;
         }
         clickLowerDifficulty(context, targetRank);
@@ -315,13 +315,13 @@ MaaBool HuntingGroundFeastAdjustLevelToTarget(
         std::string targetLevel = attach.get("level", json::value("S")).as_string();
         targetRank = difficultyRank(targetLevel);
         if (targetRank == -1) {
-            LogUtils::log("目标等级填写错误,将切换为智能模式执行", "#ef4444");
+            LogUtils::error("目标等级填写错误,将切换为智能模式执行");
             return true;
         }
 
         int maxLevel = difficultyRank(g_currentHuntingGroundFeastMaxLevel);
         if (targetRank <= 4 && targetRank > maxLevel) {
-            LogUtils::log("指定的目标等级低于SS强度，且高于当前通过的最大强度,无法调整，将切换为智能模式执行", "#ef4444");
+            LogUtils::error("指定的目标等级低于SS强度，且高于当前通过的最大强度,无法调整，将切换为智能模式执行");
             return true;
         }
         g_targetLevel = targetLevel;
@@ -356,7 +356,7 @@ MaaBool HuntingGroundFeastAdjustLevelToTarget(
             clickLowerDifficulty(context, targetRank);
         }
     }
-    LogUtils::log("调整等级出错", "#ef4444");
+    LogUtils::error("调整等级出错");
     return false;
 }
 
@@ -381,7 +381,7 @@ MaaBool huntingGroundFeastAutoLowerLevelCheck(
     int lowerFailCount = attach.get("lower_fail_count", json::value(2)).as_integer();
 
     if (lowerOnFail && ++g_huntingGroundFeastConsecutiveFailCount >= lowerFailCount) {
-        LogUtils::log(fmt("狩猎盛宴: 连续失败%1次,降低1级难度", g_huntingGroundFeastConsecutiveFailCount), "#f59e0b");
+        LogUtils::warn(fmt("狩猎盛宴: 连续失败%1次,降低1级难度", g_huntingGroundFeastConsecutiveFailCount));
         return true;
     }
     return false;

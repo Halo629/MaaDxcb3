@@ -33,6 +33,14 @@
 			"timeout": 5000
 		}
 	},
+	"SoulMasterGuideRewardEntry": {
+		"desc": "领取阶段奖励入口",
+		"recognition": "And",
+		"all_of": ["InSoulMasterGuideDailyPage"],
+		"next": [
+			"SoulMasterGuideReward"
+		]
+	},
 	"SoulMasterGuideReward": {
 		"desc": "领取阶段奖励",
 		"recognition": "Or",

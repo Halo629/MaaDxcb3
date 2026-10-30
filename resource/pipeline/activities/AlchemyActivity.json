@@ -1,25 +1,160 @@
 {
-	"AlchemyActivityStart": {
-		"desc": "炼金活动+塔罗牌通用",
+	"TransmutationCircleStart": {
+		"desc": "点石成金",
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"anchor": {"ActivityGoto": "AlchemyActivityEntry"},
+		"anchor": {"ActivityGoto": "TransmutationCircleEntry"},
 		"next": [
 			"AlchemyActivityCollectEntry",
 			"[JumpBack]ActivityLimitedEnter"
 		]
 	},
-	"AlchemyActivityEntry": {
-		"desc": "限时页面进入炼金活动页面",
+	"WitchsFeastOfMagicStart": {
+		"desc": "女巫的魔法盛宴",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {"ActivityGoto": "WitchsFeastOfMagicEntry"},
+		"next": [
+			"AlchemyActivityCollectEntry",
+			"[JumpBack]ActivityLimitedEnter"
+		]
+	},
+	"TarotCardStart": {
+		"desc": "塔罗牌",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {"ActivityGoto": "TarotCardEntry"},
+		"next": [
+			"AlchemyActivityCollectEntry",
+			"[JumpBack]ActivityLimitedEnter"
+		]
+	},
+	"PetrifySpiritStart": {
+		"desc": "引石化灵",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {"ActivityGoto": "PetrifySpiritEntry"},
+		"next": [
+			"AlchemyActivityCollectEntry",
+			"[JumpBack]ActivityLimitedEnter"
+		]
+	},
+	"StellarWeaveGloryStart": {
+		"desc": "织星成辉",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {"ActivityGoto": "StellarWeaveGloryEntry"},
+		"next": [
+			"AlchemyActivityCollectEntry",
+			"[JumpBack]ActivityLimitedEnter"
+		]
+	},
+	"StoneEssenceStart": {
+		"desc": "萃石成英",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {"ActivityGoto": "StoneEssenceEntry"},
+		"next": [
+			"AlchemyActivityCollectEntry",
+			"[JumpBack]ActivityLimitedEnter"
+		]
+	},
+	"TransmutationCircleEntry": {
+		"desc": "限时页面进入点石成金活动页面",
 		"recognition": "TemplateMatch",
 		"template": [
-			"activities/AlchemyActivity/PetrifySpiritIcon.png",
-			"activities/AlchemyActivity/StellarWeaveGloryIcon.png",
-			"activities/AlchemyActivity/StoneEssenceIcon.png",
-			"activities/AlchemyActivity/TransmutationCircleIcon.png",
-			"activities/AlchemyActivity/TarotCardIcon.png",
+			"activities/AlchemyActivity/TransmutationCircleIcon.png"
+		],
+		"roi": [15, 69, 701, 997],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [15, 69, 701, 997],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"WitchsFeastOfMagicEntry": {
+		"desc": "限时页面进入女巫的魔法盛宴活动页面",
+		"recognition": "TemplateMatch",
+		"template": [
 			"activities/AlchemyActivity/WitchsFeastOfMagicIcon.png"
+		],
+		"roi": [15, 69, 701, 997],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [15, 69, 701, 997],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"TarotCardEntry": {
+		"desc": "限时页面进入塔罗牌活动页面",
+		"recognition": "TemplateMatch",
+		"template": [
+			"activities/AlchemyActivity/TarotCardIcon.png"
+		],
+		"roi": [15, 69, 701, 997],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [15, 69, 701, 997],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"PetrifySpiritEntry": {
+		"desc": "限时页面进入引石化灵活动页面",
+		"recognition": "TemplateMatch",
+		"template": [
+			"activities/AlchemyActivity/PetrifySpiritIcon.png"
+		],
+		"roi": [15, 69, 701, 997],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [15, 69, 701, 997],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"StellarWeaveGloryEntry": {
+		"desc": "限时页面进入织星成辉活动页面",
+		"recognition": "TemplateMatch",
+		"template": [
+			"activities/AlchemyActivity/StellarWeaveGloryIcon.png"
+		],
+		"roi": [15, 69, 701, 997],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [15, 69, 701, 997],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"StoneEssenceEntry": {
+		"desc": "限时页面进入萃石成英活动页面",
+		"recognition": "TemplateMatch",
+		"template": [
+			"activities/AlchemyActivity/StoneEssenceIcon.png"
 		],
 		"roi": [15, 69, 701, 997],
 		"action": "Click",
@@ -80,7 +215,8 @@
 		"desc": "在活动礼包页面",
 		"recognition": "OCR",
 		"expected": "礼包",
-		"roi": [249, 94, 216, 118]
+		"roi": [299, 137, 119, 38],
+		"only_rec": true
 	},
 	"AlchemyActivityFreeCollect": {
 		"desc": "礼包页面免费领取",
