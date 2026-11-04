@@ -1,12 +1,52 @@
 {
-    "task": [
-        {
-            "name": "TestMoveToPoint",
-            "label": "🧪测试移动到目标点位",
-            "entry": "TestMoveToPointEntry",
-            "group": [
-                "other_tasks"
-            ]
-        }
-    ]
+	"task": [
+		{
+			"name": "IsleOfTimesEndTestMoveToPoint",
+			"label": "🧪时之尽头的孤岛测试移动到目标点位",
+			"entry": "IsleOfTimesEndTestMoveToPointEntry",
+			"group": ["other_tasks"]
+		},
+		{
+			"name": "CrescentCountyTestMoveToPoint",
+			"label": "🧪新月郡测试移动到目标点位",
+			"entry": "CrescentCountyTestMoveToPointEntry",
+			"group": ["other_tasks"]
+		},
+		{
+			"name": "HolyCityMonasteryTestMoveToPoint",
+			"label": "🧪圣城修道院测试移动到目标点位",
+			"entry": "HolyCityMonasteryTestMoveToPointEntry",
+			"group": ["other_tasks"]
+		},
+		{
+			"name": "GremidTestMoveToPoint",
+			"label": "🧪格雷米德测试移动到目标点位",
+			"entry": "GremidTestMoveToPointEntry",
+			"group": ["other_tasks"]
+		},
+		{
+			"name": "FurnaceCityTestMoveToPoint",
+			"label": "🧪熔炉之城测试移动到目标点位",
+			"entry": "FurnaceCityTestMoveToPointEntry",
+			"group": ["other_tasks"]
+		},
+		{
+			"name": "WildBullValleyTestMoveToPoint",
+			"label": "🧪蛮牛谷测试移动到目标点位",
+			"entry": "WildBullValleyTestMoveToPointEntry",
+			"group": ["other_tasks"]
+		},
+		{
+			"name": "SilverMoonValleyTestMoveToPoint",
+			"label": "🧪银月谷测试移动到目标点位",
+			"entry": "SilverMoonValleyTestMoveToPointEntry",
+			"group": ["other_tasks"]
+		},
+		{
+			"name": "TestMoveToPoint",
+			"label": "🧪伊瑟瑞尔测试移动到目标点位",
+			"entry": "IserelTestMoveToPointEntry",
+			"group": ["other_tasks"]
+		}
+	]
 }

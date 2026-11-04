@@ -1,0 +1,317 @@
+{
+	"IserelTestMoveToPointEntry": {
+		"desc": "伊瑟瑞尔测试移动到目标点位（不依赖罗盘）",
+		"next": ["[JumpBack]WallConfig", "[JumpBack]IserelMoveToPoint", "IserelTestMoveDone", "[JumpBack]SceneEnterIserelNoReset"]
+	},
+	"IserelMoveToPoint": {
+		"recognition": "And",
+		"all_of": ["InIserel"],
+		"max_hit": 1,
+		"next": ["[JumpBack]IserelMoveToPointCollection1", "[JumpBack]IserelMoveToPointCollection2", "[JumpBack]IserelMoveToPointCollection3", "[JumpBack]IserelMoveToPointCollection4", "[JumpBack]IserelMoveToPointCollection5", "[JumpBack]IserelMoveToPointCollection6", "IserelTestMoveDone"]
+	},
+	"IserelTestMoveDone": {
+		"recognition": "And",
+		"all_of": ["InIserel"]
+	},
+	"IserelMoveToPointCollection1": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:伊瑟瑞尔 Collection1"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToIserelTargetPoint1", "MoveToIserelTargetPoint2", "MoveToIserelTargetPoint3"]
+		}
+	},
+	"IserelMoveToPointCollection2": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:伊瑟瑞尔 Collection2"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToIserelTargetPoint1", "MoveToIserelTargetPoint3", "MoveToIserelTargetPoint2"]
+		}
+	},
+	"IserelMoveToPointCollection3": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:伊瑟瑞尔 Collection3"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToIserelTargetPoint3", "MoveToIserelTargetPoint2", "MoveToIserelTargetPoint1"]
+		}
+	},
+	"IserelMoveToPointCollection4": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:伊瑟瑞尔 Collection4"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToIserelTargetPoint3", "MoveToIserelTargetPoint1", "MoveToIserelTargetPoint2"]
+		}
+	},
+	"IserelMoveToPointCollection5": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:伊瑟瑞尔 Collection5"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToIserelTargetPoint2", "MoveToIserelTargetPoint3", "MoveToIserelTargetPoint1"]
+		}
+	},
+	"IserelMoveToPointCollection6": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:伊瑟瑞尔 Collection6"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToIserelTargetPoint2", "MoveToIserelTargetPoint1", "MoveToIserelTargetPoint3"]
+		}
+	},
+	"MoveToIserelTargetPoint1": {
+		"desc": "移动到伊瑟瑞尔目标点1-避世树屋左边",
+		"recognition": "Custom",
+		"custom_recognition": "findTargetPoint",
+		"custom_recognition_param": {
+			"point": [19, 73],
+			"task": "IserelTargetPoint1",
+			"offset": [-42, 95, -79, -12]
+		},
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:移动到伊瑟瑞尔目标点1-避世树屋左边"
+		},
+		"next": ["ArrivedAtIserelTargetPoint1", "[JumpBack]SceneBack", "[JumpBack]QuitMapOutpost", "MoveToIserelTargetPoint1"]
+	},
+	"MoveToIserelTargetPoint2": {
+		"desc": "移动到伊瑟瑞尔目标点2-洛卡兰遗址左边",
+		"recognition": "Custom",
+		"custom_recognition": "findTargetPoint",
+		"custom_recognition_param": {
+			"point": [73, 60],
+			"task": "IserelTargetPoint2",
+			"offset": [-78, -12, -98, -13]
+		},
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:移动到伊瑟瑞尔目标点2-洛卡兰遗址左边"
+		},
+		"next": ["ArrivedAtIserelTargetPoint2", "[JumpBack]SceneBack", "[JumpBack]QuitMapOutpost", "MoveToIserelTargetPoint2"]
+	},
+	"MoveToIserelTargetPoint3": {
+		"desc": "移动到伊瑟瑞尔目标点3-无名遗迹右边",
+		"recognition": "Custom",
+		"custom_recognition": "findTargetPoint",
+		"custom_recognition_param": {
+			"point": [89, 29],
+			"task": "IserelTargetPoint3",
+			"offset": [322, 3, -79, -13]
+		},
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:移动到伊瑟瑞尔目标点3-无名遗迹右边"
+		},
+		"next": ["ArrivedAtIserelTargetPoint3", "[JumpBack]SceneBack", "[JumpBack]QuitMapOutpost", "MoveToIserelTargetPoint3"]
+	},
+	"IserelIslandEntrance": {
+		"desc": "伊瑟瑞尔岛屿入口(弓手雕像)",
+		"recognition": "And",
+		"all_of": [{
+			"recognition": "TemplateMatch",
+			"template": "activities/DarkSecretTreasure/IserelIslandEntrance.png",
+			"sub_name": "IserelIslandEntrancePos"
+		}, {
+			"recognition": "ColorMatch",
+			"method": 40,
+			"lower": [20, 30, 80],
+			"upper": [30, 50, 255],
+			"roi": "IserelIslandEntrancePos",
+			"roi_offset": [17, 148, -33, -155],
+			"count": 30,
+			"sub_name": "IserelIslandEntranceColor"
+		}, {
+			"recognition": "OCR",
+			"expected": "弓手雕像",
+			"roi": "IserelIslandEntranceColor",
+			"roi_offset": [-2, -2, 4, 4],
+			"only_rec": true
+		}],
+		"box_index": 2,
+		"action": "Custom",
+		"custom_action": "AdjustPositionAndClick",
+		"custom_action_param": {
+			"target_offset": [27, -59, -63, 7]
+		},
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"next": ["SlideAcrossTheIronChain", "IserelIslandEntrance"]
+	},
+	"IserelIslandExit": {
+		"desc": "伊瑟瑞尔岛屿出口(石柱)",
+		"recognition": "And",
+		"all_of": [{
+			"recognition": "TemplateMatch",
+			"template": "activities/DarkSecretTreasure/IserelIslandExit.png",
+			"sub_name": "IserelIslandExitPos"
+		}, {
+			"recognition": "ColorMatch",
+			"method": 40,
+			"lower": [20, 30, 80],
+			"upper": [30, 50, 255],
+			"roi": "IserelIslandExitPos",
+			"roi_offset": [2, 110, -3, -114],
+			"count": 30,
+			"sub_name": "IserelIslandExitColor"
+		}, {
+			"recognition": "OCR",
+			"expected": "石柱",
+			"roi": "IserelIslandExitColor",
+			"roi_offset": [-2, -2, 4, 4],
+			"only_rec": true
+		}],
+		"box_index": 2,
+		"action": "Custom",
+		"custom_action": "AdjustPositionAndClick",
+		"custom_action_param": {
+			"target_offset": [8, -71, -30, -4]
+		},
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 3000
+		},
+		"next": ["SlideAcrossTheIronChain", "IserelIslandExit"]
+	},
+	"SlideAcrossTheIronChain": {
+		"desc": "滑过铁锁",
+		"recognition": "OCR",
+		"expected": "滑过铁锁|滑过|铁锁",
+		"roi": [261, 726, 221, 194],
+		"action": "Click",
+		"post_delay": 3000,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 2000
+		}
+	},
+	"IserelTargetPoint1": {
+		"desc": "伊瑟瑞尔目标点1-避世树屋左边",
+		"recognition": "And",
+		"all_of": ["MazeCompleteStatus", {
+			"recognition": "ColorMatch",
+			"method": 40,
+			"lower": [20, 30, 80],
+			"upper": [30, 50, 255],
+			"roi": "MazeCompleteStatus",
+			"roi_offset": [29, 0, 80, 0],
+			"count": 30,
+			"sub_name": "CompleteMazeNameColor"
+		}, {
+			"recognition": "OCR",
+			"expected": "避世树屋",
+			"roi": "CompleteMazeNameColor",
+			"roi_offset": [-2, -2, 4, 4],
+			"only_rec": true
+		}],
+		"box_index": 2
+	},
+	"IserelTargetPoint2": {
+		"desc": "伊瑟瑞尔目标点2-洛卡兰遗址左边",
+		"recognition": "And",
+		"all_of": ["MazeCompleteStatus", {
+			"recognition": "ColorMatch",
+			"method": 40,
+			"lower": [20, 30, 80],
+			"upper": [30, 50, 255],
+			"roi": "MazeCompleteStatus",
+			"roi_offset": [29, 0, 80, 0],
+			"count": 30,
+			"sub_name": "CompleteMazeNameColor"
+		}, {
+			"recognition": "OCR",
+			"expected": "洛卡兰遗址",
+			"roi": "CompleteMazeNameColor",
+			"roi_offset": [-2, -2, 4, 4],
+			"only_rec": true
+		}],
+		"box_index": 2
+	},
+	"IserelTargetPoint3": {
+		"desc": "伊瑟瑞尔目标点3-无名遗迹右边",
+		"recognition": "And",
+		"all_of": ["MazeCompleteStatus", {
+			"recognition": "ColorMatch",
+			"method": 40,
+			"lower": [20, 30, 80],
+			"upper": [30, 50, 255],
+			"roi": "MazeCompleteStatus",
+			"roi_offset": [29, 0, 80, 0],
+			"count": 30,
+			"sub_name": "CompleteMazeNameColor"
+		}, {
+			"recognition": "OCR",
+			"expected": "无名遗迹",
+			"roi": "CompleteMazeNameColor",
+			"roi_offset": [-2, -2, 4, 4],
+			"only_rec": true
+		}],
+		"box_index": 2
+	},
+	"ArrivedAtIserelTargetPoint1": {
+		"desc": "检查是否到达伊瑟瑞尔目标点1-避世树屋左边",
+		"recognition": "Custom",
+		"custom_recognition": "ArrivedAtTargetPoint",
+		"custom_recognition_param": {
+			"point": [19, 73],
+			"offset": [3, 3]
+		}
+	},
+	"ArrivedAtIserelTargetPoint2": {
+		"desc": "检查是否到达伊瑟瑞尔目标点2-洛卡兰遗址左边",
+		"recognition": "Custom",
+		"custom_recognition": "ArrivedAtTargetPoint",
+		"custom_recognition_param": {
+			"point": [73, 60],
+			"offset": [3, 3]
+		}
+	},
+	"ArrivedAtIserelTargetPoint3": {
+		"desc": "检查是否到达伊瑟瑞尔目标点3-无名遗迹右边",
+		"recognition": "Custom",
+		"custom_recognition": "ArrivedAtTargetPoint",
+		"custom_recognition_param": {
+			"point": [89, 29],
+			"offset": [3, 3]
+		}
+	}
+}

@@ -72,14 +72,15 @@
 		"all_of": ["InGreatMarshExpeditionPage"],
 		"next": [
 			"[JumpBack]HandleRewardDialog",
+			"[JumpBack]BattleAI",
+			"[JumpBack]BattleEnd",
 			"[JumpBack]GreatMarshExpeditionGotoNextArea",
 			"[JumpBack]GreatMarshExpeditionBossChallenge",
 			"[JumpBack]GreatMarshExpeditionClaimBossReward",
 			"[JumpBack]GreatMarshExpeditionTalkWithScavengerOtto",
 			"[JumpBack]GreatMarshExpeditionExploreEvents",
-			"[JumpBack]GreatMarshExpeditionOption",
+			"[JumpBack]ClickFirstCanClickOption",
 			"[JumpBack]GreatMarshExpeditionExploreFar",
-			"[JumpBack]BattleAI",
 			"GreatMarshExpeditionFinalStageReached",
 			"[JumpBack]GreatMarshExpeditionChickenDrumstickEnough",
 			"SceneBack"
@@ -168,20 +169,6 @@
 		"next": [
 			"BattleStartOut"
 		]
-	},
-	"GreatMarshExpeditionOption": {
-		"desc": "兜底选项,都没识别到后,点第一个选项",
-		"recognition": "TemplateMatch",
-		"template": "common/DialogBox.png",
-		"roi": [2, 462, 718, 549],
-		"order_by": "Vertical",
-		"action": "Click",
-		"post_wait_freezes": {
-			"time": 300,
-			"target": [255, 683, 202, 130],
-			"timeout": 2000
-		},
-		"index": 0
 	},
 	"GreatMarshExpeditionCloseTips": {
 		"desc": "关闭提示",
@@ -336,7 +323,7 @@
 		},
 		"next": [
 			"[JumpBack]TalkToOtto",
-			"[JumpBack]GreatMarshExpeditionRightDownOption",
+			"[JumpBack]ClickFirstCanClickOption",
 			"GreatMarshExpeditionTalkWithScavengerOtto",
 			"ActivityAlwaysTrue"
 		]
@@ -355,19 +342,5 @@
 			"target": [2, 939, 716, 330],
 			"timeout": 2000
 		}
-	},
-	"GreatMarshExpeditionRightDownOption": {
-		"desc": "右下角点第一个选项",
-		"recognition": "TemplateMatch",
-		"template": "common/DialogBox.png",
-		"roi": [228, 745, 492, 264],
-		"order_by": "Vertical",
-		"action": "Click",
-		"post_wait_freezes": {
-			"time": 300,
-			"target": [255, 683, 202, 130],
-			"timeout": 2000
-		},
-		"index": 0
 	}
 }

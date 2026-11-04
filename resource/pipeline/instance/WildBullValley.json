@@ -44,16 +44,21 @@
 		"custom_action": "ClearHitCount",
 		"custom_action_param": {
 			"nodes": [
-				"InstanceCragfortSwipeRight",
+				"InstanceCragfortSwipeRightDown",
+				"InstanceCragfortSwipeUp",
 				"InstanceCragfortSwipeDown",
+				"InstanceCragfortSwipeRight",
 				"InstanceCragfortSwipeLeft",
 				"QuitInstanceClickWarden",
 				"QuitInstanceSwipeRight",
-				"InstanceCragfortSwipeUp"
+				"QuitInstanceSwipeLeft",
+				"QuitInstanceSwipeUp",
+				"ZoomInMax"
 			]
 		},
 		"next": [
 			"InCragfortMap",
+			"[JumpBack]ZoomInMax",
 			"InstanceNoRemainingTimes",
 			"[JumpBack]SceneEntryFortressPass",
 			"[JumpBack]SceneEnterCragfortOutpostInstance",
@@ -77,8 +82,9 @@
 	"InstanceCragfortKeepGoing": {
 		"desc": "继续前行",
 		"recognition": "OCR",
-		"expected": "继续前行",
-		"roi": [267, 785, 187, 103],
+		"expected": "继续前行|继续|前行",
+		"roi": [310, 826, 103, 32],
+		"only_rec": true,
 		"action": "Click",
 		"post_wait_freezes": {
 			"time": 500,
@@ -96,7 +102,8 @@
 			"[JumpBack]LeaveInstance",
 			"[JumpBack]QuitInstanceClickWarden",
 			"[JumpBack]QuitInstanceSwipeRight",
-			"[JumpBack]InstanceCragfortSwipeUp"
+			"[JumpBack]QuitInstanceSwipeUp",
+			"[JumpBack]QuitInstanceSwipeLeft"
 		]
 	},
 	"LeaveInstance": {
@@ -113,51 +120,76 @@
 	},
 	"QuitInstanceClickWarden": {
 		"desc": "退出时点击守备官",
-		"recognition": "OCR",
-		"expected": "守备官|守备",
-		"action": "Custom",
-		"custom_action": "AdjustPosition",
-		"custom_action_param": {
-			"target_offset": [0, -50, 0, 0]
-		},
-		"next": [
-			"ClickWarden"
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "Instance/WildBullValley/WardenExit.png",
+				"sub_name": "WardenPos"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 30, 80],
+				"upper": [30, 50, 255],
+				"roi": "WardenPos",
+				"roi_offset": [-1, 125, 0, -125],
+				"sub_name": "WardenColor",
+				"count": 30
+			},
+			{
+				"recognition": "OCR",
+				"expected": "守备官",
+				"roi": "WardenColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
 		],
-		"on_error": [
-			"__ScenePrivateNextTrue"
-		]
-	},
-	"ClickWarden": {
-		"recognition": "OCR",
-		"expected": "守备官|守备",
-		"action": "Click",
-		"target_offset": [0, -50, 0, 0],
+		"box_index": 2,
+		"action": "Custom",
+		"custom_action": "AdjustPositionAndClick",
+		"custom_action_param": {
+			"target_offset": [25, -72, -58, 4]
+		},
 		"post_wait_freezes": {
 			"time": 500,
-			"target": [128, 529, 587, 487],
-			"timeout": 5000
+			"target": [203, 695, 391, 457],
+			"timeout": 4000
 		}
 	},
 	"QuitInstanceSwipeRight": {
 		"desc": "退出副本右滑",
 		"action": "Swipe",
-		"begin": [400, 1100],
-		"end": [550, 1100],
-		"duration": 200,
-		"max_hit": 3,
+		"begin": [300, 1100],
+		"end": [500, 1100],
+		"duration": 300,
+		"max_hit": 2,
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [203, 695, 391, 457],
 			"timeout": 2000
 		}
 	},
-	"InstanceCragfortSwipeRight": {
-		"desc": "副本中右滑",
+	"QuitInstanceSwipeLeft": {
+		"desc": "退出副本左滑",
 		"action": "Swipe",
-		"begin": [400, 1100],
-		"end": [550, 1100],
-		"duration": 200,
-		"max_hit": 3,
+		"begin": [500, 1100],
+		"end": [300, 1100],
+		"duration": 300,
+		"max_hit": 2,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [203, 695, 391, 457],
+			"timeout": 2000
+		}
+	},
+	"InstanceCragfortSwipeRightDown": {
+		"desc": "副本中右下滑",
+		"action": "Swipe",
+		"begin": [150, 500],
+		"end": [700, 950],
+		"duration": 300,
+		"max_hit": 2,
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [203, 695, 391, 457],
@@ -167,10 +199,23 @@
 	"InstanceCragfortSwipeLeft": {
 		"desc": "副本中左滑",
 		"action": "Swipe",
-		"begin": [550, 1100],
-		"end": [400, 1100],
-		"duration": 200,
-		"max_hit": 3,
+		"begin": [500, 1100],
+		"end": [300, 1100],
+		"duration": 300,
+		"max_hit": 5,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [203, 695, 391, 457],
+			"timeout": 2000
+		}
+	},
+	"InstanceCragfortSwipeRight": {
+		"desc": "副本中右滑",
+		"action": "Swipe",
+		"begin": [400, 500],
+		"end": [600, 500],
+		"duration": 300,
+		"max_hit": 1,
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [203, 695, 391, 457],
@@ -181,8 +226,8 @@
 		"desc": "副本中下滑",
 		"action": "Swipe",
 		"begin": [400, 300],
-		"end": [400, 1100],
-		"duration": 100,
+		"end": [400, 600],
+		"duration": 300,
 		"max_hit": 2,
 		"post_wait_freezes": {
 			"time": 500,
@@ -193,9 +238,22 @@
 	"InstanceCragfortSwipeUp": {
 		"desc": "副本中上滑",
 		"action": "Swipe",
-		"begin": [400, 1100],
+		"begin": [400, 600],
 		"end": [400, 300],
-		"duration": 100,
+		"duration": 300,
+		"max_hit": 1,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [203, 695, 391, 457],
+			"timeout": 2000
+		}
+	},
+	"QuitInstanceSwipeUp": {
+		"desc": "退出副本上滑",
+		"action": "Swipe",
+		"begin": [400, 900],
+		"end": [400, 300],
+		"duration": 300,
 		"max_hit": 2,
 		"post_wait_freezes": {
 			"time": 500,
@@ -216,33 +274,98 @@
 			"SelectNightmareDifficulty"
 		]
 	},
-	"InstanceCragfortClickMonster": {
+	"InvadingMonster": {
+		"desc": "识别来袭的怪物",
+		"recognition": "Or",
+		"any_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "Instance/WildBullValley/InvadingMonster.png",
+				"roi": [102, 369, 500, 790]
+			},
+			{
+				"recognition": "OCR",
+				"expected": "来袭的怪物|来袭|怪物",
+				"roi": [102, 369, 500, 790]
+			}
+		]
+	},
+	"InvadingMonsterArea1": {
+		"desc": "识别来袭的怪物区域1",
+		"recognition": "TemplateMatch",
+		"template": "Instance/WildBullValley/InvadingMonster.png",
+		"roi": [116, 759, 604, 407]
+	},
+	"InvadingMonsterArea2": {
+		"desc": "识别来袭的怪物区域2",
+		"recognition": "TemplateMatch",
+		"template": "Instance/WildBullValley/InvadingMonster.png",
+		"roi": [147, 369, 465, 684]
+	},
+	"InvadingMonsterArea3": {
+		"desc": "识别来袭的怪物区域3",
+		"recognition": "TemplateMatch",
+		"template": "Instance/WildBullValley/InvadingMonster.png",
+		"roi": [328, 359, 392, 823]
+	},
+	"InstanceCragfortClickInvadingMonsterArea1": {
 		"desc": "点击怪物",
-		"recognition": "OCR",
-		"expected": "来袭的怪物|来袭|怪物",
-		"roi": [147, 369, 465, 684],
+		"recognition": "And",
+		"all_of": ["InvadingMonsterArea1"],
 		"action": "Custom",
-		"custom_action": "AdjustPosition",
+		"custom_action": "AdjustPositionAndClick",
 		"custom_action_param": {
 			"target_offset": [18, -68, -20, 10]
 		},
-		"next": [
-			"ClickMonster"
-		],
-		"on_error": [
-			"__ScenePrivateNextTrue"
-		]
-	},
-	"ClickMonster": {
-		"recognition": "OCR",
-		"expected": "来袭的怪物|来袭|怪物",
-		"roi": [147, 369, 465, 684],
-		"target_offset": [18, -68, -20, 10],
-		"action": "Click",
 		"post_wait_freezes": {
 			"time": 500,
-			"target": [129, 318, 477, 325],
-			"timeout": 4000
+			"target": [128, 529, 587, 487],
+			"timeout": 8000
+		}
+	},
+	"InstanceCragfortClickInvadingMonsterArea2": {
+		"desc": "点击怪物",
+		"recognition": "And",
+		"all_of": ["InvadingMonsterArea2"],
+		"action": "Custom",
+		"custom_action": "AdjustPositionAndClick",
+		"custom_action_param": {
+			"target_offset": [18, -68, -20, 10]
+		},
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [128, 529, 587, 487],
+			"timeout": 8000
+		}
+	},
+	"InstanceCragfortClickInvadingMonsterArea3": {
+		"desc": "点击怪物",
+		"recognition": "And",
+		"all_of": ["InvadingMonsterArea3"],
+		"action": "Custom",
+		"custom_action": "AdjustPositionAndClick",
+		"custom_action_param": {
+			"target_offset": [18, -68, -20, 10]
+		},
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [128, 529, 587, 487],
+			"timeout": 8000
+		}
+	},
+	"InstanceCragfortClickInvadingMonster": {
+		"desc": "点击怪物",
+		"recognition": "And",
+		"all_of": ["InvadingMonster"],
+		"action": "Custom",
+		"custom_action": "AdjustPositionAndClick",
+		"custom_action_param": {
+			"target_offset": [18, -68, -20, 10]
+		},
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [128, 529, 587, 487],
+			"timeout": 8000
 		}
 	},
 	"InWardenPage": {
@@ -273,11 +396,28 @@
 			"CragfortMapGotoFrontline",
 			"[JumpBack]InstanceCragfortKeepGoing",
 			"[JumpBack]SelectNightmareDifficulty",
-			"[JumpBack]InstanceCragfortClickMonster",
+			"[JumpBack]InstanceCragfortClickInvadingMonster",
 			"[JumpBack]InstanceCragfortSwipeRight",
-			"[JumpBack]InstanceCragfortSwipeDown",
+			"[JumpBack]InstanceCragfortSwipeRightDown",
 			"[JumpBack]InstanceCragfortSwipeLeft",
+			"QuitInstanceCondition1",
 			"QuitInstance"
+		]
+	},
+	"QuitInstanceCondition1": {
+		"desc": "识别到军需官，退出副本",
+		"recognition": "And",
+		"all_of": ["CragfortMapQuartermaster"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InWildBullValley",
+			"[JumpBack]LeaveInstance",
+			"[JumpBack]QuitInstanceClickWarden",
+			"[JumpBack]QuitInstanceSwipeRight",
+			"[JumpBack]QuitInstanceSwipeUp",
+			"[JumpBack]QuitInstanceSwipeLeft"
 		]
 	},
 	"CragfortMapClickWarden": {
@@ -285,26 +425,77 @@
 		"recognition": "And",
 		"all_of": [
 			{
-				"recognition": "OCR",
-				"expected": "辎重官|辎重|重官",
-				"roi": [17, 640, 703, 292],
-				"sub_name": "Quartermaster"
+				"recognition": "TemplateMatch",
+				"template": "Instance/WildBullValley/WardenEntrance.png",
+				"sub_name": "WardenPos"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 30, 80],
+				"upper": [30, 50, 255],
+				"roi": "WardenPos",
+				"roi_offset": [5, 124, -5, -126],
+				"sub_name": "WardenColor",
+				"count": 30
 			},
 			{
 				"recognition": "OCR",
 				"expected": "守备官",
-				"roi": "Quartermaster",
-				"roi_offset": [60, -60, 120, 80]
+				"roi": "WardenColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
 			}
 		],
-		"box_index": 1,
+		"box_index": 2,
 		"action": "Click",
-		"target_offset": [0, -50, 0, 0],
+		"target_offset": [33, -67, -61, -8],
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [128, 529, 587, 487],
 			"timeout": 5000
 		}
+	},
+	"CragfortMapQuartermaster": {
+		"desc": "在峭岩堡垒地图中识别军需官",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "Instance/WildBullValley/Quartermaster.png",
+				"sub_name": "QuartermasterPos"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 30, 80],
+				"upper": [30, 50, 255],
+				"roi": "QuartermasterPos",
+				"roi_offset": [1, 109, 0, -114],
+				"sub_name": "QuartermasterColor",
+				"count": 30
+			},
+			{
+				"recognition": "OCR",
+				"expected": "军需官",
+				"roi": "QuartermasterColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2,
+		"action": "Click",
+		"target_offset": [33, -67, -61, -8],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [128, 529, 587, 487],
+			"timeout": 5000
+		}
+	},
+	"test": {
+		"recognition": "TemplateMatch",
+		"template": "Instance/WildBullValley/Quartermaster.png",
+		"roi": [401, 911, 69, 144]
 	},
 	"InCragfortMap": {
 		"desc": "在峭岩堡垒地图中",
@@ -363,7 +554,7 @@
 			"InCragfortOutpostPage",
 			{
 				"recognition": "OCR",
-				"expected": "登上堡垒隘口|登上堡垒",
+				"expected": "登上堡垒隘口|登上堡垒|前往堡垒隘口|前往堡垒",
 				"roi": [214, 666, 296, 340]
 			}
 		],
@@ -377,9 +568,28 @@
 	},
 	"SceneEnterCragfortOutpost": {
 		"desc": "进入峭岩堡垒据点",
-		"recognition": "OCR",
-		"expected": "峭岩堡垒|岩堡垒|堡垒",
-		"roi": [122, 512, 598, 662],
+		"recognition": "And",
+		"all_of": [
+			"MazeCompleteStatus",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 30, 80],
+				"upper": [30, 50, 255],
+				"roi": "MazeCompleteStatus",
+				"roi_offset": [29, 0, 80, 0],
+				"count": 30,
+				"sub_name": "CompleteMazeNameColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "峭岩堡垒|岩堡垒|堡垒",
+				"roi": "CompleteMazeNameColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2,
 		"action": "Click",
 		"target_offset": [42, -150, -47, 8],
 		"post_wait_freezes": {
@@ -390,23 +600,27 @@
 	},
 	"WildBullValleySwipeUp": {
 		"desc": "蛮牛谷地图中上滑",
+		"recognition": "And",
+		"all_of": ["InWildBullValley"],
 		"action": "Swipe",
 		"begin": [350, 1100],
 		"end": [350, 300],
-		"duration": 200,
+		"duration": 300,
 		"max_hit": 1,
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [203, 695, 391, 457],
-			"timeout": 2000
+			"timeout": 1000
 		}
 	},
 	"WildBullValleySwipeRight": {
 		"desc": "蛮牛谷地图中右滑",
+		"recognition": "And",
+		"all_of": ["InWildBullValley"],
 		"action": "Swipe",
 		"begin": [200, 1100],
-		"end": [400, 1100],
-		"duration": 200,
+		"end": [450, 1100],
+		"duration": 300,
 		"max_hit": 6,
 		"post_wait_freezes": {
 			"time": 500,

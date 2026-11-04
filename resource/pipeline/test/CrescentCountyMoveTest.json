@@ -1,0 +1,232 @@
+{
+	"CrescentCountyTestMoveToPointEntry": {
+		"desc": "新月郡测试移动到目标点位（不依赖罗盘）",
+		"next": ["[JumpBack]WallConfig", "[JumpBack]CrescentCountyMoveToPoint", "CrescentCountyTestMoveDone", "[JumpBack]SceneEnterCrescentCountyNoReset"]
+	},
+	"CrescentCountyTestMoveDone": {
+		"recognition": "And",
+		"all_of": ["InCrescentCounty"]
+	},
+	"CrescentCountyMoveToPoint": {
+		"recognition": "And",
+		"all_of": ["InCrescentCounty"],
+		"max_hit": 1,
+		"next": ["[JumpBack]CrescentCountyMoveToPointCollection1", "[JumpBack]CrescentCountyMoveToPointCollection2", "[JumpBack]CrescentCountyMoveToPointCollection3", "[JumpBack]CrescentCountyMoveToPointCollection4", "[JumpBack]CrescentCountyMoveToPointCollection5", "[JumpBack]CrescentCountyMoveToPointCollection6", "CrescentCountyTestMoveDone"]
+	},
+	"CrescentCountyMoveToPointCollection1": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:新月郡 Collection1"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToCrescentCountyTargetPoint1", "MoveToCrescentCountyTargetPoint2", "MoveToCrescentCountyTargetPoint3"]
+		}
+	},
+	"CrescentCountyMoveToPointCollection2": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:新月郡 Collection2"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToCrescentCountyTargetPoint1", "MoveToCrescentCountyTargetPoint3", "MoveToCrescentCountyTargetPoint2"]
+		}
+	},
+	"CrescentCountyMoveToPointCollection3": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:新月郡 Collection3"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToCrescentCountyTargetPoint3", "MoveToCrescentCountyTargetPoint2", "MoveToCrescentCountyTargetPoint1"]
+		}
+	},
+	"CrescentCountyMoveToPointCollection4": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:新月郡 Collection4"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToCrescentCountyTargetPoint3", "MoveToCrescentCountyTargetPoint1", "MoveToCrescentCountyTargetPoint2"]
+		}
+	},
+	"CrescentCountyMoveToPointCollection5": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:新月郡 Collection5"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToCrescentCountyTargetPoint2", "MoveToCrescentCountyTargetPoint3", "MoveToCrescentCountyTargetPoint1"]
+		}
+	},
+	"CrescentCountyMoveToPointCollection6": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:新月郡 Collection6"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToCrescentCountyTargetPoint2", "MoveToCrescentCountyTargetPoint1", "MoveToCrescentCountyTargetPoint3"]
+		}
+	},
+	"MoveToCrescentCountyTargetPoint1": {
+		"desc": "移动到新月郡目标点1-地下水道左边",
+		"recognition": "Custom",
+		"custom_recognition": "findTargetPoint",
+		"custom_recognition_param": {
+			"point": [25, 60],
+			"task": "CrescentCountyTargetPoint1",
+			"offset": [-60, -71, -73, -12]
+		},
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:移动到新月郡目标点1-地下水道左边"
+		},
+		"next": ["ArrivedAtCrescentCountyTargetPoint1", "[JumpBack]SceneBack", "[JumpBack]QuitMapOutpost", "MoveToCrescentCountyTargetPoint1"]
+	},
+	"MoveToCrescentCountyTargetPoint2": {
+		"desc": "移动到新月郡目标点2-河望农场左边",
+		"recognition": "Custom",
+		"custom_recognition": "findTargetPoint",
+		"custom_recognition_param": {
+			"point": [44, 34],
+			"task": "CrescentCountyTargetPoint2",
+			"offset": [-189, -203, -78, -13]
+		},
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:移动到新月郡目标点2-河望农场左边"
+		},
+		"next": ["ArrivedAtCrescentCountyTargetPoint2", "[JumpBack]SceneBack", "[JumpBack]QuitMapOutpost", "MoveToCrescentCountyTargetPoint2"]
+	},
+	"MoveToCrescentCountyTargetPoint3": {
+		"desc": "移动到新月郡目标点3-引力之穴左边",
+		"recognition": "Custom",
+		"custom_recognition": "findTargetPoint",
+		"custom_recognition_param": {
+			"point": [83, 20],
+			"task": "CrescentCountyTargetPoint3",
+			"offset": [-226, 24, -77, -13]
+		},
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:移动到新月郡目标点3-引力之穴左边"
+		},
+		"next": ["ArrivedAtCrescentCountyTargetPoint3", "[JumpBack]SceneBack", "[JumpBack]QuitMapOutpost", "MoveToCrescentCountyTargetPoint3"]
+	},
+	"CrescentCountyTargetPoint1": {
+		"desc": "新月郡目标点1-地下水道左边",
+		"recognition": "And",
+		"all_of": ["MazeCompleteStatus", {
+			"recognition": "ColorMatch",
+			"method": 40,
+			"lower": [20, 30, 80],
+			"upper": [30, 50, 255],
+			"roi": "MazeCompleteStatus",
+			"roi_offset": [29, 0, 80, 0],
+			"count": 30,
+			"sub_name": "CompleteMazeNameColor"
+		}, {
+			"recognition": "OCR",
+			"expected": "地下水道",
+			"roi": "CompleteMazeNameColor",
+			"roi_offset": [-2, -2, 4, 4],
+			"only_rec": true
+		}],
+		"box_index": 2
+	},
+	"CrescentCountyTargetPoint2": {
+		"desc": "新月郡目标点2-河望农场左边",
+		"recognition": "And",
+		"all_of": ["MazeCompleteStatus", {
+			"recognition": "ColorMatch",
+			"method": 40,
+			"lower": [20, 30, 80],
+			"upper": [30, 50, 255],
+			"roi": "MazeCompleteStatus",
+			"roi_offset": [29, 0, 80, 0],
+			"count": 30,
+			"sub_name": "CompleteMazeNameColor"
+		}, {
+			"recognition": "OCR",
+			"expected": "河望农场",
+			"roi": "CompleteMazeNameColor",
+			"roi_offset": [-2, -2, 4, 4],
+			"only_rec": true
+		}],
+		"box_index": 2
+	},
+	"CrescentCountyTargetPoint3": {
+		"desc": "新月郡目标点3-引力之穴左边",
+		"recognition": "And",
+		"all_of": ["MazeCompleteStatus", {
+			"recognition": "ColorMatch",
+			"method": 40,
+			"lower": [20, 30, 80],
+			"upper": [30, 50, 255],
+			"roi": "MazeCompleteStatus",
+			"roi_offset": [29, 0, 80, 0],
+			"count": 30,
+			"sub_name": "CompleteMazeNameColor"
+		}, {
+			"recognition": "OCR",
+			"expected": "引力之穴",
+			"roi": "CompleteMazeNameColor",
+			"roi_offset": [-2, -2, 4, 4],
+			"only_rec": true
+		}],
+		"box_index": 2
+	},
+	"ArrivedAtCrescentCountyTargetPoint1": {
+		"desc": "检查是否到达新月郡目标点1-地下水道左边",
+		"recognition": "Custom",
+		"custom_recognition": "ArrivedAtTargetPoint",
+		"custom_recognition_param": {
+			"point": [25, 60],
+			"offset": [3, 3]
+		}
+	},
+	"ArrivedAtCrescentCountyTargetPoint2": {
+		"desc": "检查是否到达新月郡目标点2-河望农场左边",
+		"recognition": "Custom",
+		"custom_recognition": "ArrivedAtTargetPoint",
+		"custom_recognition_param": {
+			"point": [40, 44],
+			"offset": [3, 3]
+		}
+	},
+	"ArrivedAtCrescentCountyTargetPoint3": {
+		"desc": "检查是否到达新月郡目标点3-引力之穴左边",
+		"recognition": "Custom",
+		"custom_recognition": "ArrivedAtTargetPoint",
+		"custom_recognition_param": {
+			"point": [83, 20],
+			"offset": [3, 3]
+		}
+	}
+}

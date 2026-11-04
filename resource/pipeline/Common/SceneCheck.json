@@ -72,6 +72,15 @@
 		"post_delay": 0,
 		"rate_limit": 0
 	},
+	"HasRankingIcon": {
+		"desc": "主页识别排行榜图标",
+		"recognition": "TemplateMatch",
+		"template": "main_page_icon/RankingIcon.png",
+		"roi": [582, 765, 138, 515],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
 	"HasGamePlayIcon": {
 		"desc": "主页更多玩法图标",
 		"recognition": "TemplateMatch",
@@ -268,6 +277,22 @@
 		"desc": "识别寒石堡垒",
 		"recognition": "OCR",
 		"expected": ["寒石堡垒", "堡垒", "寒石"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasUpWay": {
+		"desc": "识别上山的路",
+		"recognition": "OCR",
+		"expected": ["上山的路", "上山"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HasDownWay": {
+		"desc": "识别下山的路",
+		"recognition": "OCR",
+		"expected": ["下山的路", "下山"],
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0

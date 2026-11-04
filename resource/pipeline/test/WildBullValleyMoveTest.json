@@ -1,0 +1,483 @@
+{
+	"WildBullValleyTestMoveToPointEntry": {
+		"desc": "蛮牛谷测试移动到目标点位（不依赖罗盘）",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": ["[JumpBack]WallConfig", "[JumpBack]WildBullValleyMoveToPoint", "WildBullValleyTestMoveDone", "[JumpBack]SceneEnterWildBullValleyNoReset"]
+	},
+	"WildBullValleyMoveToPoint": {
+		"recognition": "And",
+		"all_of": ["InWildBullValley"],
+		"max_hit": 1,
+		"next": ["[JumpBack]WildBullValleyMoveToPointCollection1", "[JumpBack]WildBullValleyMoveToPointCollection2", "[JumpBack]WildBullValleyMoveToPointCollection3", "[JumpBack]WildBullValleyMoveToPointCollection4", "[JumpBack]WildBullValleyMoveToPointCollection5", "[JumpBack]WildBullValleyMoveToPointCollection6", "[JumpBack]WildBullValleyMoveToPointCollection7", "[JumpBack]WildBullValleyMoveToPointCollection8", "[JumpBack]WildBullValleyMoveToPointCollection9", "[JumpBack]WildBullValleyMoveToPointCollection10", "[JumpBack]WildBullValleyMoveToPointCollection11", "[JumpBack]WildBullValleyMoveToPointCollection12", "[JumpBack]WildBullValleyMoveToPointCollection13", "[JumpBack]WildBullValleyMoveToPointCollection14", "[JumpBack]WildBullValleyMoveToPointCollection15", "[JumpBack]WildBullValleyMoveToPointCollection16", "[JumpBack]WildBullValleyMoveToPointCollection17", "[JumpBack]WildBullValleyMoveToPointCollection18", "[JumpBack]WildBullValleyMoveToPointCollection19", "[JumpBack]WildBullValleyMoveToPointCollection20", "[JumpBack]WildBullValleyMoveToPointCollection21", "[JumpBack]WildBullValleyMoveToPointCollection22", "[JumpBack]WildBullValleyMoveToPointCollection23", "[JumpBack]WildBullValleyMoveToPointCollection24", "WildBullValleyTestMoveDone"]
+	},
+	"WildBullValleyTestMoveDone": {
+		"recognition": "And",
+		"all_of": ["InWildBullValley"]
+	},
+	"WildBullValleyMoveToPointCollection1": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:蛮牛谷 Collection1"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToWildBullValleyTargetPoint1", "MoveToWildBullValleyTargetPoint2", "MoveToWildBullValleyTargetPoint3", "MoveToWildBullValleyTargetPoint4"]
+		}
+	},
+	"WildBullValleyMoveToPointCollection2": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:蛮牛谷 Collection2"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToWildBullValleyTargetPoint1", "MoveToWildBullValleyTargetPoint2", "MoveToWildBullValleyTargetPoint4", "MoveToWildBullValleyTargetPoint3"]
+		}
+	},
+	"WildBullValleyMoveToPointCollection3": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:蛮牛谷 Collection3"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToWildBullValleyTargetPoint1", "MoveToWildBullValleyTargetPoint3", "MoveToWildBullValleyTargetPoint2", "MoveToWildBullValleyTargetPoint4"]
+		}
+	},
+	"WildBullValleyMoveToPointCollection4": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:蛮牛谷 Collection4"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToWildBullValleyTargetPoint1", "MoveToWildBullValleyTargetPoint3", "MoveToWildBullValleyTargetPoint4", "MoveToWildBullValleyTargetPoint2"]
+		}
+	},
+	"WildBullValleyMoveToPointCollection5": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:蛮牛谷 Collection5"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToWildBullValleyTargetPoint1", "MoveToWildBullValleyTargetPoint4", "MoveToWildBullValleyTargetPoint2", "MoveToWildBullValleyTargetPoint3"]
+		}
+	},
+	"WildBullValleyMoveToPointCollection6": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:蛮牛谷 Collection6"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToWildBullValleyTargetPoint1", "MoveToWildBullValleyTargetPoint4", "MoveToWildBullValleyTargetPoint3", "MoveToWildBullValleyTargetPoint2"]
+		}
+	},
+	"WildBullValleyMoveToPointCollection7": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:蛮牛谷 Collection7"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToWildBullValleyTargetPoint2", "MoveToWildBullValleyTargetPoint1", "MoveToWildBullValleyTargetPoint3", "MoveToWildBullValleyTargetPoint4"]
+		}
+	},
+	"WildBullValleyMoveToPointCollection8": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:蛮牛谷 Collection8"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToWildBullValleyTargetPoint2", "MoveToWildBullValleyTargetPoint1", "MoveToWildBullValleyTargetPoint4", "MoveToWildBullValleyTargetPoint3"]
+		}
+	},
+	"WildBullValleyMoveToPointCollection9": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:蛮牛谷 Collection9"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToWildBullValleyTargetPoint2", "MoveToWildBullValleyTargetPoint3", "MoveToWildBullValleyTargetPoint1", "MoveToWildBullValleyTargetPoint4"]
+		}
+	},
+	"WildBullValleyMoveToPointCollection10": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:蛮牛谷 Collection10"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToWildBullValleyTargetPoint2", "MoveToWildBullValleyTargetPoint3", "MoveToWildBullValleyTargetPoint4", "MoveToWildBullValleyTargetPoint1"]
+		}
+	},
+	"WildBullValleyMoveToPointCollection11": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:蛮牛谷 Collection11"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToWildBullValleyTargetPoint2", "MoveToWildBullValleyTargetPoint4", "MoveToWildBullValleyTargetPoint1", "MoveToWildBullValleyTargetPoint3"]
+		}
+	},
+	"WildBullValleyMoveToPointCollection12": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:蛮牛谷 Collection12"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToWildBullValleyTargetPoint2", "MoveToWildBullValleyTargetPoint4", "MoveToWildBullValleyTargetPoint3", "MoveToWildBullValleyTargetPoint1"]
+		}
+	},
+	"WildBullValleyMoveToPointCollection13": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:蛮牛谷 Collection13"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToWildBullValleyTargetPoint3", "MoveToWildBullValleyTargetPoint1", "MoveToWildBullValleyTargetPoint2", "MoveToWildBullValleyTargetPoint4"]
+		}
+	},
+	"WildBullValleyMoveToPointCollection14": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:蛮牛谷 Collection14"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToWildBullValleyTargetPoint3", "MoveToWildBullValleyTargetPoint1", "MoveToWildBullValleyTargetPoint4", "MoveToWildBullValleyTargetPoint2"]
+		}
+	},
+	"WildBullValleyMoveToPointCollection15": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:蛮牛谷 Collection15"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToWildBullValleyTargetPoint3", "MoveToWildBullValleyTargetPoint2", "MoveToWildBullValleyTargetPoint1", "MoveToWildBullValleyTargetPoint4"]
+		}
+	},
+	"WildBullValleyMoveToPointCollection16": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:蛮牛谷 Collection16"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToWildBullValleyTargetPoint3", "MoveToWildBullValleyTargetPoint2", "MoveToWildBullValleyTargetPoint4", "MoveToWildBullValleyTargetPoint1"]
+		}
+	},
+	"WildBullValleyMoveToPointCollection17": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:蛮牛谷 Collection17"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToWildBullValleyTargetPoint3", "MoveToWildBullValleyTargetPoint4", "MoveToWildBullValleyTargetPoint1", "MoveToWildBullValleyTargetPoint2"]
+		}
+	},
+	"WildBullValleyMoveToPointCollection18": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:蛮牛谷 Collection18"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToWildBullValleyTargetPoint3", "MoveToWildBullValleyTargetPoint4", "MoveToWildBullValleyTargetPoint2", "MoveToWildBullValleyTargetPoint1"]
+		}
+	},
+	"WildBullValleyMoveToPointCollection19": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:蛮牛谷 Collection19"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToWildBullValleyTargetPoint4", "MoveToWildBullValleyTargetPoint1", "MoveToWildBullValleyTargetPoint2", "MoveToWildBullValleyTargetPoint3"]
+		}
+	},
+	"WildBullValleyMoveToPointCollection20": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:蛮牛谷 Collection20"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToWildBullValleyTargetPoint4", "MoveToWildBullValleyTargetPoint1", "MoveToWildBullValleyTargetPoint3", "MoveToWildBullValleyTargetPoint2"]
+		}
+	},
+	"WildBullValleyMoveToPointCollection21": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:蛮牛谷 Collection21"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToWildBullValleyTargetPoint4", "MoveToWildBullValleyTargetPoint2", "MoveToWildBullValleyTargetPoint1", "MoveToWildBullValleyTargetPoint3"]
+		}
+	},
+	"WildBullValleyMoveToPointCollection22": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:蛮牛谷 Collection22"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToWildBullValleyTargetPoint4", "MoveToWildBullValleyTargetPoint2", "MoveToWildBullValleyTargetPoint3", "MoveToWildBullValleyTargetPoint1"]
+		}
+	},
+	"WildBullValleyMoveToPointCollection23": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:蛮牛谷 Collection23"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToWildBullValleyTargetPoint4", "MoveToWildBullValleyTargetPoint3", "MoveToWildBullValleyTargetPoint1", "MoveToWildBullValleyTargetPoint2"]
+		}
+	},
+	"WildBullValleyMoveToPointCollection24": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:蛮牛谷 Collection24"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToWildBullValleyTargetPoint4", "MoveToWildBullValleyTargetPoint3", "MoveToWildBullValleyTargetPoint2", "MoveToWildBullValleyTargetPoint1"]
+		}
+	},
+	"MoveToWildBullValleyTargetPoint1": {
+		"desc": "移动到蛮牛谷目标点1-哀嚎山谷下边",
+		"recognition": "Custom",
+		"custom_recognition": "findTargetPoint",
+		"custom_recognition_param": {
+			"point": [12, 59],
+			"task": "WildBullValleyTargetPoint1",
+			"offset": [129, 149, -78, -15]
+		},
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:移动到蛮牛谷目标点1-哀嚎山谷下边"
+		},
+		"next": ["ArrivedAtWildBullValleyTargetPoint1", "[JumpBack]SceneBack", "[JumpBack]QuitMapOutpost", "MoveToWildBullValleyTargetPoint1"]
+	},
+	"MoveToWildBullValleyTargetPoint2": {
+		"desc": "移动到蛮牛谷目标点2-巨石之台下边",
+		"recognition": "Custom",
+		"custom_recognition": "findTargetPoint",
+		"custom_recognition_param": {
+			"point": [16, 41],
+			"task": "WildBullValleyTargetPoint2",
+			"offset": [108, 106, -78, -13]
+		},
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:移动到蛮牛谷目标点2-巨石之台下边"
+		},
+		"next": ["ArrivedAtWildBullValleyTargetPoint2", "[JumpBack]SceneBack", "[JumpBack]QuitMapOutpost", "MoveToWildBullValleyTargetPoint2"]
+	},
+	"MoveToWildBullValleyTargetPoint3": {
+		"desc": "移动到蛮牛谷目标点3-废弃采石场左下",
+		"recognition": "Custom",
+		"custom_recognition": "findTargetPoint",
+		"custom_recognition_param": {
+			"point": [33, 84],
+			"task": "WildBullValleyTargetPoint3",
+			"offset": [-95, 143, -93, -16]
+		},
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:移动到蛮牛谷目标点3-废弃采石场左下"
+		},
+		"next": ["ArrivedAtWildBullValleyTargetPoint3", "[JumpBack]SceneBack", "[JumpBack]QuitMapOutpost", "MoveToWildBullValleyTargetPoint3"]
+	},
+	"MoveToWildBullValleyTargetPoint4": {
+		"desc": "移动到蛮牛谷目标点4-栖息之地上边",
+		"recognition": "Custom",
+		"custom_recognition": "findTargetPoint",
+		"custom_recognition_param": {
+			"point": [80, 80],
+			"task": "WildBullValleyTargetPoint4",
+			"offset": [102, -314, -76, -12]
+		},
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:移动到蛮牛谷目标点4-栖息之地上边"
+		},
+		"next": ["ArrivedAtWildBullValleyTargetPoint4", "[JumpBack]SceneBack", "[JumpBack]QuitMapOutpost", "MoveToWildBullValleyTargetPoint4"]
+	},
+	"WildBullValleyTargetPoint1": {
+		"desc": "蛮牛谷目标点1-哀嚎山谷下边",
+		"recognition": "And",
+		"all_of": ["MazeCompleteStatus", {
+			"recognition": "ColorMatch",
+			"method": 40,
+			"lower": [20, 30, 80],
+			"upper": [30, 50, 255],
+			"roi": "MazeCompleteStatus",
+			"roi_offset": [29, 0, 80, 0],
+			"count": 30,
+			"sub_name": "CompleteMazeNameColor"
+		}, {
+			"recognition": "OCR",
+			"expected": "哀嚎山谷",
+			"roi": "CompleteMazeNameColor",
+			"roi_offset": [-2, -2, 4, 4],
+			"only_rec": true
+		}],
+		"box_index": 2
+	},
+	"WildBullValleyTargetPoint2": {
+		"desc": "蛮牛谷目标点2-巨石之台下边",
+		"recognition": "And",
+		"all_of": ["MazeCompleteStatus", {
+			"recognition": "ColorMatch",
+			"method": 40,
+			"lower": [20, 30, 80],
+			"upper": [30, 50, 255],
+			"roi": "MazeCompleteStatus",
+			"roi_offset": [29, 0, 80, 0],
+			"count": 30,
+			"sub_name": "CompleteMazeNameColor"
+		}, {
+			"recognition": "OCR",
+			"expected": "巨石之台",
+			"roi": "CompleteMazeNameColor",
+			"roi_offset": [-2, -2, 4, 4],
+			"only_rec": true
+		}],
+		"box_index": 2
+	},
+	"WildBullValleyTargetPoint3": {
+		"desc": "蛮牛谷目标点3-废弃采石场左下",
+		"recognition": "And",
+		"all_of": ["MazeCompleteStatus", {
+			"recognition": "ColorMatch",
+			"method": 40,
+			"lower": [20, 30, 80],
+			"upper": [30, 50, 255],
+			"roi": "MazeCompleteStatus",
+			"roi_offset": [29, 0, 80, 0],
+			"count": 30,
+			"sub_name": "CompleteMazeNameColor"
+		}, {
+			"recognition": "OCR",
+			"expected": "废弃采石场|废弃|采石场",
+			"roi": "CompleteMazeNameColor",
+			"roi_offset": [-2, -2, 4, 4],
+			"only_rec": true
+		}],
+		"box_index": 2
+	},
+	"WildBullValleyTargetPoint4": {
+		"desc": "蛮牛谷目标点4-栖息之地上边",
+		"recognition": "And",
+		"all_of": ["MazeCompleteStatus", {
+			"recognition": "ColorMatch",
+			"method": 40,
+			"lower": [20, 30, 80],
+			"upper": [30, 50, 255],
+			"roi": "MazeCompleteStatus",
+			"roi_offset": [29, 0, 80, 0],
+			"count": 30,
+			"sub_name": "CompleteMazeNameColor"
+		}, {
+			"recognition": "OCR",
+			"expected": "栖息之地",
+			"roi": "CompleteMazeNameColor",
+			"roi_offset": [-2, -2, 4, 4],
+			"only_rec": true
+		}],
+		"box_index": 2
+	},
+	"ArrivedAtWildBullValleyTargetPoint1": {
+		"desc": "检查是否到达蛮牛谷目标点1-哀嚎山谷下边",
+		"recognition": "Custom",
+		"custom_recognition": "ArrivedAtTargetPoint",
+		"custom_recognition_param": {
+			"point": [16, 54],
+			"offset": [3, 3]
+		}
+	},
+	"ArrivedAtWildBullValleyTargetPoint2": {
+		"desc": "检查是否到达蛮牛谷目标点2-巨石之台下边",
+		"recognition": "Custom",
+		"custom_recognition": "ArrivedAtTargetPoint",
+		"custom_recognition_param": {
+			"point": [19, 37],
+			"offset": [3, 3]
+		}
+	},
+	"ArrivedAtWildBullValleyTargetPoint3": {
+		"desc": "检查是否到达蛮牛谷目标点3-废弃采石场左下",
+		"recognition": "Custom",
+		"custom_recognition": "ArrivedAtTargetPoint",
+		"custom_recognition_param": {
+			"point": [27, 79],
+			"offset": [3, 3]
+		}
+	},
+	"ArrivedAtWildBullValleyTargetPoint4": {
+		"desc": "检查是否到达蛮牛谷目标点4-栖息之地上边",
+		"recognition": "Custom",
+		"custom_recognition": "ArrivedAtTargetPoint",
+		"custom_recognition_param": {
+			"point": [77, 87],
+			"offset": [3, 3]
+		}
+	}
+}

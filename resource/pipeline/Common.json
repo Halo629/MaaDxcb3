@@ -207,5 +207,47 @@
 			"target": [158, 514, 413, 400],
 			"timeout": 2000
 		}
+	},
+	"ZoomInMax": {
+		"desc": "放大画面到最大",
+		"max_hit": 1,
+		"action": "MultiSwipe",
+		"swipes": [
+			{
+				"begin": [350, 850],
+				"end": [150, 400],
+				"duration": 200
+			},
+			{
+				"begin": [450, 850],
+				"end": [600, 1150],
+				"duration": 200
+			}
+		],
+		"repeat": 2,
+		"repeat_delay": 500,
+		"post_delay": 500
+	},
+	"DialogOption": {
+		"desc": "对话选项",
+		"recognition": "TemplateMatch",
+		"template": [
+			"common/DialogOption.png",
+			"common/RightDownDialogOption.png"
+		],
+		"roi": [8, 587, 712, 649],
+		"green_mask": true,
+		"order_by": "Vertical"
+	},
+	"ClickFirstCanClickOption": {
+		"desc": "找到第一个可点击的选项（排除红色不可点击项）",
+		"recognition": "Custom",
+		"custom_recognition": "FindFirstCanClickOption",
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [158, 514, 413, 400],
+			"timeout": 2000
+		}
 	}
 }

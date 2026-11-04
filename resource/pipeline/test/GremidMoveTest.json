@@ -1,0 +1,327 @@
+{
+	"GremidTestMoveToPointEntry": {
+		"desc": "格雷米德测试移动到目标点位（不依赖罗盘）",
+		"next": ["[JumpBack]WallConfig", "[JumpBack]GremidMoveToPoint", "GremidTestMoveDone", "[JumpBack]SceneEnterGremidNoReset"]
+	},
+	"GremidMoveToPoint": {
+		"recognition": "And",
+		"all_of": ["InGremid"],
+		"max_hit": 1,
+		"next": ["[JumpBack]GremidMoveToPointCollection1", "[JumpBack]GremidMoveToPointCollection2", "[JumpBack]GremidMoveToPointCollection3", "[JumpBack]GremidMoveToPointCollection4", "[JumpBack]GremidMoveToPointCollection5", "[JumpBack]GremidMoveToPointCollection6", "GremidTestMoveDone"]
+	},
+	"GremidTestMoveDone": {
+		"recognition": "And",
+		"all_of": ["InGremid"]
+	},
+	"GremidMoveToPointCollection1": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:格雷米德 Collection1"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToGremidTargetPoint1", "MoveToGremidTargetPoint2", "MoveToGremidTargetPoint3"]
+		}
+	},
+	"GremidMoveToPointCollection2": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:格雷米德 Collection2"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToGremidTargetPoint1", "MoveToGremidTargetPoint3", "MoveToGremidTargetPoint2"]
+		}
+	},
+	"GremidMoveToPointCollection3": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:格雷米德 Collection3"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToGremidTargetPoint3", "MoveToGremidTargetPoint2", "MoveToGremidTargetPoint1"]
+		}
+	},
+	"GremidMoveToPointCollection4": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:格雷米德 Collection4"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToGremidTargetPoint3", "MoveToGremidTargetPoint1", "MoveToGremidTargetPoint2"]
+		}
+	},
+	"GremidMoveToPointCollection5": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:格雷米德 Collection5"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToGremidTargetPoint2", "MoveToGremidTargetPoint3", "MoveToGremidTargetPoint1"]
+		}
+	},
+	"GremidMoveToPointCollection6": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:格雷米德 Collection6"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToGremidTargetPoint2", "MoveToGremidTargetPoint1", "MoveToGremidTargetPoint3"]
+		}
+	},
+	"MoveToGremidTargetPoint1": {
+		"desc": "移动到格雷米德目标点1-秘密酒窖上边",
+		"recognition": "Custom",
+		"custom_recognition": "findTargetPoint",
+		"custom_recognition_param": {
+			"point": [32, 67],
+			"task": "GremidTargetPoint1",
+			"offset": [129, -366, -81, -14]
+		},
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:移动到格雷米德目标点1-秘密出口下边"
+		},
+		"next": ["ArrivedAtGremidTargetPoint1", "[JumpBack]SceneBack", "[JumpBack]QuitMapOutpost", "MoveToGremidTargetPoint1"]
+	},
+	"MoveToGremidTargetPoint2": {
+		"desc": "移动到格雷米德目标点2-熔炉城大门左边",
+		"recognition": "Custom",
+		"custom_recognition": "findTargetPoint",
+		"custom_recognition_param": {
+			"point": [79, 65],
+			"task": "GremidTargetPoint2",
+			"offset": [-75, 100, -107, -16]
+		},
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:移动到格雷米德目标点2-熔炉城大门左边"
+		},
+		"next": ["ArrivedAtGremidTargetPoint2", "[JumpBack]SceneBack", "[JumpBack]QuitMapOutpost", "MoveToGremidTargetPoint2"]
+	},
+	"MoveToGremidTargetPoint3": {
+		"desc": "移动到格雷米德目标点3-秘密酒窖右边",
+		"recognition": "Custom",
+		"custom_recognition": "findTargetPoint",
+		"custom_recognition_param": {
+			"point": [30, 54],
+			"task": "GremidTargetPoint3",
+			"offset": [212, -41, -75, -14]
+		},
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:移动到格雷米德目标点3-秘密酒窖右边"
+		},
+		"next": ["ArrivedAtGremidTargetPoint3", "[JumpBack]SceneBack", "[JumpBack]QuitMapOutpost", "MoveToGremidTargetPoint3"]
+	},
+	"GremidTargetPoint1": {
+		"desc": "格雷米德目标点1-秘密酒窖上边",
+		"recognition": "And",
+		"all_of": ["MazeCompleteStatus", {
+			"recognition": "ColorMatch",
+			"method": 40,
+			"lower": [20, 30, 80],
+			"upper": [30, 50, 255],
+			"roi": "MazeCompleteStatus",
+			"roi_offset": [29, 0, 80, 0],
+			"count": 30,
+			"sub_name": "CompleteMazeNameColor"
+		}, {
+			"recognition": "OCR",
+			"expected": "秘密酒窖",
+			"roi": "CompleteMazeNameColor",
+			"roi_offset": [-2, -2, 4, 4],
+			"only_rec": true
+		}],
+		"box_index": 2
+	},
+	"GremidTargetPoint2": {
+		"desc": "格雷米德目标点2-熔炉城大门左边",
+		"recognition": "And",
+		"all_of": ["MazeCompleteStatus", {
+			"recognition": "ColorMatch",
+			"method": 40,
+			"lower": [20, 30, 80],
+			"upper": [30, 50, 255],
+			"roi": "MazeCompleteStatus",
+			"roi_offset": [29, 0, 80, 0],
+			"count": 30,
+			"sub_name": "CompleteMazeNameColor"
+		}, {
+			"recognition": "OCR",
+			"expected": "熔炉城大门",
+			"roi": "CompleteMazeNameColor",
+			"roi_offset": [-2, -2, 4, 4],
+			"only_rec": true
+		}],
+		"box_index": 2
+	},
+	"GremidTargetPoint3": {
+		"desc": "格雷米德目标点3-秘密酒窖右边",
+		"recognition": "And",
+		"all_of": ["MazeCompleteStatus", {
+			"recognition": "ColorMatch",
+			"method": 40,
+			"lower": [20, 30, 80],
+			"upper": [30, 50, 255],
+			"roi": "MazeCompleteStatus",
+			"roi_offset": [29, 0, 80, 0],
+			"count": 30,
+			"sub_name": "CompleteMazeNameColor"
+		}, {
+			"recognition": "OCR",
+			"expected": "秘密酒窖",
+			"roi": "CompleteMazeNameColor",
+			"roi_offset": [-2, -2, 4, 4],
+			"only_rec": true
+		}],
+		"box_index": 2
+	},
+	"ArrivedAtGremidTargetPoint1": {
+		"desc": "检查是否到达格雷米德目标点1-秘密出口下边",
+		"recognition": "Custom",
+		"custom_recognition": "ArrivedAtTargetPoint",
+		"custom_recognition_param": {
+			"point": [32, 69],
+			"offset": [3, 3]
+		}
+	},
+	"ArrivedAtGremidTargetPoint2": {
+		"desc": "检查是否到达格雷米德目标点2-熔炉城大门左边",
+		"recognition": "Custom",
+		"custom_recognition": "ArrivedAtTargetPoint",
+		"custom_recognition_param": {
+			"point": [79, 65],
+			"offset": [3, 3]
+		}
+	},
+	"ArrivedAtGremidTargetPoint3": {
+		"desc": "检查是否到达格雷米德目标点3-秘密酒窖右边",
+		"recognition": "Custom",
+		"custom_recognition": "ArrivedAtTargetPoint",
+		"custom_recognition_param": {
+			"point": [36, 54],
+			"offset": [3, 3]
+		}
+	},
+	"GremidMineCaveWall": {
+		"desc": "格雷米德矿洞(横墙)",
+		"recognition": "And",
+		"all_of": ["MazeCompleteStatus", {
+			"recognition": "ColorMatch",
+			"method": 40,
+			"lower": [20, 30, 80],
+			"upper": [30, 50, 255],
+			"roi": "MazeCompleteStatus",
+			"roi_offset": [29, 0, 80, 0],
+			"count": 30,
+			"sub_name": "CompleteMazeNameColor"
+		}, {
+			"recognition": "OCR",
+			"expected": "矿洞",
+			"roi": "CompleteMazeNameColor",
+			"roi_offset": [-2, -2, 4, 4],
+			"only_rec": true
+		}],
+		"box_index": 2,
+		"action": "Custom",
+		"custom_action": "AdjustPositionAndClick",
+		"custom_action_param": {
+			"target_offset": [0, -100, 0, 0]
+		},
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [193, 513, 358, 513],
+			"timeout": 5000
+		},
+		"next": ["GremidTakeMinecart", "GremidMineCaveWall"]
+	},
+	"GremidTakeMinecart": {
+		"desc": "乘坐矿车",
+		"recognition": "OCR",
+		"expected": "乘坐矿车|乘坐|矿车",
+		"roi": [250, 673, 209, 329],
+		"action": "Click",
+		"post_delay": 5000,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [193, 513, 358, 513],
+			"timeout": 2000
+		}
+	},
+	"GremidBeaconTowerWall": {
+		"desc": "格雷米德烽火台(横墙)",
+		"recognition": "And",
+		"all_of": ["MazeCompleteStatus", {
+			"recognition": "ColorMatch",
+			"method": 40,
+			"lower": [20, 30, 80],
+			"upper": [30, 50, 255],
+			"roi": "MazeCompleteStatus",
+			"roi_offset": [29, 0, 80, 0],
+			"count": 30,
+			"sub_name": "CompleteMazeNameColor"
+		}, {
+			"recognition": "OCR",
+			"expected": "烽火台",
+			"roi": "CompleteMazeNameColor",
+			"roi_offset": [-2, -2, 4, 4],
+			"only_rec": true
+		}],
+		"box_index": 2,
+		"action": "Custom",
+		"custom_action": "AdjustPositionAndClick",
+		"custom_action_param": {
+			"target_offset": [0, -100, 0, 0]
+		},
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [193, 513, 358, 513],
+			"timeout": 8000
+		},
+		"next": ["GremidAcrossBeaconTower", "GremidBeaconTowerWall"]
+	},
+	"GremidAcrossBeaconTower": {
+		"desc": "穿过烽火台",
+		"recognition": "OCR",
+		"expected": "穿过烽火台|穿过",
+		"roi": [278, 715, 165, 247],
+		"action": "Click",
+		"post_delay": 5000,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [193, 513, 358, 513],
+			"timeout": 2000
+		}
+	},
+	"test1": {
+		"desc": "圣城修道院目标点4-教团幽禁室右边",
+		"recognition": "OCR",
+		"roi": [426, 540, 116, 25]
+	}
+}

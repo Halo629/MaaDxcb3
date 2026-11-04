@@ -150,7 +150,7 @@
                 }
             ],
             "pipeline_override": {
-                "SoulTombStartBattle": {
+                "SoulTombLoop": {
                     "max_hit": "{MaxCountValue}"
                 }
             }

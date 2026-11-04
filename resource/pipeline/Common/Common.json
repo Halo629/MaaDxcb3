@@ -223,7 +223,12 @@
 		"action": "Click",
 		"pre_delay": 0,
 		"post_delay": 0,
-		"rate_limit": 0
+		"rate_limit": 0,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [14, 1020, 701, 249],
+			"timeout": 2000
+		}
 	},
 	"HandleDialogue": {
 		"desc": "处理对话框",

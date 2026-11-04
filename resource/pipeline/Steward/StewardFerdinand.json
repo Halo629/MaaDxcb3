@@ -73,16 +73,15 @@
 		"expected": ["费迪南德", "费迪", "南德"],
 		"roi": [482, 346, 238, 522],
 		"next": [
-			"FerdinandInIsleOfTimesEndCrossFortress",
-			"[JumpBack]IsleOfTimesEndClickFortress"
+			"IsleOfTimesEndFortressWall"
 		]
 	},
 	"FerdinandInIsleOfTimesEndSwipeLeft": {
 		"desc": "往左滑动找费迪南德",
 		"action": "Swipe",
-		"begin": [500, 800],
-		"end": [450, 800],
-		"duration": 100,
+		"begin": [600, 800],
+		"end": [300, 800],
+		"duration": 300,
 		"pre_delay": 500,
 		"max_hit": 2,
 		"post_wait_freezes": {
@@ -95,8 +94,8 @@
 		"desc": "往右滑动找费迪南德",
 		"action": "Swipe",
 		"begin": [300, 800],
-		"end": [400, 800],
-		"duration": 100,
+		"end": [600, 800],
+		"duration": 300,
 		"pre_delay": 500,
 		"max_hit": 2,
 		"post_wait_freezes": {
@@ -104,6 +103,25 @@
 			"target": [193, 513, 358, 513],
 			"timeout": 2000
 		}
+	},
+	"IsleOfTimesEndFortressWall": {
+		"desc": "时之尽头的孤岛寒石堡垒(横墙)",
+		"recognition": "And",
+		"all_of": ["HasColdstoneFortress"],
+		"action": "Custom",
+		"custom_action": "AdjustPositionAndClick",
+		"custom_action_param": {
+			"target_offset": [0, -100, 0, 0]
+		},
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [193, 513, 358, 513],
+			"timeout": 3000
+		},
+		"next": [
+			"FerdinandInIsleOfTimesEndCrossFortress",
+			"IsleOfTimesEndFortressWall"
+		]
 	},
 	"IsleOfTimesEndClickFortress": {
 		"desc": "点击寒石堡垒",
@@ -149,9 +167,9 @@
 	"FerdinandInCrescentCountySwipeLeft": {
 		"desc": "往左滑动找费迪南德",
 		"action": "Swipe",
-		"begin": [500, 800],
-		"end": [400, 800],
-		"duration": 100,
+		"begin": [600, 800],
+		"end": [300, 800],
+		"duration": 300,
 		"max_hit": 4,
 		"post_wait_freezes": {
 			"time": 500,
@@ -162,9 +180,9 @@
 	"FerdinandInCrescentCountySwipeRight": {
 		"desc": "往右滑动找费迪南德",
 		"action": "Swipe",
-		"begin": [400, 800],
-		"end": [500, 800],
-		"duration": 100,
+		"begin": [300, 800],
+		"end": [600, 800],
+		"duration": 300,
 		"max_hit": 4,
 		"post_wait_freezes": {
 			"time": 500,
@@ -176,8 +194,8 @@
 		"desc": "往上滑动找费迪南德",
 		"action": "Swipe",
 		"begin": [500, 800],
-		"end": [500, 700],
-		"duration": 100,
+		"end": [500, 500],
+		"duration": 300,
 		"max_hit": 1,
 		"post_wait_freezes": {
 			"time": 500,
@@ -201,9 +219,9 @@
 	"FerdinandInHolyCityMonasterySwipeDown": {
 		"desc": "往下滑动找费迪南德",
 		"action": "Swipe",
-		"begin": [500, 700],
-		"end": [500, 800],
-		"duration": 100,
+		"begin": [500, 600],
+		"end": [500, 900],
+		"duration": 300,
 		"max_hit": 1,
 		"post_wait_freezes": {
 			"time": 500,
@@ -214,9 +232,9 @@
 	"FerdinandInHolyCityMonasterySwipeRight": {
 		"desc": "往右滑动找费迪南德",
 		"action": "Swipe",
-		"begin": [400, 800],
-		"end": [500, 800],
-		"duration": 100,
+		"begin": [300, 800],
+		"end": [600, 800],
+		"duration": 300,
 		"max_hit": 1,
 		"post_wait_freezes": {
 			"time": 500,
@@ -227,9 +245,9 @@
 	"FerdinandInHolyCityMonasterySwipeLeft": {
 		"desc": "往左滑动找费迪南德",
 		"action": "Swipe",
-		"begin": [500, 800],
-		"end": [400, 800],
-		"duration": 100,
+		"begin": [600, 800],
+		"end": [300, 800],
+		"duration": 300,
 		"max_hit": 5,
 		"post_wait_freezes": {
 			"time": 500,
@@ -252,9 +270,9 @@
 	"FerdinandInGremidSwipeLeft": {
 		"desc": "往左滑动找费迪南德",
 		"action": "Swipe",
-		"begin": [500, 800],
-		"end": [400, 800],
-		"duration": 100,
+		"begin": [600, 800],
+		"end": [300, 800],
+		"duration": 300,
 		"max_hit": 1,
 		"post_wait_freezes": {
 			"time": 500,
@@ -265,10 +283,10 @@
 	"FerdinandInGremidSwipeRight": {
 		"desc": "往右滑动找费迪南德",
 		"action": "Swipe",
-		"begin": [200, 800],
-		"end": [300, 800],
-		"duration": 100,
-		"max_hit": 3,
+		"begin": [300, 800],
+		"end": [600, 800],
+		"duration": 300,
+		"max_hit": 2,
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [193, 513, 358, 513],
@@ -285,17 +303,17 @@
 			"[JumpBack]FerdinandInFurnaceCitySwipeRight",
 			"[JumpBack]FerdinandInFurnaceCitySwipeDown",
 			"[JumpBack]FerdinandInFurnaceCitySwipeLeft",
-			"[JumpBack]FerdinandInFurnaceCitySwipeUp",
+			"[JumpBack]FerdinandInFurnaceCitySwipeLeftUp",
 			"FerdinandNotFound"
 		]
 	},
 	"FerdinandInFurnaceCitySwipeRight": {
 		"desc": "往右滑动找费迪南德",
 		"action": "Swipe",
-		"begin": [500, 800],
+		"begin": [300, 800],
 		"end": [600, 800],
-		"duration": 100,
-		"max_hit": 4,
+		"duration": 300,
+		"max_hit": 3,
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [193, 513, 358, 513],
@@ -305,9 +323,9 @@
 	"FerdinandInFurnaceCitySwipeDown": {
 		"desc": "往下滑动找费迪南德",
 		"action": "Swipe",
-		"begin": [500, 800],
+		"begin": [500, 600],
 		"end": [500, 900],
-		"duration": 100,
+		"duration": 300,
 		"max_hit": 3,
 		"post_wait_freezes": {
 			"time": 500,
@@ -316,11 +334,24 @@
 		}
 	},
 	"FerdinandInFurnaceCitySwipeLeft": {
-		"desc": "往左滑动找费迪南德",
+		"desc": "往右滑动找费迪南德",
 		"action": "Swipe",
-		"begin": [500, 800],
+		"begin": [600, 800],
 		"end": [400, 800],
-		"duration": 100,
+		"duration": 300,
+		"max_hit": 1,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [193, 513, 358, 513],
+			"timeout": 2000
+		}
+	},
+	"FerdinandInFurnaceCitySwipeLeftUp": {
+		"desc": "往左上滑动找费迪南德",
+		"action": "Swipe",
+		"begin": [600, 900],
+		"end": [300, 700],
+		"duration": 300,
 		"max_hit": 4,
 		"post_wait_freezes": {
 			"time": 500,
@@ -346,29 +377,21 @@
 		"recognition": "And",
 		"all_of": ["HasFerdinand"],
 		"action": "Custom",
-		"custom_action": "AdjustPosition",
+		"custom_action": "AdjustPositionAndClick",
 		"custom_action_param": {
 			"target_offset": [32, -51, -72, 1]
 		},
-		"next": [
-			"ClickFerdinand"
-		]
-	},
-	"ClickFerdinand": {
-		"desc": "点击费迪南德",
-		"max_hit": 1,
-		"recognition": "And",
-		"all_of": ["HasFerdinand"],
-		"action": "Click",
-		"target_offset": [32, -51, -72, 1],
 		"post_wait_freezes": {
-			"time": 1000,
-			"target": [260, 500, 315, 613],
-			"timeout": 10000
+			"time": 500,
+			"target": [193, 513, 358, 513],
+			"timeout": 15000
 		},
 		"next": [
 			"FerdinandStartAttack",
 			"AttackFerdinand"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
 		]
 	},
 	"FerdinandStartAttack": {

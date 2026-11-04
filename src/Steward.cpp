@@ -238,7 +238,7 @@ MaaBool activityCommonTasks(
     }
     if (gateSoulTomb) {
         overrideVal["ActivityCommonSoulTombSub"] = json::value(json::object { { "enabled", soulTombEnable } });
-        overrideVal["SoulTombStartBattle"] = json::value(json::object { { "max_hit", soulTombMax } });
+        overrideVal["SoulTombLoop"] = json::value(json::object { { "max_hit", soulTombMax } });
     }
     if (gateReforge) {
         overrideVal["ActivityCommonReforgeSub"] = json::value(json::object { { "enabled", reforgeEnable } });

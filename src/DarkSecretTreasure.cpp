@@ -77,7 +77,7 @@ static void readTreasureState(MaaContext* context, TreasureState& state)
         ScreenCap cap(context);
         MaaRect compassBox;
         if (doRecognition(context, cap.img, "HasTreasureCompass", "{}", &compassBox, nullptr)) {
-            clickAdjusted(context, compassBox.x + compassBox.width / 2, compassBox.y + compassBox.height / 2);
+            clickPoint(context, compassBox.x + compassBox.width / 2, compassBox.y + compassBox.height / 2);
             Sleep(1000);
         }
     }
@@ -101,7 +101,7 @@ static bool tryDigAtPoint(MaaContext* context, const json::value& pt)
     ScreenCap cap(context);
     MaaRect digBox;
     if (doRecognition(context, cap.img, "DigTreasure", "{}", &digBox, nullptr)) {
-        clickAdjusted(context, digBox.x + digBox.width / 2, digBox.y + digBox.height / 2);
+        clickPoint(context, digBox.x + digBox.width / 2, digBox.y + digBox.height / 2);
         LogUtils::info(fmt("SeekClueTreasure: 在[%1]挖掘成功", text));
         return true;
     }
@@ -149,18 +149,18 @@ MaaBool seekClueTreasure(
         }
 
         // 走到目标点位（含穿墙），返回位置名框
-        std::string text = pt.get("text", json::value("")).as_string();
+        std::string task = pt.get("task", json::value("")).as_string();
         auto offset = readIntArrayLocal(pt.get("offset", json::value()), { 0, 0, 0, 0 });
 
         MaaRect textBox;
-        if (!walkToTargetPoint(context, tx, ty, text, textBox, 30)) {
+        if (!walkToTargetPoint(context, tx, ty, task, textBox, 30)) {
             continue; // 走不到，试下一个点位
         }
 
         // 点击位置名（触发人物寻路）
         int clickX = textBox.x + textBox.width / 2 + (offset.size() > 0 ? offset[0] : 0);
         int clickY = textBox.y + textBox.height / 2 + (offset.size() > 1 ? offset[1] : 0);
-        clickAdjusted(context, clickX, clickY);
+        clickPoint(context, clickX, clickY);
         Sleep(1500); // 等人物寻路
 
         // 走位后人物坐标变了，刷新 state

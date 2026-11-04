@@ -75,14 +75,49 @@ std::string ocrText(MaaContext* context, const MaaImageBuffer* img, const char* 
     }
     std::string detail(MaaStringBufferGet(detailBuf), MaaStringBufferSize(detailBuf));
     MaaStringBufferDestroy(detailBuf);
-    auto j = json::parse(detail);
-    if (!j || !j->contains("all")) {
-        return { };
-    }
+    auto j = json::parse(detail).value_or(json::value { });
+
+    // 递归收集所有 text：兼容纯 OCR 节点的 all 数组，以及 And 节点的子结果数组。
+    // filtered 优先、all 兜底、best 最后，避免 all 和 filtered 内容相同导致拼接重复。
     std::string result;
-    for (auto& item : (*j)["all"].as_array()) {
-        result += item["text"].as_string();
-    }
+    std::function<void(const json::value&)> collect = [&](const json::value& v) {
+        if (v.is_object()) {
+            const auto& obj = v.as_object();
+            size_t before = result.size();
+            const json::value* arrPtr = nullptr;
+            for (const char* key : { "filtered", "all" }) {
+                if (obj.contains(key)) {
+                    const auto& arr = obj.at(key);
+                    if (arr.is_array() && !arr.as_array().empty()) {
+                        arrPtr = &arr;
+                        break;
+                    }
+                }
+            }
+            if (arrPtr) {
+                for (const auto& item : arrPtr->as_array()) {
+                    if (item.is_object() && item.as_object().contains("text")) {
+                        result += item.as_object().at("text").as_string();
+                    }
+                }
+            }
+            if (result.size() == before && obj.contains("best")) {
+                const auto& best = obj.at("best");
+                if (best.is_object() && best.as_object().contains("text")) {
+                    result += best.as_object().at("text").as_string();
+                }
+            }
+            for (const auto& [k, child] : obj) {
+                collect(child);
+            }
+        }
+        else if (v.is_array()) {
+            for (const auto& child : v.as_array()) {
+                collect(child);
+            }
+        }
+    };
+    collect(j);
     return result;
 }
 
@@ -170,7 +205,7 @@ static std::vector<MaaRect> getForbiddenAreas(MaaContext* context)
 
     std::vector<MaaRect> forbidden;
 
-    // 第一个：TaskIcon 区域（最下面 box 底边 +30，最靠右 box 右边缘 +20）
+    // 第一个：TaskIcon 区域（最下面 box 底边 +30，最靠右 box 右边缘 +30，向左顶到左边界、向上顶到上边界）
     if (!taskIcons.empty()) {
         int rightX = 0;
         int bottomY = 0;
@@ -178,17 +213,17 @@ static std::vector<MaaRect> getForbiddenAreas(MaaContext* context)
             rightX = (std::max)(rightX, r.x + r.width);
             bottomY = (std::max)(bottomY, r.y + r.height);
         }
-        forbidden.push_back({ 0, 0, rightX + 20, bottomY + 30 });
+        forbidden.push_back({ 0, 0, rightX + 30, bottomY + 30 });
     }
 
-    // 第二个：最左边 130
-    forbidden.push_back({ 0, 0, 130, screenH });
+    // 第二个：最左边 140
+    forbidden.push_back({ 0, 0, 140, screenH });
     // 第三个：底部 110
     forbidden.push_back({ 0, screenH - 110, screenW, 110 });
     // 第四个：顶部 160
     forbidden.push_back({ 0, 0, screenW, 160 });
-    // 第五个：右侧（右上角起，往左 120，往下 365）
-    forbidden.push_back({ screenW - 120, 0, 120, 365 });
+    // 第五个：右侧（右上角起，往左 130，往下 365）
+    forbidden.push_back({ screenW - 130, 0, 130, 365 });
 
     return forbidden;
 }
@@ -254,9 +289,13 @@ CompassDir parseDirection(const std::string& text)
 
 CompassDir vectorToDirection(int dx, int dy)
 {
-    if (dx == 0 && dy == 0) return CompassDir::Unknown;
+    if (dx == 0 && dy == 0) {
+        return CompassDir::Unknown;
+    }
     double angle = std::atan2(static_cast<double>(dx), static_cast<double>(dy)) * 180.0 / 3.14159265358979323846;
-    if (angle < 0) angle += 360.0;
+    if (angle < 0) {
+        angle += 360.0;
+    }
     int idx = static_cast<int>(std::lround(angle / 30.0)) % 12;
     return static_cast<CompassDir>(idx);
 }
@@ -274,39 +313,24 @@ bool parseCoord(const std::string& text, int& x, int& y)
             digits.clear();
         }
     }
-    if (!digits.empty()) nums.push_back(std::atoi(digits.c_str()));
-    if (nums.size() >= 2) { x = nums[0]; y = nums[1]; return true; }
+    if (!digits.empty()) {
+        nums.push_back(std::atoi(digits.c_str()));
+    }
+    if (nums.size() >= 2) {
+        x = nums[0];
+        y = nums[1];
+        return true;
+    }
     return false;
 }
 
-// 基础点击（复用文件后面已有的 clickPoint 定义，这里前向声明）
-static void clickPoint(MaaContext* context, int x, int y);
-
-// 把点 (x,y) 朝屏幕中心滑动，直到落入可操作区域（坐标跟着视角移动近似更新）。
-static void adjustPointToClickable(MaaContext* context, int& x, int& y)
-{
-    if (isClickable(context, x, y)) {
-        return;
-    }
-
-    auto* ctrl = MaaTaskerGetController(MaaContextGetTasker(context));
-    const int cx = 360, cy = 640; // 屏幕中心
-
-    for (int attempt = 0; attempt < 10 && !isClickable(context, x, y); ++attempt) {
-        int mx = (cx - x) / 3;
-        int my = (cy - y) / 3;
-        if (mx == 0 && my == 0) break;
-        auto id = MaaControllerPostSwipe(ctrl, cx, cy, cx + mx, cy + my, 200);
-        MaaControllerWait(ctrl, id);
-        Sleep(500);
-        x += mx; // 点击点跟着视角移动（近似）
-        y += my;
-    }
-}
-
-// 判断矩形是否完全落在可操作区域内（不与任何禁区分区相交）
+// 判断矩形是否完全落在可操作区域内（屏幕内且不与任何禁区分区相交）
 static bool isRectClickable(MaaContext* context, int x, int y, int w, int h)
 {
+    const int screenW = 720, screenH = 1280;
+    if (x < 0 || y < 0 || x + w > screenW || y + h > screenH) {
+        return false;
+    }
     auto forbidden = getForbiddenAreas(context);
     for (auto& r : forbidden) {
         if (x < r.x + r.width && x + w > r.x && y < r.y + r.height && y + h > r.y) {
@@ -343,77 +367,287 @@ static bool cropRectToClickable(MaaContext* context, int& x, int& y, int& w, int
     return true;
 }
 
-// 计算把框拉进可操作区域需要滑动的方向：看框压到哪个禁区，朝远离该禁区的方向滑（单轴）。
-// 返回归一化方向 (dx, dy) ∈ {-1, 0, 1}。
-static void computeEscapeDir(MaaContext* context, int x, int y, int w, int h, int& dx, int& dy)
+// ──── 通用小工具 ────
+
+// 是否正在停止任务
+static bool isStopping(MaaContext* context)
 {
-    const int cx = 360, cy = 640; // 屏幕中心
-    dx = 0;
-    dy = 0;
-    auto forbidden = getForbiddenAreas(context);
-    for (auto& r : forbidden) {
-        bool overlap = x < r.x + r.width && x + w > r.x && y < r.y + r.height && y + h > r.y;
-        if (!overlap) continue;
-        int rcX = r.x + r.width / 2;
-        int rcY = r.y + r.height / 2;
-        // 禁区在屏幕中心哪一侧，就往反方向滑（远离禁区）
-        if (rcX < cx) dx = 1;       // 禁区在左边 → 往右滑
-        else if (rcX > cx) dx = -1; // 禁区在右边 → 往左滑
-        if (rcY < cy) dy = 1;       // 禁区在上边 → 往下滑
-        else if (rcY > cy) dy = -1; // 禁区在下边 → 往上滑
-    }
+    return MaaTaskerStopping(MaaContextGetTasker(context));
 }
 
-// 把矩形调整到可操作区域：朝远离禁区的方向滑（最多 3 次）；仍不完全可点就裁掉不可操作的部分。
-static void adjustRectToClickable(MaaContext* context, int& x, int& y, int& w, int& h)
+// 去重添加方向向量（跳过零向量）
+static void addUniqueDir(std::vector<std::pair<int, int>>& dirs, int dx, int dy)
 {
-    if (isRectClickable(context, x, y, w, h)) {
+    if (dx == 0 && dy == 0) {
         return;
     }
+    for (const auto& d : dirs) {
+        if (d.first == dx && d.second == dy) {
+            return;
+        }
+    }
+    dirs.push_back({ dx, dy });
+}
 
-    auto* ctrl = MaaTaskerGetController(MaaContextGetTasker(context));
+// 把 offset 应用到矩形（offset 为 [x,y] 或 [x,y,w,h]）
+static MaaRect applyRectOffset(MaaRect r, const std::vector<int>& offset)
+{
+    if (offset.size() >= 2) {
+        r.x += offset[0];
+        r.y += offset[1];
+    }
+    if (offset.size() >= 4) {
+        r.width += offset[2];
+        r.height += offset[3];
+    }
+    return r;
+}
+
+// 从 param 读 int 数组，缺省用 def 补齐
+static std::vector<int> readIntArray(const json::value& param, const char* key, std::vector<int> def)
+{
+    auto v = param.get(key, json::value());
+    if (!v.is_array()) {
+        return def;
+    }
+    auto& arr = v.as_array();
+    for (size_t i = 0; i < arr.size() && i < def.size(); ++i) {
+        def[i] = arr[i].as_integer();
+    }
+    return def;
+}
+
+// 截图并识别 task，返回是否命中（命中时写回 box）
+static bool recognizeTask(MaaContext* context, const char* task, MaaRect* outBox)
+{
+    ScreenCap cap(context);
+    return doRecognition(context, cap.img, task, "{}", outBox, nullptr);
+}
+
+// 找离 (px,py) 最近的可点击区域（无则返回空矩形）
+static MaaRect findClickableAreaNear(MaaContext* context, int px, int py)
+{
+    MaaRect best = { 0, 0, 0, 0 };
+    int bestDist = 0x7fffffff;
+    for (const auto& r : getClickableAreas(context)) {
+        int rcx = r.x + r.width / 2;
+        int rcy = r.y + r.height / 2;
+        int d = (rcx - px) * (rcx - px) + (rcy - py) * (rcy - py);
+        if (d < bestDist) {
+            bestDist = d;
+            best = r;
+        }
+    }
+    return best;
+}
+
+// 当前 MoveTo 节点及其 findTargetPoint 尝试次数（切换节点时重置），用于首次大步长、后续小步长
+static std::string g_lastMoveNode;
+static int g_lastMoveAttempts = 0;
+// 当前 walkStep 的步长系数
+static double g_walkCoef = 5.0;
+
+// 滑动一次并处理可能的据点弹框（滑动起点落在据点上会触发弹框）。
+// 返回 true 表示滑动成功（无弹框），false 表示弹出了据点框（已关闭，本次滑动作废）。
+static bool swipeWithPopupHandling(MaaContext* context, int sx, int sy, int dx, int dy, int duration)
+{
+    auto ctrl = MaaTaskerGetController(MaaContextGetTasker(context));
+    auto id = MaaControllerPostSwipe(ctrl, sx, sy, sx + dx, sy + dy, duration);
+    MaaControllerWait(ctrl, id);
+    postWaitFreezes(context, ScreenArea_MidCenter, 300, 1000);
+
+    if (!recognizeTask(context, "LeaveButton", nullptr)) {
+        return true; // 没弹框，滑动成功
+    }
+
+    // 弹框了：打印并关闭弹框，本次滑动作废
+    LogUtils::debug(fmt("滑动弹框: 起点=(%1,%2) 向量=(%3,%4)", sx, sy, dx, dy));
+    auto* tasker = MaaContextGetTasker(context);
+    auto quitId = MaaContextRunTask(context, "QuitMapOutpost", "{}");
+    if (quitId != MaaInvalidId) {
+        MaaTaskerWait(tasker, quitId);
+    }
+    return false;
+}
+
+// 滑动一次（带据点弹框处理 + 偏移起点重试）。
+// 从 (baseX, baseY) 滑动向量 (dx, dy)，若弹框则按反方向偏移起点重试。
+// 返回是否滑动成功（无弹框）。成功时若 outSx/outSy 非空，写回实际起点坐标。
+static bool swipeWithOffsetRetry(MaaContext* context, int baseX, int baseY, int dx, int dy, int duration, int* outSx, int* outSy)
+{
+    if (swipeWithPopupHandling(context, baseX, baseY, dx, dy, duration)) {
+        if (outSx) {
+            *outSx = baseX;
+        }
+        if (outSy) {
+            *outSy = baseY;
+        }
+        return true;
+    }
+
+    // 弹框：偏移起点重试，偏移方向与滑动方向相反（弹框迷宫会随滑动方向移动，反方向偏移能避开）
+    int offDX = (dx > 0) ? -1 : (dx < 0 ? 1 : 0);
+    int offDY = (dy > 0) ? -1 : (dy < 0 ? 1 : 0);
+
+    std::vector<std::pair<int, int>> offsetDirs;
+    addUniqueDir(offsetDirs, offDX, offDY);
+    addUniqueDir(offsetDirs, offDX, 0);
+    addUniqueDir(offsetDirs, 0, offDY);
+    addUniqueDir(offsetDirs, -offDX, 0);
+    addUniqueDir(offsetDirs, 0, -offDY);
+
+    std::set<std::pair<int, int>> tried;
+    for (int step = 200; step <= 640; step += 200) {
+        if (isStopping(context)) {
+            return false;
+        }
+        for (const auto& d : offsetDirs) {
+            if (isStopping(context)) {
+                return false;
+            }
+            int sx = baseX + d.first * step;
+            int sy = baseY + d.second * step;
+            if (sx + dx < 0 || sy + dy < 0 || sx + dx >= 720 || sy + dy >= 1280) {
+                continue;
+            }
+            if (!isClickable(context, sx, sy)) {
+                continue;
+            }
+            if (!tried.insert({ sx, sy }).second) {
+                continue; // 去重：该起点已尝试过
+            }
+            LogUtils::info(fmt("滑动重试: 起点=(%1,%2) 偏移=(%3,%4)", sx, sy, d.first * step, d.second * step));
+            if (swipeWithPopupHandling(context, sx, sy, dx, dy, duration)) {
+                if (outSx) {
+                    *outSx = sx;
+                }
+                if (outSy) {
+                    *outSy = sy;
+                }
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+// 计算候选逃离方向（去重）：目标框中心指向屏幕中心的方向，优先朝屏幕中间滑动。
+static std::vector<std::pair<int, int>> computeEscapeDirs(MaaContext* context, int x, int y, int w, int h)
+{
+    (void)context;
     const int cx = 360, cy = 640; // 屏幕中心
-    const int step = 100;         // 每次滑动距离
+    std::vector<std::pair<int, int>> dirs;
 
-    for (int attempt = 0; attempt < 3 && !isRectClickable(context, x, y, w, h); ++attempt) {
-        int dx = 0, dy = 0;
-        computeEscapeDir(context, x, y, w, h, dx, dy);
-        if (dx == 0 && dy == 0) break;
-        int mx = dx * step;
-        int my = dy * step;
-        auto ctrl = MaaTaskerGetController(MaaContextGetTasker(context));
-        auto id = MaaControllerPostSwipe(ctrl, cx, cy, cx + mx, cy + my, 200);
-        MaaControllerWait(ctrl, id);
-        Sleep(500);
-        x += mx; // 框跟着视角移动（近似）
-        y += my;
-    }
+    int tx = x + w / 2; // 目标框中心
+    int ty = y + h / 2;
+    int dx = tx < cx ? 1 : (tx > cx ? -1 : 0); // 框在中心左侧 → 往右(朝中心)
+    int dy = ty < cy ? 1 : (ty > cy ? -1 : 0); // 框在中心上方 → 往下(朝中心)
 
-    if (!isRectClickable(context, x, y, w, h)) {
-        cropRectToClickable(context, x, y, w, h);
+    if (dx != 0 && dy != 0) {
+        addUniqueDir(dirs, dx, dy); // 对角线最直接指向屏幕中心，优先
     }
+    if (dx != 0) {
+        addUniqueDir(dirs, dx, 0);
+    }
+    if (dy != 0) {
+        addUniqueDir(dirs, 0, dy);
+    }
+    return dirs;
 }
 
-void clickAdjusted(MaaContext* context, int x, int y)
+// 把识别框（+offset）调整到可操作区域。
+// 滑动视角并重新识别 task：出屏往内 100px；压禁区逐个方向尝试（最优先朝屏幕中心），
+// 每个方向最多滑 5 次，识别失败则用旧 box 点（点完由外层重试重新找目标）。
+// 最后裁剪掉与禁区重叠的部分。返回裁剪后的目标区域（可直接点击其内任意点）。
+static MaaRect adjustRectToClickable(MaaContext* context, const std::string& task, const std::vector<int>& offset, const MaaRect& initialBox)
 {
-    adjustPointToClickable(context, x, y);
-    clickPoint(context, x, y);
-}
+    const int screenW = 720, screenH = 1280;
+    const int cx = 360, cy = 640;
 
-// 调整位置：按 target_offset 计算目标区域，滑动视角直到该区域落入可操作区域。
-static void adjustPositionToClickable(MaaContext* context, const MaaRect& box, const std::vector<int>& target_offset)
-{
-    MaaRect target = box;
-    if (target_offset.size() >= 4) {
-        target.x += target_offset[0];
-        target.y += target_offset[1];
-        target.width += target_offset[2];
-        target.height += target_offset[3];
+    MaaRect box = initialBox;
+
+    // 1. 滑动 + 重新识别：直到目标偏移后落在可操作区域（屏幕内且不压禁区）
+    for (int attempt = 0; attempt < 20; ++attempt) {
+        if (isStopping(context)) {
+            break;
+        }
+        MaaRect target = applyRectOffset(box, offset);
+        if (isRectClickable(context, target.x, target.y, target.width, target.height)) {
+            break;
+        }
+
+        int mx = 0, my = 0;
+        // 出屏 → 100px 往内
+        if (target.x < 0) {
+            mx = 100;
+        }
+        else if (target.x + target.width > screenW) {
+            mx = -100;
+        }
+        if (target.y < 0) {
+            my = 100;
+        }
+        else if (target.y + target.height > screenH) {
+            my = -100;
+        }
+
+        if (mx != 0 || my != 0) {
+            swipeWithOffsetRetry(context, cx, cy, mx, my, 200, nullptr, nullptr);
+            MaaRect newBox;
+            if (!recognizeTask(context, task.c_str(), &newBox)) {
+                // 识别失败：用旧 box 点，点完由外层重试重新找目标（不滑回去）
+                break;
+            }
+            box = newBox;
+            continue;
+        }
+
+        // 压禁区 → 逐个方向尝试，每个方向最多滑 5 次
+        auto dirs = computeEscapeDirs(context, target.x, target.y, target.width, target.height);
+        if (dirs.empty()) {
+            break;
+        }
+
+        bool escaped = false;
+        bool failed = false;
+        for (const auto& d : dirs) {
+            for (int k = 0; k < 5; ++k) {
+                if (isStopping(context)) {
+                    failed = true;
+                    break; // 停止：跳出内层
+                }
+                swipeWithOffsetRetry(context, cx, cy, d.first * 100, d.second * 100, 200, nullptr, nullptr);
+
+                MaaRect newBox;
+                if (recognizeTask(context, task.c_str(), &newBox)) {
+                    box = newBox;
+                    MaaRect t = applyRectOffset(box, offset);
+                    if (isRectClickable(context, t.x, t.y, t.width, t.height)) {
+                        escaped = true;
+                        break;
+                    }
+                    // 识别成功但仍压禁区，继续这个方向滑
+                }
+                else {
+                    // 识别失败：用旧 box 点，点完由外层重试重新找目标
+                    failed = true;
+                    break;
+                }
+            }
+            if (escaped || failed || isStopping(context)) {
+                break;
+            }
+        }
+        break; // 压禁区处理完毕（逃出、识别失败或所有方向试完），结束调整
     }
-    adjustRectToClickable(context, target.x, target.y, target.width, target.height);
+
+    // 2. 裁剪掉与禁区重叠的部分（点击是随机的，裁到可点击区域即可）
+    MaaRect target = applyRectOffset(box, offset);
+    cropRectToClickable(context, target.x, target.y, target.width, target.height);
+    return target;
 }
 
-// 自定义动作：调整位置（把识别框按 target_offset 偏移后的区域拉到可操作区域）。
+// 自定义动作：调整位置（滑动视角并重新识别当前节点，直到识别框按 target_offset 偏移后落在可操作区域）。
 // custom_action_param: { "target_offset": [x, y, w, h] }
 MaaBool adjustPositionAct(
     MaaContext* context,
@@ -425,66 +659,57 @@ MaaBool adjustPositionAct(
     const MaaRect* box,
     void* trans_arg)
 {
-    if (!box) return false;
-    auto param = json::parse(custom_action_param ? custom_action_param : "{}").value_or(json::value { });
-    std::vector<int> target_offset = { 0, 0, 0, 0 };
-    if (auto off = param.get("target_offset", json::value()); off.is_array()) {
-        auto& arr = off.as_array();
-        for (size_t i = 0; i < arr.size() && i < target_offset.size(); ++i) {
-            target_offset[i] = arr[i].as_integer();
-        }
+    if (!box) {
+        return false;
     }
-    adjustPositionToClickable(context, *box, target_offset);
+    auto param = json::parse(custom_action_param ? custom_action_param : "{}").value_or(json::value { });
+    std::vector<int> target_offset = readIntArray(param, "target_offset", { 0, 0, 0, 0 });
+    // 用当前节点名作为重新识别的 task（调用本动作的节点就是识别节点）
+    adjustRectToClickable(context, node_name ? node_name : "", target_offset, *box);
     return true;
 }
 
-// 从屏幕中心按向量 (dx,dy) 滑动（内部处理据点弹框）。
+// 自定义动作：调整位置并点击（滑动视角并重新识别当前节点，直到识别框按 target_offset 偏移后落在可操作区域，再点击其中心）。
+// custom_action_param: { "target_offset": [x, y, w, h] }，target_offset 不填默认 [0,0,0,0]
+MaaBool adjustPositionAndClickAct(
+    MaaContext* context,
+    MaaTaskId task_id,
+    const char* node_name,
+    const char* custom_action_name,
+    const char* custom_action_param,
+    MaaRecoId reco_id,
+    const MaaRect* box,
+    void* trans_arg)
+{
+    if (!box) {
+        return false;
+    }
+    auto param = json::parse(custom_action_param ? custom_action_param : "{}").value_or(json::value { });
+    std::vector<int> target_offset = readIntArray(param, "target_offset", { 0, 0, 0, 0 });
+
+    // 用当前节点名作为重新识别的 task（调用本动作的节点就是识别节点）
+    MaaRect target = adjustRectToClickable(context, node_name ? node_name : "", target_offset, *box);
+    clickPoint(context, target.x + target.width / 2, target.y + target.height / 2);
+    return true;
+}
+
+// 记住的滑动起点：本次移动内有效，避免每次都从屏幕中心滑又弹据点框
+static bool g_hasSwipeStart = false;
+static int g_swipeStartX = 0;
+static int g_swipeStartY = 0;
+
+// 从屏幕偏下按向量 (dx,dy) 滑动（内部处理据点弹框 + 偏移起点重试）。
+// 起点放屏幕偏下，避开屏幕中间的人物和旁边据点，减少滑动误触弹框。
 static void swipeVec(MaaContext* context, int dx, int dy, int duration)
 {
-    const int baseX = 360, baseY = 640; // 屏幕中心（720×1280）
-    static const int offX[4] = { 0, 0, -1, 1 }; // 上、下、左、右
-    static const int offY[4] = { -1, 1, 0, 0 };
+    int baseX = g_hasSwipeStart ? g_swipeStartX : 360;
+    int baseY = g_hasSwipeStart ? g_swipeStartY : 900;
 
-    // 是否弹出了据点框（滑动变点击据点的标志：出现返回按钮）
-    auto hasOutpostPopup = [&]() {
-        ScreenCap cap(context);
-        return doRecognition(context, cap.img, "LeaveButton", "{}", nullptr, nullptr);
-    };
-    // 退出据点弹框
-    auto quitOutpost = [&]() {
-        auto* tasker = MaaContextGetTasker(context);
-        auto id = MaaContextRunTask(context, "QuitMapOutpost", "{}");
-        if (id != MaaInvalidId) {
-            MaaTaskerWait(tasker, id);
-        }
-    };
-    // 从 (sx,sy) 滑动固定距离（每次重新获取 controller，避免子任务运行后 controller 失效）
-    auto swipeFrom = [&](int sx, int sy) {
-        auto ctrl = MaaTaskerGetController(MaaContextGetTasker(context));
-        auto id = MaaControllerPostSwipe(ctrl, sx, sy, sx + dx, sy + dy, duration);
-        MaaControllerWait(ctrl, id);
-        Sleep(300);
-    };
-
-    // 从屏幕中心滑动固定距离
-    swipeFrom(baseX, baseY);
-    if (!hasOutpostPopup()) return; // 没弹窗，滑动成功
-
-    // 弹窗了：退出弹框，偏移起点重试（上下左右 100px 递增，偏移上限受屏幕尺寸限制）
-    quitOutpost();
-    for (int step = 100; step <= 640; step += 100) {
-        if (MaaTaskerStopping(MaaContextGetTasker(context))) {
-            return;
-        }
-        for (int i = 0; i < 4; ++i) {
-            int sx = baseX + offX[i] * step;
-            int sy = baseY + offY[i] * step;
-            if (sx + dx < 0 || sy + dy < 0 || sx + dx >= 720 || sy + dy >= 1280) continue;
-            if (!isClickable(context, sx, sy)) continue;
-            swipeFrom(sx, sy);
-            if (!hasOutpostPopup()) return; // 滑动成功
-            quitOutpost();
-        }
+    int sx = baseX, sy = baseY;
+    if (swipeWithOffsetRetry(context, baseX, baseY, dx, dy, duration, &sx, &sy)) {
+        g_hasSwipeStart = true;
+        g_swipeStartX = sx;
+        g_swipeStartY = sy;
     }
 }
 
@@ -492,9 +717,11 @@ static void swipeVec(MaaContext* context, int dx, int dy, int duration)
 void swipeToward(MaaContext* context, int dx, int dy, int dist, int duration)
 {
     double len = std::sqrt((double)dx * dx + (double)dy * dy);
-    if (len < 1e-6) return; // 已在目标点，不滑动
-    double ux = dx / len; // 东分量归一化
-    double uy = dy / len; // 北分量归一化
+    if (len < 1e-6) {
+        return;                            // 已在目标点，不滑动
+    }
+    double ux = dx / len;                  // 东分量归一化
+    double uy = dy / len;                  // 北分量归一化
     int sx = static_cast<int>(-ux * dist); // 看东=往左滑
     int sy = static_cast<int>(uy * dist);  // 看北=往下滑
     swipeVec(context, sx, sy, duration);
@@ -504,7 +731,9 @@ void swipeToward(MaaContext* context, int dx, int dy, int dist, int duration)
 void swipeAvoidOutpost(MaaContext* context, CompassDir dir, int dist, int duration)
 {
     int idx = static_cast<int>(dir);
-    if (idx < 0 || idx >= 12) return;
+    if (idx < 0 || idx >= 12) {
+        return;
+    }
 
     double angle = idx * 30.0 * 3.14159265358979323846 / 180.0;
     int dx = static_cast<int>(-std::sin(angle) * dist);
@@ -513,20 +742,22 @@ void swipeAvoidOutpost(MaaContext* context, CompassDir dir, int dist, int durati
 }
 
 // 识别文本 + 框
-struct OcrText {
+struct OcrText
+{
     std::string text;
     MaaRect box;
 };
 
-static std::vector<OcrText> readTextFromNode(MaaContext* context, const MaaImageBuffer* img, const char* nodeName, const char* subName = nullptr);
+static std::vector<OcrText>
+    readTextsFromNode(MaaContext* context, const MaaImageBuffer* img, const char* nodeName, const char* subName = nullptr);
 
 // 识别所有迷宫名字（已完成 + 未完成），返回名字和框。
 static std::vector<OcrText> collectMazeNames(MaaContext* context, const MaaImageBuffer* img)
 {
     std::vector<OcrText> out;
-    auto complete = readTextFromNode(context, img, "CompleteMazeNameRecg", "CompleteMazeName");
+    auto complete = readTextsFromNode(context, img, "CompleteMazeNameRecg", "CompleteMazeName");
     out.insert(out.end(), complete.begin(), complete.end());
-    auto incomplete = readTextFromNode(context, img, "IncompleteMazeNameRecg", "IncompleteMazeName");
+    auto incomplete = readTextsFromNode(context, img, "IncompleteMazeNameRecg", "IncompleteMazeName");
     out.insert(out.end(), incomplete.begin(), incomplete.end());
     return out;
 }
@@ -546,38 +777,48 @@ bool findTextOnScreen(MaaContext* context, const MaaImageBuffer* img, const std:
 }
 
 // 读取人物世界坐标
-static bool readCharacterCoord(MaaContext* context, int& cx, int& cy);
+static bool readCharacterCoord(MaaContext* context, int& cx, int& cy, int dx = 0, int dy = 0);
 
-// 单步走位：读人物坐标 → 朝目标方向滑动 → 找位置名。
-// Found=找到位置名(outBox)；NotFound=没找到(继续滑动)；Error=读坐标/算方向失败。
-WalkStep walkStep(MaaContext* context, int tx, int ty, const std::string& text, MaaRect& outBox)
+// 单步走位：读人物坐标 → 朝目标方向滑动 → 用 pipeline 任务（task 名）判断是否找到目标框。
+// Found=找到目标框(outBox)；NotFound=没找到(继续滑动)；Error=读坐标/算方向失败。
+WalkStep walkStep(MaaContext* context, int tx, int ty, const std::string& task, MaaRect& outBox, int dist, int& lastDx, int& lastDy)
 {
-    if (MaaTaskerStopping(MaaContextGetTasker(context))) {
+    (void)dist;
+    if (isStopping(context)) {
         return WalkStep::Error;
     }
 
     int cx = 0, cy = 0;
-    if (!readCharacterCoord(context, cx, cy)) {
+    if (!readCharacterCoord(context, cx, cy, lastDx, lastDy)) {
         LogUtils::warn("walkStep: 读取人物坐标失败");
         return WalkStep::Error;
     }
 
     int dx = tx - cx;
     int dy = ty - cy;
-    LogUtils::debug(fmt("walkStep: 人物=(%1,%2) 目标=(%3,%4)", cx, cy, tx, ty));
+    lastDx = dx;
+    lastDy = dy;
 
-    {
-        ScreenCap cap(context);
-        if (findTextOnScreen(context, cap.img, text, outBox)) {
-            LogUtils::info(fmt("walkStep: 找到目标位置%1", text));
-            return WalkStep::Found;
-        }
+    double len = std::sqrt((double)dx * dx + (double)dy * dy);
+    int slideDist = (int)std::round(len * g_walkCoef);
+    if (slideDist < 80) {
+        slideDist = 80;
     }
-    swipeToward(context, dx, dy);
+    LogUtils::info(fmt("walkStep: 人物=(%1,%2) 目标=(%3,%4) 距离=%5 滑动=%6 系数=%7", cx, cy, tx, ty, (int)len, slideDist, g_walkCoef));
 
-    ScreenCap cap(context);
-    if (findTextOnScreen(context, cap.img, text, outBox)) {
-        LogUtils::info(fmt("walkStep: 找到目标位置%1", text));
+    if (recognizeTask(context, task.c_str(), &outBox)) {
+        LogUtils::info("walkStep: 找到目标位置");
+        return WalkStep::Found;
+    }
+    // 已经到达目标附近（滑动视角不改变人物世界坐标，继续滑也只会原地重复）
+    if (len <= 3.0) {
+        LogUtils::warn(fmt("walkStep: 距离过近(%1)且未识别到目标，停止滑动", (int)len));
+        return WalkStep::Error;
+    }
+    swipeToward(context, dx, dy, slideDist);
+
+    if (recognizeTask(context, task.c_str(), &outBox)) {
+        LogUtils::info("walkStep: 找到目标位置");
         return WalkStep::Found;
     }
     return WalkStep::NotFound;
@@ -596,7 +837,8 @@ static std::map<std::string, json::value> g_mapConfig;
 //       { "axis":"horizontal","value":45,"extent":[10,60],"doors":[{"task":"IserelWall1","x":20,"y":45}] }
 //     ],
 //     "islands":[
-//       { "points":[[10,10],[50,10],[50,40],[10,40]], "entrance":{"task":"EnterIsland","x":15,"y":8}, "exit":{"task":"ExitIsland","x":15,"y":35} }
+//       { "points":[[10,10],[50,10],[50,40],[10,40]], "entrance":{"task":"EnterIsland","x":15,"y":8},
+//       "exit":{"task":"ExitIsland","x":15,"y":35} }
 //     ]
 //   }
 // ]
@@ -615,7 +857,9 @@ MaaBool defineMapWalls(
     auto param = json::parse(custom_action_param ? custom_action_param : "{}").value_or(json::value { });
     auto store = [](const json::value& item) {
         std::string map = item.get("map", json::value("")).as_string();
-        if (map.empty()) return;
+        if (map.empty()) {
+            return;
+        }
         g_mapConfig[map] = item;
     };
     if (param.is_array()) {
@@ -629,26 +873,34 @@ MaaBool defineMapWalls(
     return true;
 }
 
-// 判断人物 (cx,cy) 到目标 (tx,ty) 的直线是否穿过横墙（墙在 y=value，x 范围 extent，空=全宽）
+// 判断人物 (cx,cy) 到目标 (tx,ty) 是否穿过横墙（墙在 y=value，x 范围 extent，空=全宽）。
+// 跨墙线（cy/ty 在 value 两侧）且人物或目标 x 落在墙长范围内才穿。
 static bool crossHorizontalWall(int cx, int cy, int tx, int ty, int value, const json::value& extent)
 {
-    if ((long long)(cy - value) * (ty - value) >= 0) return false;
-    double crossX = cx + (double)(tx - cx) * (value - cy) / (ty - cy);
-    if (!extent.is_array() || extent.as_array().size() < 2) return true;
+    if ((long long)(cy - value) * (ty - value) >= 0) {
+        return false;
+    }
+    if (!extent.is_array() || extent.as_array().size() < 2) {
+        return true; // 无范围限制，全宽墙，跨线必穿
+    }
     int a = extent.as_array()[0].as_integer();
     int b = extent.as_array()[1].as_integer();
-    return crossX >= a && crossX <= b;
+    return (cx >= a && cx <= b) || (tx >= a && tx <= b);
 }
 
-// 判断人物到目标的直线是否穿过竖墙（墙在 x=value，y 范围 extent，空=全高）
+// 判断人物到目标是否穿过竖墙（墙在 x=value，y 范围 extent，空=全高）。
+// 跨墙线（cx/tx 在 value 两侧）且人物或目标 y 落在墙高范围内才穿。
 static bool crossVerticalWall(int cx, int cy, int tx, int ty, int value, const json::value& extent)
 {
-    if ((long long)(cx - value) * (tx - value) >= 0) return false;
-    double crossY = cy + (double)(ty - cy) * (value - cx) / (tx - cx);
-    if (!extent.is_array() || extent.as_array().size() < 2) return true;
+    if ((long long)(cx - value) * (tx - value) >= 0) {
+        return false;
+    }
+    if (!extent.is_array() || extent.as_array().size() < 2) {
+        return true; // 无范围限制，全高墙，跨线必穿
+    }
     int a = extent.as_array()[0].as_integer();
     int b = extent.as_array()[1].as_integer();
-    return crossY >= a && crossY <= b;
+    return (cy >= a && cy <= b) || (ty >= a && ty <= b);
 }
 
 // 运行一个 pipeline 任务并等待其完成
@@ -662,14 +914,49 @@ void runTaskAndWait(MaaContext* context, const std::string& task)
 }
 
 // 读人物世界坐标
-static bool readCharacterCoord(MaaContext* context, int& cx, int& cy)
+static bool readCharacterCoord(MaaContext* context, int& cx, int& cy, int dx, int dy)
 {
-    ScreenCap cap(context);
-    return parseCoord(ocrText(context, cap.img, "SceneMapCharacterPosition", "{}", nullptr), cx, cy);
+    auto read = [&]() {
+        ScreenCap cap(context);
+        return parseCoord(ocrText(context, cap.img, "SceneMapCharacterPosition", "{}", nullptr), cx, cy);
+    };
+    if (read()) {
+        return true;
+    }
+
+    // 读取失败：沿指定方向小步滑动重试（固定 20px，滑一次读一次，最多 3 次）
+    if (dx != 0 || dy != 0) {
+        for (int i = 0; i < 3; ++i) {
+            if (isStopping(context)) {
+                return false;
+            }
+            swipeToward(context, dx, dy, 20);
+            if (read()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // 无滑动方向：上下左右四个方向挨个尝试，每个方向 20px × 3
+    static const int kDirs[4][2] = { { 0, 1 }, { 0, -1 }, { -1, 0 }, { 1, 0 } };
+    for (const auto& d : kDirs) {
+        for (int i = 0; i < 3; ++i) {
+            if (isStopping(context)) {
+                return false;
+            }
+            swipeToward(context, d[0], d[1], 20);
+            if (read()) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 // 门信息：穿门任务（task 也是识别节点名，用于识别门位置）、可选坐标（滑动找门用）
-struct DoorInfo {
+struct DoorInfo
+{
     std::string task;
     int x = 0;
     int y = 0;
@@ -681,7 +968,9 @@ static DoorInfo parseDoor(const json::value& d)
 {
     DoorInfo di;
     di.task = d.get("task", json::value("")).as_string();
-    if (di.task.empty()) return di;
+    if (di.task.empty()) {
+        return di;
+    }
     auto ox = d.get("x", json::value());
     auto oy = d.get("y", json::value());
     if (ox.is_number() && oy.is_number()) {
@@ -696,10 +985,14 @@ static DoorInfo parseDoor(const json::value& d)
 static std::vector<DoorInfo> parseDoors(const json::value& doors)
 {
     std::vector<DoorInfo> out;
-    if (!doors.is_array()) return out;
+    if (!doors.is_array()) {
+        return out;
+    }
     for (const auto& d : doors.as_array()) {
         DoorInfo di = parseDoor(d);
-        if (!di.task.empty()) out.push_back(di);
+        if (!di.task.empty()) {
+            out.push_back(di);
+        }
     }
     return out;
 }
@@ -707,8 +1000,12 @@ static std::vector<DoorInfo> parseDoors(const json::value& doors)
 // 选择离人物最近的门。单门直接返回；多门识别 task 节点 + 人物 box，取最近。
 static DoorInfo selectClosestDoor(MaaContext* context, const std::vector<DoorInfo>& doors)
 {
-    if (doors.empty()) return {};
-    if (doors.size() == 1) return doors[0];
+    if (doors.empty()) {
+        return { };
+    }
+    if (doors.size() == 1) {
+        return doors[0];
+    }
 
     ScreenCap cap(context);
     MaaRect charBox;
@@ -722,8 +1019,13 @@ static DoorInfo selectClosestDoor(MaaContext* context, const std::vector<DoorInf
     DoorInfo best = doors[0];
     int bestDist = 0x7fffffff;
     for (const auto& door : doors) {
+        if (isStopping(context)) {
+            break;
+        }
         MaaRect doorBox;
-        if (!doRecognition(context, cap.img, door.task.c_str(), "{}", &doorBox, nullptr)) continue;
+        if (!doRecognition(context, cap.img, door.task.c_str(), "{}", &doorBox, nullptr)) {
+            continue;
+        }
         int dx = doorBox.x + doorBox.width / 2 - charCx;
         int dy = doorBox.y + doorBox.height / 2 - charCy;
         int dist = dx * dx + dy * dy;
@@ -736,139 +1038,183 @@ static DoorInfo selectClosestDoor(MaaContext* context, const std::vector<DoorInf
 }
 
 // 执行一个门：有坐标先滑到门（识别到停），再跑任务
-static void runDoor(MaaContext* context, int cx, int cy, const DoorInfo& door)
+static void runDoor(MaaContext* context, int cx, int cy, int tx, int ty, const DoorInfo& door, int dist)
 {
-    if (door.task.empty()) return;
+    if (door.task.empty()) {
+        return;
+    }
     if (door.hasPos) {
         for (int i = 0; i < 10; ++i) {
-            swipeToward(context, door.x - cx, door.y - cy);
+            if (isStopping(context)) {
+                return;
+            }
             ScreenCap cap(context);
             if (doRecognition(context, cap.img, door.task.c_str(), "{}", nullptr, nullptr)) {
                 break; // 门已出现
             }
+            swipeToward(context, door.x - cx, door.y - cy, dist);
         }
     }
-    LogUtils::info(fmt("walkToTargetPoint: 穿过[%1]", door.task));
+    LogUtils::info(fmt("walkToTargetPoint: 穿过[%1] 人物=(%2,%3) 目标=(%4,%5)", door.task, cx, cy, tx, ty));
     runTaskAndWait(context, door.task);
 }
 
-// 处理穿墙
-static void crossWalls(MaaContext* context, int cx, int cy, int tx, int ty, const json::value& walls)
+// 尝试穿越第一堵需要穿越的墙，返回是否穿越了。
+static bool crossOneWall(MaaContext* context, int cx, int cy, int tx, int ty, const json::value& walls, int dist)
 {
-    if (!walls.is_array()) return;
+    if (!walls.is_array()) {
+        return false;
+    }
 
-    struct WallCross {
-        std::string axis;
-        int value = 0;
-        std::vector<DoorInfo> doors;
-    };
-    std::vector<WallCross> crossObs;
     for (const auto& ob : walls.as_array()) {
+        if (isStopping(context)) {
+            break;
+        }
         std::string axis = ob.get("axis", json::value("")).as_string();
         int value = ob.get("value", json::value(0)).as_integer();
         auto extent = ob.get("extent", json::value());
         auto doors = ob.get("doors", json::value());
-        if (!doors.is_array() || doors.as_array().empty()) continue;
+        if (!doors.is_array() || doors.as_array().empty()) {
+            continue;
+        }
 
         bool cross = false;
-        if (axis == "horizontal") cross = crossHorizontalWall(cx, cy, tx, ty, value, extent);
-        else if (axis == "vertical") cross = crossVerticalWall(cx, cy, tx, ty, value, extent);
-        if (!cross) continue;
-
-        bool dup = false;
-        for (const auto& c : crossObs) {
-            if (c.axis == axis && c.value == value) {
-                dup = true;
-                break;
-            }
+        if (axis == "horizontal") {
+            cross = crossHorizontalWall(cx, cy, tx, ty, value, extent);
         }
-        if (dup) continue;
+        else if (axis == "vertical") {
+            cross = crossVerticalWall(cx, cy, tx, ty, value, extent);
+        }
+        if (!cross) {
+            continue;
+        }
 
-        WallCross wc;
-        wc.axis = axis;
-        wc.value = value;
-        wc.doors = parseDoors(doors);
-        if (!wc.doors.empty()) crossObs.push_back(wc);
+        auto doorList = parseDoors(doors);
+        if (doorList.empty()) {
+            continue;
+        }
+        runDoor(context, cx, cy, tx, ty, selectClosestDoor(context, doorList), dist);
+        return true;
     }
-
-    for (const auto& co : crossObs) {
-        runDoor(context, cx, cy, selectClosestDoor(context, co.doors));
-    }
+    return false;
 }
 
 // 判断点是否在多边形内（射线法）
 static bool pointInPolygon(int px, int py, const std::vector<std::pair<int, int>>& pts)
 {
     int n = (int)pts.size();
-    if (n < 3) return false;
+    if (n < 3) {
+        return false;
+    }
     bool inside = false;
     for (int i = 0, j = n - 1; i < n; j = i++) {
         int xi = pts[i].first, yi = pts[i].second;
         int xj = pts[j].first, yj = pts[j].second;
         if ((yi > py) != (yj > py)) {
             double x = (double)(xj - xi) * (py - yi) / (yj - yi) + xi;
-            if (px < x) inside = !inside;
+            if (px < x) {
+                inside = !inside;
+            }
         }
     }
     return inside;
 }
 
-// 处理孤岛（岛外→岛内穿过入口，岛内→岛外穿过出口）
-static void crossIslands(MaaContext* context, int cx, int cy, int tx, int ty, const json::value& islands)
+// 尝试穿越第一个需要穿越的孤岛（岛外→岛内穿过入口，岛内→岛外穿过出口），返回是否穿越了。
+static bool crossOneIsland(MaaContext* context, int cx, int cy, int tx, int ty, const json::value& islands, int dist)
 {
-    if (!islands.is_array()) return;
+    if (!islands.is_array()) {
+        return false;
+    }
 
     for (const auto& island : islands.as_array()) {
+        if (isStopping(context)) {
+            break;
+        }
         auto ptsJson = island.get("points", json::value());
-        if (!ptsJson.is_array()) continue;
+        if (!ptsJson.is_array()) {
+            continue;
+        }
         std::vector<std::pair<int, int>> pts;
         for (const auto& p : ptsJson.as_array()) {
-            if (!p.is_array() || p.as_array().size() < 2) continue;
+            if (!p.is_array() || p.as_array().size() < 2) {
+                continue;
+            }
             pts.push_back({ p.as_array()[0].as_integer(), p.as_array()[1].as_integer() });
         }
-        if (pts.size() < 3) continue;
+        if (pts.size() < 3) {
+            continue;
+        }
 
         bool charInside = pointInPolygon(cx, cy, pts);
         bool targetInside = pointInPolygon(tx, ty, pts);
 
+        DoorInfo door;
         if (!charInside && targetInside) {
-            runDoor(context, cx, cy, parseDoor(island.get("entrance", json::value())));
+            door = parseDoor(island.get("entrance", json::value()));
         }
         else if (charInside && !targetInside) {
-            runDoor(context, cx, cy, parseDoor(island.get("exit", json::value())));
+            door = parseDoor(island.get("exit", json::value()));
         }
+        else {
+            continue;
+        }
+        if (door.task.empty()) {
+            continue;
+        }
+        runDoor(context, cx, cy, tx, ty, door, dist);
+        return true;
     }
+    return false;
 }
 
-// 穿墙/孤岛处理：根据当前地图名查配置，判断是否需要穿墙/登岛。
-static void crossObstacle(MaaContext* context, int tx, int ty)
+// 穿墙/孤岛处理：循环读取坐标并穿越，直到不再需要穿越。
+// 穿墙/登岛后人物坐标会变（如矿车瞬移），必须重新读坐标再判断。
+static void crossObstacle(MaaContext* context, int tx, int ty, int dist)
 {
     std::string map = getCurrentMap(context);
     auto it = g_mapConfig.find(map);
-    if (it == g_mapConfig.end()) return;
+    if (it == g_mapConfig.end()) {
+        return;
+    }
     const json::value& cfg = it->second;
 
-    int cx = 0, cy = 0;
-    if (!readCharacterCoord(context, cx, cy)) return;
+    const json::value& walls = cfg.get("walls", json::value());
+    const json::value& islands = cfg.get("islands", json::value());
 
-    crossWalls(context, cx, cy, tx, ty, cfg.get("walls", json::value()));
-    crossIslands(context, cx, cy, tx, ty, cfg.get("islands", json::value()));
+    for (int attempt = 0; attempt < 10; ++attempt) {
+        if (isStopping(context)) {
+            return;
+        }
+        int cx = 0, cy = 0;
+        if (!readCharacterCoord(context, cx, cy)) {
+            return;
+        }
+
+        if (crossOneWall(context, cx, cy, tx, ty, walls, dist)) {
+            continue;
+        }
+        if (crossOneIsland(context, cx, cy, tx, ty, islands, dist)) {
+            continue;
+        }
+        return; // 无需再穿越
+    }
 }
 
-// 走到目标点位（含穿墙），返回位置名框。找到返回 true。
-bool walkToTargetPoint(
-    MaaContext* context,
-    int tx,
-    int ty,
-    const std::string& text,
-    MaaRect& outBox,
-    int maxAttempts)
+// 走到目标点位（含穿墙），按 pipeline 任务（task 名）找目标框。找到返回 true。
+bool walkToTargetPoint(MaaContext* context, int tx, int ty, const std::string& task, MaaRect& outBox, int maxAttempts, int dist)
 {
-    crossObstacle(context, tx, ty);
+    g_hasSwipeStart = false; // 重置记住的滑动起点，本次移动重新从屏幕中心开始
 
+    crossObstacle(context, tx, ty, dist);
+
+    int lastDx = 0, lastDy = 0;
     for (int i = 0; i < maxAttempts; ++i) {
+        if (isStopping(context)) {
+            return false;
+        }
         MaaRect box;
-        WalkStep step = walkStep(context, tx, ty, text, box);
+        WalkStep step = walkStep(context, tx, ty, task, box, dist, lastDx, lastDy);
         if (step == WalkStep::Found) {
             outBox = box;
             return true;
@@ -882,7 +1228,7 @@ bool walkToTargetPoint(
 }
 
 // 自定义识别：走到目标点位并返回位置名框（只找不点，点击交给外层 task 的 action:Click）。
-// custom_recognition_param: { "point":[19,73], "target":"避世树屋", "offset":[-47,29,-46,-2] }
+// custom_recognition_param: { "point":[19,73], "task":"避世树屋", "offset":[-47,29,-46,-2], "dist":200 }
 MaaBool findTargetPoint(
     MaaContext* context,
     MaaTaskId task_id,
@@ -896,41 +1242,40 @@ MaaBool findTargetPoint(
     MaaStringBuffer* out_detail)
 {
     auto param = json::parse(custom_recognition_param ? custom_recognition_param : "{}").value_or(json::value { });
-    int tx = 0, ty = 0;
-    if (auto pt = param.get("point", json::value()); pt.is_array() && pt.as_array().size() >= 2) {
-        tx = pt.as_array()[0].as_integer();
-        ty = pt.as_array()[1].as_integer();
+    auto point = readIntArray(param, "point", { 0, 0 });
+    int tx = point[0], ty = point[1];
+    std::string task = param.get("task", json::value("")).as_string();
+    int dist = param.get("dist", json::value(200)).as_integer();
+    auto offset = readIntArray(param, "offset", { 0, 0, 0, 0 });
+
+    // 首次 findTargetPoint 用大步长，next 回环重试后用小步长；切换节点时重置
+    std::string moveKey = node_name ? node_name : "";
+    if (g_lastMoveNode != moveKey) {
+        g_lastMoveNode = moveKey;
+        g_lastMoveAttempts = 0;
     }
-    std::string target = param.get("target", json::value("")).as_string();
-    int offX = 0, offY = 0, offW = 0, offH = 0;
-    if (auto off = param.get("offset", json::value()); off.is_array()) {
-        auto& arr = off.as_array();
-        if (arr.size() >= 2) {
-            offX = arr[0].as_integer();
-            offY = arr[1].as_integer();
-        }
-        if (arr.size() >= 4) {
-            offW = arr[2].as_integer();
-            offH = arr[3].as_integer();
-        }
-    }
+    g_walkCoef = (g_lastMoveAttempts++ == 0) ? 10.0 : 5.0;
 
     MaaRect box;
-    if (!walkToTargetPoint(context, tx, ty, target, box, 5)) {
-        return false;
+    if (!walkToTargetPoint(context, tx, ty, task, box, 5, dist)) {
+        // 识别不到目标（滑过头/被遮挡）：返回滑动后的一个可点击区域，
+        // 外层 Click 点击后 ArrivedAt 判断不是目标点会失败，靠 next 回环重试。
+        MaaRect best = findClickableAreaNear(context, 360, 900); // 屏幕中间偏下（滑动起点附近）
+        if (best.width <= 0 || best.height <= 0) {
+            return false;
+        }
+        LogUtils::info(fmt("findTargetPoint: 未识别到目标，返回可点击区域(%1,%2,%3,%4)供点击重试", best.x, best.y, best.width, best.height));
+        *out_box = best;
+        return true;
     }
-    out_box->x = box.x + offX;
-    out_box->y = box.y + offY;
-    out_box->width = box.width + offW;
-    out_box->height = box.height + offH;
-    // 外层会在框内随机点击，需保证整个框都落在可操作区域内
-    adjustRectToClickable(context, out_box->x, out_box->y, out_box->width, out_box->height);
+    // 调整：滑动视角并重新识别，裁剪后得到可点击区域
+    *out_box = adjustRectToClickable(context, task, offset, box);
     return true;
 }
 
-// 自定义识别：判断人物是否到达目标点。
-// 识别 target 名字 + offset 得到目标框，读取人物世界坐标，判断人物坐标是否在目标框内。
-// custom_recognition_param: { "target":"避世树屋", "offset":[-47,29,-46,-2] }
+// 自定义识别：判断人物是否到达目标坐标点。
+// custom_recognition_param: { "point":[10,20], "offset":[5,5] }
+// 读人物世界坐标（坐标被遮挡时会小步滑动重试），判断是否落在 point ± offset 范围内。
 MaaBool arrivedAtTargetPoint(
     MaaContext* context,
     MaaTaskId task_id,
@@ -944,41 +1289,28 @@ MaaBool arrivedAtTargetPoint(
     MaaStringBuffer* out_detail)
 {
     auto param = json::parse(custom_recognition_param ? custom_recognition_param : "{}").value_or(json::value { });
-    std::string target = param.get("target", json::value("")).as_string();
-    if (target.empty()) return false;
+    auto point = readIntArray(param, "point", { 0, 0 });
+    int px = point[0], py = point[1];
+    auto offset = readIntArray(param, "offset", { 0, 0 });
+    int offX = offset[0], offY = offset[1];
 
-    int offX = 0, offY = 0, offW = 0, offH = 0;
-    if (auto off = param.get("offset", json::value()); off.is_array()) {
-        auto& arr = off.as_array();
-        if (arr.size() >= 2) {
-            offX = arr[0].as_integer();
-            offY = arr[1].as_integer();
-        }
-        if (arr.size() >= 4) {
-            offW = arr[2].as_integer();
-            offH = arr[3].as_integer();
-        }
-    }
-
-    // 读取人物世界坐标
+    // 读取人物世界坐标（含被遮挡时滑动重试）
     int cx = 0, cy = 0;
     if (!readCharacterCoord(context, cx, cy)) {
+        LogUtils::warn("arrivedAtTargetPoint: 读取人物坐标失败");
         return false;
     }
 
-    // 识别目标名字 box
-    ScreenCap cap(context);
-    MaaRect targetBox;
-    if (!findTextOnScreen(context, cap.img, target, targetBox)) {
-        return false;
+    bool arrived = cx >= px - offX && cx <= px + offX && cy >= py - offY && cy <= py + offY;
+    if (arrived) {
+        LogUtils::info(fmt("arrivedAtTargetPoint: 已到达 人物=(%1,%2) 目标=(%3,%4)", cx, cy, px, py));
+        // 到达成功：重置当前 MoveTo 的尝试次数，下次重新按首次大步长
+        g_lastMoveAttempts = 0;
     }
-
-    // 算上 offset 后判断人物坐标是否在目标框内
-    int boxX = targetBox.x + offX;
-    int boxY = targetBox.y + offY;
-    int boxW = targetBox.width + offW;
-    int boxH = targetBox.height + offH;
-    return cx >= boxX && cx <= boxX + boxW && cy >= boxY && cy <= boxY + boxH;
+    else {
+        LogUtils::info(fmt("arrivedAtTargetPoint: 未到达 人物=(%1,%2) 目标=(%3,%4) 容差=(%5,%6)", cx, cy, px, py, offX, offY));
+    }
+    return arrived;
 }
 
 // 服务器名归一化：去掉冒号（中英文）和空格/制表符，统一 OCR 结果避免符号差异
@@ -1147,7 +1479,6 @@ bool enterMapByName(MaaContext* context, const std::string& mapName)
     }
     return false;
 }
-
 
 void setNextNode(MaaContext* context, const char* nodeName, const char* nextNode)
 {
@@ -1679,6 +2010,7 @@ MaaBool checkRoleInTargetMap(
 
 static uint32_t g_shopMask = 0;        // 已找到（购买完成）的商品位掩码
 static uint32_t g_shopEnabledMask = 0; // 启用购买的商品位掩码（由配置开关决定）
+
 MaaBool shopAssistant(
     MaaContext* context,
     MaaTaskId taskId,
@@ -1789,7 +2121,9 @@ static std::vector<int> readIntArray(const json::value& v, std::vector<int> def)
 static void collectOcrTexts(const json::value& v, std::vector<OcrText>& out)
 {
     auto append = [&](const json::value& obj, const std::string& t) {
-        if (t.empty()) return;
+        if (t.empty()) {
+            return;
+        }
         OcrText r;
         r.text = t;
         r.box = { 0, 0, 0, 0 };
@@ -1843,7 +2177,7 @@ static void collectOcrTexts(const json::value& v, std::vector<OcrText>& out)
 
 // 运行指定识别节点（OCR/And），返回识别到的所有文本和框。
 // subName 非空时只取 And 节点中 name==subName 的子结果。
-static std::vector<OcrText> readTextFromNode(MaaContext* context, const MaaImageBuffer* img, const char* nodeName, const char* subName)
+static std::vector<OcrText> readTextsFromNode(MaaContext* context, const MaaImageBuffer* img, const char* nodeName, const char* subName)
 {
     auto detailBuf = MaaStringBufferCreate();
     MaaRect box;
@@ -1877,6 +2211,16 @@ static std::vector<OcrText> readTextFromNode(MaaContext* context, const MaaImage
     std::vector<OcrText> out;
     collectOcrTexts(*target, out);
     return out;
+}
+
+// 运行指定识别节点（OCR/And），返回所有文本拼接后的字符串。
+std::string readTextFromNode(MaaContext* context, const MaaImageBuffer* img, const char* nodeName, const char* subName)
+{
+    std::string result;
+    for (const auto& r : readTextsFromNode(context, img, nodeName, subName)) {
+        result += r.text;
+    }
+    return result;
 }
 
 // 从文本列表里取第一个数字
@@ -1937,10 +2281,10 @@ static bool extractNumberFromDetail(const std::string& detail, const char* subNa
 }
 
 // 运行指定识别节点(OCR/And)，提取其中的数字。subName 非空时从 And 节点指定子结果读取
-static bool readNumberFromNode(MaaContext* context, const char* nodeName, const char* subName, int& outValue)
+bool readNumberFromNode(MaaContext* context, const char* nodeName, const char* subName, int& outValue)
 {
     ScreenCap cap(context);
-    auto texts = readTextFromNode(context, cap.img, nodeName, subName);
+    auto texts = readTextsFromNode(context, cap.img, nodeName, subName);
     if (texts.empty()) {
         return false;
     }
@@ -1972,7 +2316,7 @@ static bool readNumberFromRoi(MaaContext* context, const MaaRect& roi, int& outV
 }
 
 // 精确点击指定坐标
-static void clickPoint(MaaContext* context, int x, int y)
+void clickPoint(MaaContext* context, int x, int y)
 {
     auto* ctrl = MaaTaskerGetController(MaaContextGetTasker(context));
     auto id = MaaControllerPostClick(ctrl, x, y);
@@ -1999,6 +2343,7 @@ static void swipeTo(MaaContext* context, int x1, int y1, int x2, int y2, int dur
     auto* ctrl = MaaTaskerGetController(MaaContextGetTasker(context));
     auto id = MaaControllerPostSwipe(ctrl, x1, y1, x2, y2, duration);
     MaaControllerWait(ctrl, id);
+    postWaitFreezes(context, ScreenArea_MidCenter, 300, 1000);
 }
 
 // 运行识别节点，取识别框
@@ -2057,7 +2402,7 @@ static MaaBool CarriageShopSlideBuyAct(
     ScreenCap cap(context);
     bool slideFound = findNodeBox(context, sliderNode.c_str(), thumbBox);
     bool PurchaseButtonFound = findNodeBox(context, "PurchaseButton", PurchaseButtonBox);
-    
+
     if (!slideFound && !PurchaseButtonFound) {
         return false;
     }
@@ -2089,7 +2434,6 @@ static MaaBool CarriageShopSlideBuyAct(
     int startX = startBox.x + startBox.width / 2;
     int startY = startBox.y + startBox.height / 2;
     swipeTo(context, startX, startY, startX + 600, startY, 200); // 向右滑 600px 到最大
-    Sleep(500);
 
     // 识别滑轨终点，读最大数量
     MaaRect endBox;
@@ -2124,7 +2468,7 @@ static MaaBool CarriageShopSlideBuyAct(
     // 读实际数量并用 +/- 模板按钮微调
     const int maxRetry = 10;
     for (int attempt = 0; attempt < maxRetry; ++attempt) {
-        if (MaaTaskerStopping(MaaContextGetTasker(context))) {
+        if (isStopping(context)) {
             return true;
         }
         MaaRect curBox;
@@ -2158,7 +2502,7 @@ static MaaBool CarriageShopSlideBuyAct(
     // 校验当前数量是否可购买，不够就点 - 递减
     if (!canBuyCheck.empty()) {
         for (int attempt = 0; attempt < maxRetry; ++attempt) {
-            if (MaaTaskerStopping(MaaContextGetTasker(context))) {
+            if (isStopping(context)) {
                 return true;
             }
             if (runTaskSuccess(context, canBuyCheck.c_str())) {
@@ -2180,6 +2524,72 @@ static MaaBool CarriageShopSlideBuyAct(
     return true;
 }
 
+// 自定义识别：识别对话框选项，返回第一个可点击（非红色）的选项框。
+// DialogOption 是 TemplateMatch，识别出多个选项；红色选项（ColorMatch 命中）不可点击。
+MaaBool findFirstCanClickOption(
+    MaaContext* context,
+    MaaTaskId task_id,
+    const char* node_name,
+    const char* custom_recognition_name,
+    const char* custom_recognition_param,
+    const MaaImageBuffer* image,
+    const MaaRect* roi,
+    void* trans_arg,
+    MaaRect* out_box,
+    MaaStringBuffer* out_detail)
+{
+    // 1. 识别 DialogOption，拿到所有选项 box
+    auto detailBuf = MaaStringBufferCreate();
+    MaaRect dummyBox;
+    if (!doRecognition(context, image, "DialogOption", "{}", &dummyBox, detailBuf)) {
+        MaaStringBufferDestroy(detailBuf);
+        return false;
+    }
+    std::string detail(MaaStringBufferGet(detailBuf), MaaStringBufferSize(detailBuf));
+    MaaStringBufferDestroy(detailBuf);
+    auto j = json::parse(detail).value_or(json::value {});
+    if (!j.is_object()) {
+        return false;
+    }
+    json::value arr = j["filtered"];
+    if (!arr.is_array()) {
+        arr = j["all"];
+    }
+    if (!arr.is_array()) {
+        return false;
+    }
+
+    std::vector<MaaRect> boxes;
+    for (auto& item : arr.as_array()) {
+        auto& b = item["box"];
+        if (b.is_array() && b.as_array().size() >= 4) {
+            boxes.push_back({ b[0].as_integer(), b[1].as_integer(), b[2].as_integer(), b[3].as_integer() });
+        }
+    }
+
+    // 2. 对每个 box 做 ColorMatch 红色识别，返回第一个非红色（可点击）
+    auto* tasker = MaaContextGetTasker(context);
+    for (auto& b : boxes) {
+        std::string param = fmt(R"({"method":40,"lower":[0,245,240],"upper":[5,255,255],"roi":[%1,%2,%3,%4],"count":20})",
+                                b.x, b.y, b.width, b.height);
+        auto id = MaaContextRunRecognitionDirect(context, "ColorMatch", param.c_str(), image);
+        if (id == MaaInvalidId) {
+            continue;
+        }
+        MaaBool hit = false;
+        MaaRect cb;
+        MaaTaskerGetRecognitionDetail(tasker, id, nullptr, nullptr, &hit, &cb, nullptr, nullptr, nullptr);
+        if (!hit) {
+            // 无红色 → 可点击
+            *out_box = b;
+            LogUtils::debug(fmt("FindFirstCanClickOption: 第一个可点击选项 box=(%1,%2,%3,%4)", b.x, b.y, b.width, b.height));
+            return true;
+        }
+    }
+    LogUtils::warn("未找到可点击选项");
+    return false;
+}
+
 void registerCustomComm(MaaResource* res, void* user_data)
 {
     registerCustomAction(res, "ClearHitCount", ClearHitCountAct, user_data);
@@ -2190,9 +2600,11 @@ void registerCustomComm(MaaResource* res, void* user_data)
     registerCustomAction(res, "CarriageShopSlideBuy", CarriageShopSlideBuyAct, user_data);
     registerCustomAction(res, "DefineMapWalls", defineMapWalls, user_data);
     registerCustomAction(res, "AdjustPosition", adjustPositionAct, user_data);
+    registerCustomAction(res, "AdjustPositionAndClick", adjustPositionAndClickAct, user_data);
     registerCustomRecognition(res, "ShopFinishCheck", shopFinishCheck, user_data);
     registerCustomRecognition(res, "ItemNotBought", itemNotBought, user_data);
     registerCustomRecognition(res, "CheckRoleInTargetMap", checkRoleInTargetMap, user_data);
     registerCustomRecognition(res, "findTargetPoint", findTargetPoint, user_data);
     registerCustomRecognition(res, "ArrivedAtTargetPoint", arrivedAtTargetPoint, user_data);
+    registerCustomRecognition(res, "FindFirstCanClickOption", findFirstCanClickOption, user_data);
 }

@@ -6,9 +6,21 @@
 		"rate_limit": 0,
 		"next": [
 			"[JumpBack]SceneCollapseSideBar",
+			"[JumpBack]ZoomInMaxBefore",
 			"SceneSelectDestination",
 			"[JumpBack]SceneClickCampFire",
 			"[JumpBack]SceneEnterMainPage"
+		]
+	},
+	"ZoomInMaxBefore": {
+		"desc": "出发前往地图前放大画面",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InCampfire"],
+		"post_delay": 500,
+		"next": [
+			"ZoomInMax",
+			"__ScenePrivateNextTrue"
 		]
 	},
 	"SceneSelectDestination": {
@@ -48,12 +60,12 @@
 		"end": "MapListSwipePos",
 		"begin_offset": [50, 0, 0, 0],
 		"end_offset": [50, -200, 0, 0],
-		"duration": 200,
+		"duration": 300,
 		"max_hit": 10,
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [179, 224, 369, 732],
-			"timeout": 2000
+			"timeout": 1500
 		},
 		"pre_delay": 0,
 		"post_delay": 0,
@@ -159,7 +171,7 @@
 		"desc": "地图列表点击时之尽头的孤岛",
 		"recognition": "And",
 		"all_of": [
-			"InNowadaysPage",
+			"InSelectDestinationPage",
 			{
 				"recognition": "OCR",
 				"expected": "时之尽头的孤岛|时之尽头|孤岛",
@@ -174,10 +186,18 @@
 	},
 	"InIsleOfTimesEnd": {
 		"desc": "在时之尽头的孤岛",
-		"recognition": "OCR",
-		"expected": "时之尽头的孤岛|时之尽头|孤岛",
-		"roi": [94, 63, 187, 43],
-		"pre_delay": 1500,
+		"recognition": "And",
+		"all_of": [
+			"MapNameColorMatch",
+			{
+				"recognition": "OCR",
+				"expected": "时之尽头的孤岛|之尽头的孤岛|时之尽头|尽头的孤岛|孤岛",
+				"roi": "MapNameColorMatch",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0
 	},
@@ -185,7 +205,7 @@
 		"desc": "地图列表点击新月郡",
 		"recognition": "And",
 		"all_of": [
-			"InNowadaysPage",
+			"InSelectDestinationPage",
 			{
 				"recognition": "OCR",
 				"expected": "新月郡|新月",
@@ -200,10 +220,18 @@
 	},
 	"InCrescentCounty": {
 		"desc": "在新月郡",
-		"recognition": "OCR",
-		"expected": "新月郡|新月",
-		"roi": [94, 63, 187, 43],
-		"pre_delay": 1500,
+		"recognition": "And",
+		"all_of": [
+			"MapNameColorMatch",
+			{
+				"recognition": "OCR",
+				"expected": "新月郡|新月|月郡",
+				"roi": "MapNameColorMatch",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0
 	},
@@ -211,7 +239,7 @@
 		"desc": "地图列表点击圣城修道院",
 		"recognition": "And",
 		"all_of": [
-			"InNowadaysPage",
+			"InSelectDestinationPage",
 			{
 				"recognition": "OCR",
 				"expected": "圣城修道院|圣城|修道院",
@@ -226,10 +254,18 @@
 	},
 	"InHolyCityMonastery": {
 		"desc": "在圣城修道院",
-		"recognition": "OCR",
-		"expected": "圣城修道院|圣城|修道院",
-		"roi": [94, 63, 187, 43],
-		"pre_delay": 1500,
+		"recognition": "And",
+		"all_of": [
+			"MapNameColorMatch",
+			{
+				"recognition": "OCR",
+				"expected": "圣城修道院|圣城|修道院",
+				"roi": "MapNameColorMatch",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0
 	},
@@ -237,7 +273,7 @@
 		"desc": "地图列表点击格雷米德",
 		"recognition": "And",
 		"all_of": [
-			"InNowadaysPage",
+			"InSelectDestinationPage",
 			{
 				"recognition": "OCR",
 				"expected": "格雷米德|格雷",
@@ -252,10 +288,18 @@
 	},
 	"InGremid": {
 		"desc": "在格雷米德",
-		"recognition": "OCR",
-		"expected": "格雷米德|格雷",
-		"roi": [94, 63, 187, 43],
-		"pre_delay": 1500,
+		"recognition": "And",
+		"all_of": [
+			"MapNameColorMatch",
+			{
+				"recognition": "OCR",
+				"expected": "格雷米德|格雷|雷米德|米德",
+				"roi": "MapNameColorMatch",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0
 	},
@@ -263,7 +307,7 @@
 		"desc": "地图列表点击熔炉之城",
 		"recognition": "And",
 		"all_of": [
-			"InNowadaysPage",
+			"InSelectDestinationPage",
 			{
 				"recognition": "OCR",
 				"expected": "熔炉之城|熔炉",
@@ -278,10 +322,18 @@
 	},
 	"InFurnaceCity": {
 		"desc": "在熔炉之城",
-		"recognition": "OCR",
-		"expected": "熔炉之城|熔炉",
-		"roi": [94, 63, 187, 43],
-		"pre_delay": 1500,
+		"recognition": "And",
+		"all_of": [
+			"MapNameColorMatch",
+			{
+				"recognition": "OCR",
+				"expected": "熔炉之城|熔炉|炉之城",
+				"roi": "MapNameColorMatch",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0
 	},
@@ -304,10 +356,18 @@
 	},
 	"InWildBullValley": {
 		"desc": "在蛮牛谷",
-		"recognition": "OCR",
-		"expected": "蛮牛谷|蛮牛",
-		"roi": [94, 63, 187, 43],
-		"pre_delay": 1500,
+		"recognition": "And",
+		"all_of": [
+			"MapNameColorMatch",
+			{
+				"recognition": "OCR",
+				"expected": "蛮牛谷|蛮牛|牛谷",
+				"roi": "MapNameColorMatch",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0
 	},
@@ -328,7 +388,7 @@
 		"desc": "地图列表点击银月谷",
 		"recognition": "And",
 		"all_of": [
-			"InNowadaysPage",
+			"InSelectDestinationPage",
 			{
 				"recognition": "OCR",
 				"expected": "银月谷",
@@ -343,10 +403,18 @@
 	},
 	"InSilverMoonValley": {
 		"desc": "在银月谷",
-		"recognition": "OCR",
-		"expected": "银月谷",
-		"roi": [94, 63, 187, 43],
-		"pre_delay": 1500,
+		"recognition": "And",
+		"all_of": [
+			"MapNameColorMatch",
+			{
+				"recognition": "OCR",
+				"expected": "银月谷|银月|月谷",
+				"roi": "MapNameColorMatch",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0
 	},
@@ -367,7 +435,7 @@
 		"desc": "地图列表点击伊瑟瑞尔",
 		"recognition": "And",
 		"all_of": [
-			"InNowadaysPage",
+			"InSelectDestinationPage",
 			{
 				"recognition": "OCR",
 				"expected": "伊瑟瑞尔|伊瑟|瑞尔",
@@ -384,7 +452,7 @@
 		"desc": "地图名字颜色识别",
 		"recognition": "ColorMatch",
 		"method": 40,
-		"roi": [99, 69, 143, 34],
+		"roi": [96, 70, 185, 33],
 		"lower": [15, 0, 150],
 		"upper": [20, 55, 200],
 		"count": 50
@@ -396,7 +464,7 @@
 			"MapNameColorMatch",
 			{
 				"recognition": "OCR",
-				"expected": "伊瑟瑞尔|伊瑟|瑞尔",
+				"expected": "伊瑟瑞尔|伊瑟|瑞尔|瑟瑞尔",
 				"roi": "MapNameColorMatch",
 				"roi_offset": [-2, -2, 4, 4],
 				"only_rec": true

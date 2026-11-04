@@ -608,6 +608,7 @@
 		"desc": "从任意界面回到魂师指南本日界面",
 		"next": [
 			"InSoulMasterGuideDailyPage",
+			"[JumpBack]_SceneExpandSideBar",
 			"[JumpBack]SoulMasterGuideGotoDailyPage",
 			"[JumpBack]SceneEnterSoulMasterGuide"
 		]
@@ -616,6 +617,7 @@
 		"desc": "从任意界面回到魂师指南本周界面",
 		"next": [
 			"InSoulMasterGuideWeeklyPage",
+			"[JumpBack]_SceneExpandSideBar",
 			"[JumpBack]SoulMasterGuideGotoWeeklyPage",
 			"[JumpBack]SceneEnterSoulMasterGuide"
 		]
@@ -676,7 +678,7 @@
 		"post_delay": 0,
 		"rate_limit": 0,
 		"post_wait_freezes": {
-			"time": 500,
+			"time": 700,
 			"timeout": 2000,
 			"target": [18, 263, 684, 674]
 		}

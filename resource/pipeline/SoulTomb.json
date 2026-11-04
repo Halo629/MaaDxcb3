@@ -5,7 +5,8 @@
 		"post_delay": 0,
 		"rate_limit": 0,
 		"next": [
-			"SoulTombLoop",
+			"[JumpBack]SoulTombLoop",
+			"SoulTombDone",
 			"[JumpBack]SceneEnterSoulTomb"
 		]
 	},
@@ -21,9 +22,8 @@
 			"SoulTombWeeklyCompleted",
 			"[JumpBack]SoulTombCloseSuccessBox",
 			"[JumpBack]AdjustSoulTombStartLevel",
-			"[JumpBack]BattleStartOut",
-			"[JumpBack]SoulTombStartBattle",
-			"SoulTombDone"
+			"BattleStartOut",
+			"[JumpBack]SoulTombStartBattle"
 		]
 	},
 	"SoulTombCloseSuccessBox": {
@@ -48,9 +48,25 @@
 	},
 	"CustomGetSoulTombCurLevel": {
 		"desc": "获取当前魂墓强度",
-		"recognition": "OCR",
-		"roi": [300, 808, 119, 39],
-		"only_rec": true
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"roi": [295, 809, 126, 37],
+				"lower": [15, 35, 150],
+				"upper": [30, 100, 255],
+				"count": 10,
+				"sub_name": "LevelColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "LevelColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "SoulTombCurLevel"
+			}
+		]
 	},
 	"AdjustSoulTombStartLevel": {
 		"desc": "调整魂墓挑战开始强度",
@@ -88,33 +104,33 @@
 		"recognition": "TemplateMatch",
 		"template": "soul_tomb/soul_tomb_add1_level.png",
 		"action": "Click",
-		"post_wait_freezes": {
-			"time": 200,
-			"target": [174, 741, 370, 256],
-			"timeout": 2000
-		}
+		"pre_delay": 0,
+		"post_delay": 0
 	},
 	"SoulTombLevelSub10": {
 		"desc": "等级-10",
 		"recognition": "TemplateMatch",
 		"template": "soul_tomb/soul_tomb_sub10_level.png",
 		"action": "Click",
-		"post_wait_freezes": {
-			"time": 200,
-			"target": [174, 741, 370, 256],
-			"timeout": 2000
-		}
+		"pre_delay": 0,
+		"post_delay": 0
 	},
 	"SoulTombLevelSub1": {
 		"desc": "等级-1",
 		"recognition": "TemplateMatch",
 		"template": "soul_tomb/soul_tomb_sub1_level.png",
 		"action": "Click",
-		"post_wait_freezes": {
-			"time": 200,
-			"target": [174, 741, 370, 256],
-			"timeout": 2000
-		}
+		"pre_delay": 0,
+		"post_delay": 0
+	},
+	"SoulTombBattleLowerTenLevel": {
+		"desc": "降低10级难度",
+		"recognition": "TemplateMatch",
+		"template": "soul_tomb/soul_tomb_sub10_level.png",
+		"roi": [125, 766, 175, 101],
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 0
 	},
 	"SoulTombStartBattle": {
 		"desc": "魂墓开始挑战",
@@ -128,18 +144,6 @@
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [13, 662, 687, 601],
-			"timeout": 2000
-		}
-	},
-	"SoulTombBattleLowerTenLevel": {
-		"desc": "降低10级难度",
-		"recognition": "TemplateMatch",
-		"template": "soul_tomb/soul_tomb_sub10_level.png",
-		"roi": [125, 766, 175, 101],
-		"action": "Click",
-		"post_wait_freezes": {
-			"time": 200,
-			"target": [174, 741, 370, 256],
 			"timeout": 2000
 		}
 	},

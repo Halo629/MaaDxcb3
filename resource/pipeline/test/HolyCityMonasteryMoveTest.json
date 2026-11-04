@@ -1,0 +1,480 @@
+{
+	"HolyCityMonasteryTestMoveToPointEntry": {
+		"desc": "圣城修道院测试移动到目标点位（不依赖罗盘）",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": ["[JumpBack]WallConfig", "[JumpBack]HolyCityMonasteryMoveToPoint", "HolyCityMonasteryTestMoveDone", "[JumpBack]SceneEnterHolyCityMonasteryNoReset"]
+	},
+	"HolyCityMonasteryMoveToPoint": {
+		"recognition": "And",
+		"all_of": ["InHolyCityMonastery"],
+		"max_hit": 1,
+		"next": ["[JumpBack]HolyCityMonasteryMoveToPointCollection1", "[JumpBack]HolyCityMonasteryMoveToPointCollection2", "[JumpBack]HolyCityMonasteryMoveToPointCollection3", "[JumpBack]HolyCityMonasteryMoveToPointCollection4", "[JumpBack]HolyCityMonasteryMoveToPointCollection5", "[JumpBack]HolyCityMonasteryMoveToPointCollection6", "[JumpBack]HolyCityMonasteryMoveToPointCollection7", "[JumpBack]HolyCityMonasteryMoveToPointCollection8", "[JumpBack]HolyCityMonasteryMoveToPointCollection9", "[JumpBack]HolyCityMonasteryMoveToPointCollection10", "[JumpBack]HolyCityMonasteryMoveToPointCollection11", "[JumpBack]HolyCityMonasteryMoveToPointCollection12", "[JumpBack]HolyCityMonasteryMoveToPointCollection13", "[JumpBack]HolyCityMonasteryMoveToPointCollection14", "[JumpBack]HolyCityMonasteryMoveToPointCollection15", "[JumpBack]HolyCityMonasteryMoveToPointCollection16", "[JumpBack]HolyCityMonasteryMoveToPointCollection17", "[JumpBack]HolyCityMonasteryMoveToPointCollection18", "[JumpBack]HolyCityMonasteryMoveToPointCollection19", "[JumpBack]HolyCityMonasteryMoveToPointCollection20", "[JumpBack]HolyCityMonasteryMoveToPointCollection21", "[JumpBack]HolyCityMonasteryMoveToPointCollection22", "[JumpBack]HolyCityMonasteryMoveToPointCollection23", "[JumpBack]HolyCityMonasteryMoveToPointCollection24", "HolyCityMonasteryTestMoveDone"]
+	},
+	"HolyCityMonasteryTestMoveDone": {
+		"recognition": "And",
+		"all_of": ["InHolyCityMonastery"]
+	},
+	"HolyCityMonasteryMoveToPointCollection1": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:圣城修道院 Collection1"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToHolyCityMonasteryTargetPoint1", "MoveToHolyCityMonasteryTargetPoint2", "MoveToHolyCityMonasteryTargetPoint3", "MoveToHolyCityMonasteryTargetPoint4"]
+		}
+	},
+	"HolyCityMonasteryMoveToPointCollection2": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:圣城修道院 Collection2"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToHolyCityMonasteryTargetPoint1", "MoveToHolyCityMonasteryTargetPoint2", "MoveToHolyCityMonasteryTargetPoint4", "MoveToHolyCityMonasteryTargetPoint3"]
+		}
+	},
+	"HolyCityMonasteryMoveToPointCollection3": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:圣城修道院 Collection3"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToHolyCityMonasteryTargetPoint1", "MoveToHolyCityMonasteryTargetPoint3", "MoveToHolyCityMonasteryTargetPoint2", "MoveToHolyCityMonasteryTargetPoint4"]
+		}
+	},
+	"HolyCityMonasteryMoveToPointCollection4": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:圣城修道院 Collection4"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToHolyCityMonasteryTargetPoint1", "MoveToHolyCityMonasteryTargetPoint3", "MoveToHolyCityMonasteryTargetPoint4", "MoveToHolyCityMonasteryTargetPoint2"]
+		}
+	},
+	"HolyCityMonasteryMoveToPointCollection5": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:圣城修道院 Collection5"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToHolyCityMonasteryTargetPoint1", "MoveToHolyCityMonasteryTargetPoint4", "MoveToHolyCityMonasteryTargetPoint2", "MoveToHolyCityMonasteryTargetPoint3"]
+		}
+	},
+	"HolyCityMonasteryMoveToPointCollection6": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:圣城修道院 Collection6"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToHolyCityMonasteryTargetPoint1", "MoveToHolyCityMonasteryTargetPoint4", "MoveToHolyCityMonasteryTargetPoint3", "MoveToHolyCityMonasteryTargetPoint2"]
+		}
+	},
+	"HolyCityMonasteryMoveToPointCollection7": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:圣城修道院 Collection7"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToHolyCityMonasteryTargetPoint2", "MoveToHolyCityMonasteryTargetPoint1", "MoveToHolyCityMonasteryTargetPoint3", "MoveToHolyCityMonasteryTargetPoint4"]
+		}
+	},
+	"HolyCityMonasteryMoveToPointCollection8": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:圣城修道院 Collection8"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToHolyCityMonasteryTargetPoint2", "MoveToHolyCityMonasteryTargetPoint1", "MoveToHolyCityMonasteryTargetPoint4", "MoveToHolyCityMonasteryTargetPoint3"]
+		}
+	},
+	"HolyCityMonasteryMoveToPointCollection9": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:圣城修道院 Collection9"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToHolyCityMonasteryTargetPoint2", "MoveToHolyCityMonasteryTargetPoint3", "MoveToHolyCityMonasteryTargetPoint1", "MoveToHolyCityMonasteryTargetPoint4"]
+		}
+	},
+	"HolyCityMonasteryMoveToPointCollection10": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:圣城修道院 Collection10"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToHolyCityMonasteryTargetPoint2", "MoveToHolyCityMonasteryTargetPoint3", "MoveToHolyCityMonasteryTargetPoint4", "MoveToHolyCityMonasteryTargetPoint1"]
+		}
+	},
+	"HolyCityMonasteryMoveToPointCollection11": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:圣城修道院 Collection11"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToHolyCityMonasteryTargetPoint2", "MoveToHolyCityMonasteryTargetPoint4", "MoveToHolyCityMonasteryTargetPoint1", "MoveToHolyCityMonasteryTargetPoint3"]
+		}
+	},
+	"HolyCityMonasteryMoveToPointCollection12": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:圣城修道院 Collection12"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToHolyCityMonasteryTargetPoint2", "MoveToHolyCityMonasteryTargetPoint4", "MoveToHolyCityMonasteryTargetPoint3", "MoveToHolyCityMonasteryTargetPoint1"]
+		}
+	},
+	"HolyCityMonasteryMoveToPointCollection13": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:圣城修道院 Collection13"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToHolyCityMonasteryTargetPoint3", "MoveToHolyCityMonasteryTargetPoint1", "MoveToHolyCityMonasteryTargetPoint2", "MoveToHolyCityMonasteryTargetPoint4"]
+		}
+	},
+	"HolyCityMonasteryMoveToPointCollection14": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:圣城修道院 Collection14"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToHolyCityMonasteryTargetPoint3", "MoveToHolyCityMonasteryTargetPoint1", "MoveToHolyCityMonasteryTargetPoint4", "MoveToHolyCityMonasteryTargetPoint2"]
+		}
+	},
+	"HolyCityMonasteryMoveToPointCollection15": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:圣城修道院 Collection15"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToHolyCityMonasteryTargetPoint3", "MoveToHolyCityMonasteryTargetPoint2", "MoveToHolyCityMonasteryTargetPoint1", "MoveToHolyCityMonasteryTargetPoint4"]
+		}
+	},
+	"HolyCityMonasteryMoveToPointCollection16": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:圣城修道院 Collection16"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToHolyCityMonasteryTargetPoint3", "MoveToHolyCityMonasteryTargetPoint2", "MoveToHolyCityMonasteryTargetPoint4", "MoveToHolyCityMonasteryTargetPoint1"]
+		}
+	},
+	"HolyCityMonasteryMoveToPointCollection17": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:圣城修道院 Collection17"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToHolyCityMonasteryTargetPoint3", "MoveToHolyCityMonasteryTargetPoint4", "MoveToHolyCityMonasteryTargetPoint1", "MoveToHolyCityMonasteryTargetPoint2"]
+		}
+	},
+	"HolyCityMonasteryMoveToPointCollection18": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:圣城修道院 Collection18"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToHolyCityMonasteryTargetPoint3", "MoveToHolyCityMonasteryTargetPoint4", "MoveToHolyCityMonasteryTargetPoint2", "MoveToHolyCityMonasteryTargetPoint1"]
+		}
+	},
+	"HolyCityMonasteryMoveToPointCollection19": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:圣城修道院 Collection19"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToHolyCityMonasteryTargetPoint4", "MoveToHolyCityMonasteryTargetPoint1", "MoveToHolyCityMonasteryTargetPoint2", "MoveToHolyCityMonasteryTargetPoint3"]
+		}
+	},
+	"HolyCityMonasteryMoveToPointCollection20": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:圣城修道院 Collection20"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToHolyCityMonasteryTargetPoint4", "MoveToHolyCityMonasteryTargetPoint1", "MoveToHolyCityMonasteryTargetPoint3", "MoveToHolyCityMonasteryTargetPoint2"]
+		}
+	},
+	"HolyCityMonasteryMoveToPointCollection21": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:圣城修道院 Collection21"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToHolyCityMonasteryTargetPoint4", "MoveToHolyCityMonasteryTargetPoint2", "MoveToHolyCityMonasteryTargetPoint1", "MoveToHolyCityMonasteryTargetPoint3"]
+		}
+	},
+	"HolyCityMonasteryMoveToPointCollection22": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:圣城修道院 Collection22"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToHolyCityMonasteryTargetPoint4", "MoveToHolyCityMonasteryTargetPoint2", "MoveToHolyCityMonasteryTargetPoint3", "MoveToHolyCityMonasteryTargetPoint1"]
+		}
+	},
+	"HolyCityMonasteryMoveToPointCollection23": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:圣城修道院 Collection23"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToHolyCityMonasteryTargetPoint4", "MoveToHolyCityMonasteryTargetPoint3", "MoveToHolyCityMonasteryTargetPoint1", "MoveToHolyCityMonasteryTargetPoint2"]
+		}
+	},
+	"HolyCityMonasteryMoveToPointCollection24": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:圣城修道院 Collection24"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToHolyCityMonasteryTargetPoint4", "MoveToHolyCityMonasteryTargetPoint3", "MoveToHolyCityMonasteryTargetPoint2", "MoveToHolyCityMonasteryTargetPoint1"]
+		}
+	},
+	"MoveToHolyCityMonasteryTargetPoint1": {
+		"desc": "移动到圣城修道院目标点1-少女圣像左边",
+		"recognition": "Custom",
+		"custom_recognition": "findTargetPoint",
+		"custom_recognition_param": {
+			"point": [39, 39],
+			"task": "HolyCityMonasteryTargetPoint1",
+			"offset": [-156, -104, -79, -14]
+		},
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:移动到圣城修道院目标点1-少女圣像左边"
+		},
+		"next": ["ArrivedAtHolyCityMonasteryTargetPoint1", "[JumpBack]SceneBack", "[JumpBack]QuitMapOutpost", "MoveToHolyCityMonasteryTargetPoint1"]
+	},
+	"MoveToHolyCityMonasteryTargetPoint2": {
+		"desc": "移动到圣城修道院目标点2-工匠圣像右边",
+		"recognition": "Custom",
+		"custom_recognition": "findTargetPoint",
+		"custom_recognition_param": {
+			"point": [47, 50],
+			"task": "HolyCityMonasteryTargetPoint2",
+			"offset": [145, -116, -79, -12]
+		},
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:移动到圣城修道院目标点2-工匠圣像右边"
+		},
+		"next": ["ArrivedAtHolyCityMonasteryTargetPoint2", "[JumpBack]SceneBack", "[JumpBack]QuitMapOutpost", "MoveToHolyCityMonasteryTargetPoint2"]
+	},
+	"MoveToHolyCityMonasteryTargetPoint3": {
+		"desc": "移动到圣城修道院目标点3-慈母圣像右边",
+		"recognition": "Custom",
+		"custom_recognition": "findTargetPoint",
+		"custom_recognition_param": {
+			"point": [78, 43],
+			"task": "HolyCityMonasteryTargetPoint3",
+			"offset": [355, 172, -77, -12]
+		},
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:移动到圣城修道院目标点3-慈母圣像右边"
+		},
+		"next": ["ArrivedAtHolyCityMonasteryTargetPoint3", "[JumpBack]SceneBack", "[JumpBack]QuitMapOutpost", "MoveToHolyCityMonasteryTargetPoint3"]
+	},
+	"MoveToHolyCityMonasteryTargetPoint4": {
+		"desc": "移动到圣城修道院目标点4-教团幽禁室右边",
+		"recognition": "Custom",
+		"custom_recognition": "findTargetPoint",
+		"custom_recognition_param": {
+			"point": [74, 16],
+			"task": "HolyCityMonasteryTargetPoint4",
+			"offset": [429, 54, -232, -276]
+		},
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:移动到圣城修道院目标点4-教团幽禁室右边"
+		},
+		"next": ["ArrivedAtHolyCityMonasteryTargetPoint4", "[JumpBack]SceneBack", "[JumpBack]QuitMapOutpost", "MoveToHolyCityMonasteryTargetPoint4"]
+	},
+	"HolyCityMonasteryTargetPoint1": {
+		"desc": "圣城修道院目标点1-少女圣像左边",
+		"recognition": "And",
+		"all_of": [{
+			"recognition": "TemplateMatch",
+			"template": "activities/DarkSecretTreasure/MaidenStatue.png",
+			"sub_name": "TargetPoint1Pos"
+		}, {
+			"recognition": "ColorMatch",
+			"method": 40,
+			"lower": [20, 30, 80],
+			"upper": [30, 50, 255],
+			"roi": "TargetPoint1Pos",
+			"roi_offset": [0, 170, 0, -173],
+			"count": 30,
+			"sub_name": "TargetPoint1Color"
+		}, {
+			"recognition": "OCR",
+			"expected": "少女圣像",
+			"roi": "TargetPoint1Color",
+			"roi_offset": [-2, -2, 4, 4],
+			"only_rec": true
+		}],
+		"box_index": 2
+	},
+	"HolyCityMonasteryTargetPoint2": {
+		"desc": "圣城修道院目标点2-工匠圣像右边",
+		"recognition": "And",
+		"all_of": [{
+			"recognition": "TemplateMatch",
+			"template": "activities/DarkSecretTreasure/CraftsmanStatue.png",
+			"sub_name": "TargetPoint2Pos"
+		}, {
+			"recognition": "ColorMatch",
+			"method": 40,
+			"lower": [20, 30, 80],
+			"upper": [30, 50, 255],
+			"roi": "TargetPoint2Pos",
+			"roi_offset": [17, 190, -18, -195],
+			"count": 30,
+			"sub_name": "TargetPoint2Color"
+		}, {
+			"recognition": "OCR",
+			"expected": "工匠圣像",
+			"roi": "TargetPoint2Color",
+			"roi_offset": [-2, -2, 4, 4],
+			"only_rec": true
+		}],
+		"box_index": 2
+	},
+	"HolyCityMonasteryTargetPoint3": {
+		"desc": "圣城修道院目标点3-慈母圣像右边",
+		"recognition": "And",
+		"all_of": [{
+			"recognition": "TemplateMatch",
+			"template": "activities/DarkSecretTreasure/MotherlyStatue.png",
+			"sub_name": "TargetPoint3Pos"
+		}, {
+			"recognition": "ColorMatch",
+			"method": 40,
+			"lower": [20, 30, 80],
+			"upper": [30, 50, 255],
+			"roi": "TargetPoint3Pos",
+			"roi_offset": [10, 200, -16, -203],
+			"count": 30,
+			"sub_name": "TargetPoint3Color"
+		}, {
+			"recognition": "OCR",
+			"expected": "慈母圣像",
+			"roi": "TargetPoint3Color",
+			"roi_offset": [-2, -2, 4, 4],
+			"only_rec": true
+		}],
+		"box_index": 2
+	},
+	"HolyCityMonasteryTargetPoint4": {
+		"desc": "圣城修道院目标点4-教团幽禁室右边",
+		"recognition": "TemplateMatch",
+		"template": "activities/DarkSecretTreasure/CultChamber.png",
+		"roi": [0, 594, 720, 601]
+	},
+	"ArrivedAtHolyCityMonasteryTargetPoint1": {
+		"desc": "检查是否到达圣城修道院目标点1-少女圣像左边",
+		"recognition": "Custom",
+		"custom_recognition": "ArrivedAtTargetPoint",
+		"custom_recognition_param": {
+			"point": [29, 46],
+			"offset": [3, 3]
+		}
+	},
+	"ArrivedAtHolyCityMonasteryTargetPoint2": {
+		"desc": "检查是否到达圣城修道院目标点2-工匠圣像右边",
+		"recognition": "Custom",
+		"custom_recognition": "ArrivedAtTargetPoint",
+		"custom_recognition_param": {
+			"point": [48, 54],
+			"offset": [3, 3]
+		}
+	},
+	"ArrivedAtHolyCityMonasteryTargetPoint3": {
+		"desc": "检查是否到达圣城修道院目标点3-慈母圣像右边",
+		"recognition": "Custom",
+		"custom_recognition": "ArrivedAtTargetPoint",
+		"custom_recognition_param": {
+			"point": [89, 39],
+			"offset": [3, 3]
+		}
+	},
+	"ArrivedAtHolyCityMonasteryTargetPoint4": {
+		"desc": "检查是否到达圣城修道院目标点4-老妪圣像右边",
+		"recognition": "Custom",
+		"custom_recognition": "ArrivedAtTargetPoint",
+		"custom_recognition_param": {
+			"point": [86, 20],
+			"offset": [3, 3]
+		}
+	}
+}

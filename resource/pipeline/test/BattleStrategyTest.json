@@ -1,0 +1,19 @@
+{
+	"BattleTimeRec": {
+		"recognition": "OCR",
+		"expected": "\\d{2}:\\d{2}",
+		"roi": [139, 31, 65, 17],
+		"only_rec": true
+	},
+	"BattleTimeTestEntry": {
+		"recognition": "And",
+		"all_of": ["InBattle"],
+		"next": [
+			"[JumpBack]BattleTimeTest"
+		]
+	},
+	"BattleTimeTest": {
+		"action": "Custom",
+		"custom_action": "BattleTimeTest"
+	}
+}

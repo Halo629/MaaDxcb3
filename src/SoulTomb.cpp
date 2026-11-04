@@ -46,42 +46,47 @@ MaaBool adjustSoulTombLevel(
     }
 
     // OCR 读当前等级
-    ScreenCap cap(context);
-    std::string digits = ocrText(context, cap.img, "CustomGetSoulTombCurLevel", nullptr, nullptr);
-
-    if (digits.empty()) {
+    int curLevel = 0;
+    if (!readNumberFromNode(context, "CustomGetSoulTombCurLevel", "SoulTombCurLevel", curLevel)) {
         LogUtils::warn("魂墓挑战: 读取当前等级失败");
         return false;
     }
-    int curLevel = std::stoi(digits);
 
-    if (curLevel == targetLevel) {
-        return true;
-    }
-
-    if (curLevel < targetLevel) {
-        for (int i = 0; i < targetLevel - curLevel; ++i) {
-            if (MaaTaskerStopping(MaaContextGetTasker(context))) {
-                return true;
-            }
-            MaaContextRunTask(context, "SoulTombLevelAdd1", "{}");
+    // 提升等级：每次 +1
+    auto addLevel = [&]() {
+        if (abs(targetLevel - curLevel) <= 5) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
         }
-    }
-    else {
+        MaaContextRunTask(context, "SoulTombLevelAdd1", "{}");
+        return readNumberFromNode(context, "CustomGetSoulTombCurLevel", "SoulTombCurLevel", curLevel);
+    };
+
+    // 降低等级：差 >=10 级 -10，否则 -1
+    auto subLevel = [&]() {
+        if (abs(targetLevel - curLevel) <= 20) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        }
         int diff = curLevel - targetLevel;
-        for (int i = 0; i < diff / 10; ++i) {
-            if (MaaTaskerStopping(MaaContextGetTasker(context))) {
-                return true;
-            }
+        if (diff >= 10) {
             MaaContextRunTask(context, "SoulTombLevelSub10", "{}");
         }
-        for (int i = 0; i < diff % 10; ++i) {
-            if (MaaTaskerStopping(MaaContextGetTasker(context))) {
-                return true;
-            }
+        else {
             MaaContextRunTask(context, "SoulTombLevelSub1", "{}");
         }
+        return readNumberFromNode(context, "CustomGetSoulTombCurLevel", "SoulTombCurLevel", curLevel);
+    };
+
+    while (curLevel != targetLevel) {
+        if (MaaTaskerStopping(MaaContextGetTasker(context))) {
+            return true;
+        }
+        bool ok = (curLevel < targetLevel) ? addLevel() : subLevel();
+        if (!ok) {
+            LogUtils::warn("魂墓挑战: 读取当前等级失败");
+            return false;
+        }
     }
+
     return true;
 }
 

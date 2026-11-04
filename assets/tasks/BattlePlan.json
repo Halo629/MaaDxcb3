@@ -1,0 +1,16 @@
+{
+	"task": [
+		{
+			"name": "BattlePlan",
+			"label": "🗡️战斗计划",
+            "description":"进迷宫太麻烦，还是刷魂墓吧,建议刷50层",
+			"entry": "BattlePlanStart",
+			"group": ["activity_tasks"],
+			"option": [
+				"DisableBattleStrategy",
+				"ChallengeStartLevel",
+				"ChallengeCount"
+			]
+		}
+	]
+}

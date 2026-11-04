@@ -33,7 +33,7 @@
 		"desc": "通用取消按钮（屏幕中间区域）",
 		"recognition": "OCR",
 		"roi": [84, 515, 569, 610],
-		"expected": "取消",
+		"expected": "取消|再玩一会|再玩",
 		"action": "Click",
 		"post_wait_freezes": {
 			"time": 500,
@@ -70,8 +70,26 @@
 	},
 	"CollapseSideBar": {
 		"desc": "收起侧边栏",
+		"recognition": "Or",
+		"any_of": ["HasCollapseIcon", "HasRankingIcon"],
+		"next": [
+			"CollapseSideBarNormal",
+			"CollapseSideBarIfOcclusion"
+		]
+	},
+	"CollapseSideBarNormal": {
+		"desc": "正常收起侧边栏",
 		"recognition": "And",
 		"all_of": ["HasCollapseIcon"],
+		"action": "Click",
+		"post_delay": 500
+	},
+	"CollapseSideBarIfOcclusion": {
+		"desc": "被遮挡时收起侧边栏",
+		"recognition": "TemplateMatch",
+		"template": "main_page_icon/RankingIcon.png",
+		"roi": [582, 765, 138, 515],
+		"target_offset": [27, 107, -57, -74],
 		"action": "Click",
 		"post_delay": 500
 	}

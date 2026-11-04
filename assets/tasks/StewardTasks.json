@@ -338,7 +338,7 @@
 					"name": "No",
 					"pipeline_override": {
 						"SoulMasterGuideWeeklyTaskEnable": {
-							"attach": {"ShatteredRealmEnable": true}
+							"attach": {"ShatteredRealmEnable": false}
 						}
 					}
 				}

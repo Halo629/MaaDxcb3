@@ -108,8 +108,8 @@
 		"assets/tasks/RetraceBanquet.json",
 		//掠影之境
 		"assets/tasks/ShadowMirror.json",
-		//永夏远征
-		//"assets/tasks/SummerExpedition.json",
+		//战斗计划
+		"assets/tasks/BattlePlan.json",
 		//树枝活动：夏夜荷塘/颂礼幽廊
 		"assets/tasks/BranchActivity.json",
 		// group: other_tasks
@@ -126,6 +126,7 @@
 		// pretask
 		"assets/tasks/pretasks/LaunchEmulator.json"
 		// test
-		//"assets/tasks/test/TestMoveToPoint.json"
+		// "assets/tasks/test/TestMoveToPoint.json",
+		// "assets/tasks/test/BattleTimeTest.json"
 	]
 }

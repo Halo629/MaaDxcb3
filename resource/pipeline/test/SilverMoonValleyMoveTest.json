@@ -1,0 +1,296 @@
+{
+	"SilverMoonValleyTestMoveToPointEntry": {
+		"desc": "银月谷测试移动到目标点位（不依赖罗盘）",
+		"next": [
+			"[JumpBack]WallConfig",
+			"[JumpBack]SilverMoonValleyMoveToPoint",
+			"SilverMoonValleyTestMoveDone",
+			"[JumpBack]SceneEnterSilverMoonValleyNoReset"
+		]
+	},
+	"SilverMoonValleyMoveToPoint": {
+		"recognition": "And",
+		"all_of": ["InSilverMoonValley"],
+		"max_hit": 1,
+		"next": [
+			"[JumpBack]SilverMoonValleyMoveToPointCollection1",
+			"[JumpBack]SilverMoonValleyMoveToPointCollection2",
+			"[JumpBack]SilverMoonValleyMoveToPointCollection3",
+			"[JumpBack]SilverMoonValleyMoveToPointCollection4",
+			"[JumpBack]SilverMoonValleyMoveToPointCollection5",
+			"[JumpBack]SilverMoonValleyMoveToPointCollection6",
+			"SilverMoonValleyTestMoveDone"
+		]
+	},
+	"SilverMoonValleyTestMoveDone": {
+		"recognition": "And",
+		"all_of": ["InSilverMoonValley"]
+	},
+	"SilverMoonValleyMoveToPointCollection1": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:银月谷 Collection1"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": [
+				"MoveToSilverMoonValleyTargetPoint1",
+				"MoveToSilverMoonValleyTargetPoint2",
+				"MoveToSilverMoonValleyTargetPoint3"
+			]
+		}
+	},
+	"SilverMoonValleyMoveToPointCollection2": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:银月谷 Collection2"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": [
+				"MoveToSilverMoonValleyTargetPoint1",
+				"MoveToSilverMoonValleyTargetPoint3",
+				"MoveToSilverMoonValleyTargetPoint2"
+			]
+		}
+	},
+	"SilverMoonValleyMoveToPointCollection3": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:银月谷 Collection3"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": [
+				"MoveToSilverMoonValleyTargetPoint3",
+				"MoveToSilverMoonValleyTargetPoint2",
+				"MoveToSilverMoonValleyTargetPoint1"
+			]
+		}
+	},
+	"SilverMoonValleyMoveToPointCollection4": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:银月谷 Collection4"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": [
+				"MoveToSilverMoonValleyTargetPoint3",
+				"MoveToSilverMoonValleyTargetPoint1",
+				"MoveToSilverMoonValleyTargetPoint2"
+			]
+		}
+	},
+	"SilverMoonValleyMoveToPointCollection5": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:银月谷 Collection5"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": [
+				"MoveToSilverMoonValleyTargetPoint2",
+				"MoveToSilverMoonValleyTargetPoint3",
+				"MoveToSilverMoonValleyTargetPoint1"
+			]
+		}
+	},
+	"SilverMoonValleyMoveToPointCollection6": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:银月谷 Collection6"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": [
+				"MoveToSilverMoonValleyTargetPoint2",
+				"MoveToSilverMoonValleyTargetPoint1",
+				"MoveToSilverMoonValleyTargetPoint3"
+			]
+		}
+	},
+	"MoveToSilverMoonValleyTargetPoint1": {
+		"desc": "移动到银月谷目标点1-王室猎场上边",
+		"recognition": "Custom",
+		"custom_recognition": "findTargetPoint",
+		"custom_recognition_param": {
+			"point": [20, 48],
+			"task": "SilverMoonValleyTargetPoint1",
+			"offset": [-83, -377, -75, -10]
+		},
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:移动到银月谷目标点1-王室猎场上边"
+		},
+		"next": [
+			"ArrivedAtSilverMoonValleyTargetPoint1",
+			"[JumpBack]SceneBack",
+			"[JumpBack]QuitMapOutpost",
+			"MoveToSilverMoonValleyTargetPoint1"
+		]
+	},
+	"MoveToSilverMoonValleyTargetPoint2": {
+		"desc": "移动到银月谷目标点2-王室猎场下边",
+		"recognition": "Custom",
+		"custom_recognition": "findTargetPoint",
+		"custom_recognition_param": {
+			"point": [20, 48],
+			"task": "SilverMoonValleyTargetPoint2",
+			"offset": [55, 185, -78, -13]
+		},
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:移动到银月谷目标点2-王室猎场下边"
+		},
+		"next": [
+			"ArrivedAtSilverMoonValleyTargetPoint2",
+			"[JumpBack]SceneBack",
+			"[JumpBack]QuitMapOutpost",
+			"MoveToSilverMoonValleyTargetPoint2"
+		]
+	},
+	"MoveToSilverMoonValleyTargetPoint3": {
+		"desc": "移动到银月谷目标点3-繁星圣堂右边",
+		"recognition": "Custom",
+		"custom_recognition": "findTargetPoint",
+		"custom_recognition_param": {
+			"point": [44, 65],
+			"task": "SilverMoonValleyTargetPoint3",
+			"offset": [158, -176, -77, -14]
+		},
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:移动到银月谷目标点3-繁星圣堂右边"
+		},
+		"next": [
+			"ArrivedAtSilverMoonValleyTargetPoint3",
+			"[JumpBack]SceneBack",
+			"[JumpBack]QuitMapOutpost",
+			"MoveToSilverMoonValleyTargetPoint3"
+		]
+	},
+	"SilverMoonValleyTargetPoint1": {
+		"desc": "银月谷目标点1-王室猎场上边",
+		"recognition": "And",
+		"all_of": [
+			"MazeCompleteStatus",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 30, 80],
+				"upper": [30, 50, 255],
+				"roi": "MazeCompleteStatus",
+				"roi_offset": [29, 0, 80, 0],
+				"count": 30,
+				"sub_name": "CompleteMazeNameColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "王室猎场",
+				"roi": "CompleteMazeNameColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2
+	},
+	"SilverMoonValleyTargetPoint2": {
+		"desc": "银月谷目标点2-王室猎场下边",
+		"recognition": "And",
+		"all_of": [
+			"MazeCompleteStatus",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 30, 80],
+				"upper": [30, 50, 255],
+				"roi": "MazeCompleteStatus",
+				"roi_offset": [29, 0, 80, 0],
+				"count": 30,
+				"sub_name": "CompleteMazeNameColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "王室猎场",
+				"roi": "CompleteMazeNameColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2
+	},
+	"SilverMoonValleyTargetPoint3": {
+		"desc": "银月谷目标点3-繁星圣堂右边",
+		"recognition": "And",
+		"all_of": [
+			"MazeCompleteStatus",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 30, 80],
+				"upper": [30, 50, 255],
+				"roi": "MazeCompleteStatus",
+				"roi_offset": [29, 0, 80, 0],
+				"count": 30,
+				"sub_name": "CompleteMazeNameColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "繁星圣堂",
+				"roi": "CompleteMazeNameColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2
+	},
+	"ArrivedAtSilverMoonValleyTargetPoint1": {
+		"desc": "检查是否到达银月谷目标点1-王室猎场上边",
+		"recognition": "Custom",
+		"custom_recognition": "ArrivedAtTargetPoint",
+		"custom_recognition_param": {
+			"point": [15, 66],
+			"offset": [3, 3]
+		}
+	},
+	"ArrivedAtSilverMoonValleyTargetPoint2": {
+		"desc": "检查是否到达银月谷目标点2-王室猎场下边",
+		"recognition": "Custom",
+		"custom_recognition": "ArrivedAtTargetPoint",
+		"custom_recognition_param": {
+			"point": [21, 41],
+			"offset": [3, 3]
+		}
+	},
+	"ArrivedAtSilverMoonValleyTargetPoint3": {
+		"desc": "检查是否到达银月谷目标点3-繁星圣堂右边",
+		"recognition": "Custom",
+		"custom_recognition": "ArrivedAtTargetPoint",
+		"custom_recognition_param": {
+			"point": [44, 65],
+			"offset": [3, 3]
+		}
+	}
+}

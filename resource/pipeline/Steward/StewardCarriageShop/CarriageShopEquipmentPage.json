@@ -29,7 +29,7 @@
 		"all_of": ["CarriageShopHasEquipmentTab"],
 		"action": "Click",
 		"post_wait_freezes": {
-			"time": 300,
+			"time": 500,
 			"target": [160, 580, 391, 473],
 			"timeout": 2000
 		}

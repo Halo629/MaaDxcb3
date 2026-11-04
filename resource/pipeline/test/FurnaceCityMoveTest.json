@@ -1,0 +1,232 @@
+{
+	"FurnaceCityTestMoveToPointEntry": {
+		"desc": "熔炉之城测试移动到目标点位（不依赖罗盘）",
+		"next": ["[JumpBack]WallConfig", "[JumpBack]FurnaceCityMoveToPoint", "FurnaceCityTestMoveDone", "[JumpBack]SceneEnterFurnaceCityNoReset"]
+	},
+	"FurnaceCityTestMoveDone": {
+		"recognition": "And",
+		"all_of": ["InFurnaceCity"]
+	},
+	"FurnaceCityMoveToPoint": {
+		"recognition": "And",
+		"all_of": ["InFurnaceCity"],
+		"max_hit": 1,
+		"next": ["[JumpBack]FurnaceCityMoveToPointCollection1", "[JumpBack]FurnaceCityMoveToPointCollection2", "[JumpBack]FurnaceCityMoveToPointCollection3", "[JumpBack]FurnaceCityMoveToPointCollection4", "[JumpBack]FurnaceCityMoveToPointCollection5", "[JumpBack]FurnaceCityMoveToPointCollection6", "FurnaceCityTestMoveDone"]
+	},
+	"FurnaceCityMoveToPointCollection1": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:熔炉之城 Collection1"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToFurnaceCityTargetPoint1", "MoveToFurnaceCityTargetPoint2", "MoveToFurnaceCityTargetPoint3"]
+		}
+	},
+	"FurnaceCityMoveToPointCollection2": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:熔炉之城 Collection2"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToFurnaceCityTargetPoint1", "MoveToFurnaceCityTargetPoint3", "MoveToFurnaceCityTargetPoint2"]
+		}
+	},
+	"FurnaceCityMoveToPointCollection3": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:熔炉之城 Collection3"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToFurnaceCityTargetPoint3", "MoveToFurnaceCityTargetPoint2", "MoveToFurnaceCityTargetPoint1"]
+		}
+	},
+	"FurnaceCityMoveToPointCollection4": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:熔炉之城 Collection4"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToFurnaceCityTargetPoint3", "MoveToFurnaceCityTargetPoint1", "MoveToFurnaceCityTargetPoint2"]
+		}
+	},
+	"FurnaceCityMoveToPointCollection5": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:熔炉之城 Collection5"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToFurnaceCityTargetPoint2", "MoveToFurnaceCityTargetPoint3", "MoveToFurnaceCityTargetPoint1"]
+		}
+	},
+	"FurnaceCityMoveToPointCollection6": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:熔炉之城 Collection6"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": ["MoveToFurnaceCityTargetPoint2", "MoveToFurnaceCityTargetPoint1", "MoveToFurnaceCityTargetPoint3"]
+		}
+	},
+	"MoveToFurnaceCityTargetPoint1": {
+		"desc": "移动到熔炉之城目标点1-同业公会右边",
+		"recognition": "Custom",
+		"custom_recognition": "findTargetPoint",
+		"custom_recognition_param": {
+			"point": [29, 76],
+			"task": "FurnaceCityTargetPoint1",
+			"offset": [227, 14, -79, -16]
+		},
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:移动到熔炉之城目标点1-同业公会右边"
+		},
+		"next": ["ArrivedAtFurnaceCityTargetPoint1", "[JumpBack]SceneBack", "[JumpBack]QuitMapOutpost", "MoveToFurnaceCityTargetPoint1"]
+	},
+	"MoveToFurnaceCityTargetPoint2": {
+		"desc": "移动到熔炉之城目标点2-使节宅邸上边",
+		"recognition": "Custom",
+		"custom_recognition": "findTargetPoint",
+		"custom_recognition_param": {
+			"point": [63, 79],
+			"task": "FurnaceCityTargetPoint2",
+			"offset": [158, -338, -78, -15]
+		},
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:移动到熔炉之城目标点2-使节宅邸上边"
+		},
+		"next": ["ArrivedAtFurnaceCityTargetPoint2", "[JumpBack]SceneBack", "[JumpBack]QuitMapOutpost", "MoveToFurnaceCityTargetPoint2"]
+	},
+	"MoveToFurnaceCityTargetPoint3": {
+		"desc": "移动到熔炉之城目标点3-亲王宅邸左边",
+		"recognition": "Custom",
+		"custom_recognition": "findTargetPoint",
+		"custom_recognition_param": {
+			"point": [79, 75],
+			"task": "FurnaceCityTargetPoint3",
+			"offset": [-95, 139, -78, -14]
+		},
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:移动到熔炉之城目标点3-亲王宅邸左边"
+		},
+		"next": ["ArrivedAtFurnaceCityTargetPoint3", "[JumpBack]SceneBack", "[JumpBack]QuitMapOutpost", "MoveToFurnaceCityTargetPoint3"]
+	},
+	"FurnaceCityTargetPoint1": {
+		"desc": "熔炉之城目标点1-同业公会右边",
+		"recognition": "And",
+		"all_of": ["MazeCompleteStatus", {
+			"recognition": "ColorMatch",
+			"method": 40,
+			"lower": [20, 30, 80],
+			"upper": [30, 50, 255],
+			"roi": "MazeCompleteStatus",
+			"roi_offset": [29, 0, 80, 0],
+			"count": 30,
+			"sub_name": "CompleteMazeNameColor"
+		}, {
+			"recognition": "OCR",
+			"expected": "同业公会",
+			"roi": "CompleteMazeNameColor",
+			"roi_offset": [-2, -2, 4, 4],
+			"only_rec": true
+		}],
+		"box_index": 2
+	},
+	"FurnaceCityTargetPoint2": {
+		"desc": "熔炉之城目标点2-使节宅邸上边",
+		"recognition": "And",
+		"all_of": ["MazeCompleteStatus", {
+			"recognition": "ColorMatch",
+			"method": 40,
+			"lower": [20, 30, 80],
+			"upper": [30, 50, 255],
+			"roi": "MazeCompleteStatus",
+			"roi_offset": [29, 0, 80, 0],
+			"count": 30,
+			"sub_name": "CompleteMazeNameColor"
+		}, {
+			"recognition": "OCR",
+			"expected": "使节宅邸",
+			"roi": "CompleteMazeNameColor",
+			"roi_offset": [-2, -2, 4, 4],
+			"only_rec": true
+		}],
+		"box_index": 2
+	},
+	"FurnaceCityTargetPoint3": {
+		"desc": "熔炉之城目标点3-亲王宅邸左边",
+		"recognition": "And",
+		"all_of": ["MazeCompleteStatus", {
+			"recognition": "ColorMatch",
+			"method": 40,
+			"lower": [20, 30, 80],
+			"upper": [30, 50, 255],
+			"roi": "MazeCompleteStatus",
+			"roi_offset": [29, 0, 80, 0],
+			"count": 30,
+			"sub_name": "CompleteMazeNameColor"
+		}, {
+			"recognition": "OCR",
+			"expected": "亲王宅邸",
+			"roi": "CompleteMazeNameColor",
+			"roi_offset": [-2, -2, 4, 4],
+			"only_rec": true
+		}],
+		"box_index": 2
+	},
+	"ArrivedAtFurnaceCityTargetPoint1": {
+		"desc": "检查是否到达熔炉之城目标点1-同业公会右边",
+		"recognition": "Custom",
+		"custom_recognition": "ArrivedAtTargetPoint",
+		"custom_recognition_param": {
+			"point": [33, 75],
+			"offset": [3, 3]
+		}
+	},
+	"ArrivedAtFurnaceCityTargetPoint2": {
+		"desc": "检查是否到达熔炉之城目标点2-使节宅邸上边",
+		"recognition": "Custom",
+		"custom_recognition": "ArrivedAtTargetPoint",
+		"custom_recognition_param": {
+			"point": [63, 79],
+			"offset": [3, 3]
+		}
+	},
+	"ArrivedAtFurnaceCityTargetPoint3": {
+		"desc": "检查是否到达熔炉之城目标点3-亲王宅邸左边",
+		"recognition": "Custom",
+		"custom_recognition": "ArrivedAtTargetPoint",
+		"custom_recognition_param": {
+			"point": [75, 71],
+			"offset": [3, 3]
+		}
+	}
+}

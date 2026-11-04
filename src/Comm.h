@@ -176,7 +176,16 @@ bool waitUntilRecognitionSuccess(
 
 void clickRandomTarget(MaaContext* context, int x, int y, int w, int h);
 
+// 点击指定坐标（不做位置调整）
+void clickPoint(MaaContext* context, int x, int y);
+
 std::string ocrText(MaaContext* context, const MaaImageBuffer* img, const char* entry, const char* detailJson, MaaRect* box);
+
+// 运行指定识别节点（OCR/And），返回所有文本拼接后的字符串；subName 非空时只取 And 节点中该子结果
+std::string readTextFromNode(MaaContext* context, const MaaImageBuffer* img, const char* nodeName, const char* subName);
+
+// 运行指定识别节点（OCR/And），提取其中的数字；subName 非空时从 And 节点指定子结果读取
+bool readNumberFromNode(MaaContext* context, const char* nodeName, const char* subName, int& outValue);
 
 // 从 And 节点识别结果中取指定 sub_name 子节点的 detail（含 all/filtered/best），未找到返回空 json::value
 json::value getAndSubDetail(MaaContext* context, const MaaImageBuffer* img, const char* entry, const char* subName);
@@ -256,16 +265,13 @@ CompassDir vectorToDirection(int dx, int dy);
 // 解析 "(19,73)" 或 "(19, 73)" 形式的坐标
 bool parseCoord(const std::string& text, int& x, int& y);
 
-// 点击指定坐标；若不在可操作区域内，朝屏幕中心滑动把点击点拉进可操作区域后再点。
-void clickAdjusted(MaaContext* context, int x, int y);
-
 // 朝某方位滑动屏幕（拖拽视角：滑动方向与观察方向相反，看北=往下滑、看东=往左滑）。
 // 滑动起点必须在可操作区域内；若起点落在据点上滑动变点击弹框，执行 QuitMapOutpost 退出并按上下左右偏移重试。
-void swipeAvoidOutpost(MaaContext* context, CompassDir dir, int dist = 300, int duration = 300);
+void swipeAvoidOutpost(MaaContext* context, CompassDir dir, int dist = 400, int duration = 300);
 
 // 朝目标方向 (dx,dy) 连续滑动屏幕（dx=东分量、dy=北分量，拖拽视角：滑动方向与观察方向相反）。
 // 不量化到 12 方位，方向更精确，避免地图长宽不等时越滑越偏。dist 为滑动距离。
-void swipeToward(MaaContext* context, int dx, int dy, int dist = 300, int duration = 300);
+void swipeToward(MaaContext* context, int dx, int dy, int dist = 400, int duration = 300);
 
 // 屏幕 OCR 查找文字，命中返回 box。
 bool findTextOnScreen(MaaContext* context, const MaaImageBuffer* img, const std::string& text, MaaRect& outBox);
@@ -275,7 +281,7 @@ enum class WalkStep { Found, NotFound, Error };
 
 // 单步走位：读人物坐标 → 朝目标方向滑动 → 找位置名。
 // Found=找到位置名(outBox)；NotFound=没找到(继续滑动)；Error=读坐标/算方向失败。
-WalkStep walkStep(MaaContext* context, int tx, int ty, const std::string& text, MaaRect& outBox);
+WalkStep walkStep(MaaContext* context, int tx, int ty, const std::string& task, MaaRect& outBox, int dist, int& lastDx, int& lastDy);
 
 // 运行一个 pipeline 任务并等待其完成。
 void runTaskAndWait(MaaContext* context, const std::string& task);
@@ -286,9 +292,10 @@ bool walkToTargetPoint(
     MaaContext* context,
     int tx,
     int ty,
-    const std::string& text,
+    const std::string& task,
     MaaRect& outBox,
-    int maxAttempts = 30);
+    int maxAttempts = 10,
+    int dist = 200);
 
 // 地图数据
 enum class MapIndex

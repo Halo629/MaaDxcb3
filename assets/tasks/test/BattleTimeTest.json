@@ -1,0 +1,10 @@
+{
+	"task": [
+		{
+			"name": "BattleTimeTest",
+			"label": "🧪测试战斗时间",
+			"entry": "BattleTimeTestEntry",
+			"group": ["other_tasks"]
+		}
+	]
+}

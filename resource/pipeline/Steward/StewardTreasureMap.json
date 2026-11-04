@@ -16,11 +16,11 @@
 		"recognition": "And",
 		"all_of": ["InTreasureMapPage"],
 		"pre_delay": 0,
-		"post_delay": 0,
 		"rate_limit": 0,
 		"next": [
 			"[JumpBack]TreasureMapUpdateDialog",
 			"[JumpBack]TreasureMapCollect",
+			"[JumpBack]HandleRewardDialog",
 			"TreasureMapDone"
 		]
 	},
@@ -46,7 +46,8 @@
 		"desc": "藏宝图有一键领取按钮",
 		"recognition": "OCR",
 		"expected": "一键领取|领取",
-		"roi": [264, 1094, 196, 53]
+		"roi": [307, 1104, 104, 32],
+		"only_rec": true
 	},
 	"TreasureMapCollect": {
 		"desc": "一键领取藏宝图奖励",
@@ -56,22 +57,18 @@
 			{
 				"recognition": "ColorMatch",
 				"method": 40,
-				"lower": [20, 80, 80],
+				"lower": [20, 80, 50],
 				"upper": [35, 255, 255],
 				"roi": "TreasureMapHasCollect",
-				"count": 500
+				"count": 50
 			}
 		],
-		"box_index": 1,
 		"action": "Click",
 		"post_wait_freezes": {
-			"time": 500,
-			"target": [260, 540, 200, 200],
-			"timeout": 5000
-		},
-		"next": [
-			"HandleRewardDialog"
-		]
+			"time": 300,
+			"target": [109, 527, 549, 482],
+			"timeout": 2000
+		}
 	},
 	"TreasureMapDone": {
 		"desc": "藏宝图领取完成",

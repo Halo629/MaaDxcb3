@@ -1,0 +1,347 @@
+{
+	"IsleOfTimesEndTestMoveToPointEntry": {
+		"desc": "时之尽头的孤岛测试移动到目标点位（不依赖罗盘）",
+		"next": [
+			"[JumpBack]WallConfig",
+			"[JumpBack]IsleOfTimesEndMoveToPoint",
+			"IsleOfTimesEndTestMoveDone",
+			"[JumpBack]SceneEnterIsleOfTimesEndNoReset"
+		]
+	},
+	"IsleOfTimesEndMoveToPoint": {
+		"recognition": "And",
+		"all_of": ["InIsleOfTimesEnd"],
+		"max_hit": 1,
+		"next": [
+			"[JumpBack]IsleOfTimesEndMoveToPointCollection1",
+			"[JumpBack]IsleOfTimesEndMoveToPointCollection2",
+			"[JumpBack]IsleOfTimesEndMoveToPointCollection3",
+			"[JumpBack]IsleOfTimesEndMoveToPointCollection4",
+			"[JumpBack]IsleOfTimesEndMoveToPointCollection5",
+			"[JumpBack]IsleOfTimesEndMoveToPointCollection6",
+			"IsleOfTimesEndTestMoveDone"
+		]
+	},
+	"IsleOfTimesEndTestMoveDone": {
+		"recognition": "And",
+		"all_of": ["InIsleOfTimesEnd"]
+	},
+	"IsleOfTimesEndMoveToPointCollection1": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:时之尽头的孤岛 Collection1"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": [
+				"MoveToIsleOfTimesEndTargetPoint1",
+				"MoveToIsleOfTimesEndTargetPoint2",
+				"MoveToIsleOfTimesEndTargetPoint3"
+			]
+		}
+	},
+	"IsleOfTimesEndMoveToPointCollection2": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:时之尽头的孤岛 Collection2"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": [
+				"MoveToIsleOfTimesEndTargetPoint1",
+				"MoveToIsleOfTimesEndTargetPoint3",
+				"MoveToIsleOfTimesEndTargetPoint2"
+			]
+		}
+	},
+	"IsleOfTimesEndMoveToPointCollection3": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:时之尽头的孤岛 Collection3"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": [
+				"MoveToIsleOfTimesEndTargetPoint3",
+				"MoveToIsleOfTimesEndTargetPoint2",
+				"MoveToIsleOfTimesEndTargetPoint1"
+			]
+		}
+	},
+	"IsleOfTimesEndMoveToPointCollection4": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:时之尽头的孤岛 Collection4"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": [
+				"MoveToIsleOfTimesEndTargetPoint3",
+				"MoveToIsleOfTimesEndTargetPoint1",
+				"MoveToIsleOfTimesEndTargetPoint2"
+			]
+		}
+	},
+	"IsleOfTimesEndMoveToPointCollection5": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:时之尽头的孤岛 Collection5"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": [
+				"MoveToIsleOfTimesEndTargetPoint2",
+				"MoveToIsleOfTimesEndTargetPoint3",
+				"MoveToIsleOfTimesEndTargetPoint1"
+			]
+		}
+	},
+	"IsleOfTimesEndMoveToPointCollection6": {
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:时之尽头的孤岛 Collection6"
+		},
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "SubTask",
+		"custom_action_param": {
+			"sub": [
+				"MoveToIsleOfTimesEndTargetPoint2",
+				"MoveToIsleOfTimesEndTargetPoint1",
+				"MoveToIsleOfTimesEndTargetPoint3"
+			]
+		}
+	},
+	"MoveToIsleOfTimesEndTargetPoint1": {
+		"desc": "移动到时之尽头的孤岛目标点1-庇护所遗址右边",
+		"recognition": "Custom",
+		"custom_recognition": "findTargetPoint",
+		"custom_recognition_param": {
+			"point": [25, 56],
+			"task": "IsleOfTimesEndTargetPoint1",
+			"offset": [416, -1, -95, -13]
+		},
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:移动到时之尽头的孤岛目标点1-庇护所遗址右边"
+		},
+		"next": [
+			"ArrivedAtIsleOfTimesEndTargetPoint1",
+			"[JumpBack]SceneBack",
+			"[JumpBack]QuitMapOutpost",
+			"MoveToIsleOfTimesEndTargetPoint1"
+		]
+	},
+	"MoveToIsleOfTimesEndTargetPoint2": {
+		"desc": "移动到时之尽头的孤岛目标点2-暗语墓地左边",
+		"recognition": "Custom",
+		"custom_recognition": "findTargetPoint",
+		"custom_recognition_param": {
+			"point": [94, 44],
+			"task": "IsleOfTimesEndTargetPoint2",
+			"offset": [-94, 3, -49, -1]
+		},
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:移动到时之尽头的孤岛目标点2-暗语墓地左边"
+		},
+		"next": [
+			"ArrivedAtIsleOfTimesEndTargetPoint2",
+			"[JumpBack]SceneBack",
+			"[JumpBack]QuitMapOutpost",
+			"MoveToIsleOfTimesEndTargetPoint2"
+		]
+	},
+	"MoveToIsleOfTimesEndTargetPoint3": {
+		"desc": "移动到时之尽头的孤岛目标点3-最后的门徒左边",
+		"recognition": "Custom",
+		"custom_recognition": "findTargetPoint",
+		"custom_recognition_param": {
+			"point": [60, 72],
+			"task": "IsleOfTimesEndTargetPoint3",
+			"offset": [135, -602, -64, -8]
+		},
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 15000
+		},
+		"focus": {
+			"Node.Recognition.Succeeded": "开始任务:移动到时之尽头的孤岛目标点3-最后的门徒左边"
+		},
+		"next": [
+			"ArrivedAtIsleOfTimesEndTargetPoint3",
+			"[JumpBack]SceneBack",
+			"[JumpBack]QuitMapOutpost",
+			"MoveToIsleOfTimesEndTargetPoint3"
+		]
+	},
+	"IsleOfTimesEndIslandEntrance": {
+		"desc": "时之尽头的孤岛上山的路",
+		"recognition": "And",
+		"all_of": ["HasUpWay"],
+		"action": "Custom",
+		"custom_action": "AdjustPositionAndClick",
+		"custom_action_param": {
+			"target_offset": [0, -50, 0, 0]
+		},
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [193, 513, 358, 513],
+			"timeout": 10000
+		},
+		"next": [
+			"SlideAcrossSkylineTrail",
+			"IsleOfTimesEndIslandEntrance"
+		]
+	},
+	"IsleOfTimesEndIslandExit": {
+		"desc": "时之尽头的孤岛下山的路",
+		"recognition": "And",
+		"all_of": ["HasDownWay"],
+		"action": "Custom",
+		"custom_action": "AdjustPositionAndClick",
+		"custom_action_param": {
+			"target_offset": [0, -50, 0, 0]
+		},
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [193, 513, 358, 513],
+			"timeout": 3000
+		},
+		"next": [
+			"SlideAcrossSkylineTrail",
+			"IsleOfTimesEndIslandExit"
+		]
+	},
+	"SlideAcrossSkylineTrail": {
+		"desc": "穿越天际步道",
+		"recognition": "OCR",
+		"expected": "穿越天际步道|穿越天际|天际步道|步道",
+		"roi": [284, 776, 155, 35],
+		"action": "Click",
+		"only_rec": true,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 2000
+		}
+	},
+	"IsleOfTimesEndTargetPoint1": {
+		"desc": "时之尽头的孤岛目标点1-庇护所遗址右边",
+		"recognition": "And",
+		"all_of": [
+			"MazeCompleteStatus",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 30, 80],
+				"upper": [30, 50, 255],
+				"roi": "MazeCompleteStatus",
+				"roi_offset": [29, 0, 80, 0],
+				"count": 30,
+				"sub_name": "CompleteMazeNameColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "庇护所遗址",
+				"roi": "CompleteMazeNameColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2
+	},
+	"IsleOfTimesEndTargetPoint2": {
+		"desc": "时之尽头的孤岛目标点2-暗语墓地左边",
+		"recognition": "And",
+		"all_of": [
+			"MazeCompleteStatus",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 30, 80],
+				"upper": [30, 50, 255],
+				"roi": "MazeCompleteStatus",
+				"roi_offset": [29, 0, 80, 0],
+				"count": 30,
+				"sub_name": "CompleteMazeNameColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "暗语墓地",
+				"roi": "CompleteMazeNameColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2
+	},
+	"IsleOfTimesEndTargetPoint3": {
+		"desc": "时之尽头的孤岛目标点3-最后的门徒左边(识别崩塌洞窟后偏移更准确)",
+		"recognition": "And",
+		"all_of": [
+			"MazeCompleteStatus",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 30, 80],
+				"upper": [30, 50, 255],
+				"roi": "MazeCompleteStatus",
+				"roi_offset": [29, 0, 80, 0],
+				"count": 30,
+				"sub_name": "CompleteMazeNameColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "崩塌洞窟",
+				"roi": "CompleteMazeNameColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2
+	},
+	"ArrivedAtIsleOfTimesEndTargetPoint1": {
+		"desc": "检查是否到达时之尽头的孤岛目标点1-庇护所遗址右边",
+		"recognition": "Custom",
+		"custom_recognition": "ArrivedAtTargetPoint",
+		"custom_recognition_param": {
+			"point": [38, 56],
+			"offset": [3, 3]
+		}
+	},
+	"ArrivedAtIsleOfTimesEndTargetPoint2": {
+		"desc": "检查是否到达时之尽头的孤岛目标点2-暗语墓地左边",
+		"recognition": "Custom",
+		"custom_recognition": "ArrivedAtTargetPoint",
+		"custom_recognition_param": {
+			"point": [89, 43],
+			"offset": [3, 3]
+		}
+	},
+	"ArrivedAtIsleOfTimesEndTargetPoint3": {
+		"desc": "检查是否到达时之尽头的孤岛目标点3-最后的门徒左边",
+		"recognition": "Custom",
+		"custom_recognition": "ArrivedAtTargetPoint",
+		"custom_recognition_param": {
+			"point": [63, 78],
+			"offset": [3, 3]
+		}
+	}
+}

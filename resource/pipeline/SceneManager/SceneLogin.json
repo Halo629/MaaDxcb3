@@ -303,7 +303,8 @@
 		"rate_limit": 0,
 		"next": [
 			"LaunchGameOfficial",
-			"LaunchGameBilibili"
+			"LaunchGameBilibili",
+			"LaunchGameGuopan"
 		]
 	},
 	"LaunchGameOfficial": {
@@ -322,6 +323,14 @@
 		"action": "StartApp",
 		"package": "com.leiting.dungeon3.bilibili"
 	},
+	"LaunchGameGuopan": {
+		"desc": "启动游戏(果盘)",
+		"enabled": false,
+		"post_delay": 5000,
+		"pre_delay": 0,
+		"action": "StartApp",
+		"package": "com.leiting.dungeon3.jh.guopan"
+	},
 	"QuitGame": {
 		"desc": "退出游戏",
 		"post_delay": 0,
@@ -329,7 +338,8 @@
 		"recognition": "DirectHit",
 		"next": [
 			"QuitGameOfficial",
-			"QuitGameBilibili"
+			"QuitGameBilibili",
+			"QuitGameGuopan"
 		]
 	},
 	"QuitGameOfficial": {
@@ -349,6 +359,15 @@
 		"recognition": "DirectHit",
 		"action": "StopApp",
 		"package": "com.leiting.dungeon3.bilibili"
+	},
+	"QuitGameGuopan": {
+		"desc": "退出游戏(果盘)",
+		"enabled": false,
+		"post_delay": 3000,
+		"pre_delay": 0,
+		"recognition": "DirectHit",
+		"action": "StopApp",
+		"package": "com.leiting.dungeon3.jh.guopan"
 	},
 	"InGameCheck": {
 		"any_of": [

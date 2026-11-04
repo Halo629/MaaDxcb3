@@ -212,7 +212,6 @@
 					"name": "Yexing",
 					"label": "野性之魂",
 					"pipeline_override": {
-						"MonsterSoulSelectYexing": {"enabled": true},
 						"MonsterSoulYexingEntry": {"enabled": true}
 					}
 				},
@@ -220,7 +219,6 @@
 					"name": "Jielue",
 					"label": "劫掠之魂",
 					"pipeline_override": {
-						"MonsterSoulSelectJielue": {"enabled": true},
 						"MonsterSoulJielueEntry": {"enabled": true}
 					}
 				},
@@ -228,7 +226,6 @@
 					"name": "Wugu",
 					"label": "巫蛊之魂",
 					"pipeline_override": {
-						"MonsterSoulSelectWugu": {"enabled": true},
 						"MonsterSoulWuguEntry": {"enabled": true}
 					}
 				},
@@ -236,7 +233,6 @@
 					"name": "Baolue",
 					"label": "暴虐之魂",
 					"pipeline_override": {
-						"MonsterSoulSelectBaolue": {"enabled": true},
 						"MonsterSoulBaolueEntry": {"enabled": true}
 					}
 				},
@@ -244,7 +240,6 @@
 					"name": "Xiongsha",
 					"label": "凶煞之魂",
 					"pipeline_override": {
-						"MonsterSoulSelectXiongsha": {"enabled": true},
 						"MonsterSoulXiongshaEntry": {"enabled": true}
 					}
 				},
@@ -252,7 +247,6 @@
 					"name": "Xiedian",
 					"label": "邪典之魂",
 					"pipeline_override": {
-						"MonsterSoulSelectXiedian": {"enabled": true},
 						"MonsterSoulXiedianEntry": {"enabled": true}
 					}
 				},
@@ -260,7 +254,6 @@
 					"name": "Jiaozhi",
 					"label": "狡智之魂",
 					"pipeline_override": {
-						"MonsterSoulSelectJiaozhi": {"enabled": true},
 						"MonsterSoulJiaozhiEntry": {"enabled": true}
 					}
 				},
@@ -268,7 +261,6 @@
 					"name": "Manhuang",
 					"label": "蛮荒之魂",
 					"pipeline_override": {
-						"MonsterSoulSelectManhuang": {"enabled": true},
 						"MonsterSoulManhuangEntry": {"enabled": true}
 					}
 				},
@@ -276,7 +268,6 @@
 					"name": "Xiongshi",
 					"label": "雄狮之魂",
 					"pipeline_override": {
-						"MonsterSoulSelectXiongshi": {"enabled": true},
 						"MonsterSoulXiongshiEntry": {"enabled": true}
 					}
 				},
@@ -284,7 +275,6 @@
 					"name": "Kuangnu",
 					"label": "狂怒之魂",
 					"pipeline_override": {
-						"MonsterSoulSelectKuangnu": {"enabled": true},
 						"MonsterSoulKuangnuEntry": {"enabled": true}
 					}
 				},
@@ -292,7 +282,6 @@
 					"name": "Shuangxue",
 					"label": "霜雪之魂",
 					"pipeline_override": {
-						"MonsterSoulSelectShuangxue": {"enabled": true},
 						"MonsterSoulShuangxueEntry": {"enabled": true}
 					}
 				},
@@ -300,7 +289,6 @@
 					"name": "Bingjing",
 					"label": "冰晶之魂",
 					"pipeline_override": {
-						"MonsterSoulSelectBingjing": {"enabled": true},
 						"MonsterSoulBingjingEntry": {"enabled": true}
 					}
 				},
@@ -308,7 +296,6 @@
 					"name": "Linye",
 					"label": "林野之魂",
 					"pipeline_override": {
-						"MonsterSoulSelectLinye": {"enabled": true},
 						"MonsterSoulLinyeEntry": {"enabled": true}
 					}
 				},
@@ -316,7 +303,6 @@
 					"name": "Lingdong",
 					"label": "林动之魂",
 					"pipeline_override": {
-						"MonsterSoulSelectLingdong": {"enabled": true},
 						"MonsterSoulLingdongEntry": {"enabled": true}
 					}
 				},
@@ -324,7 +310,6 @@
 					"name": "Jihan",
 					"label": "极寒之魂",
 					"pipeline_override": {
-						"MonsterSoulSelectJihan": {"enabled": true},
 						"MonsterSoulJihanEntry": {"enabled": true}
 					}
 				},
@@ -332,7 +317,6 @@
 					"name": "Baopo",
 					"label": "爆破之魂",
 					"pipeline_override": {
-						"MonsterSoulSelectBaopo": {"enabled": true},
 						"MonsterSoulBaopoEntry": {"enabled": true}
 					}
 				},
@@ -340,7 +324,6 @@
 					"name": "Chenyuan",
 					"label": "沉渊之魂",
 					"pipeline_override": {
-						"MonsterSoulSelectChenyuan": {"enabled": true},
 						"MonsterSoulChenyuanEntry": {"enabled": true}
 					}
 				},
@@ -348,7 +331,6 @@
 					"name": "Kuangre",
 					"label": "狂热之魂",
 					"pipeline_override": {
-						"MonsterSoulSelectKuangre": {"enabled": true},
 						"MonsterSoulKuangreEntry": {"enabled": true}
 					}
 				},
@@ -356,7 +338,6 @@
 					"name": "Tianyun",
 					"label": "天陨之魂",
 					"pipeline_override": {
-						"MonsterSoulSelectTianyun": {"enabled": true},
 						"MonsterSoulTianyunEntry": {"enabled": true}
 					}
 				},
@@ -364,7 +345,6 @@
 					"name": "Xianzu",
 					"label": "先祖之魂",
 					"pipeline_override": {
-						"MonsterSoulSelectXianzu": {"enabled": true},
 						"MonsterSoulXianzuEntry": {"enabled": true}
 					}
 				}
