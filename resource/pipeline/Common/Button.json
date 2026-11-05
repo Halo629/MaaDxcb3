@@ -31,9 +31,19 @@
 	},
 	"CancelButton": {
 		"desc": "通用取消按钮（屏幕中间区域）",
-		"recognition": "OCR",
-		"roi": [84, 515, 569, 610],
-		"expected": "取消|再玩一会|再玩",
+		"recognition": "Or",
+		"any_of": [
+			{
+				"recognition": "OCR",
+				"roi": [92, 515, 513, 506],
+				"expected": "取消"
+			},
+			{
+				"recognition": "OCR",
+				"roi": [101, 658, 515, 117],
+				"expected": "再玩一会|再玩"
+			}
+		],
 		"action": "Click",
 		"post_wait_freezes": {
 			"time": 500,

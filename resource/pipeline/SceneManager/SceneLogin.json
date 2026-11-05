@@ -393,6 +393,15 @@
 		"recognition": "OCR",
 		"roi": [245, 1022, 242, 72]
 	},
+	"GuopanClickEnterGame": {
+		"desc": "果盘服点击进入游戏",
+		"recognition": "OCR",
+		"expected": "进入游戏|进入",
+		"order_by": "Vertical",
+		"roi": [464, 538, 132, 335],
+		"action": "Click",
+		"post_delay": 1000
+	},
 	"LoginPageHasStartGameButton": {
 		"desc": "登录界面出现开始游戏按钮",
 		"post_delay": 0,
@@ -455,7 +464,8 @@
 			"LoginPageHasStartGameButton",
 			"[JumpBack]LoginPageCloseLoginAnnouncement",
 			"[JumpBack]ConfirmButton",
-			"[JumpBack]LoginPageClickPressAnyKey"
+			"[JumpBack]LoginPageClickPressAnyKey",
+			"[JumpBack]GuopanClickEnterGame"
 		],
 		"post_delay": 0,
 		"pre_delay": 0,
