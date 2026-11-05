@@ -35,25 +35,28 @@
 	"FerdinandNotFound": {
 		"desc": "未找到费迪南德",
 		"next": [
-			"FerdinandRetry",
-			"FerdinandRetryFailed"
+			"[JumpBack]FerdinandRetry",
+			"__ScenePrivateNextTrue"
 		],
 		"focus": {"Node.Recognition.Succeeded": "未找到费迪南德,重试"}
 	},
 	"FerdinandRetry": {
 		"desc": "重试费迪南德任务",
-		"max_hit": 5,
+		"max_hit": 3,
 		"action": "Custom",
 		"custom_action": "ClearHitCount",
 		"custom_action_param": {
 			"nodes": ["StewardFerdinandSub"]
 		},
-		"focus": {"Node.Recognition.Succeeded": "重试完成，未找到费迪南德"}
+		"next": [
+			"StewardFerdinandSub"
+		]
 	},
 	"FerdinandRetryFailed": {
 		"desc": "重试后仍未找到",
 		"action": "Custom",
-		"custom_action": "FailTask"
+		"custom_action": "FailTask",
+		"focus": {"Node.Recognition.Succeeded": "重试完成，未找到费迪南德"}
 	},
 	"FerdinandInIsleOfTimesEnd": {
 		"desc": "在时之尽头的孤岛寻找费迪南德",
@@ -61,19 +64,11 @@
 		"recognition": "And",
 		"all_of": ["InIsleOfTimesEnd"],
 		"next": [
-			"FindFerdinandInFerdinandInIsleOfTimesEndRightArea",
-			"HasFerdinand",
 			"[JumpBack]FerdinandInIsleOfTimesEndSwipeRight",
+			"HasFerdinand",
+			"[JumpBack]IsleOfTimesEndFortressWall",
+			"[JumpBack]FerdinandInIsleOfTimesEndSwipeLeft",
 			"FerdinandNotFound"
-		]
-	},
-	"FindFerdinandInFerdinandInIsleOfTimesEndRightArea": {
-		"desc": "在地图右边识别到费迪南德",
-		"recognition": "OCR",
-		"expected": ["费迪南德", "费迪", "南德"],
-		"roi": [482, 346, 238, 522],
-		"next": [
-			"IsleOfTimesEndFortressWall"
 		]
 	},
 	"FerdinandInIsleOfTimesEndSwipeLeft": {
@@ -83,7 +78,7 @@
 		"end": [300, 800],
 		"duration": 300,
 		"pre_delay": 500,
-		"max_hit": 2,
+		"max_hit": 3,
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [193, 513, 358, 513],
@@ -144,7 +139,7 @@
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [193, 513, 358, 513],
-			"timeout": 2000
+			"timeout": 1000
 		},
 		"next": [
 			"FerdinandInIsleOfTimesEndCrossFortress",
