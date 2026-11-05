@@ -82,8 +82,7 @@
 			"[JumpBack]ClickFirstCanClickOption",
 			"[JumpBack]GreatMarshExpeditionExploreFar",
 			"GreatMarshExpeditionFinalStageReached",
-			"[JumpBack]GreatMarshExpeditionChickenDrumstickEnough",
-			"SceneBack"
+			"GreatMarshExpeditionChickenDrumstickNotEnough"
 		]
 	},
 	"GreatMarshExpeditionFinalStageChallengeCount": {
@@ -187,20 +186,51 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"recognition": "OCR",
-		"expected": "^(8|9|[1-9]\\d+)$",
-		"roi": [571, 21, 30, 30],
-		"only_rec": true
+		"recognition": "And",
+		"all_of": [
+			{
+				"method": 40,
+				"lower": [15, 20, 100],
+				"upper": [30, 100, 200],
+				"roi": [569, 22, 114, 27],
+				"count": 10,
+				"sub_name": "ChickenDrumstickColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "(8|9|[1-9]\\d+)/500|(8|9|[1-9]\\d+)/",
+				"roi": "ChickenDrumstickColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		]
 	},
 	"GreatMarshExpeditionChickenDrumstickNotEnough": {
 		"desc": "大泽远征鸡腿数量不够",
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"recognition": "OCR",
-		"expected": "^[1-7]$",
-		"roi": [571, 21, 30, 30],
-		"only_rec": true
+		"recognition": "And",
+		"all_of": [
+			{
+				"method": 40,
+				"lower": [15, 20, 100],
+				"upper": [30, 100, 200],
+				"roi": [569, 22, 114, 27],
+				"count": 10,
+				"sub_name": "ChickenDrumstickColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "[0-7]/500|[0-7]/",
+				"roi": "ChickenDrumstickColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"next": [
+			"SceneBack"
+		]
 	},
 	"GreatMarshExpeditionBossChallengeCount": {
 		"desc": "挑战首领剩余次数",
