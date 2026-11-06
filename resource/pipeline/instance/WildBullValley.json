@@ -53,6 +53,7 @@
 				"QuitInstanceSwipeRight",
 				"QuitInstanceSwipeLeft",
 				"QuitInstanceSwipeUp",
+				"WildBullValleySwipeRight",
 				"ZoomInMax"
 			]
 		},
@@ -411,6 +412,12 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [128, 529, 587, 487],
+			"timeout": 3000
+		},
 		"next": [
 			"InWildBullValley",
 			"[JumpBack]LeaveInstance",
@@ -499,9 +506,17 @@
 	},
 	"InCragfortMap": {
 		"desc": "在峭岩堡垒地图中",
-		"recognition": "OCR",
-		"expected": "峭岩堡垒|堡垒",
-		"roi": [90, 63, 123, 38],
+		"recognition": "And",
+		"all_of": [
+			"MapNameColorMatch",
+			{
+				"recognition": "OCR",
+				"expected": "峭岩堡垒|堡垒|岩堡",
+				"roi": "MapNameColorMatch",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0

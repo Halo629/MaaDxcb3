@@ -114,10 +114,24 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"recognition": "OCR",
-		"expected": "^(5|6|7|8|9|[1-9]\\d+)$",
-		"roi": [571, 21, 30, 30],
-		"only_rec": true
+		"recognition": "And",
+		"all_of": [
+			{
+				"method": 40,
+				"lower": [15, 20, 100],
+				"upper": [30, 100, 200],
+				"roi": [569, 22, 114, 27],
+				"count": 10,
+				"sub_name": "ChickenDrumstickColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "^(5|6|7|8|9|[1-9]\\d+)$",
+				"roi": "ChickenDrumstickColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		]
 	},
 	"GreatMarshExpeditionMeditation": {
 		"desc": "大泽远征冥想",
@@ -327,8 +341,9 @@
 		"post_delay": 0,
 		"rate_limit": 0,
 		"recognition": "OCR",
-		"expected": "战斗|小憩|片刻|继续|探索|虔诚|祈求|离开|采集露珠|采集|露珠|跳过|绕路",
+		"expected": "战斗|大量|小憩|片刻|继续|探索|虔诚|祈求|离开|采集露珠|采集|露珠|跳过|绕路",
 		"roi": [275, 630, 180, 420],
+		"order_by": "Vertical",
 		"action": "Click",
 		"post_wait_freezes": {
 			"time": 300,

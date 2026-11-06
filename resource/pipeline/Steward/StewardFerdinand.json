@@ -21,8 +21,8 @@
 		"all_of": ["InSelectDestinationPage"],
 		"next": [
 			"[JumpBack]SwitchMapListAscendingSort",
-			"[JumpBack]FindFerdinandSwipe",
 			"[JumpBack]FindFerdinandMapEntry",
+			"[JumpBack]FindFerdinandSwipe",
 			"[JumpBack]FerdinandInIsleOfTimesEnd",
 			"[JumpBack]FerdinandInCrescentCounty",
 			"[JumpBack]FerdinandInHolyCityMonastery",
