@@ -31,7 +31,8 @@
 					"name": "BuyEmblemChest",
 					"label": "魂墓页购买纹章宝盒",
 					"pipeline_override": {
-						"CarriageShopBuyEmblemChestEntry": {"enabled": true}
+						"CarriageShopSoulTombPageBuyEntry": {"enabled": true},
+						"CarriageShopBuyEmblemChest":{"enabled":true}
 					}
 				},
 				{

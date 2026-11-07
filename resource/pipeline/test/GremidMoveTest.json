@@ -1,13 +1,26 @@
 {
 	"GremidTestMoveToPointEntry": {
 		"desc": "格雷米德测试移动到目标点位（不依赖罗盘）",
-		"next": ["[JumpBack]WallConfig", "[JumpBack]GremidMoveToPoint", "GremidTestMoveDone", "[JumpBack]SceneEnterGremidNoReset"]
+		"next": [
+			"[JumpBack]WallConfig",
+			"[JumpBack]GremidMoveToPoint",
+			"GremidTestMoveDone",
+			"[JumpBack]SceneEnterGremidNoReset"
+		]
 	},
 	"GremidMoveToPoint": {
 		"recognition": "And",
 		"all_of": ["InGremid"],
 		"max_hit": 1,
-		"next": ["[JumpBack]GremidMoveToPointCollection1", "[JumpBack]GremidMoveToPointCollection2", "[JumpBack]GremidMoveToPointCollection3", "[JumpBack]GremidMoveToPointCollection4", "[JumpBack]GremidMoveToPointCollection5", "[JumpBack]GremidMoveToPointCollection6", "GremidTestMoveDone"]
+		"next": [
+			"[JumpBack]GremidMoveToPointCollection1",
+			"[JumpBack]GremidMoveToPointCollection2",
+			"[JumpBack]GremidMoveToPointCollection3",
+			"[JumpBack]GremidMoveToPointCollection4",
+			"[JumpBack]GremidMoveToPointCollection5",
+			"[JumpBack]GremidMoveToPointCollection6",
+			"GremidTestMoveDone"
+		]
 	},
 	"GremidTestMoveDone": {
 		"recognition": "And",
@@ -21,7 +34,11 @@
 		"action": "Custom",
 		"custom_action": "SubTask",
 		"custom_action_param": {
-			"sub": ["MoveToGremidTargetPoint1", "MoveToGremidTargetPoint2", "MoveToGremidTargetPoint3"]
+			"sub": [
+				"MoveToGremidTargetPoint1",
+				"MoveToGremidTargetPoint2",
+				"MoveToGremidTargetPoint3"
+			]
 		}
 	},
 	"GremidMoveToPointCollection2": {
@@ -32,7 +49,11 @@
 		"action": "Custom",
 		"custom_action": "SubTask",
 		"custom_action_param": {
-			"sub": ["MoveToGremidTargetPoint1", "MoveToGremidTargetPoint3", "MoveToGremidTargetPoint2"]
+			"sub": [
+				"MoveToGremidTargetPoint1",
+				"MoveToGremidTargetPoint3",
+				"MoveToGremidTargetPoint2"
+			]
 		}
 	},
 	"GremidMoveToPointCollection3": {
@@ -43,7 +64,11 @@
 		"action": "Custom",
 		"custom_action": "SubTask",
 		"custom_action_param": {
-			"sub": ["MoveToGremidTargetPoint3", "MoveToGremidTargetPoint2", "MoveToGremidTargetPoint1"]
+			"sub": [
+				"MoveToGremidTargetPoint3",
+				"MoveToGremidTargetPoint2",
+				"MoveToGremidTargetPoint1"
+			]
 		}
 	},
 	"GremidMoveToPointCollection4": {
@@ -54,7 +79,11 @@
 		"action": "Custom",
 		"custom_action": "SubTask",
 		"custom_action_param": {
-			"sub": ["MoveToGremidTargetPoint3", "MoveToGremidTargetPoint1", "MoveToGremidTargetPoint2"]
+			"sub": [
+				"MoveToGremidTargetPoint3",
+				"MoveToGremidTargetPoint1",
+				"MoveToGremidTargetPoint2"
+			]
 		}
 	},
 	"GremidMoveToPointCollection5": {
@@ -65,7 +94,11 @@
 		"action": "Custom",
 		"custom_action": "SubTask",
 		"custom_action_param": {
-			"sub": ["MoveToGremidTargetPoint2", "MoveToGremidTargetPoint3", "MoveToGremidTargetPoint1"]
+			"sub": [
+				"MoveToGremidTargetPoint2",
+				"MoveToGremidTargetPoint3",
+				"MoveToGremidTargetPoint1"
+			]
 		}
 	},
 	"GremidMoveToPointCollection6": {
@@ -76,7 +109,11 @@
 		"action": "Custom",
 		"custom_action": "SubTask",
 		"custom_action_param": {
-			"sub": ["MoveToGremidTargetPoint2", "MoveToGremidTargetPoint1", "MoveToGremidTargetPoint3"]
+			"sub": [
+				"MoveToGremidTargetPoint2",
+				"MoveToGremidTargetPoint1",
+				"MoveToGremidTargetPoint3"
+			]
 		}
 	},
 	"MoveToGremidTargetPoint1": {
@@ -97,7 +134,12 @@
 		"focus": {
 			"Node.Recognition.Succeeded": "开始任务:移动到格雷米德目标点1-秘密出口下边"
 		},
-		"next": ["ArrivedAtGremidTargetPoint1", "[JumpBack]SceneBack", "[JumpBack]QuitMapOutpost", "MoveToGremidTargetPoint1"]
+		"next": [
+			"ArrivedAtGremidTargetPoint1",
+			"[JumpBack]SceneBack",
+			"[JumpBack]QuitMapOutpost",
+			"MoveToGremidTargetPoint1"
+		]
 	},
 	"MoveToGremidTargetPoint2": {
 		"desc": "移动到格雷米德目标点2-熔炉城大门左边",
@@ -117,7 +159,12 @@
 		"focus": {
 			"Node.Recognition.Succeeded": "开始任务:移动到格雷米德目标点2-熔炉城大门左边"
 		},
-		"next": ["ArrivedAtGremidTargetPoint2", "[JumpBack]SceneBack", "[JumpBack]QuitMapOutpost", "MoveToGremidTargetPoint2"]
+		"next": [
+			"ArrivedAtGremidTargetPoint2",
+			"[JumpBack]SceneBack",
+			"[JumpBack]QuitMapOutpost",
+			"MoveToGremidTargetPoint2"
+		]
 	},
 	"MoveToGremidTargetPoint3": {
 		"desc": "移动到格雷米德目标点3-秘密酒窖右边",
@@ -137,69 +184,86 @@
 		"focus": {
 			"Node.Recognition.Succeeded": "开始任务:移动到格雷米德目标点3-秘密酒窖右边"
 		},
-		"next": ["ArrivedAtGremidTargetPoint3", "[JumpBack]SceneBack", "[JumpBack]QuitMapOutpost", "MoveToGremidTargetPoint3"]
+		"next": [
+			"ArrivedAtGremidTargetPoint3",
+			"[JumpBack]SceneBack",
+			"[JumpBack]QuitMapOutpost",
+			"MoveToGremidTargetPoint3"
+		]
 	},
 	"GremidTargetPoint1": {
 		"desc": "格雷米德目标点1-秘密酒窖上边",
 		"recognition": "And",
-		"all_of": ["MazeCompleteStatus", {
-			"recognition": "ColorMatch",
-			"method": 40,
-			"lower": [20, 30, 80],
-			"upper": [30, 50, 255],
-			"roi": "MazeCompleteStatus",
-			"roi_offset": [29, 0, 80, 0],
-			"count": 30,
-			"sub_name": "CompleteMazeNameColor"
-		}, {
-			"recognition": "OCR",
-			"expected": "秘密酒窖",
-			"roi": "CompleteMazeNameColor",
-			"roi_offset": [-2, -2, 4, 4],
-			"only_rec": true
-		}],
+		"all_of": [
+			"MazeCompleteStatus",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 30, 80],
+				"upper": [30, 50, 255],
+				"roi": "MazeCompleteStatus",
+				"roi_offset": [29, 0, 80, 0],
+				"count": 30,
+				"sub_name": "CompleteMazeNameColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "秘密酒窖",
+				"roi": "CompleteMazeNameColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
 		"box_index": 2
 	},
 	"GremidTargetPoint2": {
 		"desc": "格雷米德目标点2-熔炉城大门左边",
 		"recognition": "And",
-		"all_of": ["MazeCompleteStatus", {
-			"recognition": "ColorMatch",
-			"method": 40,
-			"lower": [20, 30, 80],
-			"upper": [30, 50, 255],
-			"roi": "MazeCompleteStatus",
-			"roi_offset": [29, 0, 80, 0],
-			"count": 30,
-			"sub_name": "CompleteMazeNameColor"
-		}, {
-			"recognition": "OCR",
-			"expected": "熔炉城大门",
-			"roi": "CompleteMazeNameColor",
-			"roi_offset": [-2, -2, 4, 4],
-			"only_rec": true
-		}],
+		"all_of": [
+			"MazeCompleteStatus",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 30, 80],
+				"upper": [30, 50, 255],
+				"roi": "MazeCompleteStatus",
+				"roi_offset": [29, 0, 80, 0],
+				"count": 30,
+				"sub_name": "CompleteMazeNameColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "熔炉城大门",
+				"roi": "CompleteMazeNameColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
 		"box_index": 2
 	},
 	"GremidTargetPoint3": {
 		"desc": "格雷米德目标点3-秘密酒窖右边",
 		"recognition": "And",
-		"all_of": ["MazeCompleteStatus", {
-			"recognition": "ColorMatch",
-			"method": 40,
-			"lower": [20, 30, 80],
-			"upper": [30, 50, 255],
-			"roi": "MazeCompleteStatus",
-			"roi_offset": [29, 0, 80, 0],
-			"count": 30,
-			"sub_name": "CompleteMazeNameColor"
-		}, {
-			"recognition": "OCR",
-			"expected": "秘密酒窖",
-			"roi": "CompleteMazeNameColor",
-			"roi_offset": [-2, -2, 4, 4],
-			"only_rec": true
-		}],
+		"all_of": [
+			"MazeCompleteStatus",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 30, 80],
+				"upper": [30, 50, 255],
+				"roi": "MazeCompleteStatus",
+				"roi_offset": [29, 0, 80, 0],
+				"count": 30,
+				"sub_name": "CompleteMazeNameColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "秘密酒窖",
+				"roi": "CompleteMazeNameColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
 		"box_index": 2
 	},
 	"ArrivedAtGremidTargetPoint1": {
@@ -232,22 +296,26 @@
 	"GremidMineCaveWall": {
 		"desc": "格雷米德矿洞(横墙)",
 		"recognition": "And",
-		"all_of": ["MazeCompleteStatus", {
-			"recognition": "ColorMatch",
-			"method": 40,
-			"lower": [20, 30, 80],
-			"upper": [30, 50, 255],
-			"roi": "MazeCompleteStatus",
-			"roi_offset": [29, 0, 80, 0],
-			"count": 30,
-			"sub_name": "CompleteMazeNameColor"
-		}, {
-			"recognition": "OCR",
-			"expected": "矿洞",
-			"roi": "CompleteMazeNameColor",
-			"roi_offset": [-2, -2, 4, 4],
-			"only_rec": true
-		}],
+		"all_of": [
+			"MazeCompleteStatus",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 30, 80],
+				"upper": [30, 50, 255],
+				"roi": "MazeCompleteStatus",
+				"roi_offset": [29, 0, 80, 0],
+				"count": 30,
+				"sub_name": "CompleteMazeNameColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "矿洞",
+				"roi": "CompleteMazeNameColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
 		"box_index": 2,
 		"action": "Custom",
 		"custom_action": "AdjustPositionAndClick",
@@ -259,7 +327,10 @@
 			"target": [193, 513, 358, 513],
 			"timeout": 5000
 		},
-		"next": ["GremidTakeMinecart", "GremidMineCaveWall"]
+		"next": [
+			"GremidTakeMinecart",
+			"GremidMineCaveWall"
+		]
 	},
 	"GremidTakeMinecart": {
 		"desc": "乘坐矿车",
@@ -277,22 +348,26 @@
 	"GremidBeaconTowerWall": {
 		"desc": "格雷米德烽火台(横墙)",
 		"recognition": "And",
-		"all_of": ["MazeCompleteStatus", {
-			"recognition": "ColorMatch",
-			"method": 40,
-			"lower": [20, 30, 80],
-			"upper": [30, 50, 255],
-			"roi": "MazeCompleteStatus",
-			"roi_offset": [29, 0, 80, 0],
-			"count": 30,
-			"sub_name": "CompleteMazeNameColor"
-		}, {
-			"recognition": "OCR",
-			"expected": "烽火台",
-			"roi": "CompleteMazeNameColor",
-			"roi_offset": [-2, -2, 4, 4],
-			"only_rec": true
-		}],
+		"all_of": [
+			"MazeCompleteStatus",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 30, 80],
+				"upper": [30, 50, 255],
+				"roi": "MazeCompleteStatus",
+				"roi_offset": [29, 0, 80, 0],
+				"count": 30,
+				"sub_name": "CompleteMazeNameColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "烽火台",
+				"roi": "CompleteMazeNameColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
 		"box_index": 2,
 		"action": "Custom",
 		"custom_action": "AdjustPositionAndClick",
@@ -304,7 +379,10 @@
 			"target": [193, 513, 358, 513],
 			"timeout": 8000
 		},
-		"next": ["GremidAcrossBeaconTower", "GremidBeaconTowerWall"]
+		"next": [
+			"GremidAcrossBeaconTower",
+			"GremidBeaconTowerWall"
+		]
 	},
 	"GremidAcrossBeaconTower": {
 		"desc": "穿过烽火台",
@@ -318,10 +396,5 @@
 			"target": [193, 513, 358, 513],
 			"timeout": 2000
 		}
-	},
-	"test1": {
-		"desc": "圣城修道院目标点4-教团幽禁室右边",
-		"recognition": "OCR",
-		"roi": [426, 540, 116, 25]
 	}
 }

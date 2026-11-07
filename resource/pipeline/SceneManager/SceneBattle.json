@@ -1,13 +1,9 @@
 {
 	"__ScenePrivateBattleExit": {
 		"desc": "退出战斗",
-		"recognition": {
-			"type": "And",
-			"param": {
-				"all_of": ["InBattle"]
-			}
-		},
-		"action": {"type": "Click"}
+		"recognition": "And",
+		"all_of": ["InBattle"],
+		"action": "Click"
 	},
 	"__ScenePrivateBattleResultHandle": {
 		"desc": "处理战斗结算界面",
@@ -258,6 +254,12 @@
 				"count": 100
 			}
 		]
+	},
+	"XiaoqingSkillLevel": {
+		"desc": "小青技能等级",
+		"recognition": "OCR",
+		"roi": [159, 611, 47, 25],
+		"only_rec": true
 	},
 	"UseSkill": {
 		"desc": "释放技能按钮",

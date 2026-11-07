@@ -499,11 +499,6 @@
 			"timeout": 5000
 		}
 	},
-	"test": {
-		"recognition": "TemplateMatch",
-		"template": "Instance/WildBullValley/Quartermaster.png",
-		"roi": [401, 911, 69, 144]
-	},
 	"InCragfortMap": {
 		"desc": "在峭岩堡垒地图中",
 		"recognition": "And",

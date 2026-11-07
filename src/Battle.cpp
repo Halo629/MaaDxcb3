@@ -138,7 +138,7 @@ static bool useSkill(MaaContext* context, const MaaRect& skillPoint)
     auto rid = MaaControllerPostClick(ctrl, releaseBox.x + releaseBox.width / 2, releaseBox.y + releaseBox.height / 2);
     MaaControllerWait(ctrl, rid);
     Sleep(1500);
-    return false;
+    return true;
 }
 
 bool isInBattle(MaaContext* context)
@@ -148,7 +148,7 @@ bool isInBattle(MaaContext* context)
         if (doRecognition(context, cap.img, "InBattle", { }, nullptr, nullptr)) {
             return true;
         }
-        Sleep(500);
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
     return false;
 }
@@ -165,7 +165,7 @@ static bool isBattleEnd(MaaContext* context)
     MaaBool hit = false;
     MaaTaskerGetRecognitionDetail(tasker, id, nullptr, nullptr, &hit, nullptr, nullptr, nullptr, nullptr);
     if (hit) {
-        Sleep(1000);
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
     return hit;
 }
@@ -176,14 +176,14 @@ static BattleCryDecision decideCry(int beanCount, int remaining, DWORD lastCryTi
         return BATTLE_CRY_NONE;
     }
 
-    // burst：最后 burstSeconds 秒，无论策略全部吼完
-    if (g_user_battle.burstSeconds > 0 && remaining >= 0 && remaining <= g_user_battle.burstSeconds) {
-        return BATTLE_CRY_BURST;
-    }
-
     // 满豆无条件吼
     if (g_user_battle.cryAnywayThreshold > 0 && beanCount >= g_user_battle.cryAnywayThreshold) {
         return BATTLE_CRY_NORMAL;
+    }
+
+    // burst：最后 burstSeconds 秒，无论策略全部吼完
+    if (g_user_battle.burstSeconds > 0 && remaining >= 0 && remaining <= g_user_battle.burstSeconds) {
+        return BATTLE_CRY_BURST;
     }
 
     // 超过保留数才吼，受 CD 限制
@@ -212,21 +212,6 @@ static void adjustBattleSpeed(MaaContext* context)
     MaaControllerWait(ctrl, id);
 }
 
-// 战吼：按配置的列坐标滑动一次
-static void battleCry(MaaContext* context, int cryColumn)
-{
-    // cryColumn 是 1 起始（1/2/3=第几列），cryCols 是 0 起始数组，需 -1
-    if (cryColumn <= 0 || cryColumn > 3) {
-        return;
-    }
-    auto* ctrl = MaaTaskerGetController(MaaContextGetTasker(context));
-    auto& col = g_user_battle.configParam.cryCols[cryColumn - 1];
-    if (col.beginX != 0 || col.beginY != 0) {
-        auto s = MaaControllerPostSwipe(ctrl, col.beginX, col.beginY, col.endX, col.endY, col.duration);
-        MaaControllerWait(ctrl, s);
-        Sleep(1500);
-    }
-}
 
 // 复活角色：单帧检测到角色死亡且还有免费复活次数时，点击复活按钮（非阻塞）
 static void reviveDeadRole(MaaContext* context)
@@ -254,6 +239,35 @@ static void reviveDeadRole(MaaContext* context)
     if (doRecognition(context, pauseCap.img, "InBattleRoleInfoPage", "{}", nullptr, nullptr)) {
         MaaContextRunTask(context, "PressEsc", "{}");
         MaaContextRunTask(context, "ResumeBattle", "{}");
+    }
+}
+
+// 战吼：按配置的列坐标滑动一次
+static void battleCry(MaaContext* context, int cryColumn, int beanCountBeforeCry)
+{
+    // cryColumn 是 1 起始（1/2/3=第几列），cryCols 是 0 起始数组，需 -1
+    if (cryColumn <= 0 || cryColumn > 3) {
+        return;
+    }
+
+    while (true) {
+        if (isBattleEnd(context)) {
+            return;
+        } 
+        reviveDeadRole(context);
+        auto ctrl = MaaTaskerGetController(MaaContextGetTasker(context));
+        auto col = g_user_battle.configParam.cryCols[cryColumn - 1];
+        if (col.beginX != 0 || col.beginY != 0) {
+            auto s = MaaControllerPostSwipe(ctrl, col.beginX, col.beginY, col.endX, col.endY, col.duration);
+            MaaControllerWait(ctrl, s);
+            std::this_thread::sleep_for(std::chrono::milliseconds(200));
+        }
+        // 战吼后豆子没少，可能吼失败了，再吼一次
+        int beanCountAfterCry = getBeanCount(context);
+        if (beanCountAfterCry < beanCountBeforeCry) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+            return;
+        }
     }
 }
 
@@ -329,7 +343,7 @@ MaaBool battleAI(
                 // 豆子少于5不使用技能, 使用技能后连续吼两次
                 if (useSkill(context, skillBox)) {
                     for (int i = 0; i < 2; ++i) {
-                        battleCry(context, g_user_battle.cryColumn);
+                        battleCry(context, g_user_battle.cryColumn, beanCount);
                     }
                     lastCryTick = GetTickCount();
                     continue;
@@ -349,14 +363,14 @@ MaaBool battleAI(
                 if (isBattleEnd(context)) {
                     return true;
                 }
-                battleCry(context, g_user_battle.cryColumn);
+                battleCry(context, g_user_battle.cryColumn, beanCount);
                 lastCryTick = GetTickCount();
             }
             continue;
         }
 
         if (cryDecision == BATTLE_CRY_NORMAL) {
-            battleCry(context, g_user_battle.cryColumn);
+            battleCry(context, g_user_battle.cryColumn, beanCount);
             lastCryTick = GetTickCount();
         }
     }

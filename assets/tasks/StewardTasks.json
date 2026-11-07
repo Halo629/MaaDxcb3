@@ -166,7 +166,8 @@
 				"BuyWandererHourglass",
 				"BuyOre",
 				"BuyFoodItems",
-				"BuyFoodPoints"
+				"BuyFoodPoints",
+				"BuyWrapedSoul"
 			],
 			"cases": [
 				{
@@ -195,6 +196,14 @@
 					"label": "食物页购买美食积分",
 					"pipeline_override": {
 						"CarriageShopBuyFoodPointsStart": {"enabled": true}
+					}
+				},
+				{
+					"name": "BuyWrapedSoul",
+					"label": "魂墓页购买扭动之魂",
+					"pipeline_override": {
+						"CarriageShopSoulTombPageBuyEntry": {"enabled": true},
+						"CarriageShopBuyWarpedSoul": {"enabled": true}
 					}
 				}
 			]

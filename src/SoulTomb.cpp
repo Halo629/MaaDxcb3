@@ -48,7 +48,7 @@ MaaBool adjustSoulTombLevel(
     // OCR 读当前等级
     int curLevel = 0;
     if (!readNumberFromNode(context, "CustomGetSoulTombCurLevel", "SoulTombCurLevel", curLevel)) {
-        LogUtils::warn("魂墓挑战: 读取当前等级失败");
+        LogUtils::error("魂墓挑战: 读取当前等级失败");
         return false;
     }
 
@@ -82,7 +82,7 @@ MaaBool adjustSoulTombLevel(
         }
         bool ok = (curLevel < targetLevel) ? addLevel() : subLevel();
         if (!ok) {
-            LogUtils::warn("魂墓挑战: 读取当前等级失败");
+            LogUtils::error("魂墓挑战: 读取当前等级失败");
             return false;
         }
     }
@@ -103,7 +103,7 @@ MaaBool soulTombBattleFailedRecord(
 {
     g_soulTombConsecutiveFails++;
     g_soulTombSessionLose++;
-    LogUtils::error(fmt("魂墓挑战: 战斗失败，本次 %1 胜 %2 败", g_soulTombSessionWin, g_soulTombSessionLose));
+    LogUtils::warn(fmt("魂墓挑战: 战斗失败，本次 %1 胜 %2 败", g_soulTombSessionWin, g_soulTombSessionLose));
     return true;
 }
 

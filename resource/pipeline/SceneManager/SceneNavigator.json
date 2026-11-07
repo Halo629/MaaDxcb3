@@ -541,7 +541,17 @@
 			"InStewardPage",
 			"[JumpBack]_SceneEnterStewardPage",
 			"[JumpBack]_SceneExpandSideBar",
+			"StewardUnlock",
 			"[JumpBack]SceneEnterMainPage"
+		]
+	},
+	"StewardUnlock": {
+		"desc": "管家未解锁",
+		"recognition": "And",
+		"all_of": ["InMainPage"],
+		"focus": {"Node.Recognition.Succeeded": "管家未解锁"},
+		"next": [
+			"TaskFail"
 		]
 	},
 	"_SceneEnterStewardPage": {
@@ -680,8 +690,8 @@
 	},
 	"SceneClickCampFire": {
 		"desc": "点击营火",
-		"recognition": "TemplateMatch",
-		"template": "main_page_icon/campfire.png",
+		"recognition": "And",
+		"all_of": ["InCampfire"],
 		"action": "Click",
 		"post_wait_freezes": {
 			"time": 500,

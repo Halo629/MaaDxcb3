@@ -1,6 +1,6 @@
 {
-	"CarriageShopBuyEmblemChestEntry": {
-		"desc": "纹章宝盒-魂墓页面购买",
+	"CarriageShopSoulTombPageBuyEntry": {
+		"desc": "魂墓页面购买入口",
 		"recognition": "And",
 		"all_of": ["InCarriageShop"],
 		"max_hit": 1,
@@ -21,6 +21,7 @@
 		"post_delay": 0,
 		"rate_limit": 0,
 		"next": [
+			"CarriageShopBuyWarpedSoul",
 			"CarriageShopBuyEmblemChest",
 			"[JumpBack]__EmblemChestSwipeUp",
 			"CarriageShopBuyItemDone"
@@ -79,8 +80,26 @@
 		"post_delay": 0,
 		"rate_limit": 0
 	},
+	"CarriageShopBuyWarpedSoulSunshineCountEnough": {
+		"desc": "购买扭动之魂太阳之光数量充足(>=200)",
+		"recognition": "And",
+		"all_of": [
+			"CarriageShopSunshineCount",
+			{
+				"recognition": "OCR",
+				"expected": "^(200|2[0-9]{2}|[3-9][0-9]{2}|[1-9][0-9]{3,})$",
+				"roi": "CarriageShopSunshineCount",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
 	"CarriageShopBuyEmblemChest": {
 		"desc": "购买纹章宝盒",
+		"enabled": false,
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
@@ -100,10 +119,38 @@
 			"CarriageShopBuyEmblemChest"
 		]
 	},
+	"CarriageShopBuyWarpedSoul": {
+		"desc": "购买扭动之魂",
+		"enabled": false,
+		"pre_delay": 500,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"CarriageShopWarpedSoulFound",
+			"CarriageShopBuyWarpedSoulSunshineCountEnough"
+		],
+		"action": "Click",
+		"target_offset": [32, 186, -60, -96],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [160, 580, 391, 473],
+			"timeout": 2000
+		}
+	},
 	"CarriageShopEmblemChestFound": {
 		"desc": "找到纹章宝盒",
 		"recognition": "TemplateMatch",
 		"template": "items/EmblemChest.png",
+		"roi": [61, 402, 604, 701],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"CarriageShopWarpedSoulFound": {
+		"desc": "找到扭动之魂",
+		"recognition": "TemplateMatch",
+		"template": "items/WarpedSoul.png",
 		"roi": [61, 402, 604, 701],
 		"pre_delay": 0,
 		"post_delay": 0,

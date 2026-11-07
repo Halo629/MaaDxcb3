@@ -6,7 +6,59 @@
             "entry": "GreatMarshExpeditionStart",
             "group": [
                 "activity_tasks"
+            ],
+            "option": [
+                "GreatMarshExpeditionFinalBossChallenge",
+                "GreatMarshExpeditionIllusionChallenge"
             ]
         }
-    ]
+    ],
+    "option": {
+        "GreatMarshExpeditionFinalBossChallenge": {
+            "type": "switch",
+            "label": "挑战最终boss",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "GreatMarshExpeditionFinalStageBossChallenge": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                         "GreatMarshExpeditionFinalStageBossChallenge": {
+                            "enabled": false
+                        }
+                    }
+                }
+            ]
+        },
+        "GreatMarshExpeditionIllusionChallenge": {
+            "type": "switch",
+            "label": "挑战幻象",
+            "default_case": "Yes",
+            "cases": [
+                {
+                    "name": "Yes",
+                    "pipeline_override": {
+                        "GreatMarshExpeditionIllusionChallenge": {
+                            "enabled": true
+                        }
+                    }
+                },
+                {
+                    "name": "No",
+                    "pipeline_override": {
+                         "GreatMarshExpeditionIllusionChallenge": {
+                            "enabled": false
+                        }
+                    }
+                }
+            ]
+        }
+    }
 }

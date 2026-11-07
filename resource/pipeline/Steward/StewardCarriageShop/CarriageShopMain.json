@@ -20,6 +20,7 @@
 			"[JumpBack]CarriageShopBuyItem",
 			"[JumpBack]CarriageShopBuyFood",
 			"[JumpBack]CarriageShopBuyEquipment",
+			"[JumpBack]CarriageShopSoulTombPageBuyEntry",
 			"CarriageShopShoppingDone",
 			"StewardTaskDone",
 			"[JumpBack]SceneEnterStewardTask"

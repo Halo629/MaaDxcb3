@@ -75,17 +75,6 @@
 		"custom_action": "AdjustSoulTombLevel",
 		"attach": {"start_adjust": true}
 	},
-	"SoulTombLevelMax": {
-		"desc": "调整到最大等级",
-		"recognition": "TemplateMatch",
-		"template": "soul_tomb/soul_tomb_max_level.png",
-		"action": "Click",
-		"post_wait_freezes": {
-			"time": 200,
-			"target": [174, 741, 370, 256],
-			"timeout": 2000
-		}
-	},
 	"SoulTombWeeklyCompleted": {
 		"desc": "每周灵魂之墓胜利5次完成",
 		"enabled": false,
@@ -99,11 +88,26 @@
 			"SceneEnterMainPage"
 		]
 	},
+	"SoulTombLevelMax": {
+		"desc": "调整到最大等级",
+		"recognition": "TemplateMatch",
+		"template": "soul_tomb/soul_tomb_max_level.png",
+		"roi": [103, 779, 507, 89],
+		"action": "Click",
+		"target_offset": [17, 26, -39, -53],
+		"post_wait_freezes": {
+			"time": 200,
+			"target": [174, 741, 370, 256],
+			"timeout": 2000
+		}
+	},
 	"SoulTombLevelAdd1": {
 		"desc": "等级+1",
 		"recognition": "TemplateMatch",
 		"template": "soul_tomb/soul_tomb_add1_level.png",
+		"roi": [103, 779, 507, 89],
 		"action": "Click",
+		"target_offset": [8, 23, -25, -43],
 		"pre_delay": 0,
 		"post_delay": 0
 	},
@@ -111,7 +115,9 @@
 		"desc": "等级-10",
 		"recognition": "TemplateMatch",
 		"template": "soul_tomb/soul_tomb_sub10_level.png",
+		"roi": [103, 779, 507, 89],
 		"action": "Click",
+		"target_offset": [19, 22, -35, -45],
 		"pre_delay": 0,
 		"post_delay": 0
 	},
@@ -119,7 +125,9 @@
 		"desc": "等级-1",
 		"recognition": "TemplateMatch",
 		"template": "soul_tomb/soul_tomb_sub1_level.png",
+		"roi": [103, 779, 507, 89],
 		"action": "Click",
+		"target_offset": [16, 26, -23, -49],
 		"pre_delay": 0,
 		"post_delay": 0
 	},
