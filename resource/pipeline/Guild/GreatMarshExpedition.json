@@ -98,6 +98,7 @@
 		"recognition": "And",
 		"all_of": [
 			{
+				"recognition": "ColorMatch",
 				"method": 40,
 				"lower": [15, 20, 100],
 				"upper": [30, 100, 255],
@@ -122,6 +123,7 @@
 		"recognition": "And",
 		"all_of": [
 			{
+				"recognition": "ColorMatch",
 				"method": 40,
 				"lower": [15, 20, 100],
 				"upper": [30, 100, 255],
@@ -146,6 +148,7 @@
 		"recognition": "And",
 		"all_of": [
 			{
+				"recognition": "ColorMatch",
 				"method": 40,
 				"lower": [15, 20, 100],
 				"upper": [30, 100, 255],
@@ -213,6 +216,7 @@
 		"recognition": "And",
 		"all_of": [
 			{
+				"recognition": "ColorMatch",
 				"method": 40,
 				"lower": [15, 20, 100],
 				"upper": [30, 100, 200],
@@ -229,6 +233,14 @@
 			}
 		]
 	},
+	"test": {
+		"recognition": "ColorMatch",
+		"method": 40,
+		"lower": [15, 20, 100],
+		"upper": [30, 100, 200],
+		"roi": [569, 22, 114, 27],
+		"count": 10
+	},
 	"GreatMarshExpeditionChickenMeditationDrumstickNotEnough": {
 		"desc": "大泽远征冥想鸡腿数量不足",
 		"pre_delay": 0,
@@ -237,6 +249,7 @@
 		"recognition": "And",
 		"all_of": [
 			{
+				"recognition": "ColorMatch",
 				"method": 40,
 				"lower": [15, 20, 100],
 				"upper": [30, 100, 200],
@@ -274,7 +287,7 @@
 	"GreatMarshExpeditionMeditation": {
 		"desc": "大泽远征冥想",
 		"pre_delay": 0,
-		"post_delay": 0,
+		"post_delay": 200,
 		"rate_limit": 0,
 		"recognition": "And",
 		"all_of": [
@@ -287,12 +300,7 @@
 			}
 		],
 		"box_index": 1,
-		"action": "Click",
-		"post_wait_freezes": {
-			"time": 300,
-			"target": [84, 720, 493, 378],
-			"timeout": 2000
-		}
+		"action": "Click"
 	},
 	"GreatMarshExpeditionFinalStageBossChallenge": {
 		"desc": "大泽远征最终BOSS",
@@ -337,6 +345,7 @@
 		"recognition": "And",
 		"all_of": [
 			{
+				"recognition": "ColorMatch",
 				"method": 40,
 				"lower": [15, 20, 100],
 				"upper": [30, 100, 200],
@@ -361,6 +370,7 @@
 		"recognition": "And",
 		"all_of": [
 			{
+				"recognition": "ColorMatch",
 				"method": 40,
 				"lower": [15, 20, 100],
 				"upper": [30, 100, 200],

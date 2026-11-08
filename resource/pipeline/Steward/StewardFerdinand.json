@@ -21,8 +21,8 @@
 		"all_of": ["InSelectDestinationPage"],
 		"next": [
 			"[JumpBack]SwitchMapListAscendingSort",
-			"[JumpBack]FindFerdinandMapEntry",
 			"[JumpBack]FindFerdinandSwipe",
+			"[JumpBack]FindFerdinandMapEntry",
 			"[JumpBack]FerdinandInIsleOfTimesEnd",
 			"[JumpBack]FerdinandInCrescentCounty",
 			"[JumpBack]FerdinandInHolyCityMonastery",
@@ -411,7 +411,12 @@
 		"action": "Swipe",
 		"begin": [360, 400],
 		"end": [360, 600],
-		"duration": 100
+		"duration": 100,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [193, 198, 371, 771],
+			"timeout": 1000
+		}
 	},
 	"FindFerdinandMapEntry": {
 		"desc": "读取费迪南德所在地图并进入",

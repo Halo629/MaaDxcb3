@@ -99,7 +99,7 @@
 		"post_delay": 0,
 		"rate_limit": 0,
 		"next": [
-			"InWildBullValley",
+			"EnterWildBullValley",
 			"[JumpBack]LeaveInstance",
 			"[JumpBack]QuitInstanceClickWarden",
 			"[JumpBack]QuitInstanceSwipeRight",
@@ -419,7 +419,7 @@
 			"timeout": 3000
 		},
 		"next": [
-			"InWildBullValley",
+			"EnterWildBullValley",
 			"[JumpBack]LeaveInstance",
 			"[JumpBack]QuitInstanceClickWarden",
 			"[JumpBack]QuitInstanceSwipeRight",

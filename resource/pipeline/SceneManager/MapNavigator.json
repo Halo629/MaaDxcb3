@@ -184,6 +184,20 @@
 		"post_delay": 4000,
 		"rate_limit": 0
 	},
+	"EnterIsleOfTimesEnd": {
+		"desc": "进入时之尽头的孤岛",
+		"recognition": "And",
+		"all_of": ["InMap"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InIsleOfTimesEnd"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
+	},
 	"InIsleOfTimesEnd": {
 		"desc": "在时之尽头的孤岛",
 		"recognition": "And",
@@ -217,6 +231,20 @@
 		"pre_delay": 0,
 		"post_delay": 4000,
 		"rate_limit": 0
+	},
+	"EnterCrescentCounty": {
+		"desc": "进入新月郡",
+		"recognition": "And",
+		"all_of": ["InMap"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InCrescentCounty"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"InCrescentCounty": {
 		"desc": "在新月郡",
@@ -252,6 +280,20 @@
 		"post_delay": 4000,
 		"rate_limit": 0
 	},
+	"EnterHolyCityMonastery": {
+		"desc": "进入圣城修道院",
+		"recognition": "And",
+		"all_of": ["InMap"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InHolyCityMonastery"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
+	},
 	"InHolyCityMonastery": {
 		"desc": "在圣城修道院",
 		"recognition": "And",
@@ -285,6 +327,20 @@
 		"pre_delay": 0,
 		"post_delay": 4000,
 		"rate_limit": 0
+	},
+	"EnterGremid": {
+		"desc": "进入格雷米德",
+		"recognition": "And",
+		"all_of": ["InMap"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InGremid"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"InGremid": {
 		"desc": "在格雷米德",
@@ -320,6 +376,20 @@
 		"post_delay": 4000,
 		"rate_limit": 0
 	},
+	"EnterFurnaceCity": {
+		"desc": "进入熔炉之城",
+		"recognition": "And",
+		"all_of": ["InMap"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InFurnaceCity"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
+	},
 	"InFurnaceCity": {
 		"desc": "在熔炉之城",
 		"recognition": "And",
@@ -353,6 +423,20 @@
 		"pre_delay": 0,
 		"post_delay": 4000,
 		"rate_limit": 0
+	},
+	"EnterWildBullValley": {
+		"desc": "进入蛮牛谷",
+		"recognition": "And",
+		"all_of": ["InMap"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InWildBullValley"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"InWildBullValley": {
 		"desc": "在蛮牛谷",
@@ -400,6 +484,20 @@
 		"pre_delay": 0,
 		"post_delay": 4000,
 		"rate_limit": 0
+	},
+	"EnterSilverMoonValley": {
+		"desc": "进入银月谷",
+		"recognition": "And",
+		"all_of": ["InMap"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InSilverMoonValley"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"InSilverMoonValley": {
 		"desc": "在银月谷",
@@ -457,6 +555,20 @@
 		"upper": [20, 55, 200],
 		"count": 50
 	},
+	"EnterIserel": {
+		"desc": "进入伊瑟瑞尔",
+		"recognition": "And",
+		"all_of": ["InMap"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InIserel"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
+	},
 	"InIserel": {
 		"desc": "在伊瑟瑞尔",
 		"recognition": "And",
@@ -498,7 +610,7 @@
 			"ResetMiniMapAnchor": "ResetIsleOfTimesEnd"
 		},
 		"next": [
-			"InIsleOfTimesEnd",
+			"EnterIsleOfTimesEnd",
 			"[JumpBack]SceneEnterSelectDestination"
 		]
 	},
@@ -513,7 +625,7 @@
 			"ResetMiniMapAnchor": "ResetCrescentCounty"
 		},
 		"next": [
-			"InCrescentCounty",
+			"EnterCrescentCounty",
 			"[JumpBack]SceneEnterSelectDestination"
 		]
 	},
@@ -528,7 +640,7 @@
 			"ResetMiniMapAnchor": "ResetHolyCityMonastery"
 		},
 		"next": [
-			"InHolyCityMonastery",
+			"EnterHolyCityMonastery",
 			"[JumpBack]SceneEnterSelectDestination"
 		]
 	},
@@ -543,7 +655,7 @@
 			"ResetMiniMapAnchor": "ResetGremid"
 		},
 		"next": [
-			"InGremid",
+			"EnterGremid",
 			"[JumpBack]SceneEnterSelectDestination"
 		]
 	},
@@ -558,7 +670,7 @@
 			"ResetMiniMapAnchor": "ResetFurnaceCity"
 		},
 		"next": [
-			"InFurnaceCity",
+			"EnterFurnaceCity",
 			"[JumpBack]SceneEnterSelectDestination"
 		]
 	},
@@ -571,7 +683,7 @@
 			"reset_flag": false
 		},
 		"next": [
-			"InIsleOfTimesEnd",
+			"EnterIsleOfTimesEnd",
 			"[JumpBack]__ScenePrivateReturnRisk",
 			"[JumpBack]SceneBack"
 		]
@@ -582,7 +694,7 @@
 		"custom_recognition": "CheckRoleInTargetMap",
 		"attach": {"map_name": "新月郡|新月", "reset_flag": false},
 		"next": [
-			"InCrescentCounty",
+			"EnterCrescentCounty",
 			"[JumpBack]__ScenePrivateReturnRisk",
 			"[JumpBack]SceneBack"
 		]
@@ -593,7 +705,7 @@
 		"custom_recognition": "CheckRoleInTargetMap",
 		"attach": {"map_name": "圣城修道院|圣城|修道院", "reset_flag": false},
 		"next": [
-			"InHolyCityMonastery",
+			"EnterHolyCityMonastery",
 			"[JumpBack]__ScenePrivateReturnRisk",
 			"[JumpBack]SceneBack"
 		]
@@ -604,7 +716,7 @@
 		"custom_recognition": "CheckRoleInTargetMap",
 		"attach": {"map_name": "格雷米德|格雷", "reset_flag": false},
 		"next": [
-			"InGremid",
+			"EnterGremid",
 			"[JumpBack]__ScenePrivateReturnRisk",
 			"[JumpBack]SceneBack"
 		]
@@ -615,7 +727,7 @@
 		"custom_recognition": "CheckRoleInTargetMap",
 		"attach": {"map_name": "熔炉之城|熔炉", "reset_flag": false},
 		"next": [
-			"InFurnaceCity",
+			"EnterFurnaceCity",
 			"[JumpBack]__ScenePrivateReturnRisk",
 			"[JumpBack]SceneBack"
 		]
@@ -626,7 +738,7 @@
 		"custom_recognition": "CheckRoleInTargetMap",
 		"attach": {"map_name": "蛮牛谷|蛮牛", "reset_flag": false},
 		"next": [
-			"InWildBullValley",
+			"EnterWildBullValley",
 			"[JumpBack]__ScenePrivateReturnRisk",
 			"[JumpBack]SceneBack"
 		]
@@ -637,7 +749,7 @@
 		"custom_recognition": "CheckRoleInTargetMap",
 		"attach": {"map_name": "银月谷", "reset_flag": false},
 		"next": [
-			"InSilverMoonValley",
+			"EnterSilverMoonValley",
 			"[JumpBack]__ScenePrivateReturnRisk",
 			"[JumpBack]SceneBack"
 		]
@@ -648,7 +760,7 @@
 		"custom_recognition": "CheckRoleInTargetMap",
 		"attach": {"map_name": "伊瑟瑞尔|伊瑟|瑞尔", "reset_flag": false},
 		"next": [
-			"InIserel",
+			"EnterIserel",
 			"[JumpBack]__ScenePrivateReturnRisk",
 			"[JumpBack]SceneBack"
 		]
@@ -664,7 +776,7 @@
 			"ResetMiniMapAnchor": "NoResetIsleOfTimesEnd"
 		},
 		"next": [
-			"InIsleOfTimesEnd",
+			"EnterIsleOfTimesEnd",
 			"[JumpBack]SceneEnterSelectDestination"
 		]
 	},
@@ -679,7 +791,7 @@
 			"ResetMiniMapAnchor": "NoResetCrescentCounty"
 		},
 		"next": [
-			"InCrescentCounty",
+			"EnterCrescentCounty",
 			"[JumpBack]SceneEnterSelectDestination"
 		]
 	},
@@ -694,7 +806,7 @@
 			"ResetMiniMapAnchor": "NoResetHolyCityMonastery"
 		},
 		"next": [
-			"InHolyCityMonastery",
+			"EnterHolyCityMonastery",
 			"[JumpBack]SceneEnterSelectDestination"
 		]
 	},
@@ -709,7 +821,7 @@
 			"ResetMiniMapAnchor": "NoResetGremid"
 		},
 		"next": [
-			"InGremid",
+			"EnterGremid",
 			"[JumpBack]SceneEnterSelectDestination"
 		]
 	},
@@ -724,7 +836,7 @@
 			"ResetMiniMapAnchor": "NoResetFurnaceCity"
 		},
 		"next": [
-			"InFurnaceCity",
+			"EnterFurnaceCity",
 			"[JumpBack]SceneEnterSelectDestination"
 		]
 	},
@@ -739,7 +851,7 @@
 			"ResetMiniMapAnchor": "NoResetWildBullValley"
 		},
 		"next": [
-			"InWildBullValley",
+			"EnterWildBullValley",
 			"[JumpBack]SceneEnterSelectDestination"
 		]
 	},
@@ -754,7 +866,7 @@
 			"ResetMiniMapAnchor": "NoResetSilverMoonValley"
 		},
 		"next": [
-			"InSilverMoonValley",
+			"EnterSilverMoonValley",
 			"[JumpBack]SceneEnterSelectDestination"
 		]
 	},
@@ -769,7 +881,7 @@
 			"ResetMiniMapAnchor": "NoResetIserel"
 		},
 		"next": [
-			"InIserel",
+			"EnterIserel",
 			"[JumpBack]SceneEnterSelectDestination"
 		]
 	},
