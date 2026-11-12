@@ -128,5 +128,6 @@
 		// test
 		// "assets/tasks/test/TestMoveToPoint.json",
 		// "assets/tasks/test/BattleTimeTest.json"
+		//"assets/tasks/test/test.json"
 	]
 }

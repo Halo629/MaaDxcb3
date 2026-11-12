@@ -267,8 +267,8 @@
 		},
 		"StewardEndlessWealthIsleSub": {
 			"type": "switch",
-			"label": "无尽的财富岛",
-			"description": "当前仅支持大月卡扫荡",
+			"label": "无尽财富之岛",
+			"description": "当前仅支持大月卡扫荡。次数分配：9次黑羽，9次白羽，剩下全金羽。自动兑换方案为wiki网站上的方案二。",
 			"default_case": "Yes",
 			"cases": [
 				{

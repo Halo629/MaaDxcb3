@@ -62,8 +62,6 @@
 		"rate_limit": 0,
 		"next": [
 			"MonsterSoulNoDropTimes",
-			"[JumpBack]HandleBattleResult",
-			"[JumpBack]HandleRewardDialog",
 			"[JumpBack]MonsterSoulYexingEntry",
 			"[JumpBack]MonsterSoulJielueEntry",
 			"[JumpBack]MonsterSoulWuguEntry",
@@ -107,10 +105,15 @@
 		"rate_limit": 0,
 		"max_hit": 1,
 		"next": [
-			"HasMonsterSoul-wugu",
+			"InMonsterSoulPageTop",
 			"[JumpBack]MonsterSoulSwipeDown",
 			"__ScenePrivateNextTrue"
 		]
+	},
+	"InMonsterSoulPageTop": {
+		"desc": "在魔武之魂页面顶部",
+		"recognition": "And",
+		"all_of": ["MonsterSoulWuguEntry"]
 	},
 	"MonsterSoulSwipeDown": {
 		"desc": "魔物之魂页面向下滑动直到顶部(识别到巫蛊之魂)",
@@ -180,201 +183,760 @@
 		"desc": "巫蛊之魂",
 		"enabled": false,
 		"recognition": "And",
-		"all_of": ["HasMonsterSoul-wugu"],
+		"all_of": [
+			"HasMonsterSoul-wugu",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 100],
+				"upper": [20, 50, 255],
+				"roi": "HasMonsterSoul-wugu",
+				"roi_offset": [-344, 27, 183, -49],
+				"count": 100,
+				"sub_name": "MonsterSoulMapColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "咒骂山谷|咒骂",
+				"roi": "MonsterSoulMapColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2,
 		"action": "Click",
 		"pre_delay": 0,
-		"target_offset": [0, 0, -200, 0],
-		"post_delay": 500
+		"rate_limit": 0,
+		"post_delay": 500,
+		"timeout": 10000,
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]HandleBattleResult"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"MonsterSoulBaolueEntry": {
 		"desc": "暴虐之魂",
 		"enabled": false,
 		"recognition": "And",
-		"all_of": ["HasMonsterSoul-baolue"],
+		"all_of": [
+			"HasMonsterSoul-baolue",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 100],
+				"upper": [20, 50, 255],
+				"roi": "HasMonsterSoul-baolue",
+				"roi_offset": [-344, 27, 183, -49],
+				"count": 100,
+				"sub_name": "MonsterSoulMapColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "酒馆",
+				"roi": "MonsterSoulMapColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2,
 		"action": "Click",
 		"pre_delay": 0,
+		"rate_limit": 0,
 		"post_delay": 500,
-		"target_offset": [0, 0, -200, 0]
+		"timeout": 10000,
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]HandleBattleResult"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"MonsterSoulYexingEntry": {
 		"desc": "野性之魂",
-		"enabled": false,
 		"recognition": "And",
-		"all_of": ["HasMonsterSoul-yexing"],
+		"all_of": [
+			"HasMonsterSoul-yexing",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 100],
+				"upper": [20, 50, 255],
+				"roi": "HasMonsterSoul-yexing",
+				"roi_offset": [-344, 27, 183, -49],
+				"count": 100,
+				"sub_name": "MonsterSoulMapColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "烽火台",
+				"roi": "MonsterSoulMapColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2,
 		"action": "Click",
 		"pre_delay": 0,
+		"rate_limit": 0,
 		"post_delay": 500,
-		"target_offset": [0, 0, -200, 0]
+		"timeout": 10000,
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]HandleBattleResult"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"MonsterSoulXiongshaEntry": {
 		"desc": "凶煞之魂",
 		"enabled": false,
 		"recognition": "And",
-		"all_of": ["HasMonsterSoul-xiongsha"],
+		"all_of": [
+			"HasMonsterSoul-xiongsha",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 100],
+				"upper": [20, 50, 255],
+				"roi": "HasMonsterSoul-xiongsha",
+				"roi_offset": [-344, 27, 183, -49],
+				"count": 100,
+				"sub_name": "MonsterSoulMapColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "流浪者之家|流浪者",
+				"roi": "MonsterSoulMapColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2,
 		"action": "Click",
 		"pre_delay": 0,
+		"rate_limit": 0,
 		"post_delay": 500,
-		"target_offset": [0, 0, -200, 0]
+		"timeout": 10000,
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]HandleBattleResult"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"MonsterSoulXiedianEntry": {
 		"desc": "邪典之魂",
 		"enabled": false,
 		"recognition": "And",
-		"all_of": ["HasMonsterSoul-xiedian"],
+		"all_of": [
+			"HasMonsterSoul-xiedian",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 100],
+				"upper": [20, 50, 255],
+				"roi": "HasMonsterSoul-xiedian",
+				"roi_offset": [-344, 27, 183, -49],
+				"count": 100,
+				"sub_name": "MonsterSoulMapColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "使节宅邸|使节|宅邸",
+				"roi": "MonsterSoulMapColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2,
 		"action": "Click",
 		"pre_delay": 0,
+		"rate_limit": 0,
 		"post_delay": 500,
-		"target_offset": [0, 0, -200, 0]
+		"timeout": 10000,
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]HandleBattleResult"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"MonsterSoulJielueEntry": {
 		"desc": "劫掠之魂",
 		"enabled": false,
 		"recognition": "And",
-		"all_of": ["HasMonsterSoul-jielue"],
+		"all_of": [
+			"HasMonsterSoul-jielue",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 100],
+				"upper": [20, 50, 255],
+				"roi": "HasMonsterSoul-jielue",
+				"roi_offset": [-344, 27, 183, -49],
+				"count": 100,
+				"sub_name": "MonsterSoulMapColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "军械库|军械",
+				"roi": "MonsterSoulMapColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2,
 		"action": "Click",
 		"pre_delay": 0,
+		"rate_limit": 0,
 		"post_delay": 500,
-		"target_offset": [0, 0, -200, 0]
+		"timeout": 10000,
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]HandleBattleResult"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"MonsterSoulJiaozhiEntry": {
 		"desc": "狡智之魂",
 		"enabled": false,
 		"recognition": "And",
-		"all_of": ["HasMonsterSoul-jiaozhi"],
+		"all_of": [
+			"HasMonsterSoul-jiaozhi",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 100],
+				"upper": [20, 50, 255],
+				"roi": "HasMonsterSoul-jiaozhi",
+				"roi_offset": [-344, 27, 183, -49],
+				"count": 100,
+				"sub_name": "MonsterSoulMapColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "废弃岗哨",
+				"roi": "MonsterSoulMapColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2,
 		"action": "Click",
 		"pre_delay": 0,
+		"rate_limit": 0,
 		"post_delay": 500,
-		"target_offset": [0, 0, -200, 0]
+		"timeout": 10000,
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]HandleBattleResult"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"MonsterSoulManhuangEntry": {
 		"desc": "蛮荒之魂",
 		"enabled": false,
 		"recognition": "And",
-		"all_of": ["HasMonsterSoul-manhuang"],
+		"all_of": [
+			"HasMonsterSoul-manhuang",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 100],
+				"upper": [20, 50, 255],
+				"roi": "HasMonsterSoul-manhuang",
+				"roi_offset": [-344, 27, 183, -49],
+				"count": 100,
+				"sub_name": "MonsterSoulMapColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "魔鬼城",
+				"roi": "MonsterSoulMapColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2,
 		"action": "Click",
 		"pre_delay": 0,
+		"rate_limit": 0,
 		"post_delay": 500,
-		"target_offset": [0, 0, -200, 0]
+		"timeout": 10000,
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]HandleBattleResult"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"MonsterSoulXiongshiEntry": {
 		"desc": "雄狮之魂",
 		"enabled": false,
 		"recognition": "And",
-		"all_of": ["HasMonsterSoul-xiongshi"],
+		"all_of": [
+			"HasMonsterSoul-xiongshi",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 100],
+				"upper": [20, 50, 255],
+				"roi": "HasMonsterSoul-xiongshi",
+				"roi_offset": [-344, 27, 183, -49],
+				"count": 100,
+				"sub_name": "MonsterSoulMapColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "术士协会遗址|术士协会",
+				"roi": "MonsterSoulMapColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2,
 		"action": "Click",
 		"pre_delay": 0,
+		"rate_limit": 0,
 		"post_delay": 500,
-		"target_offset": [0, 0, -200, 0]
+		"timeout": 10000,
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]HandleBattleResult"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"MonsterSoulKuangnuEntry": {
 		"desc": "狂怒之魂",
 		"enabled": false,
 		"recognition": "And",
-		"all_of": ["HasMonsterSoul-kuangnu"],
+		"all_of": [
+			"HasMonsterSoul-kuangnu",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 100],
+				"upper": [20, 50, 255],
+				"roi": "HasMonsterSoul-kuangnu",
+				"roi_offset": [-344, 27, 183, -49],
+				"count": 100,
+				"sub_name": "MonsterSoulMapColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "矮人工匠密室|矮人工匠|工匠密室",
+				"roi": "MonsterSoulMapColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2,
 		"action": "Click",
 		"pre_delay": 0,
+		"rate_limit": 0,
 		"post_delay": 500,
-		"target_offset": [0, 0, -200, 0]
+		"timeout": 10000,
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]HandleBattleResult"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"MonsterSoulShuangxueEntry": {
 		"desc": "霜雪之魂",
 		"enabled": false,
 		"recognition": "And",
-		"all_of": ["HasMonsterSoul-shuangxue"],
+		"all_of": [
+			"HasMonsterSoul-shuangxue",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 100],
+				"upper": [20, 50, 255],
+				"roi": "HasMonsterSoul-shuangxue",
+				"roi_offset": [-344, 27, 183, -49],
+				"count": 100,
+				"sub_name": "MonsterSoulMapColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "忏悔大厅|忏悔",
+				"roi": "MonsterSoulMapColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2,
 		"action": "Click",
 		"pre_delay": 0,
+		"rate_limit": 0,
 		"post_delay": 500,
-		"target_offset": [0, 0, -200, 0]
+		"timeout": 10000,
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]HandleBattleResult"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"MonsterSoulBingjingEntry": {
 		"desc": "冰晶之魂",
 		"enabled": false,
 		"recognition": "And",
-		"all_of": ["HasMonsterSoul-bingjing"],
+		"all_of": [
+			"HasMonsterSoul-bingjing",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 100],
+				"upper": [20, 50, 255],
+				"roi": "HasMonsterSoul-bingjing",
+				"roi_offset": [-344, 27, 183, -49],
+				"count": 100,
+				"sub_name": "MonsterSoulMapColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "圣堂顶层",
+				"roi": "MonsterSoulMapColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2,
 		"action": "Click",
 		"pre_delay": 0,
+		"rate_limit": 0,
 		"post_delay": 500,
-		"target_offset": [0, 0, -200, 0]
+		"timeout": 10000,
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]HandleBattleResult"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"MonsterSoulLinyeEntry": {
 		"desc": "林野之魂",
 		"enabled": false,
 		"recognition": "And",
-		"all_of": ["HasMonsterSoul-linye"],
+		"all_of": [
+			"HasMonsterSoul-linye",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 100],
+				"upper": [20, 50, 255],
+				"roi": "HasMonsterSoul-linye",
+				"roi_offset": [-344, 27, 183, -49],
+				"count": 100,
+				"sub_name": "MonsterSoulMapColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "北岛雨林",
+				"roi": "MonsterSoulMapColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2,
 		"action": "Click",
 		"pre_delay": 0,
+		"rate_limit": 0,
 		"post_delay": 500,
-		"target_offset": [0, 0, -200, 0]
+		"timeout": 10000,
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]HandleBattleResult"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"MonsterSoulLingdongEntry": {
 		"desc": "林动之魂",
 		"enabled": false,
 		"recognition": "And",
-		"all_of": ["HasMonsterSoul-lingdong"],
+		"all_of": [
+			"HasMonsterSoul-lingdong",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 100],
+				"upper": [20, 50, 255],
+				"roi": "HasMonsterSoul-lingdong",
+				"roi_offset": [-344, 27, 183, -49],
+				"count": 100,
+				"sub_name": "MonsterSoulMapColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "圣地禁区",
+				"roi": "MonsterSoulMapColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2,
 		"action": "Click",
 		"pre_delay": 0,
+		"rate_limit": 0,
 		"post_delay": 500,
-		"target_offset": [0, 0, -200, 0]
+		"timeout": 10000,
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]HandleBattleResult"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"MonsterSoulJihanEntry": {
 		"desc": "极寒之魂",
 		"enabled": false,
 		"recognition": "And",
-		"all_of": ["HasMonsterSoul-jihan"],
+		"all_of": [
+			"HasMonsterSoul-jihan",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 100],
+				"upper": [20, 50, 255],
+				"roi": "HasMonsterSoul-jihan",
+				"roi_offset": [-344, 27, 183, -49],
+				"count": 100,
+				"sub_name": "MonsterSoulMapColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "破碎长船",
+				"roi": "MonsterSoulMapColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2,
 		"action": "Click",
 		"pre_delay": 0,
+		"rate_limit": 0,
 		"post_delay": 500,
-		"target_offset": [0, 0, -200, 0]
+		"timeout": 10000,
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]HandleBattleResult"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"MonsterSoulBaopoEntry": {
 		"desc": "爆破之魂",
 		"enabled": false,
 		"recognition": "And",
-		"all_of": ["HasMonsterSoul-baopo"],
+		"all_of": [
+			"HasMonsterSoul-baopo",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 100],
+				"upper": [20, 50, 255],
+				"roi": "HasMonsterSoul-baopo",
+				"roi_offset": [-344, 27, 183, -49],
+				"count": 100,
+				"sub_name": "MonsterSoulMapColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "毒心小屋",
+				"roi": "MonsterSoulMapColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2,
 		"action": "Click",
 		"pre_delay": 0,
+		"rate_limit": 0,
 		"post_delay": 500,
-		"target_offset": [0, 0, -200, 0]
+		"timeout": 10000,
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]HandleBattleResult"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"MonsterSoulChenyuanEntry": {
 		"desc": "沉渊之魂",
 		"enabled": false,
 		"recognition": "And",
-		"all_of": ["HasMonsterSoul-chenyuan"],
+		"all_of": [
+			"HasMonsterSoul-chenyuan",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 100],
+				"upper": [20, 50, 255],
+				"roi": "HasMonsterSoul-chenyuan",
+				"roi_offset": [-344, 27, 183, -49],
+				"count": 100,
+				"sub_name": "MonsterSoulMapColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "废弃水坝",
+				"roi": "MonsterSoulMapColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2,
 		"action": "Click",
 		"pre_delay": 0,
+		"rate_limit": 0,
 		"post_delay": 500,
-		"target_offset": [0, 0, -200, 0]
+		"timeout": 10000,
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]HandleBattleResult"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"MonsterSoulKuangreEntry": {
 		"desc": "狂热之魂",
 		"enabled": false,
 		"recognition": "And",
-		"all_of": ["HasMonsterSoul-kuangre"],
+		"all_of": [
+			"HasMonsterSoul-kuangre",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 100],
+				"upper": [20, 50, 255],
+				"roi": "HasMonsterSoul-kuangre",
+				"roi_offset": [-344, 27, 183, -49],
+				"count": 100,
+				"sub_name": "MonsterSoulMapColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "净身小教堂|净身",
+				"roi": "MonsterSoulMapColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2,
 		"action": "Click",
 		"pre_delay": 0,
+		"rate_limit": 0,
 		"post_delay": 500,
-		"target_offset": [0, 0, -200, 0]
+		"timeout": 10000,
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]HandleBattleResult"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"MonsterSoulTianyunEntry": {
 		"desc": "天陨之魂",
 		"enabled": false,
 		"recognition": "And",
-		"all_of": ["HasMonsterSoul-tianyun"],
+		"all_of": [
+			"HasMonsterSoul-tianyun",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 100],
+				"upper": [20, 50, 255],
+				"roi": "HasMonsterSoul-tianyun",
+				"roi_offset": [-344, 27, 183, -49],
+				"count": 100,
+				"sub_name": "MonsterSoulMapColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "帝都谷仓",
+				"roi": "MonsterSoulMapColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2,
 		"action": "Click",
 		"pre_delay": 0,
+		"rate_limit": 0,
 		"post_delay": 500,
-		"target_offset": [0, 0, -200, 0]
+		"timeout": 10000,
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]HandleBattleResult"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"MonsterSoulXianzuEntry": {
 		"desc": "先祖之魂",
 		"enabled": false,
 		"recognition": "And",
-		"all_of": ["HasMonsterSoul-xianzu"],
+		"all_of": [
+			"HasMonsterSoul-xianzu",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 100],
+				"upper": [20, 50, 255],
+				"roi": "HasMonsterSoul-xianzu",
+				"roi_offset": [-344, 27, 183, -49],
+				"count": 100,
+				"sub_name": "MonsterSoulMapColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "禁魔通道",
+				"roi": "MonsterSoulMapColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2,
 		"action": "Click",
 		"pre_delay": 0,
+		"rate_limit": 0,
 		"post_delay": 500,
-		"target_offset": [0, 0, -200, 0]
+		"timeout": 10000,
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]HandleBattleResult"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"MonsterSoulNoDropTimes": {
 		"desc": "没有剩余掉落次数",
@@ -383,13 +945,16 @@
 			"InMonsterSoulPage",
 			{
 				"recognition": "OCR",
-				"expected": "今日掉落魔物之魂10/10|10/10|10/",
+				"expected": "今日掉落魔物之魂10/10|10/10|10/|101",
 				"roi": [205, 1010, 319, 41],
 				"only_rec": true
 			}
 		],
 		"pre_delay": 0,
 		"post_delay": 0,
-		"rate_limit": 0
+		"rate_limit": 0,
+		"next": [
+			"SceneBack"
+		]
 	}
 }

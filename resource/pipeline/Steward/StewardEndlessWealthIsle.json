@@ -7,10 +7,7 @@
 		"max_hit": 1,
 		"next": [
 			"EndlessWealthIsleEntry",
-			"[JumpBack]__ScenePrivateStewardFindEndlessWealthIsle",
-			"[JumpBack]__SceneStewardEntryEndlessWealthIsle",
-			"__ScenePrivateStewardEndlessWealthIsleDone",
-			"[JumpBack]SceneEnterSteward"
+			"[JumpBack]SceneEnterEndlessWealthIsleFromSteward"
 		],
 		"focus": {"Node.Recognition.Succeeded": "开始任务:无尽的财富岛"}
 	},
@@ -45,7 +42,7 @@
 		]
 	},
 	"__ScenePrivateStewardEndlessWealthIsleDone": {
-		"desc": "管家页面未找到比比奇或者比比奇任务已经完成",
+		"desc": "管家页面未找到财富岛",
 		"recognition": "And",
 		"all_of": ["InStewardPage"],
 		"pre_delay": 0,
@@ -69,8 +66,9 @@
 	"InEndlessWealthIslePage": {
 		"desc": "在财富岛页面",
 		"recognition": "OCR",
-		"expected": "无尽财富之岛|无尽|财富",
-		"roi": [91, 59, 179, 81]
+		"expected": "无尽财富之岛|财富之岛|无尽财富",
+		"roi": [99, 68, 155, 34],
+		"only_rec": true
 	},
 	"__ScenePrivateStewardFindEndlessWealthIsle": {
 		"recognition": "And",
@@ -103,7 +101,7 @@
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [104, 272, 515, 733],
-			"timeout": 5000
+			"timeout": 8000
 		},
 		"pre_delay": 0,
 		"post_delay": 0,
@@ -118,7 +116,7 @@
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [104, 272, 515, 733],
-			"timeout": 5000
+			"timeout": 8000
 		},
 		"pre_delay": 0,
 		"post_delay": 0,
@@ -131,9 +129,31 @@
 		"rate_limit": 0,
 		"recognition": "And",
 		"all_of": ["InEndlessWealthIslePage"],
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["ZoomInMax"]
+		},
 		"next": [
+			"[JumpBack]ZoomInMax",
 			"[JumpBack]CollapseSideBar",
-			"EndlessWealthIsleRuinedTemple",
+			"[JumpBack]EndlessWealthIsleSweep",
+			"EndlessWealthIsleExchangeRewardsStart"
+		]
+	},
+	"EndlessWealthIsleSweep": {
+		"desc": "财富之岛扫荡",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"EndlessWealthIsleOneKeySweepComplete",
+			"EndlessWealthIsleOneKeySweepNotEnabled",
+			"EndlessWealthIsleAssignChallengeTimes",
+			"[JumpBack]EndlessWealthIsleClickOneKeySweep",
+			"[JumpBack]EndlessWealthIsleEnterTemple",
+			"[JumpBack]EndlessWealthIsleRuinedTempleEntry",
 			"[JumpBack]__EndlessWealthIsleSwipeLeft",
 			"[JumpBack]__EndlessWealthIsleSwipeDown"
 		]
@@ -148,9 +168,9 @@
 		"desc": "向左滑动",
 		"action": "Swipe",
 		"begin": [500, 1100],
-		"end": [200, 1100],
+		"end": [300, 1100],
 		"duration": 200,
-		"max_hit": 3,
+		"max_hit": 2,
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
@@ -182,21 +202,20 @@
 		"expected": "破败神殿|破败|神殿",
 		"roi": [300, 112, 118, 54]
 	},
-	"EndlessWealthIsleRuinedTemple": {
-		"desc": "破败神殿",
+	"EndlessWealthIsleRuinedTempleEntry": {
+		"desc": "进入破败神殿",
 		"recognition": "OCR",
 		"expected": "破败神殿|破败|神殿",
-		"action": "Click",
-		"target_offset": [40, -60, 0, 0],
+		"action": "Custom",
+		"custom_action": "AdjustPositionAndClick",
+		"custom_action_param": {
+			"target_offset": [40, -60, 0, 0]
+		},
 		"post_wait_freezes": {
 			"time": 500,
-			"target": [283, 427, 390, 72],
+			"target": [128, 529, 587, 487],
 			"timeout": 8000
-		},
-		"next": [
-			"EndlessWealthIsleEnterTemple",
-			"EndlessWealthIsleRuinedTemple"
-		]
+		}
 	},
 	"EndlessWealthIsleEnterTemple": {
 		"desc": "进入神殿",
@@ -208,21 +227,19 @@
 			"time": 500,
 			"target": [276, 674, 161, 303],
 			"timeout": 3000
-		},
-		"next": [
-			"EndlessWealthIsleOneKeySweepComplete",
-			"EndlessWealthIsleOneKeySweepEnabled",
-			"EndlessWealthIsleEnterTempleDone"
-		]
+		}
 	},
-	"EndlessWealthIsleOneKeySweepEnabled": {
-		"desc": "一键扫荡已开启",
+	"EndlessWealthIsleOneKeySweepNotEnabled": {
+		"desc": "一键扫荡未开启",
 		"recognition": "And",
 		"all_of": ["EndlessWealthIsleOneKeySweepCheck"],
-		"inverse": true,
 		"next": [
-			"EndlessWealthIsleClickOneKeySweep"
-		]
+			"SceneBack",
+			"[JumpBack]PressEsc"
+		],
+		"focus": {
+			"Node.Recognition.Succeeded": "一键扫荡未开启,目前仅支持一键扫荡"
+		}
 	},
 	"InOnekeySweepPage": {
 		"desc": "在一键扫荡页面",
@@ -240,10 +257,7 @@
 			"time": 500,
 			"target": [597, 1054, 99, 110],
 			"timeout": 3000
-		},
-		"next": [
-			"EndlessWealthIsleAssignChallengeTimes"
-		]
+		}
 	},
 	"EndlessWealthIsleChallengeCount": {
 		"desc": "挑战次数",
@@ -257,32 +271,23 @@
 		"action": "Custom",
 		"custom_action": "EndlessWealthIsleAssignChallengeTimes",
 		"next": [
-			"EndlessWealthIsleConfirm"
-		]
-	},
-	"EndlessWealthIsleConfirm": {
-		"desc": "确定",
-		"recognition": "OCR",
-		"expected": "确定",
-		"roi": [384, 889, 230, 145],
-		"action": "Click",
-		"post_wait_freezes": {
-			"time": 500,
-			"target": [384, 889, 230, 145],
-			"timeout": 3000
-		},
-		"next": [
+			"EndlessWealthIsleExitTemple",
 			"[JumpBack]HandleRewardDialog",
-			"EndlessWealthIsleExitTemple"
+			"[JumpBack]ConfirmButton"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
 		]
 	},
 	"EndlessWealthIsleOneKeySweepComplete": {
 		"desc": "已完成扫荡",
 		"recognition": "OCR",
 		"expected": "已完成扫荡|已完成",
-		"roi": [300, 1147, 127, 50],
+		"roi": [299, 1156, 127, 37],
+		"only_rec": true,
 		"next": [
-			"EndlessWealthIsleExitTemple"
+			"SceneBack",
+			"[JumpBack]PressEsc"
 		]
 	},
 	"EndlessWealthIsleExitTemple": {
@@ -295,10 +300,7 @@
 			"time": 300,
 			"target": [271, 315, 285, 756],
 			"timeout": 3000
-		},
-		"next": [
-			"EndlessWealthIsleExchangeRewards"
-		]
+		}
 	},
 	"EndlessWealthIsleExchangeRewards": {
 		"desc": "兑换封印石奖励",
@@ -314,5 +316,701 @@
 		"recognition": "OCR",
 		"expected": "天|小时|分钟|开放",
 		"roi": [482, 777, 180, 92]
+	},
+	"EndlessWealthIsleExchangeRewardsSwipeLeft": {
+		"desc": "兑换奖励向左滑动",
+		"action": "Swipe",
+		"begin": [500, 1100],
+		"end": [300, 1100],
+		"duration": 300,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [104, 272, 515, 733],
+			"timeout": 2000
+		}
+	},
+	"EndlessWealthIsleExchangeRewardsSwipeRight": {
+		"desc": "兑换奖励向右滑动",
+		"action": "Swipe",
+		"begin": [300, 1100],
+		"end": [500, 1100],
+		"duration": 300,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [104, 272, 515, 733],
+			"timeout": 2000
+		}
+	},
+	"EndlessWealthIsleExchangeRewardsSwipeRight2": {
+		"desc": "兑换奖励向右滑动2",
+		"action": "Swipe",
+		"begin": [300, 1100],
+		"end": [500, 1100],
+		"duration": 300,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [104, 272, 515, 733],
+			"timeout": 2000
+		}
+	},
+	"EndlessWealthIsleExchangeRewardsSwipeDown": {
+		"desc": "兑换奖励向下滑动",
+		"action": "Swipe",
+		"begin": [450, 650],
+		"end": [450, 950],
+		"duration": 300,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [104, 272, 515, 733],
+			"timeout": 2000
+		}
+	},
+	"EndlessWealthIsleExchangeRewardsSwipeDown2": {
+		"desc": "兑换奖励向下滑动2",
+		"action": "Swipe",
+		"begin": [450, 650],
+		"end": [450, 950],
+		"duration": 300,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [104, 272, 515, 733],
+			"timeout": 2000
+		}
+	},
+	"EndlessWealthIsleExchangeRewardsStart": {
+		"desc": "兑换封印石奖励入口",
+		"recognition": "And",
+		"all_of": ["InEndlessWealthIslePage"],
+		"max_hit": 1,
+		"next": [
+			"[JumpBack]HandleRewardDialog",
+			"[JumpBack]EndlessWealthIsleExchangeStone1",
+			"[JumpBack]EndlessWealthIsleExchangeStone2",
+			"[JumpBack]EndlessWealthIsleExchangeRewardsSwipeRight",
+			"[JumpBack]EndlessWealthIsleExchangeStone3",
+			"[JumpBack]EndlessWealthIsleExchangeStone4",
+			"[JumpBack]EndlessWealthIsleExchangeStone5",
+			"[JumpBack]EndlessWealthIsleExchangeStone6",
+			"[JumpBack]EndlessWealthIsleExchangeStone7",
+			"[JumpBack]EndlessWealthIsleExchangeRewardsSwipeRight2",
+			"[JumpBack]EndlessWealthIsleExchangeStone8",
+			"[JumpBack]EndlessWealthIsleExchangeStone9",
+			"[JumpBack]EndlessWealthIsleExchangeRewardsSwipeDown",
+			"[JumpBack]EndlessWealthIsleExchangeStone10",
+			"[JumpBack]EndlessWealthIsleExchangeRewardsSwipeDown2",
+			"[JumpBack]EndlessWealthIsleExchangeStone11",
+			"[JumpBack]EndlessWealthIsleExchangeStone12",
+			"[JumpBack]EndlessWealthIsleExchangeRewardsSwipeLeft",
+			"[JumpBack]EndlessWealthIsleExchangeStone13",
+			"EndlessWealthIsleExchangeStone14"
+		],
+		"on_error": [
+			"EndlessWealthIsleExchangeRewardsError"
+		]
+	},
+	"EndlessWealthIsleExchangeRewardsError": {
+		"desc": "财富岛兑换奖励失败",
+		"focus": {"Node.Recognition.Succeeded": "财富岛兑换奖励失败,请手动兑换"}
+	},
+	"InEndlessWealthIsleExchangeRewardsPage": {
+		"desc": "在奖励兑换界面",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"expected": "封印石",
+				"roi": [314, 247, 89, 37],
+				"only_rec": true
+			},
+			{
+				"recognition": "OCR",
+				"expected": "奖励",
+				"roi": [332, 353, 58, 30],
+				"only_rec": true
+			}
+		]
+	},
+	"ExchangeButton": {
+		"desc": "财富岛兑换奖励开启按钮",
+		"recognition": "OCR",
+		"expected": "开启",
+		"roi": [334, 881, 53, 31],
+		"only_rec": true,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [82, 250, 548, 765],
+			"timeout": 2000
+		}
+	},
+	"ExchangeReward": {
+		"desc": "兑换奖励",
+		"recognition": "And",
+		"all_of": ["ExchangeButton"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [82, 250, 548, 765],
+			"timeout": 2000
+		},
+		"timeout": 8000,
+		"next": [
+			"HandleRewardDialog"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"EndlessWealthIsleExchangeStone1": {
+		"desc": "封印石1",
+		"max_hit": 1,
+		"recognition": "TemplateMatch",
+		"template": "EndlessWealthIsle/SealStone1.png",
+		"roi": [304, 518, 416, 398],
+		"order_by": "Score",
+		"action": "Click",
+		"target_offset": [27, 18, -56, -82],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [82, 250, 548, 765],
+			"timeout": 8000
+		},
+		"next": [
+			"ExchangeSealStone1Reward"
+		]
+	},
+	"SealStone1RewardCheck": {
+		"desc": "封印石1奖励检查",
+		"recognition": "And",
+		"all_of": [
+			"InEndlessWealthIsleExchangeRewardsPage",
+			{
+				"recognition": "TemplateMatch",
+				"template": "EndlessWealthIsle/SealStone1Reward.png",
+				"roi": [73, 361, 574, 271]
+			}
+		]
+	},
+	"ExchangeSealStone1Reward": {
+		"desc": "开启封印石1",
+		"recognition": "And",
+		"all_of": ["SealStone1RewardCheck"],
+		"next": [
+			"ExchangeReward"
+		]
+	},
+	"EndlessWealthIsleExchangeStone2": {
+		"desc": "封印石2",
+		"max_hit": 1,
+		"recognition": "TemplateMatch",
+		"template": "EndlessWealthIsle/SealStone2.png",
+		"roi": [319, 539, 393, 627],
+		"order_by": "Score",
+		"action": "Click",
+		"target_offset": [28, 28, -52, -99],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [82, 250, 548, 765],
+			"timeout": 8000
+		},
+		"next": [
+			"ExchangeSealStone2Reward"
+		]
+	},
+	"SealStone2RewardCheck": {
+		"desc": "封印石2奖励检查",
+		"recognition": "And",
+		"all_of": [
+			"InEndlessWealthIsleExchangeRewardsPage",
+			{
+				"recognition": "TemplateMatch",
+				"template": "EndlessWealthIsle/SealStone2Reward.png",
+				"roi": [73, 361, 574, 271]
+			}
+		]
+	},
+	"ExchangeSealStone2Reward": {
+		"desc": "开启封印石2",
+		"recognition": "And",
+		"all_of": ["SealStone2RewardCheck"],
+		"next": [
+			"ExchangeReward"
+		]
+	},
+	"EndlessWealthIsleExchangeStone3": {
+		"desc": "封印石3",
+		"max_hit": 1,
+		"recognition": "TemplateMatch",
+		"template": "EndlessWealthIsle/SealStone3.png",
+		"roi": [182, 666, 532, 479],
+		"order_by": "Score",
+		"action": "Click",
+		"target_offset": [46, 18, -74, -94],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [82, 250, 548, 765],
+			"timeout": 8000
+		},
+		"next": [
+			"ExchangeSealStone3Reward"
+		]
+	},
+	"SealStone3RewardCheck": {
+		"desc": "封印石3奖励检查",
+		"recognition": "And",
+		"all_of": [
+			"InEndlessWealthIsleExchangeRewardsPage",
+			{
+				"recognition": "TemplateMatch",
+				"template": "EndlessWealthIsle/SealStone3Reward.png",
+				"roi": [73, 361, 574, 271]
+			}
+		]
+	},
+	"ExchangeSealStone3Reward": {
+		"desc": "开启封印石3",
+		"recognition": "And",
+		"all_of": ["SealStone3RewardCheck"],
+		"next": [
+			"ExchangeReward"
+		]
+	},
+	"EndlessWealthIsleExchangeStone4": {
+		"desc": "封印石4",
+		"max_hit": 1,
+		"recognition": "TemplateMatch",
+		"template": "EndlessWealthIsle/SealStone4.png",
+		"roi": [118, 659, 388, 384],
+		"order_by": "Score",
+		"action": "Click",
+		"target_offset": [43, 30, -60, -105],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [82, 250, 548, 765],
+			"timeout": 8000
+		},
+		"next": [
+			"ExchangeSealStone4Reward"
+		]
+	},
+	"SealStone4RewardCheck": {
+		"desc": "封印石4奖励检查",
+		"recognition": "And",
+		"all_of": [
+			"InEndlessWealthIsleExchangeRewardsPage",
+			{
+				"recognition": "TemplateMatch",
+				"template": "EndlessWealthIsle/SealStone4Reward.png",
+				"roi": [73, 361, 574, 271]
+			}
+		]
+	},
+	"ExchangeSealStone4Reward": {
+		"desc": "开启封印石4",
+		"recognition": "And",
+		"all_of": ["SealStone4RewardCheck"],
+		"next": [
+			"ExchangeReward"
+		]
+	},
+	"EndlessWealthIsleExchangeStone5": {
+		"desc": "封印石5",
+		"max_hit": 1,
+		"recognition": "TemplateMatch",
+		"template": "EndlessWealthIsle/SealStone5.png",
+		"roi": [31, 441, 509, 365],
+		"order_by": "Score",
+		"action": "Click",
+		"target_offset": [18, 71, -59, -126],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [82, 250, 548, 765],
+			"timeout": 8000
+		},
+		"next": [
+			"ExchangeSealStone5Reward"
+		]
+	},
+	"SealStone5RewardCheck": {
+		"desc": "封印石5奖励检查",
+		"recognition": "And",
+		"all_of": [
+			"InEndlessWealthIsleExchangeRewardsPage",
+			{
+				"recognition": "TemplateMatch",
+				"template": "EndlessWealthIsle/SealStone5Reward.png",
+				"roi": [73, 361, 574, 271]
+			}
+		]
+	},
+	"ExchangeSealStone5Reward": {
+		"desc": "开启封印石5",
+		"recognition": "And",
+		"all_of": ["SealStone5RewardCheck"],
+		"next": [
+			"ExchangeReward"
+		]
+	},
+	"EndlessWealthIsleExchangeStone6": {
+		"desc": "封印石6",
+		"max_hit": 1,
+		"recognition": "TemplateMatch",
+		"template": "EndlessWealthIsle/SealStone6.png",
+		"roi": [122, 263, 482, 389],
+		"order_by": "Score",
+		"action": "Click",
+		"target_offset": [53, 59, -92, -111],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [82, 250, 548, 765],
+			"timeout": 8000
+		},
+		"next": [
+			"ExchangeSealStone6Reward"
+		]
+	},
+	"SealStone6RewardCheck": {
+		"desc": "封印石6奖励检查",
+		"recognition": "And",
+		"all_of": [
+			"InEndlessWealthIsleExchangeRewardsPage",
+			{
+				"recognition": "TemplateMatch",
+				"template": "EndlessWealthIsle/SealStone6Reward.png",
+				"roi": [73, 361, 574, 271]
+			}
+		]
+	},
+	"ExchangeSealStone6Reward": {
+		"desc": "开启封印石6",
+		"recognition": "And",
+		"all_of": ["SealStone6RewardCheck"],
+		"next": [
+			"ExchangeReward"
+		]
+	},
+	"EndlessWealthIsleExchangeStone7": {
+		"desc": "封印石7",
+		"max_hit": 1,
+		"recognition": "TemplateMatch",
+		"template": "EndlessWealthIsle/SealStone7.png",
+		"roi": [27, 380, 525, 398],
+		"order_by": "Score",
+		"action": "Click",
+		"target_offset": [29, 40, -63, -108],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [82, 250, 548, 765],
+			"timeout": 8000
+		},
+		"next": [
+			"ExchangeSealStone7Reward"
+		]
+	},
+	"SealStone7RewardCheck": {
+		"desc": "封印石7奖励检查",
+		"recognition": "And",
+		"all_of": [
+			"InEndlessWealthIsleExchangeRewardsPage",
+			{
+				"recognition": "TemplateMatch",
+				"template": "EndlessWealthIsle/SealStone7Reward.png",
+				"roi": [73, 361, 574, 271]
+			}
+		]
+	},
+	"ExchangeSealStone7Reward": {
+		"desc": "开启封印石7",
+		"recognition": "And",
+		"all_of": ["SealStone7RewardCheck"],
+		"next": [
+			"ExchangeReward"
+		]
+	},
+	"EndlessWealthIsleExchangeStone8": {
+		"desc": "封印石8",
+		"max_hit": 1,
+		"recognition": "TemplateMatch",
+		"template": "EndlessWealthIsle/SealStone8.png",
+		"roi": [101, 608, 619, 558],
+		"order_by": "Score",
+		"action": "Click",
+		"target_offset": [42, 11, -69, -92],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [82, 250, 548, 765],
+			"timeout": 8000
+		},
+		"next": [
+			"ExchangeSealStone8Reward"
+		]
+	},
+	"SealStone8RewardCheck": {
+		"desc": "封印石8奖励检查",
+		"recognition": "And",
+		"all_of": [
+			"InEndlessWealthIsleExchangeRewardsPage",
+			{
+				"recognition": "TemplateMatch",
+				"template": "EndlessWealthIsle/SealStone8Reward.png",
+				"roi": [73, 361, 574, 271]
+			}
+		]
+	},
+	"ExchangeSealStone8Reward": {
+		"desc": "开启封印石8",
+		"recognition": "And",
+		"all_of": ["SealStone8RewardCheck"],
+		"next": [
+			"ExchangeReward"
+		]
+	},
+	"EndlessWealthIsleExchangeStone9": {
+		"desc": "封印石9",
+		"max_hit": 1,
+		"recognition": "TemplateMatch",
+		"template": "EndlessWealthIsle/SealStone9.png",
+		"roi": [101, 608, 619, 558],
+		"order_by": "Score",
+		"action": "Click",
+		"target_offset": [34, 15, -68, -90],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [82, 250, 548, 765],
+			"timeout": 8000
+		},
+		"next": [
+			"ExchangeSealStone9Reward"
+		]
+	},
+	"SealStone9RewardCheck": {
+		"desc": "封印石9奖励检查",
+		"recognition": "And",
+		"all_of": [
+			"InEndlessWealthIsleExchangeRewardsPage",
+			{
+				"recognition": "TemplateMatch",
+				"template": "EndlessWealthIsle/SealStone9Reward.png",
+				"roi": [73, 361, 574, 271]
+			}
+		]
+	},
+	"ExchangeSealStone9Reward": {
+		"desc": "开启封印石9",
+		"recognition": "And",
+		"all_of": ["SealStone9RewardCheck"],
+		"next": [
+			"ExchangeReward"
+		]
+	},
+	"EndlessWealthIsleExchangeStone10": {
+		"desc": "封印石10",
+		"max_hit": 1,
+		"recognition": "TemplateMatch",
+		"template": "EndlessWealthIsle/SealStone10.png",
+		"roi": [2, 426, 718, 493],
+		"order_by": "Score",
+		"action": "Click",
+		"target_offset": [26, 38, -59, -107],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [82, 250, 548, 765],
+			"timeout": 8000
+		},
+		"next": [
+			"ExchangeSealStone10Reward"
+		]
+	},
+	"SealStone10RewardCheck": {
+		"desc": "封印石10奖励检查",
+		"recognition": "And",
+		"all_of": [
+			"InEndlessWealthIsleExchangeRewardsPage",
+			{
+				"recognition": "TemplateMatch",
+				"template": "EndlessWealthIsle/SealStone10Reward.png",
+				"roi": [73, 361, 574, 271]
+			}
+		]
+	},
+	"ExchangeSealStone10Reward": {
+		"desc": "开启封印石10",
+		"recognition": "And",
+		"all_of": ["SealStone10RewardCheck"],
+		"next": [
+			"ExchangeReward"
+		]
+	},
+	"EndlessWealthIsleExchangeStone11": {
+		"desc": "封印石11",
+		"max_hit": 1,
+		"recognition": "TemplateMatch",
+		"template": "EndlessWealthIsle/SealStone11.png",
+		"roi": [0, 380, 717, 695],
+		"order_by": "Score",
+		"action": "Click",
+		"target_offset": [36, 30, -65, -96],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [82, 250, 548, 765],
+			"timeout": 8000
+		},
+		"next": [
+			"ExchangeSealStone11Reward"
+		]
+	},
+	"SealStone11RewardCheck": {
+		"desc": "封印石11奖励检查",
+		"recognition": "And",
+		"all_of": [
+			"InEndlessWealthIsleExchangeRewardsPage",
+			{
+				"recognition": "TemplateMatch",
+				"template": "EndlessWealthIsle/SealStone11Reward.png",
+				"roi": [73, 361, 574, 271]
+			}
+		]
+	},
+	"ExchangeSealStone11Reward": {
+		"desc": "开启封印石11",
+		"recognition": "And",
+		"all_of": ["SealStone11RewardCheck"],
+		"next": [
+			"ExchangeReward"
+		]
+	},
+	"EndlessWealthIsleExchangeStone12": {
+		"desc": "封印石12",
+		"max_hit": 1,
+		"recognition": "TemplateMatch",
+		"template": "EndlessWealthIsle/SealStone12.png",
+		"roi": [0, 380, 717, 695],
+		"order_by": "Score",
+		"action": "Click",
+		"target_offset": [43, 57, -76, -123],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [82, 250, 548, 765],
+			"timeout": 8000
+		},
+		"next": [
+			"ExchangeSealStone12Reward"
+		]
+	},
+	"SealStone12RewardCheck": {
+		"desc": "封印石12奖励检查",
+		"recognition": "And",
+		"all_of": [
+			"InEndlessWealthIsleExchangeRewardsPage",
+			{
+				"recognition": "TemplateMatch",
+				"template": "EndlessWealthIsle/SealStone12Reward.png",
+				"roi": [73, 361, 574, 271]
+			}
+		]
+	},
+	"ExchangeSealStone12Reward": {
+		"desc": "开启封印石12",
+		"recognition": "And",
+		"all_of": ["SealStone12RewardCheck"],
+		"next": [
+			"ExchangeReward"
+		]
+	},
+	"EndlessWealthIsleExchangeStone13": {
+		"desc": "封印石13",
+		"max_hit": 1,
+		"recognition": "TemplateMatch",
+		"template": "EndlessWealthIsle/SealStone13.png",
+		"roi": [214, 315, 501, 292],
+		"order_by": "Score",
+		"action": "Click",
+		"target_offset": [25, 41, -55, -117],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [82, 250, 548, 765],
+			"timeout": 8000
+		},
+		"next": [
+			"ExchangeSealStone13Reward"
+		]
+	},
+	"SealStone13RewardCheck": {
+		"desc": "封印石13奖励检查",
+		"recognition": "And",
+		"all_of": [
+			"InEndlessWealthIsleExchangeRewardsPage",
+			{
+				"recognition": "TemplateMatch",
+				"template": "EndlessWealthIsle/SealStone13Reward.png",
+				"roi": [73, 361, 574, 271]
+			}
+		]
+	},
+	"ExchangeSealStone13Reward": {
+		"desc": "开启封印石13",
+		"recognition": "And",
+		"all_of": ["SealStone13RewardCheck"],
+		"next": [
+			"ExchangeReward"
+		]
+	},
+	"EndlessWealthIsleExchangeStone14": {
+		"desc": "封印石14",
+		"max_hit": 1,
+		"recognition": "TemplateMatch",
+		"template": "EndlessWealthIsle/SealStone14.png",
+		"roi": [27, 455, 693, 278],
+		"order_by": "Score",
+		"action": "Click",
+		"target_offset": [28, 20, -58, -92],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [82, 250, 548, 765],
+			"timeout": 8000
+		},
+		"next": [
+			"ExchangeSealStone14Reward"
+		]
+	},
+	"SealStone14RewardCheck": {
+		"desc": "封印石14奖励检查",
+		"recognition": "And",
+		"all_of": [
+			"InEndlessWealthIsleExchangeRewardsPage",
+			{
+				"recognition": "TemplateMatch",
+				"template": "EndlessWealthIsle/SealStone14Reward.png",
+				"roi": [73, 361, 574, 271]
+			}
+		]
+	},
+	"ExchangeSealStone14Reward": {
+		"desc": "开启封印石14",
+		"recognition": "And",
+		"all_of": ["SealStone14RewardCheck"],
+		"next": [
+			"ExchangeReward"
+		]
 	}
 }

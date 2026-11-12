@@ -419,7 +419,7 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"threshold": [0.9]
+		"order_by": "Score"
 	},
 	"HasMonsterSoul-baolue": {
 		"desc": "识别魔物之魂-暴虐之魂",
@@ -429,7 +429,7 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"threshold": [0.9]
+		"order_by": "Score"
 	},
 	"HasMonsterSoul-baopo": {
 		"desc": "识别魔物之魂-爆破之魂",
@@ -439,7 +439,7 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"threshold": [0.9]
+		"order_by": "Score"
 	},
 	"HasMonsterSoul-bingjing": {
 		"desc": "识别魔物之魂-冰晶之魂",
@@ -449,7 +449,7 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"threshold": [0.9]
+		"order_by": "Score"
 	},
 	"HasMonsterSoul-chenyuan": {
 		"desc": "识别魔物之魂-沉渊之魂",
@@ -459,7 +459,7 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"threshold": [0.9]
+		"order_by": "Score"
 	},
 	"HasMonsterSoul-jiaozhi": {
 		"desc": "识别魔物之魂-狡智之魂",
@@ -469,7 +469,7 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"threshold": [0.9]
+		"order_by": "Score"
 	},
 	"HasMonsterSoul-jielue": {
 		"desc": "识别魔物之魂-劫掠之魂",
@@ -479,7 +479,7 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"threshold": [0.9]
+		"order_by": "Score"
 	},
 	"HasMonsterSoul-jihan": {
 		"desc": "识别魔物之魂-极寒之魂",
@@ -489,7 +489,7 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"threshold": [0.9]
+		"order_by": "Score"
 	},
 	"HasMonsterSoul-kuangnu": {
 		"desc": "识别魔物之魂-狂怒之魂",
@@ -499,7 +499,7 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"threshold": [0.9]
+		"order_by": "Score"
 	},
 	"HasMonsterSoul-kuangre": {
 		"desc": "识别魔物之魂-狂热之魂",
@@ -509,7 +509,7 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"threshold": [0.9]
+		"order_by": "Score"
 	},
 	"HasMonsterSoul-lingdong": {
 		"desc": "识别魔物之魂-林动之魂",
@@ -519,7 +519,7 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"threshold": [0.9]
+		"order_by": "Score"
 	},
 	"HasMonsterSoul-linye": {
 		"desc": "识别魔物之魂-林野之魂",
@@ -529,7 +529,7 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"threshold": [0.9]
+		"order_by": "Score"
 	},
 	"HasMonsterSoul-manhuang": {
 		"desc": "识别魔物之魂-蛮荒之魂",
@@ -539,7 +539,7 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"threshold": [0.9]
+		"order_by": "Score"
 	},
 	"HasMonsterSoul-shuangxue": {
 		"desc": "识别魔物之魂-霜雪之魂",
@@ -549,7 +549,7 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"threshold": [0.9]
+		"order_by": "Score"
 	},
 	"HasMonsterSoul-tianyun": {
 		"desc": "识别魔物之魂-天陨之魂",
@@ -559,7 +559,7 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"threshold": [0.9]
+		"order_by": "Score"
 	},
 	"HasMonsterSoul-xianzu": {
 		"desc": "识别魔物之魂-先祖之魂",
@@ -569,7 +569,7 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"threshold": [0.9]
+		"order_by": "Score"
 	},
 	"HasMonsterSoul-xiedian": {
 		"desc": "识别魔物之魂-邪典之魂",
@@ -579,7 +579,7 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"threshold": [0.9]
+		"order_by": "Score"
 	},
 	"HasMonsterSoul-xiongsha": {
 		"desc": "识别魔物之魂-凶煞之魂",
@@ -589,7 +589,7 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"threshold": [0.9]
+		"order_by": "Score"
 	},
 	"HasMonsterSoul-xiongshi": {
 		"desc": "识别魔物之魂-雄狮之魂",
@@ -599,7 +599,7 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"threshold": [0.9]
+		"order_by": "Score"
 	},
 	"HasMonsterSoul-yexing": {
 		"desc": "识别魔物之魂-野性之魂",
@@ -609,7 +609,7 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"threshold": [0.9]
+		"order_by": "Score"
 	},
 	"HasWheelOfDream": {
 		"desc": "判断是否有梦境之轮每日奖励弹窗",

@@ -6,10 +6,7 @@
 		"rate_limit": 0,
 		"next": [
 			"GreatMarshExpeditionEntry",
-			"GreatMarshExpeditionNotActivated",
-			"NotJoinInGuild",
-			"[JumpBack]GreatMarshExpeditionPageEntry",
-			"[JumpBack]SceneEnterGuild"
+			"[JumpBack]SceneEnterGreatMarshExpedition"
 		]
 	},
 	"InGreatMarshExpeditionPage": {
@@ -18,51 +15,6 @@
 		"template": "guild/GreatMarshExpeditionPageLogo.png",
 		"roi": [519, 0, 64, 122]
 	},
-	"GreatMarshExpeditionPageEntry": {
-		"desc": "进入大泽远征页面",
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0,
-		"recognition": "And",
-		"all_of": [
-			"InGuildPage",
-			{
-				"recognition": "OCR",
-				"expected": "大泽远征|大泽|远征",
-				"roi": [82, 784, 228, 134]
-			}
-		],
-		"box_index": 1,
-		"action": "Click",
-		"post_wait_freezes": {
-			"time": 500,
-			"target": [84, 720, 493, 378],
-			"timeout": 2000
-		},
-		"next": [
-			"GreatMarshExpeditionCloseTips",
-			"__ScenePrivateNextTrue"
-		]
-	},
-	"GreatMarshExpeditionNotActivated": {
-		"desc": "大泽远征活动未开始",
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0,
-		"recognition": "And",
-		"all_of": [
-			"InGuildPage",
-			{
-				"recognition": "OCR",
-				"expected": "开始",
-				"roi": [66, 738, 265, 42]
-			}
-		],
-		"next": [
-			"SceneBack"
-		],
-		"focus": {"Node.Recognition.Succeeded": "大泽远征活动未开始"}
-	},
 	"GreatMarshExpeditionEntry": {
 		"desc": "大泽远征入口",
 		"pre_delay": 0,
@@ -70,9 +22,11 @@
 		"rate_limit": 0,
 		"recognition": "And",
 		"all_of": ["InGreatMarshExpeditionPage"],
+		"anchor": {"BattleFailedAction": "BattleResultFail"},
 		"next": [
 			"GreatMarshExpeditionFinalStage",
 			"[JumpBack]HandleRewardDialog",
+			"GreatMarshExpeditionBattleFailed",
 			"[JumpBack]BattleStartOut",
 			"[JumpBack]BattleAI",
 			"[JumpBack]BattleEnd",
@@ -85,10 +39,6 @@
 			"[JumpBack]GreatMarshExpeditionExploreFar",
 			"GreatMarshExpeditionChickenDrumstickNotEnough"
 		]
-	},
-	"test11": {
-		"recognition": "OCR",
-		"roi": [455, 1006, 92, 29]
 	},
 	"GreatMarshExpeditionBossChallengeCount": {
 		"desc": "大泽远征挑战次数",
@@ -165,21 +115,70 @@
 			}
 		]
 	},
+	"GreatMarshExpeditionIllusionChallengeCount2": {
+		"desc": "大泽远征挑战幻象次数(最终boss三阶段打完后的位置)",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 100],
+				"upper": [30, 100, 255],
+				"roi": [386, 1005, 59, 30],
+				"count": 10,
+				"sub_name": "IllusionChallengeCount"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "(?:[1-5])(?:/\\d+|/)",
+				"roi": "IllusionChallengeCount",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		]
+	},
+	"test1": {
+		"recognition": "OCR",
+		"expected": "挑战幻象|幻象",
+		"roi": [570, 1048, 112, 39],
+		"only_rec": true
+	},
 	"GreatMarshExpeditionIllusionChallenge": {
 		"desc": "大泽远征挑战幻象",
 		"enabled": false,
 		"pre_delay": 0,
 		"post_delay": 1000,
 		"rate_limit": 0,
-		"recognition": "And",
-		"all_of": [
+		"recognition": "Or",
+		"any_of": [
 			{
-				"recognition": "OCR",
-				"expected": "挑战幻象|幻象",
-				"roi": [570, 1048, 112, 39],
-				"only_rec": true
+				"recognition": "And",
+				"all_of": [
+					{
+						"recognition": "OCR",
+						"expected": "挑战幻象|幻象",
+						"roi": [570, 1048, 112, 39],
+						"only_rec": true
+					},
+					"GreatMarshExpeditionIllusionChallengeCount"
+				]
 			},
-			"GreatMarshExpeditionIllusionChallengeCount"
+			{
+				"recognition": "And",
+				"desc": "最终boss三阶段打完后的挑战幻象roi",
+				"all_of": [
+					{
+						"recognition": "OCR",
+						"expected": "挑战幻象",
+						"roi": [304, 1048, 112, 37],
+						"only_rec": true
+					},
+					"GreatMarshExpeditionIllusionChallengeCount2"
+				]
+			}
 		],
 		"action": "Click",
 		"post_wait_freezes": {
@@ -193,10 +192,21 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"recognition": "OCR",
-		"expected": "练习模式|练习",
-		"roi": [214, 1049, 112, 35],
-		"only_rec": true
+		"recognition": "Or",
+		"any_of": [
+			{
+				"recognition": "OCR",
+				"expected": "练习模式|练习",
+				"roi": [214, 1049, 112, 35],
+				"only_rec": true
+			},
+			{
+				"recognition": "OCR",
+				"expected": "挑战幻象",
+				"roi": [304, 1048, 112, 37],
+				"only_rec": true
+			}
+		]
 	},
 	"GreatMarshExpeditionDone": {
 		"desc": "大泽远征已完成",
@@ -233,14 +243,6 @@
 			}
 		]
 	},
-	"test": {
-		"recognition": "ColorMatch",
-		"method": 40,
-		"lower": [15, 20, 100],
-		"upper": [30, 100, 200],
-		"roi": [569, 22, 114, 27],
-		"count": 10
-	},
 	"GreatMarshExpeditionChickenMeditationDrumstickNotEnough": {
 		"desc": "大泽远征冥想鸡腿数量不足",
 		"pre_delay": 0,
@@ -259,7 +261,7 @@
 			},
 			{
 				"recognition": "OCR",
-				"expected": "^(?:[1-4]\\/500|[1-4]\\/)$",
+				"expected": "^(?:[0-4]\\/500|[0-4]\\/)$",
 				"roi": "ChickenDrumstickColor",
 				"roi_offset": [-2, -2, 4, 4],
 				"only_rec": true
@@ -275,6 +277,7 @@
 		"all_of": ["GreatMarshExpeditionFinalStageReached"],
 		"next": [
 			"[JumpBack]GreatMarshExpeditionMeditation",
+			"[JumpBack]BlessingCraftStart",
 			"[JumpBack]HandleRewardDialog",
 			"[JumpBack]BattleStartOut",
 			"[JumpBack]BattleAI",
@@ -282,6 +285,16 @@
 			"[JumpBack]GreatMarshExpeditionFinalStageBossChallenge",
 			"[JumpBack]GreatMarshExpeditionIllusionChallenge",
 			"GreatMarshExpeditionDone"
+		]
+	},
+	"GreatMarshExpeditionBattleFailed": {
+		"desc": "战斗失败",
+		"recognition": "And",
+		"all_of": ["BattleResultFail"],
+		"focus": {"Node.Recognition.Succeeded": "大泽远征：战斗失败，请手动接管"},
+		"next": [
+			"[JumpBack]HandleBattleEnd",
+			"SceneEnterMainPage"
 		]
 	},
 	"GreatMarshExpeditionMeditation": {
@@ -321,18 +334,6 @@
 		"action": "Click",
 		"post_wait_freezes": {
 			"time": 500,
-			"target": [84, 720, 493, 378],
-			"timeout": 2000
-		}
-	},
-	"GreatMarshExpeditionCloseTips": {
-		"desc": "关闭提示",
-		"recognition": "OCR",
-		"expected": "确定",
-		"roi": [246, 964, 233, 125],
-		"action": "Click",
-		"post_wait_freezes": {
-			"time": 300,
 			"target": [84, 720, 493, 378],
 			"timeout": 2000
 		}

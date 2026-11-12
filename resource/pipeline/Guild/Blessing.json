@@ -1,0 +1,1704 @@
+{
+	"GrayYuehenPos": {
+		"desc": "灰色月痕位置",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Yuehen_Gray.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [95, 10, 100],
+				"upper": [105, 30, 160],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"GrayYuehenCount": {
+		"desc": "灰色月痕数量",
+		"recognition": "And",
+		"all_of": [
+			"GrayYuehenPos",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 15, 120],
+				"upper": [20, 50, 255],
+				"roi": "GrayYuehenPos",
+				"roi_offset": [58, 61, -12, -30],
+				"count": 10,
+				"sub_name": "BlessingCountColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "BlessingCountColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "BlessingCount"
+			}
+		],
+		"box_index": 2
+	},
+	"BlueYuehenPos": {
+		"desc": "蓝色月痕位置",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Yuehen_Blue.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [101, 100, 150],
+				"upper": [105, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"BlueYuehenCount": {
+		"desc": "蓝色月痕数量",
+		"recognition": "And",
+		"all_of": [
+			"BlueYuehenPos",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 15, 120],
+				"upper": [20, 50, 255],
+				"roi": "BlueYuehenPos",
+				"roi_offset": [58, 61, -12, -30],
+				"count": 10,
+				"sub_name": "BlessingCountColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "BlessingCountColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "BlessingCount"
+			}
+		],
+		"box_index": 2
+	},
+	"PurpleYuehenPos": {
+		"desc": "紫色月痕位置",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Yuehen_Purple.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [130, 100, 150],
+				"upper": [135, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"PurpleYuehenCount": {
+		"desc": "紫色月痕数量",
+		"recognition": "And",
+		"all_of": [
+			"PurpleYuehenPos",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 15, 120],
+				"upper": [20, 50, 255],
+				"roi": "PurpleYuehenPos",
+				"roi_offset": [58, 61, -12, -30],
+				"count": 10,
+				"sub_name": "BlessingCountColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "BlessingCountColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "BlessingCount"
+			}
+		],
+		"box_index": 2
+	},
+	"GoldYuehenPos": {
+		"desc": "金色月痕位置",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Yuehen_Gold.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 100, 150],
+				"upper": [25, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"GoldYuehenCount": {
+		"desc": "金色月痕数量",
+		"recognition": "And",
+		"all_of": [
+			"GoldYuehenPos",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 15, 120],
+				"upper": [20, 50, 255],
+				"roi": "GoldYuehenPos",
+				"roi_offset": [58, 61, -12, -30],
+				"count": 10,
+				"sub_name": "BlessingCountColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "BlessingCountColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "BlessingCount"
+			}
+		],
+		"box_index": 2
+	},
+	"GrayXiaoshouPos": {
+		"desc": "灰色枭兽位置",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Xiaoshou_Gray.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [95, 10, 100],
+				"upper": [105, 30, 160],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"GrayXiaoshouCount": {
+		"desc": "灰色枭兽数量",
+		"recognition": "And",
+		"all_of": [
+			"GrayXiaoshouPos",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 15, 120],
+				"upper": [20, 50, 255],
+				"roi": "GrayXiaoshouPos",
+				"roi_offset": [58, 61, -12, -30],
+				"count": 10,
+				"sub_name": "BlessingCountColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "BlessingCountColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "BlessingCount"
+			}
+		],
+		"box_index": 2
+	},
+	"BlueXiaoshouPos": {
+		"desc": "蓝色枭兽位置",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Xiaoshou_Blue.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [101, 100, 150],
+				"upper": [105, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"BlueXiaoshouCount": {
+		"desc": "蓝色枭兽数量",
+		"recognition": "And",
+		"all_of": [
+			"BlueXiaoshouPos",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 15, 120],
+				"upper": [20, 50, 255],
+				"roi": "BlueXiaoshouPos",
+				"roi_offset": [58, 61, -12, -30],
+				"count": 10,
+				"sub_name": "BlessingCountColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "BlessingCountColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "BlessingCount"
+			}
+		],
+		"box_index": 2
+	},
+	"PurpleXiaoshouPos": {
+		"desc": "紫色枭兽位置",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Xiaoshou_Purple.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [130, 100, 150],
+				"upper": [135, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"PurpleXiaoshouCount": {
+		"desc": "紫色枭兽数量",
+		"recognition": "And",
+		"all_of": [
+			"PurpleXiaoshouPos",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 15, 120],
+				"upper": [20, 50, 255],
+				"roi": "PurpleXiaoshouPos",
+				"roi_offset": [58, 61, -12, -30],
+				"count": 10,
+				"sub_name": "BlessingCountColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "BlessingCountColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "BlessingCount"
+			}
+		],
+		"box_index": 2
+	},
+	"GoldXiaoshouPos": {
+		"desc": "金色枭兽位置",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Xiaoshou_Gold.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 100, 150],
+				"upper": [25, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"GoldXiaoshouCount": {
+		"desc": "金色枭兽数量",
+		"recognition": "And",
+		"all_of": [
+			"GoldXiaoshouPos",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 15, 120],
+				"upper": [20, 50, 255],
+				"roi": "GoldXiaoshouPos",
+				"roi_offset": [58, 61, -12, -30],
+				"count": 10,
+				"sub_name": "BlessingCountColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "BlessingCountColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "BlessingCount"
+			}
+		],
+		"box_index": 2
+	},
+	"GrayShifuPos": {
+		"desc": "灰色石肤位置",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Shifu_Gray.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [95, 10, 100],
+				"upper": [105, 30, 160],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"GrayShifuCount": {
+		"desc": "灰色石肤数量",
+		"recognition": "And",
+		"all_of": [
+			"GrayShifuPos",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 15, 120],
+				"upper": [20, 50, 255],
+				"roi": "GrayShifuPos",
+				"roi_offset": [58, 61, -12, -30],
+				"count": 10,
+				"sub_name": "BlessingCountColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "BlessingCountColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "BlessingCount"
+			}
+		],
+		"box_index": 2
+	},
+	"BlueShifuPos": {
+		"desc": "蓝色石肤位置",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Shifu_Blue.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [101, 100, 150],
+				"upper": [105, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"BlueShifuCount": {
+		"desc": "蓝色石肤数量",
+		"recognition": "And",
+		"all_of": [
+			"BlueShifuPos",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 15, 120],
+				"upper": [20, 50, 255],
+				"roi": "BlueShifuPos",
+				"roi_offset": [58, 61, -12, -30],
+				"count": 10,
+				"sub_name": "BlessingCountColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "BlessingCountColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "BlessingCount"
+			}
+		],
+		"box_index": 2
+	},
+	"PurpleShifuPos": {
+		"desc": "紫色石肤位置",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Shifu_Purple.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [130, 100, 150],
+				"upper": [135, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"PurpleShifuCount": {
+		"desc": "紫色石肤数量",
+		"recognition": "And",
+		"all_of": [
+			"PurpleShifuPos",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 15, 120],
+				"upper": [20, 50, 255],
+				"roi": "PurpleShifuPos",
+				"roi_offset": [58, 61, -12, -30],
+				"count": 10,
+				"sub_name": "BlessingCountColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "BlessingCountColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "BlessingCount"
+			}
+		],
+		"box_index": 2
+	},
+	"GoldShifuPos": {
+		"desc": "金色石肤位置",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Shifu_Gold.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 100, 150],
+				"upper": [25, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"GoldShifuCount": {
+		"desc": "金色石肤数量",
+		"recognition": "And",
+		"all_of": [
+			"GoldShifuPos",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 15, 120],
+				"upper": [20, 50, 255],
+				"roi": "GoldShifuPos",
+				"roi_offset": [58, 61, -12, -30],
+				"count": 10,
+				"sub_name": "BlessingCountColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "BlessingCountColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "BlessingCount"
+			}
+		],
+		"box_index": 2
+	},
+	"GrayShaguoPos": {
+		"desc": "灰色沙果位置",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Shaguo_Gray.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [95, 10, 100],
+				"upper": [105, 30, 160],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"GrayShaguoCount": {
+		"desc": "灰色沙果数量",
+		"recognition": "And",
+		"all_of": [
+			"GrayShaguoPos",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 15, 120],
+				"upper": [20, 50, 255],
+				"roi": "GrayShaguoPos",
+				"roi_offset": [58, 61, -12, -30],
+				"count": 10,
+				"sub_name": "BlessingCountColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "BlessingCountColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "BlessingCount"
+			}
+		],
+		"box_index": 2
+	},
+	"BlueShaguoPos": {
+		"desc": "蓝色沙果位置",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Shaguo_Blue.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [101, 100, 150],
+				"upper": [105, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"BlueShaguoCount": {
+		"desc": "蓝色沙果数量",
+		"recognition": "And",
+		"all_of": [
+			"BlueShaguoPos",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 15, 120],
+				"upper": [20, 50, 255],
+				"roi": "BlueShaguoPos",
+				"roi_offset": [58, 61, -12, -30],
+				"count": 10,
+				"sub_name": "BlessingCountColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "BlessingCountColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "BlessingCount"
+			}
+		],
+		"box_index": 2
+	},
+	"PurpleShaguoPos": {
+		"desc": "紫色沙果位置",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Shaguo_Purple.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [130, 100, 150],
+				"upper": [135, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"PurpleShaguoCount": {
+		"desc": "紫色沙果数量",
+		"recognition": "And",
+		"all_of": [
+			"PurpleShaguoPos",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 15, 120],
+				"upper": [20, 50, 255],
+				"roi": "PurpleShaguoPos",
+				"roi_offset": [58, 61, -12, -30],
+				"count": 10,
+				"sub_name": "BlessingCountColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "BlessingCountColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "BlessingCount"
+			}
+		],
+		"box_index": 2
+	},
+	"GoldShaguoPos": {
+		"desc": "金色沙果位置",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Shaguo_Gold.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 100, 150],
+				"upper": [25, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"GoldShaguoCount": {
+		"desc": "金色沙果数量",
+		"recognition": "And",
+		"all_of": [
+			"GoldShaguoPos",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 15, 120],
+				"upper": [20, 50, 255],
+				"roi": "GoldShaguoPos",
+				"roi_offset": [58, 61, -12, -30],
+				"count": 10,
+				"sub_name": "BlessingCountColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "BlessingCountColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "BlessingCount"
+			}
+		],
+		"box_index": 2
+	},
+	"GrayLvtengPos": {
+		"desc": "灰色绿藤位置",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Lvteng_Gray.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [95, 10, 100],
+				"upper": [105, 30, 160],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"GrayLvtengCount": {
+		"desc": "灰色绿藤数量",
+		"recognition": "And",
+		"all_of": [
+			"GrayLvtengPos",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 15, 120],
+				"upper": [20, 50, 255],
+				"roi": "GrayLvtengPos",
+				"roi_offset": [58, 61, -12, -30],
+				"count": 10,
+				"sub_name": "BlessingCountColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "BlessingCountColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "BlessingCount"
+			}
+		],
+		"box_index": 2
+	},
+	"BlueLvtengPos": {
+		"desc": "蓝色绿藤位置",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Lvteng_Blue.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [101, 100, 150],
+				"upper": [105, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"BlueLvtengCount": {
+		"desc": "蓝色绿藤数量",
+		"recognition": "And",
+		"all_of": [
+			"BlueLvtengPos",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 15, 120],
+				"upper": [20, 50, 255],
+				"roi": "BlueLvtengPos",
+				"roi_offset": [58, 61, -12, -30],
+				"count": 10,
+				"sub_name": "BlessingCountColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "BlessingCountColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "BlessingCount"
+			}
+		],
+		"box_index": 2
+	},
+	"PurpleLvtengPos": {
+		"desc": "紫色绿藤位置",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Lvteng_Purple.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [130, 100, 150],
+				"upper": [135, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"PurpleLvtengCount": {
+		"desc": "紫色绿藤数量",
+		"recognition": "And",
+		"all_of": [
+			"PurpleLvtengPos",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 15, 120],
+				"upper": [20, 50, 255],
+				"roi": "PurpleLvtengPos",
+				"roi_offset": [58, 61, -12, -30],
+				"count": 10,
+				"sub_name": "BlessingCountColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "BlessingCountColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "BlessingCount"
+			}
+		],
+		"box_index": 2
+	},
+	"GoldLvtengPos": {
+		"desc": "金色绿藤位置",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Lvteng_Gold.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 100, 150],
+				"upper": [25, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"GoldLvtengCount": {
+		"desc": "金色绿藤数量",
+		"recognition": "And",
+		"all_of": [
+			"GoldLvtengPos",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 15, 120],
+				"upper": [20, 50, 255],
+				"roi": "GoldLvtengPos",
+				"roi_offset": [58, 61, -12, -30],
+				"count": 10,
+				"sub_name": "BlessingCountColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "BlessingCountColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "BlessingCount"
+			}
+		],
+		"box_index": 2
+	},
+	"GrayXiangmuPos": {
+		"desc": "灰色橡木位置",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Xiangmu_Gray.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [95, 10, 100],
+				"upper": [105, 30, 160],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"GrayXiangmuCount": {
+		"desc": "灰色橡木数量",
+		"recognition": "And",
+		"all_of": [
+			"GrayXiangmuPos",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 15, 120],
+				"upper": [20, 50, 255],
+				"roi": "GrayXiangmuPos",
+				"roi_offset": [58, 61, -12, -30],
+				"count": 10,
+				"sub_name": "BlessingCountColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "BlessingCountColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "BlessingCount"
+			}
+		],
+		"box_index": 2
+	},
+	"BlueXiangmuPos": {
+		"desc": "蓝色橡木位置",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Xiangmu_Blue.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [101, 100, 150],
+				"upper": [105, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"BlueXiangmuCount": {
+		"desc": "蓝色橡木数量",
+		"recognition": "And",
+		"all_of": [
+			"BlueXiangmuPos",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 15, 120],
+				"upper": [20, 50, 255],
+				"roi": "BlueXiangmuPos",
+				"roi_offset": [58, 61, -12, -30],
+				"count": 10,
+				"sub_name": "BlessingCountColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "BlessingCountColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "BlessingCount"
+			}
+		],
+		"box_index": 2
+	},
+	"PurpleXiangmuPos": {
+		"desc": "紫色橡木位置",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Xiangmu_Purple.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897]
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [130, 100, 150],
+				"upper": [135, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"PurpleXiangmuCount": {
+		"desc": "紫色橡木数量",
+		"recognition": "And",
+		"all_of": [
+			"PurpleXiangmuPos",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 15, 120],
+				"upper": [20, 50, 255],
+				"roi": "PurpleXiangmuPos",
+				"roi_offset": [58, 61, -12, -30],
+				"count": 10,
+				"sub_name": "BlessingCountColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "BlessingCountColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "BlessingCount"
+			}
+		],
+		"box_index": 2
+	},
+	"GoldXiangmuPos": {
+		"desc": "金色橡木位置",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Xiangmu_Gold.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 100, 150],
+				"upper": [25, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"GoldXiangmuCount": {
+		"desc": "金色橡木数量",
+		"recognition": "And",
+		"all_of": [
+			"GoldXiangmuPos",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 15, 120],
+				"upper": [20, 50, 255],
+				"roi": "GoldXiangmuPos",
+				"roi_offset": [58, 61, -12, -30],
+				"count": 10,
+				"sub_name": "BlessingCountColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "BlessingCountColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "BlessingCount"
+			}
+		],
+		"box_index": 2
+	},
+	"GrayYuehenPosInBlessingPage": {
+		"desc": "灰色月痕位置（穿戴选择页）",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Yuehen_Gray2.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [95, 10, 100],
+				"upper": [105, 30, 160],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"BlueYuehenPosInBlessingPage": {
+		"desc": "蓝色月痕位置（穿戴选择页）",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Yuehen_Blue2.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [101, 100, 150],
+				"upper": [105, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"PurpleYuehenPosInBlessingPage": {
+		"desc": "紫色月痕位置（穿戴选择页）",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Yuehen_Purple2.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [130, 100, 150],
+				"upper": [135, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"GoldYuehenPosInBlessingPage": {
+		"desc": "金色月痕位置（穿戴选择页）",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Yuehen_Gold2.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 100, 150],
+				"upper": [25, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"GrayXiaoshouPosInBlessingPage": {
+		"desc": "灰色枭兽位置（穿戴选择页）",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Xiaoshou_Gray2.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [95, 10, 100],
+				"upper": [105, 30, 160],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"BlueXiaoshouPosInBlessingPage": {
+		"desc": "蓝色枭兽位置（穿戴选择页）",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Xiaoshou_Blue2.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [101, 100, 150],
+				"upper": [105, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"PurpleXiaoshouPosInBlessingPage": {
+		"desc": "紫色枭兽位置（穿戴选择页）",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Xiaoshou_Purple2.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [130, 100, 150],
+				"upper": [135, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"GoldXiaoshouPosInBlessingPage": {
+		"desc": "金色枭兽位置（穿戴选择页）",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Xiaoshou_Gold2.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 100, 150],
+				"upper": [25, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"GrayShifuPosInBlessingPage": {
+		"desc": "灰色石肤位置（穿戴选择页）",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Shifu_Gray2.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [95, 10, 100],
+				"upper": [105, 30, 160],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"BlueShifuPosInBlessingPage": {
+		"desc": "蓝色石肤位置（穿戴选择页）",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Shifu_Blue2.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [101, 100, 150],
+				"upper": [105, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"PurpleShifuPosInBlessingPage": {
+		"desc": "紫色石肤位置（穿戴选择页）",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Shifu_Purple2.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [130, 100, 150],
+				"upper": [135, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"GoldShifuPosInBlessingPage": {
+		"desc": "金色石肤位置（穿戴选择页）",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Shifu_Gold2.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 100, 150],
+				"upper": [25, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"GrayShaguoPosInBlessingPage": {
+		"desc": "灰色沙果位置（穿戴选择页）",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Shaguo_Gray2.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [95, 10, 100],
+				"upper": [105, 30, 160],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"BlueShaguoPosInBlessingPage": {
+		"desc": "蓝色沙果位置（穿戴选择页）",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Shaguo_Blue2.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [101, 100, 150],
+				"upper": [105, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"PurpleShaguoPosInBlessingPage": {
+		"desc": "紫色沙果位置（穿戴选择页）",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Shaguo_Purple2.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [130, 100, 150],
+				"upper": [135, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"GoldShaguoPosInBlessingPage": {
+		"desc": "金色沙果位置（穿戴选择页）",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Shaguo_Gold2.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 100, 150],
+				"upper": [25, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"GrayLvtengPosInBlessingPage": {
+		"desc": "灰色绿藤位置（穿戴选择页）",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Lvteng_Gray2.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [95, 10, 100],
+				"upper": [105, 30, 160],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"BlueLvtengPosInBlessingPage": {
+		"desc": "蓝色绿藤位置（穿戴选择页）",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Lvteng_Blue2.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [101, 100, 150],
+				"upper": [105, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"PurpleLvtengPosInBlessingPage": {
+		"desc": "紫色绿藤位置（穿戴选择页）",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Lvteng_Purple2.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [130, 100, 150],
+				"upper": [135, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"GoldLvtengPosInBlessingPage": {
+		"desc": "金色绿藤位置（穿戴选择页）",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Lvteng_Gold2.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 100, 150],
+				"upper": [25, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"GrayXiangmuPosInBlessingPage": {
+		"desc": "灰色橡木位置（穿戴选择页）",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Xiangmu_Gray2.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [95, 10, 100],
+				"upper": [105, 30, 160],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"BlueXiangmuPosInBlessingPage": {
+		"desc": "蓝色橡木位置（穿戴选择页）",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Xiangmu_Blue2.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [101, 100, 150],
+				"upper": [105, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"PurpleXiangmuPosInBlessingPage": {
+		"desc": "紫色橡木位置（穿戴选择页）",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Xiangmu_Purple2.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897]
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [130, 100, 150],
+				"upper": [135, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	},
+	"GoldXiangmuPosInBlessingPage": {
+		"desc": "金色橡木位置（穿戴选择页）",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Xiangmu_Gold2.png",
+				"sub_name": "BlessingPos",
+				"roi": [1, 138, 719, 897],
+				"green_mask": true
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 100, 150],
+				"upper": [25, 255, 255],
+				"roi": "BlessingPos",
+				"count": 200,
+				"sub_name": "BlessingColor"
+			}
+		],
+		"box_index": 1
+	}
+}

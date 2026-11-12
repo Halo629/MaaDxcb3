@@ -187,6 +187,9 @@ std::string readTextFromNode(MaaContext* context, const MaaImageBuffer* img, con
 // 运行指定识别节点（OCR/And），提取其中的数字；subName 非空时从 And 节点指定子结果读取
 bool readNumberFromNode(MaaContext* context, const char* nodeName, const char* subName, int& outValue);
 
+// 同上，但使用传入的 image，不重新截图（统计整页时复用同一张截图）
+bool readNumberFromNodeImage(MaaContext* context, const MaaImageBuffer* img, const char* nodeName, const char* subName, int& outValue);
+
 // 从 And 节点识别结果中取指定 sub_name 子节点的 detail（含 all/filtered/best），未找到返回空 json::value
 json::value getAndSubDetail(MaaContext* context, const MaaImageBuffer* img, const char* entry, const char* subName);
 

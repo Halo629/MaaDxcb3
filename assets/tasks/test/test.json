@@ -1,0 +1,10 @@
+{
+	"task": [
+		{
+			"name": "BlessingStatisticTest",
+			"label": "🧪测试祝福统计",
+			"entry": "BlessingCraftStart",
+			"group": ["other_tasks"]
+		}
+	]
+}

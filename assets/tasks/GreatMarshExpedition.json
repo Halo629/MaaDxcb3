@@ -1,64 +1,103 @@
 {
-    "task": [
-        {
-            "name": "GreatMarshExpedition",
-            "label": "🗺️大泽远征",
-            "entry": "GreatMarshExpeditionStart",
-            "group": [
-                "activity_tasks"
-            ],
-            "option": [
-                "GreatMarshExpeditionFinalBossChallenge",
-                "GreatMarshExpeditionIllusionChallenge"
-            ]
-        }
-    ],
-    "option": {
-        "GreatMarshExpeditionFinalBossChallenge": {
-            "type": "switch",
-            "label": "挑战最终boss",
-            "default_case": "Yes",
-            "cases": [
-                {
-                    "name": "Yes",
-                    "pipeline_override": {
-                        "GreatMarshExpeditionFinalStageBossChallenge": {
-                            "enabled": true
-                        }
-                    }
-                },
-                {
-                    "name": "No",
-                    "pipeline_override": {
-                         "GreatMarshExpeditionFinalStageBossChallenge": {
-                            "enabled": false
-                        }
-                    }
-                }
-            ]
-        },
-        "GreatMarshExpeditionIllusionChallenge": {
-            "type": "switch",
-            "label": "挑战幻象",
-            "default_case": "Yes",
-            "cases": [
-                {
-                    "name": "Yes",
-                    "pipeline_override": {
-                        "GreatMarshExpeditionIllusionChallenge": {
-                            "enabled": true
-                        }
-                    }
-                },
-                {
-                    "name": "No",
-                    "pipeline_override": {
-                         "GreatMarshExpeditionIllusionChallenge": {
-                            "enabled": false
-                        }
-                    }
-                }
-            ]
-        }
-    }
+	"task": [
+		{
+			"name": "GreatMarshExpedition",
+			"label": "🗺️大泽远征",
+			"entry": "GreatMarshExpeditionStart",
+			"group": ["activity_tasks"],
+			"option": [
+				"GreatMarshExpeditionFinalBossChallenge",
+				"GreatMarshExpeditionIllusionChallenge",
+				"AutoCraftBlessing"
+			]
+		}
+	],
+	"option": {
+		"GreatMarshExpeditionFinalBossChallenge": {
+			"type": "switch",
+			"label": "挑战最终boss",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"GreatMarshExpeditionFinalStageBossChallenge": {"enabled": true}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"GreatMarshExpeditionFinalStageBossChallenge": {"enabled": false}
+					}
+				}
+			]
+		},
+		"GreatMarshExpeditionIllusionChallenge": {
+			"type": "switch",
+			"label": "挑战幻象",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"GreatMarshExpeditionIllusionChallenge": {"enabled": true}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"GreatMarshExpeditionIllusionChallenge": {"enabled": false}
+					}
+				}
+			]
+		},
+		"AutoCraftBlessing": {
+			"type": "switch",
+			"description": "只会在到达最终BOSS时进行合成",
+			"label": "自动合成祝福",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"BlessingCraftStart": {"enabled": true}
+					},
+					"option": ["BlessingSelect"]
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"BlessingCraftStart": {"enabled": false}
+					}
+				}
+			]
+		},
+		"BlessingSelect": {
+			"type": "select",
+			"label": "选择合成的祝福",
+			"default_case": "BlessingXiaoshou",
+			"cases": [
+				{
+					"name": "BlessingXiaoshou",
+					"label": "枭兽",
+					"pipeline_override": {
+						"TargetBlessingCraftXiaoshouStart": {
+							"attach": {"target": "枭兽"}
+						}
+					}
+				},
+				{
+					"name": "BlessingYuehen",
+					"label": "月痕",
+					"pipeline_override": {
+						"AdjustSoulTombStartLevel": {
+							"TargetBlessingCraftXiaoshouStart": {
+								"attach": {"target": "月痕"}
+							}
+						}
+					}
+				}
+			]
+		}
+	}
 }

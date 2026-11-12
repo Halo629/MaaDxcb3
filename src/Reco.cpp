@@ -20,6 +20,8 @@ void registerCustomWeeklySchedule(MaaResource* res, void* user_data);
 void registerCustomSteward(MaaResource* res, void* user_data);
 void registerCustomDarkSecretTreasure(MaaResource* res, void* user_data);
 void registerCustomBattleTimeTest(MaaResource* res, void* user_data);
+void registerCustomGreatMarshExpedition(MaaResource* res, void* user_data);
+void registerCustomExpressionRecognition(MaaResource* res, void* user_data);
 
 void registerAllCustomRecognition(MaaResource* res, void* user_data)
 {
@@ -43,4 +45,6 @@ void registerAllCustomRecognition(MaaResource* res, void* user_data)
     registerCustomSteward(res, user_data);
     registerCustomDarkSecretTreasure(res, user_data);
     registerCustomBattleTimeTest(res, user_data);
+    registerCustomGreatMarshExpedition(res, user_data);
+    registerCustomExpressionRecognition(res, user_data);
 }

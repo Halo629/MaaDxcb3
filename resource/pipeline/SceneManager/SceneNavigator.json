@@ -10,6 +10,8 @@
 		},
 		"next": [
 			"InMainPage",
+			"[JumpBack]HandleRewardDialog",
+			"[JumpBack]WelfareCollect",
 			"[JumpBack]HandleMonthlyCardDialog",
 			"[JumpBack]__ScenePrivateCurrentEventExit",
 			"[JumpBack]SceneBack",
@@ -20,6 +22,14 @@
 			"[JumpBack]LoginPageEventsHandle",
 			"[JumpBack]__ScenePrivatePressEscUntilExitGame"
 		]
+	},
+	"WelfareCollect": {
+		"desc": "限时福利领取",
+		"recognition": "TemplateMatch",
+		"template": "common/FreeCollect.png",
+		"roi": [208, 752, 314, 102],
+		"action": "Click",
+		"post_delay": 500
 	},
 	"SceneEnterAlchemyLab": {
 		"desc": "从任意界面进入无弹窗的炼金页面",
@@ -238,6 +248,223 @@
 		"post_delay": 0,
 		"rate_limit": 0
 	},
+	"SceneEnterGreatMarshExpedition": {
+		"desc": "从任意界面回到公会大泽远征界面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InGreatMarshExpeditionPage",
+			"GreatMarshExpeditionNotActivated",
+			"[JumpBack]GreatMarshExpeditionPageEntry",
+			"[JumpBack]SceneEnterGuild"
+		]
+	},
+	"GreatMarshExpeditionPageEntry": {
+		"desc": "进入大泽远征页面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InGuildPage",
+			{
+				"recognition": "OCR",
+				"expected": "大泽远征|大泽|远征",
+				"roi": [82, 784, 228, 134]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 700,
+			"target": [84, 720, 493, 378],
+			"timeout": 3000
+		},
+		"next": [
+			"[JumpBack]ConfirmButton",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"GreatMarshExpeditionNotActivated": {
+		"desc": "大泽远征活动未开始",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InGuildPage",
+			{
+				"recognition": "OCR",
+				"expected": "开始",
+				"roi": [66, 738, 265, 42]
+			}
+		],
+		"next": [
+			"SceneBack"
+		],
+		"focus": {"Node.Recognition.Succeeded": "大泽远征活动未开始"}
+	},
+	"SceneEnterGreatMarshExpeditionBlessingPage": {
+		"desc": "进入大泽远征祝福页面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InGreatMarshExpeditionBlessingPage",
+			"[JumpBack]GreatMarshExpeditionBlessingPageEntry",
+			"[JumpBack]SceneEnterGreatMarshExpedition"
+		]
+	},
+	"SceneEnterGreatMarshExpeditionBlessingPrayPage": {
+		"desc": "进入大泽远征祝福祈愿页面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InGreatMarshExpeditionBlessingPrayPage",
+			"[JumpBack]GreatMarshExpeditionBlessingPrayPageEntry",
+			"[JumpBack]SceneEnterGreatMarshExpeditionBlessingPage"
+		]
+	},
+	"SceneEnterGreatMarshExpeditionBlessingBagPage": {
+		"desc": "进入大泽远征祝福背包页面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InGreatMarshExpeditionBlessingBagPage",
+			"[JumpBack]GreatMarshExpeditionBlessingBagPageEntry",
+			"[JumpBack]SceneEnterGreatMarshExpeditionBlessingPage"
+		]
+	},
+	"GreatMarshExpeditionBlessingPageEntry": {
+		"desc": "点击大泽远征祝福页面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InGreatMarshExpeditionPage",
+			{
+				"recognition": "OCR",
+				"expected": "祝福",
+				"roi": [454, 1173, 52, 27],
+				"only_rec": true
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [84, 720, 493, 378],
+			"timeout": 3000
+		}
+	},
+	"GreatMarshExpeditionBlessingPrayPageEntry": {
+		"desc": "进入大泽远征祝福祈愿页面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InGreatMarshExpeditionBlessingPage",
+			{
+				"recognition": "OCR",
+				"expected": "祈愿",
+				"roi": [260, 1213, 62, 36],
+				"only_rec": true
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [84, 720, 493, 378],
+			"timeout": 3000
+		}
+	},
+	"GreatMarshExpeditionBlessingBagPageEntry": {
+		"desc": "进入大泽远征祝福背包页面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InGreatMarshExpeditionBlessingPage",
+			{
+				"recognition": "OCR",
+				"expected": "背包",
+				"roi": [395, 1216, 61, 31],
+				"only_rec": true
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [84, 720, 493, 378],
+			"timeout": 3000
+		}
+	},
+	"InGreatMarshExpeditionBlessingPage": {
+		"desc": "在大泽远征祝福页面",
+		"pre_delay": 0,
+		"post_delay": 500,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "祝福",
+		"roi": [39, 40, 63, 34],
+		"only_rec": true
+	},
+	"InGreatMarshExpeditionBlessingPrayPage": {
+		"desc": "在大泽远征祝福祈愿页面",
+		"pre_delay": 0,
+		"post_delay": 500,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"expected": "祈愿",
+				"roi": [260, 1213, 62, 36],
+				"only_rec": true,
+				"sub_name": "BlessingPray"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [12, 100, 80],
+				"upper": [20, 200, 255],
+				"roi": "BlessingPray",
+				"count": 10
+			}
+		]
+	},
+	"InGreatMarshExpeditionBlessingBagPage": {
+		"desc": "在大泽远征祝福背包页面",
+		"pre_delay": 0,
+		"post_delay": 500,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"expected": "背包",
+				"roi": [395, 1216, 61, 31],
+				"only_rec": true,
+				"sub_name": "BlessingBag"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [12, 100, 80],
+				"upper": [20, 200, 255],
+				"roi": "BlessingBag",
+				"count": 10
+			}
+		]
+	},
 	"SceneEnterGuildSiegeOfTheSanctuary": {
 		"desc": "从任意界面回到公会庇护所之围活动页面",
 		"pre_delay": 0,
@@ -246,7 +473,6 @@
 		"next": [
 			"InSiegeOfTheSanctuaryPage",
 			"SiegeOfTheSanctuaryNotActivated",
-			"NotJoinInGuild",
 			"[JumpBack]SiegeOfTheSanctuaryPageEntry",
 			"[JumpBack]SceneEnterGuild"
 		]
@@ -532,17 +758,17 @@
 		"pre_delay": 0,
 		"post_delay": 0
 	},
-	"SceneEnterSteward": {
-		"desc": "从任意界面回到管家界面",
+	"SceneEnterEndlessWealthIsleFromSteward": {
+		"desc": "从管家界面回到无尽财富之岛界面",
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
 		"next": [
-			"InStewardPage",
-			"[JumpBack]_SceneEnterStewardPage",
-			"[JumpBack]_SceneExpandSideBar",
-			"StewardUnlock",
-			"[JumpBack]SceneEnterMainPage"
+			"InEndlessWealthIslePage",
+			"[JumpBack]__ScenePrivateStewardFindEndlessWealthIsle",
+			"[JumpBack]__SceneStewardEntryEndlessWealthIsle",
+			"__ScenePrivateStewardEndlessWealthIsleDone",
+			"[JumpBack]SceneEnterSteward"
 		]
 	},
 	"StewardUnlock": {
@@ -566,6 +792,19 @@
 			"timeout": 2000,
 			"target": [262, 265, 243, 255]
 		}
+	},
+	"SceneEnterSteward": {
+		"desc": "从任意界面回到管家界面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InStewardPage",
+			"[JumpBack]_SceneEnterStewardPage",
+			"[JumpBack]_SceneExpandSideBar",
+			"StewardUnlock",
+			"[JumpBack]SceneEnterMainPage"
+		]
 	},
 	"SceneEnterSpiritSummonTome": {
 		"desc": "从任意界面回到唤灵之典卷轴界面",

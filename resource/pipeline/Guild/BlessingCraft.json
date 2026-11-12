@@ -1,0 +1,988 @@
+{
+	"BlessingCraftStart": {
+		"desc": "合成祝福入口",
+		"enabled": false,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"[JumpBack]BlessingStatistic",
+			"[JumpBack]GreatMarshExpeditionLockEpicPrayStart",
+			"[JumpBack]TargetBlessingCraftStart",
+			"EquipBlessingStart",
+			"[JumpBack]SceneEnterGreatMarshExpeditionBlessingPage"
+		]
+	},
+	"BlessingStatistic": {
+		"desc": "祝福统计",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InGreatMarshExpeditionBlessingPage"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "GreatMarshExpeditionBlessingStatistic",
+		"focus": {"Node.Recognition.Succeeded": "开始识别统计当前已有祝福..."}
+	},
+	"GreatMarshExpeditionLockEpicPrayStart": {
+		"desc": "选择史诗祝福祈愿入口",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": [
+			"InGreatMarshExpeditionBlessingPage",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "GreatMarshExpeditionBlessingNeedPray"
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"GreatMarshExpeditionLockEpicPray",
+			"[JumpBack]SceneEnterGreatMarshExpeditionBlessingPrayPage"
+		]
+	},
+	"TargetBlessingCraftStart": {
+		"desc": "目标祝福合成入口",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InGreatMarshExpeditionBlessingPage"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "TargetBlessing",
+		"attach": {"target": "枭兽"},
+		"next": [
+			"TargetBlessingCraftGoldEnough",
+			"[JumpBack]TargetBlessingCraftReshape",
+			"[JumpBack]TargetBlessingCraftCanCraftGold",
+			"[JumpBack]BlessingCraftPrayEpic",
+			"[JumpBack]GreatMarshExpeditionCraftHigherBlessing",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"TargetBlessingCraftGoldEnough": {
+		"desc": "目标祝福金色数量已满足",
+		"recognition": "Custom",
+		"custom_recognition": "GreatMarshExpeditionBlessingTargetGoldEnough",
+		"focus": {"Node.Recognition.Succeeded": "已有15个目标祝福"}
+	},
+	"TargetBlessingCraftReshape": {
+		"desc": "重塑(有15个金色祝福时，将其他金色祝福重塑为目标祝福)",
+		"max_hit": 1,
+		"recognition": "Custom",
+		"custom_recognition": "GreatMarshExpeditionBlessingNeedReshape",
+		"next": [
+			"GreatMarshExpeditionReshapeDewdropNotEnoughAndExit",
+			"[JumpBack]TargetBlessingCraftReshapeInBagPageStart",
+			"[JumpBack]TargetBlessingCraftReshapeInPrayPageStart",
+			"__ScenePrivateNextTrue"
+		],
+		"focus": {
+			"Node.Recognition.Succeeded": "已有15个金色祝福,开始重塑..."
+		}
+	},
+	"TargetBlessingCraftReshapeInBagPageStart": {
+		"desc": "在背包页重塑入口",
+		"max_hit": 1,
+		"next": [
+			"[JumpBack]GreatMarshExpeditionReshpeSwipeDown",
+			"GreatMarshExpeditionReshapeDewdropNotEnough",
+			"[JumpBack]TargetBlessingCraftReshapeInBagPage",
+			"TargetBlessingCraftReshapeInBagPageDone",
+			"[JumpBack]SceneEnterGreatMarshExpeditionBlessingBagPage"
+		]
+	},
+	"TargetBlessingCraftReshapeInBagPageDone": {
+		"desc": "背包页重塑完成",
+		"recognition": "And",
+		"all_of": ["InGreatMarshExpeditionBlessingBagPage"]
+	},
+	"GreatMarshExpeditionReshpeSwipeDown": {
+		"desc": "重塑前下滑一次",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InGreatMarshExpeditionBlessingBagPage"],
+		"action": "Swipe",
+		"begin": [360, 300],
+		"end": [360, 700],
+		"duration": 200,
+		"max_hit": 1,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [8, 148, 712, 971],
+			"timeout": 2000
+		}
+	},
+	"TargetBlessingCraftReshapeInBagPage": {
+		"desc": "在背包页重塑",
+		"recognition": "And",
+		"all_of": [
+			"InGreatMarshExpeditionBlessingBagPage",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "GreatMarshExpeditionBlessingNeedReshapeOnPage"
+			}
+		],
+		"next": [
+			"GreatMarshExpeditionReshapeBlessingInBag"
+		]
+	},
+	"TargetBlessingCraftReshapeInPrayPageStart": {
+		"desc": "在祈愿页重塑入口",
+		"max_hit": 1,
+		"next": [
+			"GreatMarshExpeditionReshapeDewdropNotEnough",
+			"[JumpBack]TargetBlessingCraftReshapeInPrayPage",
+			"TargetBlessingCraftReshapeInPrayPageDone",
+			"[JumpBack]SceneEnterGreatMarshExpeditionBlessingPrayPage"
+		]
+	},
+	"TargetBlessingCraftReshapeInPrayPageDone": {
+		"desc": "背包页重塑完成",
+		"recognition": "And",
+		"all_of": ["InGreatMarshExpeditionBlessingPrayPage"]
+	},
+	"TargetBlessingCraftReshapeInPrayPage": {
+		"desc": "在祈愿页重塑",
+		"recognition": "And",
+		"all_of": [
+			"InGreatMarshExpeditionBlessingPrayPage",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "GreatMarshExpeditionBlessingNeedReshapeOnPage"
+			}
+		],
+		"next": [
+			"GreatMarshExpeditionReshapeBlessingInPrayPage"
+		]
+	},
+	"TargetBlessingCraftCanCraftGold": {
+		"desc": "是否能够合成15个金色祝福",
+		"max_hit": 1,
+		"recognition": "Custom",
+		"custom_recognition": "GreatMarshExpeditionBlessingCanCraftGold",
+		"next": [
+			"GreatMarshExpeditionCraftHigherBlessing",
+			"__ScenePrivateNextTrue"
+		],
+		"focus": {
+			"Node.Recognition.Succeeded": "当前祝福数量能够合成15个金色祝福,开始合成..."
+		}
+	},
+	"EquipBlessingStart": {
+		"desc": "穿戴祝福入口",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InGreatMarshExpeditionBlessingPage"],
+		"next": [
+			"[JumpBack]EquipBlessingDecide",
+			"EquipAllBlessingDone",
+			"[JumpBack]EquipAllBlessingStart",
+			"SceneEnterGreatMarshExpeditionBlessingPrayPage"
+		],
+		"focus": {
+			"Node.Recognition.Succeeded": "开始穿戴祝福，穿戴前会再次统计当前祝福，穿戴规则：根据选择的目标祝福属性降序穿戴(比如选择枭兽，则优先穿戴力量加成高的祝福)"
+		}
+	},
+	"EquipBlessingDecide": {
+		"desc": "穿戴决策（卸下不需要的祝福）",
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "GreatMarshExpeditionBlessingEquip"
+	},
+	"InSelectBlessingPage": {
+		"desc": "在选择祝福页面",
+		"recognition": "OCR",
+		"expected": "选择祝福|选择",
+		"roi": [289, 222, 136, 49],
+		"only_rec": true
+	},
+	"EquipAllBlessingDone": {
+		"desc": "穿戴祝福完成",
+		"recognition": "Custom",
+		"custom_recognition": "GreatMarshExpeditionBlessingEquipDone",
+		"next": [
+			"InGreatMarshExpeditionPage",
+			"[JumpBack]SceneBack"
+		]
+	},
+	"EquipAllBlessingStart": {
+		"desc": "穿戴祝福",
+		"max_hit": 1,
+		"next": [
+			"EquipAllBlessingDone",
+			"[JumpBack]EquipAllBlessing",
+			"[JumpBack]SceneEnterGreatMarshExpeditionBlessingPrayPage"
+		]
+	},
+	"EquipAllBlessing": {
+		"desc": "穿戴祝福",
+		"recognition": "And",
+		"all_of": [
+			"InGreatMarshExpeditionBlessingPrayPage",
+			"EquipBlessingEntry"
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [94, 339, 510, 438],
+			"timeout": 2000
+		},
+		"next": [
+			"SelectBlessing"
+		]
+	},
+	"EquipBlessingEntry": {
+		"desc": "穿戴祝福",
+		"recognition": "TemplateMatch",
+		"template": "guild/Blessing/EquipBlessing.png",
+		"roi": [1, 138, 719, 897],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [94, 339, 510, 438],
+			"timeout": 2000
+		}
+	},
+	"SelectBlessing": {
+		"desc": "选择穿戴的祝福",
+		"recognition": "And",
+		"all_of": ["InSelectBlessingPage"],
+		"next": [
+			"EquipBlessing",
+			"[JumpBack]ClickTargetBlessing",
+			"[JumpBack]SelectBlessingPageSwipeUp"
+		]
+	},
+	"SelectBlessingPageSwipeUp": {
+		"desc": "选择祝福页面上滑",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InSelectBlessingPage"],
+		"action": "Swipe",
+		"begin": [320, 950],
+		"end": [320, 600],
+		"duration": 200,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [8, 148, 712, 971],
+			"timeout": 2000
+		}
+	},
+	"BlessingCraftPrayEpic": {
+		"desc": "史诗祈愿",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "Custom",
+				"custom_recognition": "GreatMarshExpeditionBlessingNeedPray"
+			},
+			{
+				"recognition": "Custom",
+				"custom_recognition": "ExpressionRecognition",
+				"custom_recognition_param": {
+					"expression": "{GreatMarshExpeditionDewdropCount}>=9000",
+					"box_node": "GreatMarshExpeditionDewdropCount"
+				}
+			}
+		],
+		"next": [
+			"GreatMarshExpeditionPray",
+			"[JumpBack]GreatMarshExpeditionBlessingPrayPageEntry"
+		],
+		"focus": {
+			"Node.Recognition.Succeeded": "当前祝福数量不能够合成15个金色祝福,开始祈愿..."
+		}
+	},
+	"BlessingCraftPrayCommonStart": {
+		"desc": "普通祈愿入口",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"BlessingCraftPrayCommon",
+			"[JumpBack]GreatMarshExpeditionSelectPrayCommon",
+			"[JumpBack]GreatMarshExpeditionBlessingPrayPageEntry"
+		]
+	},
+	"BlessingCraftPrayCommon": {
+		"desc": "普通祈愿",
+		"recognition": "And",
+		"all_of": [
+			"GreatMarshExpeditionPrayCommonSelected",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "ExpressionRecognition",
+				"custom_recognition_param": {
+					"expression": "{GreatMarshExpeditionDewdropCount}>=1000",
+					"box_node": "GreatMarshExpeditionDewdropCount"
+				}
+			}
+		],
+		"next": [
+			"GreatMarshExpeditionPray",
+			"[JumpBack]GreatMarshExpeditionBlessingPrayPageEntry"
+		]
+	},
+	"BlessingCraftPrayFineStart": {
+		"desc": "精良祈愿入口",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"BlessingCraftPrayFine",
+			"[JumpBack]GreatMarshExpeditionSelectPrayFine",
+			"[JumpBack]GreatMarshExpeditionBlessingPrayPageEntry"
+		]
+	},
+	"BlessingCraftPrayFine": {
+		"desc": "精良祈愿",
+		"recognition": "And",
+		"all_of": [
+			"GreatMarshExpeditionPrayFineSelected",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "ExpressionRecognition",
+				"custom_recognition_param": {
+					"expression": "{GreatMarshExpeditionDewdropCount}>=3000",
+					"box_node": "GreatMarshExpeditionDewdropCount"
+				}
+			}
+		],
+		"next": [
+			"GreatMarshExpeditionPray"
+		]
+	},
+	"GreatMarshExpeditionPray": {
+		"desc": "祈愿",
+		"recognition": "And",
+		"all_of": [
+			"InGreatMarshExpeditionBlessingPrayPage",
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Pray.png",
+				"roi": [246, 1016, 238, 124]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [94, 339, 510, 438],
+			"timeout": 2000
+		},
+		"timeout": 6000,
+		"next": [
+			"GreatMarshExpeditionPrayResult",
+			"ConfirmButton"
+		],
+		"on_error": [
+			"GreatMarshExpeditionPray"
+		]
+	},
+	"GreatMarshExpeditionPrayResult": {
+		"desc": "祈愿结果记录",
+		"recognition": "Or",
+		"any_of": [
+			"GreatMarshExpeditionBlessingGray",
+			"GreatMarshExpeditionBlessingBlue",
+			"GreatMarshExpeditionBlessingPurple"
+		],
+		"action": "Custom",
+		"custom_action": "GreatMarshExpeditionPrayResult",
+		"next": [
+			"PressEsc"
+		]
+	},
+	"UnloadAllLowBlessings": {
+		"desc": "卸下祈愿页所有低级祝福",
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "GreatMarshExpeditionUnloadAllLowBlessings"
+	},
+	"UnloadBlessingStart": {
+		"desc": "卸下祝福入口",
+		"next": [
+			"UnloadBlessing",
+			"[JumpBack]ClickTargetBlessing"
+		]
+	},
+	"UnloadBlessing": {
+		"desc": "卸下祝福",
+		"recognition": "TemplateMatch",
+		"template": "guild/Blessing/Unload.png",
+		"roi": [49, 650, 617, 484],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [94, 339, 510, 438],
+			"timeout": 2000
+		},
+		"next": [
+			"UnloadBlessing",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"EquipBlessing": {
+		"desc": "穿戴祝福",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "Custom",
+				"custom_recognition": "TargetBlessingSelected"
+			},
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Equip.png",
+				"roi": [49, 650, 617, 484]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [94, 339, 510, 438],
+			"timeout": 2000
+		},
+		"next": [
+			"EquipBlessingAdvance"
+		]
+	},
+	"EquipBlessingAdvance": {
+		"desc": "装备后切换到下一个要装备的祝福",
+		"action": "Custom",
+		"custom_action": "GreatMarshExpeditionBlessingEquipAdvance"
+	},
+	"TargetEquipBlessingSelected": {
+		"recognition": "OCR",
+		"roi": [332, 404, 57, 29],
+		"only_rec": true
+	},
+	"ClickTargetBlessing": {
+		"desc": "点击目标祝福",
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [94, 339, 510, 438],
+			"timeout": 2000
+		}
+	},
+	"GreatMarshExpeditionDewdropCount": {
+		"desc": "露珠数量",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/Dewdrop.png",
+				"roi": [530, 21, 161, 70],
+				"sub_name": "DewdropPos"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 20],
+				"upper": [35, 80, 255],
+				"roi": "DewdropPos",
+				"roi_offset": [46, 4, 52, -8],
+				"count": 20,
+				"sub_name": "DewdropColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "DewdropColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "DewdropCountSub"
+			}
+		],
+		"box_index": 2
+	},
+	"GreatMarshExpeditionLockEpicPray": {
+		"desc": "选择史诗祝福祈愿",
+		"recognition": "And",
+		"all_of": ["InGreatMarshExpeditionBlessingPrayPage"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"GreatMarshExpeditionSelectPrayEpic",
+			"[JumpBack]GreatMarshExpeditionEpicPrayLock",
+			"[JumpBack]BlessingCraftPrayFineStart",
+			"[JumpBack]BlessingCraftPrayCommonStart"
+		]
+	},
+	"GreatMarshExpeditionCraftHigherBlessing": {
+		"desc": "合成更高一级祝福",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "Custom",
+		"custom_recognition": "GreatMarshExpeditionBlessingCraftCheck",
+		"next": [
+			"[JumpBack]UnloadAllLowBlessings",
+			"[JumpBack]GreatMarshExpeditionCraftSwipeUp",
+			"[JumpBack]GreatMarshExpeditionCraftBlessingInBag",
+			"[JumpBack]GreatMarshExpeditionCraftSwipeDown",
+			"GreatMarshExpeditionCraftHigherBlessingDone",
+			"[JumpBack]SceneEnterGreatMarshExpeditionBlessingBagPage"
+		],
+		"focus": {"Node.Recognition.Succeeded": "开始合成祝福..."}
+	},
+	"GreatMarshExpeditionCraftHigherBlessingDone": {
+		"desc": "合成完成",
+		"recognition": "And",
+		"all_of": ["InGreatMarshExpeditionBlessingBagPage"]
+	},
+	"GreatMarshExpeditionCraftSwipeUp": {
+		"desc": "背包页上滑一次，合成低级",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InGreatMarshExpeditionBlessingBagPage",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "GreatMarshExpeditionBlessingPageCountEnough"
+			}
+		],
+		"action": "Swipe",
+		"begin": [360, 700],
+		"end": [360, 300],
+		"duration": 200,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [8, 148, 712, 971],
+			"timeout": 2000
+		}
+	},
+	"GreatMarshExpeditionCraftSwipeDown": {
+		"desc": "下滑一次，合成高级",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InGreatMarshExpeditionBlessingBagPage"],
+		"action": "Swipe",
+		"begin": [360, 300],
+		"end": [360, 700],
+		"duration": 200,
+		"max_hit": 1,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [8, 148, 712, 971],
+			"timeout": 2000
+		}
+	},
+	"GreatMarshExpeditionCraftBlessingInBag": {
+		"desc": "在背包合成祝福",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InGreatMarshExpeditionBlessingBagPage",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "GreatMarshExpeditionBlessingCanCraftOnPage"
+			}
+		],
+		"action": "Custom",
+		"custom_action": "GreatMarshExpeditionBlessingCraftOnPage",
+		"next": [
+			"[JumpBack]CraftBlessing",
+			"[JumpBack]CraftBlessingEntry",
+			"GreatMarshExpeditionCraftBlessingDone",
+			"[JumpBack]ClickTargetBlessing"
+		]
+	},
+	"GreatMarshExpeditionCraftBlessingDone": {
+		"desc": "合成完成",
+		"recognition": "Or",
+		"any_of": ["ReturnButton", "ConfirmButton"],
+		"next": [
+			"[JumpBack]CraftExit",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"CraftExit": {
+		"desc": "退出合成",
+		"recognition": "Or",
+		"any_of": ["ReturnButton", "CraftBlessingButton"],
+		"next": [
+			"PressEsc"
+		]
+	},
+	"BlessingCanCraft": {
+		"desc": "祝福能够合成",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "Or",
+				"any_of": [
+					"GreatMarshExpeditionBlessingGray",
+					"GreatMarshExpeditionBlessingBlue",
+					"GreatMarshExpeditionBlessingPurple"
+				]
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 120],
+				"upper": [20, 50, 255],
+				"roi": [362, 890, 51, 25],
+				"count": 10
+			}
+		]
+	},
+	"CraftBlessingButton": {
+		"desc": "合成按钮",
+		"recognition": "TemplateMatch",
+		"template": "guild/Blessing/Craft.png",
+		"roi": [5, 414, 713, 742]
+	},
+	"CraftBlessingEntry": {
+		"desc": "进入合成祝福页面",
+		"recognition": "And",
+		"all_of": ["ReshapeBlessing", "CraftBlessingButton"],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [94, 339, 510, 438],
+			"timeout": 2000
+		}
+	},
+	"CraftBlessing": {
+		"desc": "合成祝福",
+		"recognition": "And",
+		"all_of": ["BlessingCanCraft", "CraftBlessingButton"],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [94, 339, 510, 438],
+			"timeout": 2000
+		}
+	},
+	"GreatMarshExpeditionReshapeBlessingInBag": {
+		"desc": "背包重塑祝福",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InGreatMarshExpeditionBlessingBagPage"],
+		"next": [
+			"GreatMarshExpeditionReshapeDewdropNotEnough",
+			"IsTargetBlessing",
+			"[JumpBack]ReshapeBlessing",
+			"[JumpBack]ClickTargetBlessing"
+		]
+	},
+	"IsTargetBlessing": {
+		"desc": "重塑后是否是目标祝福",
+		"recognition": "Custom",
+		"custom_recognition": "IsTargetBlessing",
+		"next": [
+			"[JumpBack]ReshapeExit",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"GreatMarshExpeditionReshapeDewdropNotEnoughAndExit": {
+		"desc": "重塑露珠不足",
+		"recognition": "And",
+		"all_of": ["GreatMarshExpeditionReshapeDewdropNotEnough"],
+		"next": [
+			"[JumpBack]ReshapeExit",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"GreatMarshExpeditionReshapeDewdropNotEnough": {
+		"desc": "重塑露珠不足",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "guild/Blessing/ReshapeDewdrop.png",
+				"roi": [84, 734, 573, 287],
+				"sub_name": "ReshapeDewdropPos"
+			},
+			{
+				"recognition": "Or",
+				"any_of": [
+					{
+						"recognition": "OCR",
+						"expected": "^(0|[1-9]\\d{0,2}|[1-7]\\d{3})/8000$|^(0|[1-9]\\d{0,2}|[1-7]\\d{3})/",
+						"roi": "ReshapeDewdropPos",
+						"roi_offset": [-50, 78, 52, -55],
+						"only_rec": true
+					},
+					{
+						"recognition": "OCR",
+						"expected": "^(0|[1-9]\\d{0,2}|[1-7]\\d{3})$",
+						"roi": "ReshapeDewdropPos",
+						"roi_offset": [-39, 78, -22, -54],
+						"only_rec": true
+					}
+				]
+			}
+		]
+	},
+	"ReshapeExit": {
+		"desc": "退出重塑",
+		"recognition": "Or",
+		"any_of": ["ReturnButton", "ReshapeBlessing"],
+		"next": [
+			"PressEsc"
+		]
+	},
+	"GreatMarshExpeditionReshapeBlessingInPrayPage": {
+		"desc": "祈愿页重塑祝福",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InGreatMarshExpeditionBlessingPrayPage"],
+		"next": [
+			"GreatMarshExpeditionReshapeDewdropNotEnough",
+			"IsTargetBlessing",
+			"[JumpBack]ReshapeBlessing",
+			"[JumpBack]ClickTargetBlessing"
+		]
+	},
+	"ReshapeBlessing": {
+		"desc": "重塑祝福",
+		"recognition": "TemplateMatch",
+		"template": "guild/Blessing/Reshape.png",
+		"roi": [0, 669, 720, 465],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [94, 339, 510, 438],
+			"timeout": 2000
+		}
+	},
+	"GreatMarshExpeditionPrayCommon": {
+		"desc": "祈愿普通祝福",
+		"recognition": "And",
+		"all_of": [
+			"InGreatMarshExpeditionBlessingPrayPage",
+			{
+				"recognition": "OCR",
+				"expected": "普通",
+				"roi": [29, 1061, 49, 29],
+				"only_rec": true
+			}
+		],
+		"box_index": 1
+	},
+	"GreatMarshExpeditionPrayFine": {
+		"desc": "祈愿精良祝福",
+		"recognition": "And",
+		"all_of": [
+			"InGreatMarshExpeditionBlessingPrayPage",
+			{
+				"recognition": "OCR",
+				"expected": "精良",
+				"roi": [103, 1062, 46, 25],
+				"only_rec": true
+			}
+		],
+		"box_index": 1
+	},
+	"GreatMarshExpeditionPrayEpic": {
+		"desc": "祈愿史诗祝福",
+		"recognition": "And",
+		"all_of": [
+			"InGreatMarshExpeditionBlessingPrayPage",
+			{
+				"recognition": "OCR",
+				"expected": "史诗",
+				"roi": [175, 1061, 50, 29],
+				"only_rec": true
+			}
+		],
+		"box_index": 1
+	},
+	"GreatMarshExpeditionSelectPrayCommon": {
+		"desc": "选择祈愿普通祝福",
+		"recognition": "And",
+		"all_of": ["GreatMarshExpeditionPrayCommon"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [94, 339, 510, 438],
+			"timeout": 2000
+		},
+		"next": [
+			"GreatMarshExpeditionPrayCommonSelected",
+			"GreatMarshExpeditionSelectPrayCommon"
+		]
+	},
+	"GreatMarshExpeditionSelectPrayFine": {
+		"desc": "选择祈愿精良祝福",
+		"recognition": "And",
+		"all_of": ["GreatMarshExpeditionPrayFine"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [94, 339, 510, 438],
+			"timeout": 2000
+		},
+		"next": [
+			"GreatMarshExpeditionPrayFineSelected",
+			"GreatMarshExpeditionSelectPrayFine"
+		]
+	},
+	"GreatMarshExpeditionEpicPrayLock": {
+		"desc": "解锁史诗祈愿祝福",
+		"recognition": "Custom",
+		"custom_recognition": "GreatMarshExpeditionBlessingCanCraftHigher",
+		"next": [
+			"[JumpBack]GreatMarshExpeditionCraftHigherBlessing",
+			"GreatMarshExpeditionLockEpicPray",
+			"[JumpBack]SceneEnterGreatMarshExpeditionBlessingPrayPage"
+		]
+	},
+	"GreatMarshExpeditionSelectPrayEpic": {
+		"desc": "选择祈愿史诗祝福",
+		"recognition": "And",
+		"all_of": [
+			"InGreatMarshExpeditionBlessingPrayPage",
+			"GreatMarshExpeditionPrayEpic"
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [94, 339, 510, 438],
+			"timeout": 2000
+		},
+		"next": [
+			"GreatMarshExpeditionPrayEpicSelected",
+			"GreatMarshExpeditionSelectPrayEpic"
+		]
+	},
+	"GreatMarshExpeditionPrayCommonSelected": {
+		"desc": "已选择祈愿普通祝福",
+		"recognition": "TemplateMatch",
+		"template": "guild/Blessing/PraySelect.png",
+		"roi": [32, 1086, 45, 40]
+	},
+	"GreatMarshExpeditionPrayFineSelected": {
+		"desc": "已选择祈愿精良祝福",
+		"recognition": "TemplateMatch",
+		"template": "guild/Blessing/PraySelect.png",
+		"roi": [108, 1086, 41, 36]
+	},
+	"GreatMarshExpeditionPrayEpicSelected": {
+		"desc": "已选择祈愿史诗祝福",
+		"recognition": "TemplateMatch",
+		"template": "guild/Blessing/PraySelect.png",
+		"roi": [178, 1088, 45, 35]
+	},
+	"GreatMarshExpeditionBlessingGray": {
+		"desc": "祝福识别-灰色",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [100, 15, 40],
+				"upper": [120, 80, 255],
+				"roi": [283, 275, 171, 46],
+				"count": 10,
+				"sub_name": "BlessingCountColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": [329, 279, 61, 34],
+				"only_rec": true,
+				"sub_name": "PrayResult"
+			}
+		],
+		"box_index": 1
+	},
+	"GreatMarshExpeditionBlessingBlue": {
+		"desc": "祝福识别-蓝色",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [105, 100, 50],
+				"upper": [120, 255, 255],
+				"roi": [283, 275, 171, 46],
+				"count": 10,
+				"sub_name": "BlessingCountColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": [329, 279, 61, 34],
+				"only_rec": true,
+				"sub_name": "PrayResult"
+			}
+		],
+		"box_index": 1
+	},
+	"GreatMarshExpeditionBlessingPurple": {
+		"desc": "祝福识别-紫色",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [130, 100, 50],
+				"upper": [150, 255, 255],
+				"roi": [283, 275, 171, 46],
+				"count": 10,
+				"sub_name": "BlessingCountColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": [329, 279, 61, 34],
+				"only_rec": true,
+				"sub_name": "PrayResult"
+			}
+		],
+		"box_index": 1
+	},
+	"GreatMarshExpeditionBlessingGold": {
+		"desc": "祝福识别-金色",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 200, 50],
+				"upper": [30, 255, 150],
+				"roi": [302, 272, 121, 51],
+				"count": 10,
+				"sub_name": "BlessingCountColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": [324, 278, 75, 35],
+				"only_rec": true,
+				"sub_name": "ReshapeResult"
+			}
+		],
+		"box_index": 1
+	}
+}

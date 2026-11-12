@@ -1,6 +1,5 @@
 #include "Comm.h"
 
-// 测试战斗时间识别：执行 BattleTimeRec 识别，打印识别到的时间与识别框。
 MaaBool battleTimeTestAct(
     MaaContext* context,
     MaaTaskId task_id,

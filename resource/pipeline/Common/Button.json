@@ -65,6 +65,20 @@
 			"timeout": 3000
 		}
 	},
+	"ReturnButton": {
+		"desc": "通用返回按钮（底部区域，弹窗按钮通常在下半屏）",
+		"recognition": "TemplateMatch",
+		"roi": [0, 400, 720, 820],
+		"template": "button/Return.png",
+		"order_by": "Score",
+		"action": "Click",
+		"pre_delay": 500,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [158, 514, 413, 400],
+			"timeout": 3000
+		}
+	},
 	"LeaveButton": {
 		"desc": "通用离开按钮",
 		"recognition": "TemplateMatch",

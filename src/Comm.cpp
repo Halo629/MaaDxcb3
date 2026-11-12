@@ -2292,6 +2292,15 @@ bool readNumberFromNode(MaaContext* context, const char* nodeName, const char* s
     return true;
 }
 
+bool readNumberFromNodeImage(MaaContext* context, const MaaImageBuffer* img, const char* nodeName, const char* subName, int& outValue)
+{
+    auto texts = readTextsFromNode(context, img, nodeName, subName);
+    if (texts.empty()) {
+        return false;
+    }
+    return extractNumberFromTexts(texts, outValue);
+}
+
 // 直接 OCR 指定 roi 中的数字
 static bool readNumberFromRoi(MaaContext* context, const MaaRect& roi, int& outValue)
 {

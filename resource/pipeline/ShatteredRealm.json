@@ -59,8 +59,23 @@
 			"timeout": 2000
 		},
 		"next": [
+			"ShatteredRealmQuickChallengeError",
 			"HandleRewardDialog",
 			"[JumpBack]ConfirmButton"
+		]
+	},
+	"ShatteredRealmQuickChallengeError": {
+		"desc": "需要先通关破碎之境才能使用快速挑战",
+		"recognition": "OCR",
+		"expected": "需要先通关破碎之境才能使用快速挑战|需要|通关",
+		"roi": [159, 574, 400, 36],
+		"only_rec": true,
+		"focus": {
+			"Node.Recognition.Succeeded": "需要先通关破碎之境才能使用快速挑战"
+		},
+		"next": [
+			"[JumpBack]ConfirmButton",
+			"TaskFail"
 		]
 	},
 	"ShatteredRealmHasQuickChallenge": {
