@@ -1,6 +1,6 @@
 {
 	"ActivityCollection1": {
-		"desc": "活动合集1(荣光复铸,桂影长歌)",
+		"desc": "活动合集1(荣光复铸,桂影长歌,星夜之约)",
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
@@ -30,7 +30,8 @@
 		"recognition": "TemplateMatch",
 		"template": [
 			"activities/ActivityCollection1/GloryRecastIcon.png",
-			"activities/ActivityCollection1/MoonlitBalladIcon.png"
+			"activities/ActivityCollection1/MoonlitBalladIcon.png",
+			"activities/ActivityCollection1/OathOfStarryNightIcon.png"
 		],
 		"roi": [15, 69, 701, 997],
 		"action": "Click",

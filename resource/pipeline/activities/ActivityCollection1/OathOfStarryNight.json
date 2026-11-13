@@ -1,0 +1,13 @@
+{
+	"OathOfStarryNightStart": {
+		"desc": "星夜之约",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "DirectHit",
+		"next": [
+			"ActivityCollection1"
+		],
+		"focus": {"Node.Recognition.Succeeded": "开始任务:星夜之约"}
+	}
+}

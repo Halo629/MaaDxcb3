@@ -23,6 +23,22 @@
 				"ActivityCollection1Reforge",
 				"RetraceBanquetUseScroll"
 			]
+		},
+		{
+			"name": "OathOfStarryNight",
+			"label": "🌌星夜之约",
+			"entry": "OathOfStarryNightStart",
+			"pipeline_override": {
+                "ActivityCommonNotCompletedTaskEnable": {
+                    "attach": {
+                        "UseFoodEnable": true
+                    }
+                }
+            },
+			"group": ["activity_tasks"],
+			"option": [
+				"ActivityCollection1Engrave"
+			]
 		}
 	],
 	"option": {

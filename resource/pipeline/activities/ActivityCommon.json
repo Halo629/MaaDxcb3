@@ -672,25 +672,60 @@
 		"desc": "食物页使用食物入口",
 		"max_hit": 3,
 		"next": [
-			"ActivityCommonFoodPageAddFood",
-			"ActivityCommonFoodPageReplaceFood"
+			"ActivityCommonFoodPageAddFoodEntry",
+			"ActivityCommonFoodPageReplaceFoodEntry"
 		]
 	},
-	"ActivityCommonFoodPageAddFood": {
+	"AddFoodButton": {
 		"desc": "食物页使用食物",
 		"recognition": "TemplateMatch",
 		"template": "common/UseFood.png",
 		"roi": [263, 341, 177, 584],
-		"order_by": "Vertical",
+		"order_by": "Vertical"
+	},
+	"ActivityCommonFoodPageAddFoodEntry": {
+		"desc": "食物页使用食物入口",
+		"recognition": "And",
+		"all_of": ["AddFoodButton"],
+		"post_delay": 0,
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"timeout": 6000,
+		"next": [
+			"ActivityCommonUseSelectedFood",
+			"[JumpBack]ActivityCommonFoodListPageSwipe",
+			"[JumpBack]ActivityCommonFoodPageAddFood"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"ActivityCommonFoodPageAddFood": {
+		"desc": "食物页使用食物",
+		"recognition": "And",
+		"all_of": ["AddFoodButton"],
 		"action": "Click",
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [277, 356, 178, 555],
 			"timeout": 2000
-		},
+		}
+	},
+	"ActivityCommonFoodPageReplaceFoodEntry": {
+		"desc": "食物页替换食物入口",
+		"recognition": "OCR",
+		"expected": "替换食物|替换",
+		"post_delay": 0,
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"timeout": 6000,
 		"next": [
-			"ActivityCommonUseSelectedFood",
+			"ActivityCommonFoodPageDoReplace",
+			"[JumpBack]ActivityCommonUseSelectedFood",
 			"[JumpBack]ActivityCommonFoodListPageSwipe",
+			"[JumpBack]ActivityCommonFoodPageReplaceFood"
+		],
+		"on_error": [
 			"ActivityAlwaysTrue"
 		]
 	},
@@ -704,13 +739,7 @@
 			"time": 500,
 			"target": [277, 356, 178, 555],
 			"timeout": 2000
-		},
-		"next": [
-			"ActivityCommonFoodPageDoReplace",
-			"[JumpBack]ActivityCommonUseSelectedFood",
-			"[JumpBack]ActivityCommonFoodListPageSwipe",
-			"ActivityAlwaysTrue"
-		]
+		}
 	},
 	"ActivityCommonFoodPageDoReplace": {
 		"desc": "替换食物",
@@ -724,8 +753,12 @@
 			"target": [277, 356, 178, 555],
 			"timeout": 2000
 		},
+		"timeout": 5000,
 		"next": [
 			"ConfirmButton"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
 		]
 	},
 	"ActivityCommonSelectFood": {
@@ -753,7 +786,11 @@
 			"time": 500,
 			"target": [277, 356, 178, 555],
 			"timeout": 2000
-		}
+		},
+		"next": [
+			"ActivityCommonUseSelectedFood",
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"InFoodListPage": {
 		"desc": "在食物列表页面",
@@ -763,6 +800,8 @@
 	},
 	"ActivityCommonFoodListPageSwipe": {
 		"desc": "食物列表上滑",
+		"recognition": "And",
+		"all_of": ["InFoodListPage"],
 		"action": "Swipe",
 		"begin": [460, 900],
 		"end": [460, 800],

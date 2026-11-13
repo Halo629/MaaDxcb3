@@ -1,0 +1,27 @@
+{
+	"option": {
+		"QuitBattleImmediately": {
+			"type": "switch",
+			"label": "进入战斗后立即退出",
+			"default_case": "No",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"BattleAI": {
+							"attach": {"quit_immediately": true}
+						}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"BattleAI": {
+							"attach": {"quit_immediately": false}
+						}
+					}
+				}
+			]
+		}
+	}
+}

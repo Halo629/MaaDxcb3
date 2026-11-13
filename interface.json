@@ -63,6 +63,7 @@
 	"task": [],
 	"import": [
 		"assets/tasks/WeeklyScheduleOption.json",
+		"assets/tasks/Common.json",
 		// group: pre_tasks
 		"assets/tasks/LaunchGame.json",
 		// group: daily_tasks
