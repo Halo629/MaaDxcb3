@@ -1,0 +1,541 @@
+{
+	"MoonlightIslesStart": {
+		"desc": "月影群岛",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"MoonlightIslesEventsStart",
+			"[JumpBack]SceneEnterMainPageBeforeGotoMap",
+			"[JumpBack]SceneEnterMoonlightIsles"
+		]
+	},
+	"MoonlightIslesEventsStart": {
+		"desc": "开始月影群岛事件",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InMoonlightIsles"],
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["ZoomInMax"]
+		},
+		"next": [
+			"[JumpBack]ZoomInMax",
+			"[JumpBack]AttackWraith",
+			"[JumpBack]MoonlightIslesEvent1",
+			"[JumpBack]MoonlightIslesEvent2",
+			"[JumpBack]MoonlightIslesEvent3",
+			"[JumpBack]MoonlightIslesEvent4",
+			"[JumpBack]MoonlightIslesEvent5",
+			"[JumpBack]MoonlightIslesEvent6",
+			"MoonlightIslesEvent7"
+		]
+	},
+	"MoonlightIslesEvent1": {
+		"desc": "月影群岛事件1-海盗藏身处鬼怪",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"max_hit": 1,
+		"next": [
+			"[JumpBack]MoonlightIslesSwipeUp",
+			"[JumpBack]AttackWraith",
+			"MoonlightIslesSwipeDown",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"MoonlightIslesEvent2": {
+		"desc": "月影群岛事件2-午夜集市",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"[JumpBack]MoonlightIslesSwipeRightDown",
+			"HandleRewardDialog",
+			"[JumpBack]MidnightMarketBlingBling",
+			"MoonlightIslesLeaveOption",
+			"[JumpBack]MidnightMarket"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"MoonlightIslesEvent3": {
+		"desc": "月影群岛事件3-月亮马戏",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"[JumpBack]MoonlightIslesSwipeLeftDown",
+			"HandleRewardDialog",
+			"[JumpBack]HandleBattleEnd",
+			"[JumpBack]BattleButton",
+			"[JumpBack]MoonCircusEnterTheatre",
+			"MoonlightIslesLeaveOption",
+			"[JumpBack]MoonCircus"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"MoonlightIslesEvent4": {
+		"desc": "月影群岛事件4-鬼地奇",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["MoonlightIslesSwipeRightDown"]
+		},
+		"next": [
+			"[JumpBack]MoonlightIslesSwipeRightDown",
+			"[JumpBack]HandleRewardDialog",
+			"[JumpBack]QueerditchStake",
+			"GotoWraithArea",
+			"[JumpBack]QueerditchUseBroomstick",
+			"[JumpBack]Queerditch"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"MoonlightIslesEvent5": {
+		"desc": "月影群岛事件5-鬼怪区域",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["MoonlightIslesSwipeRightDown"]
+		},
+		"next": [
+			"[JumpBack]AttackWraith",
+			"GotoForestArea",
+			"[JumpBack]Broomstick"
+		]
+	},
+	"MoonlightIslesEvent6": {
+		"desc": "月影群岛事件6-森林区域",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["MoonlightIslesSwipeDown"]
+		},
+		"next": [
+			"[JumpBack]AttackWraith",
+			"GotoLakeIsleArea",
+			"[JumpBack]Broomstick",
+			"[JumpBack]MoonlightIslesSwipeDown"
+		]
+	},
+	"MoonlightIslesEvent7": {
+		"desc": "月影群岛事件7-湖心岛区域",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"[JumpBack]GhostHouseEvent",
+			"[JumpBack]AdventureEnd",
+			"[JumpBack]HandleBattleResult",
+			"[JumpBack]GhostHouseStartOut",
+			"EnterGhostHouseNoTimes",
+			"[JumpBack]EnterGhostHouse",
+			"[JumpBack]LakeIsleGhostHouse"
+		]
+	},
+	"InGhostHouse": {
+		"desc": "在鬼屋副本中",
+		"recognition": "OCR",
+		"roi": [120, 26, 82, 48],
+		"only_rec": true,
+		"expected": "鬼屋"
+	},
+	"GhostHouseEvent": {
+		"desc": "鬼屋事件",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InGhostHouse"],
+		"next": [
+			"[JumpBack]HandleRewardDialog",
+			"[JumpBack]HandleBattleResult",
+			"[JumpBack]BattleAI",
+			"[JumpBack]GhostHouseOption",
+			"AdventureEnd"
+		]
+	},
+	"GhostHouseOption": {
+		"desc": "鬼屋选项",
+		"recognition": "OCR",
+		"roi": [191, 447, 309, 386],
+		"expected": "跨过去|过去|战斗|继续前进|继续|前进",
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [158, 618, 372, 463],
+			"timeout": 2000
+		}
+	},
+	"EnterGhostHouseNoTimes": {
+		"desc": "进入鬼屋无次数",
+		"recognition": "OCR",
+		"expected": "0/2|0/|012",
+		"roi": [94, 611, 259, 33],
+		"only_rec": true,
+		"next": [
+			"[JumpBack]MoonlightIslesLeaveOption",
+			"SceneEnterMainPage"
+		]
+	},
+	"EnterGhostHouse": {
+		"desc": "进入鬼屋",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"expected": "2/2|2/|212|1/2|1/|112",
+				"roi": [89, 564, 262, 34],
+				"only_rec": true
+			},
+			{
+				"recognition": "OCR",
+				"expected": "进入.*鬼屋",
+				"roi": [247, 714, 196, 241]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [158, 618, 372, 463],
+			"timeout": 2000
+		}
+	},
+	"LakeIsleGhostHouse": {
+		"desc": "鬼屋",
+		"recognition": "OCR",
+		"expected": "鬼屋|屋",
+		"action": "Click",
+		"target_offset": [0, -80, 0, 0],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [158, 618, 372, 463],
+			"timeout": 6000
+		}
+	},
+	"AttackWraith": {
+		"desc": "攻击鬼怪",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "activities/Common/Wraith.png",
+				"threshold": 0.6,
+				"sub_name": "WraithPos"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "^鬼怪$",
+				"roi": "WraithPos",
+				"roi_offset": [-5, 94, 17, -30]
+			}
+		],
+		"action": "Custom",
+		"custom_action": "AdjustPositionAndClick",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [158, 618, 372, 463],
+			"timeout": 6000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]HandleBattleEnd",
+			"[JumpBack]BattleButton"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"QueerditchUseBroomstick": {
+		"desc": "鬼地奇使用飞天扫帚",
+		"recognition": "OCR",
+		"expected": "使用飞天扫帚|飞天扫帚|飞天|使用",
+		"roi": [239, 716, 251, 195],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [158, 618, 372, 463],
+			"timeout": 2000
+		}
+	},
+	"QueerditchStake": {
+		"desc": "鬼地奇投注",
+		"recognition": "OCR",
+		"expected": "进入投注室|进入投注|投注",
+		"roi": [284, 726, 152, 43],
+		"only_rec": true,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [158, 618, 372, 463],
+			"timeout": 2000
+		},
+		"next": [
+			"[JumpBack]HandleRewardDialog",
+			"[JumpBack]QueerditchMatchEnd",
+			"[JumpBack]ClickFirstCanClickOption",
+			"QueerditchStake",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"QueerditchMatchEnd": {
+		"desc": "鬼地奇比赛结束",
+		"recognition": "OCR",
+		"expected": "比赛结束|比赛|结束",
+		"roi": [12, 1014, 503, 58],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [158, 618, 372, 463],
+			"timeout": 2000
+		}
+	},
+	"Queerditch": {
+		"desc": "鬼地奇",
+		"recognition": "OCR",
+		"expected": "鬼地奇|鬼地|地奇",
+		"action": "Custom",
+		"custom_action": "AdjustPositionAndClick",
+		"custom_action_param": {
+			"target_offset": [0, -80, 0, 0]
+		},
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [158, 618, 372, 463],
+			"timeout": 5000
+		}
+	},
+	"MoonCircus": {
+		"desc": "月亮马戏",
+		"recognition": "OCR",
+		"expected": "月亮马戏|月亮|马戏",
+		"action": "Click",
+		"target_offset": [0, -50, 0, 0],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [158, 618, 372, 463],
+			"timeout": 5000
+		}
+	},
+	"MoonCircusEnterTheatre": {
+		"desc": "月亮马戏进入剧场",
+		"recognition": "OCR",
+		"expected": "进入剧场|进入|剧场",
+		"roi": [299, 774, 119, 38],
+		"only_rec": true,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [158, 618, 372, 463],
+			"timeout": 2000
+		}
+	},
+	"MidnightMarket": {
+		"desc": "午夜集市",
+		"recognition": "OCR",
+		"expected": "午夜集市|午夜|集市",
+		"action": "Custom",
+		"custom_action": "AdjustPositionAndClick",
+		"custom_action_param": {
+			"target_offset": [-99, -79, -7, 10]
+		},
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [158, 618, 372, 463],
+			"timeout": 10000
+		}
+	},
+	"MidnightMarketBlingBling": {
+		"desc": "午夜集市货架上的闪光物",
+		"recognition": "OCR",
+		"expected": "货架上的闪光物|货架上|闪光物",
+		"roi": [266, 729, 188, 37],
+		"only_rec": true,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [158, 618, 372, 463],
+			"timeout": 2000
+		}
+	},
+	"MoonlightIslesSwipeUp": {
+		"desc": "月影群岛上滑",
+		"action": "Swipe",
+		"begin": [400, 900],
+		"end": [400, 600],
+		"duration": 300,
+		"max_hit": 1,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		}
+	},
+	"MoonlightIslesSwipeDown": {
+		"desc": "月影群岛下滑",
+		"action": "Swipe",
+		"begin": [400, 600],
+		"end": [400, 900],
+		"duration": 300,
+		"max_hit": 1,
+		"post_delay": 1000,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		}
+	},
+	"MoonlightIslesSwipeLeft": {
+		"desc": "月影群岛左滑",
+		"action": "Swipe",
+		"begin": [550, 1000],
+		"end": [350, 1000],
+		"duration": 300,
+		"max_hit": 1,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		}
+	},
+	"MoonlightIslesSwipeRightDown": {
+		"desc": "月影群岛右下滑",
+		"action": "Swipe",
+		"begin": [250, 750],
+		"end": [450, 950],
+		"duration": 300,
+		"max_hit": 1,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		}
+	},
+	"MoonlightIslesSwipeLeftDown": {
+		"desc": "月影群岛左下滑",
+		"action": "Swipe",
+		"begin": [550, 800],
+		"end": [350, 1000],
+		"duration": 300,
+		"max_hit": 1,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		}
+	},
+	"MoonlightIslesLeaveOption": {
+		"desc": "离开选项",
+		"recognition": "OCR",
+		"expected": "离开",
+		"roi": [251, 650, 204, 456],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [158, 618, 372, 463],
+			"timeout": 2000
+		}
+	},
+	"GotoWraithArea": {
+		"desc": "飞往鬼怪区域",
+		"recognition": "OCR",
+		"expected": "飞往鬼怪区域|鬼怪区域|鬼怪",
+		"roi": [251, 671, 231, 339],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [158, 618, 372, 463],
+			"timeout": 2000
+		},
+		"next": [
+			"GotoWraithArea",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"GotoForestArea": {
+		"desc": "飞往森林区域",
+		"recognition": "OCR",
+		"expected": "飞往森林区域|森林区域|森林",
+		"roi": [251, 671, 231, 339],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [158, 618, 372, 463],
+			"timeout": 2000
+		},
+		"next": [
+			"GotoForestArea",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"GotoLakeIsleArea": {
+		"desc": "飞往湖心岛",
+		"recognition": "OCR",
+		"expected": "飞往湖心岛|湖心岛|湖心|心岛",
+		"roi": [251, 671, 231, 339],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [158, 618, 372, 463],
+			"timeout": 2000
+		},
+		"next": [
+			"GotoLakeIsleArea",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"GhostHouseStartOut": {
+		"desc": "出发",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "出发",
+		"roi": [196, 1067, 335, 205],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [196, 1067, 335, 205],
+			"timeout": 3000
+		}
+	},
+	"Broomstick": {
+		"desc": "飞天扫帚",
+		"recognition": "OCR",
+		"expected": "飞天扫帚|飞天扫|扫帚|飞天",
+		"action": "Custom",
+		"custom_action": "AdjustPositionAndClick",
+		"custom_action_param": {
+			"target_offset": [32, -50, -69, -10]
+		},
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [158, 618, 372, 463],
+			"timeout": 2000
+		}
+	}
+}

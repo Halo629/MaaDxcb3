@@ -605,8 +605,8 @@
 		"post_delay": 0,
 		"rate_limit": 0
 	},
-	"InMonsterSoulPage": {
-		"desc": "判断是否在魔物之魂页面",
+	"InMonsterSoulFarmPage": {
+		"desc": "判断是否在刷取魔物之魂页面",
 		"recognition": "TemplateMatch",
 		"template": "monster_soul/monster_soul.png",
 		"roi": [476, 1058, 230, 95],
@@ -725,7 +725,8 @@
 		"desc": "在选择目的地页面",
 		"recognition": "OCR",
 		"expected": "请选择目的地|选择目的地|目的地",
-		"roi": [276, 148, 180, 38]
+		"roi": [276, 148, 180, 38],
+		"only_rec": true
 	},
 	"SelectDestinationPageHasOriginWorld": {
 		"desc": "在选择目的地页面识别源世界",

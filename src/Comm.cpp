@@ -516,7 +516,7 @@ static bool swipeWithOffsetRetry(MaaContext* context, int baseX, int baseY, int 
             if (!tried.insert({ sx, sy }).second) {
                 continue; // 去重：该起点已尝试过
             }
-            LogUtils::info(fmt("滑动重试: 起点=(%1,%2) 偏移=(%3,%4)", sx, sy, d.first * step, d.second * step));
+            LogUtils::debug(fmt("滑动重试: 起点=(%1,%2) 偏移=(%3,%4)", sx, sy, d.first * step, d.second * step));
             if (swipeWithPopupHandling(context, sx, sy, dx, dy, duration)) {
                 if (outSx) {
                     *outSx = sx;

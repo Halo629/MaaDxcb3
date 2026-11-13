@@ -262,5 +262,12 @@
 			"MonsterSoulBatchUpgrade",
 			"[JumpBack]SceneEnterMonsterSoulBag"
 		]
+	},
+	"SceneEnterMainPageBeforeGotoMap": {
+		"desc": "进入地图前先返回主页",
+		"max_hit": 1,
+		"next": [
+			"SceneEnterMainPage"
+		]
 	}
 }

@@ -116,5 +116,13 @@
 		"target_offset": [27, 107, -57, -74],
 		"action": "Click",
 		"post_delay": 500
+	},
+	"BattleButton": {
+		"desc": "战斗按钮",
+		"recognition": "OCR",
+		"expected": "战斗",
+		"roi": [178, 714, 362, 245],
+		"action": "Click",
+		"post_delay": 500
 	}
 }

@@ -11,7 +11,6 @@
 		"next": [
 			"InMainPage",
 			"[JumpBack]HandleRewardDialog",
-			"[JumpBack]WelfareCollect",
 			"[JumpBack]HandleMonthlyCardDialog",
 			"[JumpBack]__ScenePrivateCurrentEventExit",
 			"[JumpBack]SceneBack",
@@ -23,13 +22,47 @@
 			"[JumpBack]__ScenePrivatePressEscUntilExitGame"
 		]
 	},
-	"WelfareCollect": {
-		"desc": "限时福利领取",
-		"recognition": "TemplateMatch",
-		"template": "common/FreeCollect.png",
-		"roi": [208, 752, 314, 102],
+	"SceneEnterMonsterSoulPage": {
+		"desc": "从任意界面回到魔魂刷取页面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InMonsterSoulFarmPage",
+			"[JumpBack]MonsterSoulFarmPageEntry",
+			"MonsterSoulQuickEntryNotLock",
+			"[JumpBack]SceneClickCampFire",
+			"[JumpBack]SceneEnterMainPage"
+		]
+	},
+	"MonsterSoulFarmPageEntry": {
+		"recognition": "And",
+		"all_of": [
+			"InSelectDestinationPage",
+			"HasMonsterSoulQuickEntry"
+		],
+		"box_index": 1,
 		"action": "Click",
-		"post_delay": 500
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [193, 198, 371, 771],
+			"timeout": 2000
+		}
+	},
+	"MonsterSoulQuickEntryNotLock": {
+		"desc": "魔魂快速入口未解锁",
+		"recognition": "And",
+		"all_of": ["InSelectDestinationPage"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"TaskFail"
+		],
+		"focus": {"Node.Recognition.Succeeded": "未开通小月卡解锁魔魂快速入口"}
 	},
 	"SceneEnterAlchemyLab": {
 		"desc": "从任意界面进入无弹窗的炼金页面",
@@ -559,6 +592,7 @@
 		},
 		"next": [
 			"[JumpBack]HandlePastActivitySettlement",
+			"[JumpBack]ConfirmButton",
 			"InGamePlayPage",
 			"SceneEnterGamePlay"
 		]
@@ -936,7 +970,17 @@
 			"time": 500,
 			"target": [193, 198, 371, 771],
 			"timeout": 3000
-		}
+		},
+		"next": [
+			"[JumpBack]HandleDialogue",
+			"InSelectDestinationPage",
+			"InMap",
+			"[JumpBack]ClickFirstCanClickOption",
+			"SceneClickCampFire"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"SceneEnterMonsterSoulBag": {
 		"desc": "进入魔魂背包",

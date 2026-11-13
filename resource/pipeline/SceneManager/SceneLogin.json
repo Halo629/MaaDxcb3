@@ -378,7 +378,9 @@
 			"InBattleResult",
 			"InAdventureResult",
 			"InMaze",
-			"HasReturnButton"
+			"HasReturnButton",
+			"InDialoguePage",
+			"DialogOption"
 		],
 		"desc": "检查是否在游戏中",
 		"post_delay": 0,
@@ -411,6 +413,29 @@
 		"roi": [201, 928, 336, 93],
 		"template": "login/start_game.png"
 	},
+	"WelfareCollect": {
+		"desc": "限时福利领取",
+		"recognition": "And",
+		"all_of": [
+			"InGameCheck",
+			{
+				"recognition": "TemplateMatch",
+				"template": "common/FreeCollect.png",
+				"roi": [208, 752, 314, 102]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_delay": 500,
+		"next": [
+			"HandleRewardDialog",
+			"WelfareCollect"
+		],
+		"timeout": 5000,
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
+	},
 	"LoginPageClickStartGameButton": {
 		"desc": "登录界面点击开始游戏按钮",
 		"recognition": "And",
@@ -419,7 +444,20 @@
 		"action": "Click",
 		"post_delay": 5000,
 		"pre_delay": 1000,
-		"rate_limit": 0
+		"rate_limit": 0,
+		"timeout": 10000,
+		"next": [
+			"WelfareCollect",
+			"SceneEnterGameSuccess"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"SceneEnterGameSuccess": {
+		"desc": "进入游戏成功",
+		"recognition": "And",
+		"all_of": ["InGameCheck"]
 	},
 	"LoginPageHasSettingButton": {
 		"desc": "登录界面出现设置按钮",

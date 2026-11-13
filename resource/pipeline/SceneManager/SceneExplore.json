@@ -42,7 +42,8 @@
 			"InBattleResult",
 			"InAdventureResult",
 			"InMaze",
-			"InDialoguePage"
+			"InDialoguePage",
+			"DialogOption"
 		],
 		"pre_delay": 0,
 		"post_delay": 0,
@@ -54,6 +55,7 @@
 			"[JumpBack]__ScenePrivateBattleExit",
 			"[JumpBack]__ScenePrivateMazeEndExplore",
 			"[JumpBack]__ScenePrivateMazeExit",
+			"[JumpBack]ClickFirstCanClickOption",
 			"__ScenePrivateNextTrue"
 		]
 	},

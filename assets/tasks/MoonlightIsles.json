@@ -1,0 +1,12 @@
+{
+    "task": [
+        {
+            "name": "MoonlightIsles",
+            "label": "🎃月影群岛",
+            "entry": "MoonlightIslesStart",
+            "group": [
+                "activity_tasks"
+            ]
+        }
+    ]
+}

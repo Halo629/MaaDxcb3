@@ -897,5 +897,81 @@
 			"InSilverMoonValley",
 			"InIserel"
 		]
+	},
+	"MapListClickMoonlightIsles": {
+		"desc": "地图列表点击月影群岛",
+		"recognition": "And",
+		"all_of": [
+			"InSelectDestinationPage",
+			{
+				"recognition": "OCR",
+				"expected": "月影群岛|月影|群岛|影群",
+				"roi": [205, 194, 363, 781]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 4000,
+		"rate_limit": 0
+	},
+	"ResetMoonlightIsles": {
+		"desc": "重置月影群岛",
+		"recognition": "Custom",
+		"custom_recognition": "CheckRoleInTargetMap",
+		"attach": {"map_name": "月影群岛|月影|群岛|影群"},
+		"target_offset": [100, 0, 0, 0],
+		"action": "Click",
+		"post_delay": 3000,
+		"next": [
+			"InCampfire",
+			"[JumpBack]__ScenePrivateReturnSecretRealm"
+		]
+	},
+	"InMoonlightIsles": {
+		"desc": "在月影群岛",
+		"recognition": "And",
+		"all_of": [
+			"MapNameColorMatch",
+			{
+				"recognition": "OCR",
+				"expected": "月影群岛|月影|群岛|影群",
+				"roi": "MapNameColorMatch",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"EnterMoonlightIsles": {
+		"desc": "进入月影群岛",
+		"recognition": "And",
+		"all_of": ["InMap"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InMoonlightIsles"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"SceneEnterMoonlightIsles": {
+		"desc": "进入月影群岛",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {
+			"SelectMapOrder": "SwitchMapListDescendingSort",
+			"SelectMiniMapAnchor": "MapListClickMoonlightIsles",
+			"ResetMiniMapAnchor": "ResetMoonlightIsles"
+		},
+		"next": [
+			"EnterMoonlightIsles",
+			"[JumpBack]SceneEnterSelectDestination"
+		]
 	}
 }

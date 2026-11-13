@@ -112,6 +112,7 @@
 		"assets/tasks/BattlePlan.json",
 		//树枝活动：夏夜荷塘/颂礼幽廊
 		"assets/tasks/BranchActivity.json",
+		"assets/tasks/MoonlightIsles.json",
 		// group: other_tasks
 		"assets/tasks/ArcanePrison.json",
 		"assets/tasks/MonsterSoulUpgrade.json",

@@ -211,7 +211,12 @@
 		"desc": "冒险结束",
 		"recognition": "And",
 		"all_of": ["InAdventureResult"],
-		"action": "Click"
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 1000,
+			"target": [158, 278, 395, 539],
+			"timeout": 3000
+		}
 	},
 	"GoBattle": {
 		"desc": "战斗前出发页面",

@@ -34,9 +34,9 @@
 		],
 		"action": "Click",
 		"post_wait_freezes": {
-			"time": 500,
-			"target": [141, 1172, 556, 105],
-			"timeout": 2000
+			"time": 800,
+			"target": [111, 181, 526, 746],
+			"timeout": 3000
 		}
 	},
 	"ChosenRadianceComplete": {
@@ -89,14 +89,13 @@
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
-			"time": 500,
+			"time": 1000,
 			"target": [141, 1172, 556, 105],
 			"timeout": 3000
 		},
 		"next": [
-			"HandleRewardDialog",
 			"ChosenRadianceSoldOut",
-			"[JumpBack]ChosenRadianceFreeCollect"
+			"ChosenRadianceFreeCollect"
 		]
 	},
 	"__ChosenRadianceCollectduxinganying": {
@@ -109,14 +108,13 @@
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
-			"time": 500,
+			"time": 1000,
 			"target": [141, 1172, 556, 105],
 			"timeout": 3000
 		},
 		"next": [
-			"HandleRewardDialog",
 			"ChosenRadianceSoldOut",
-			"[JumpBack]ChosenRadianceFreeCollect"
+			"ChosenRadianceFreeCollect"
 		]
 	},
 	"__ChosenRadianceCollectjiaojingzhiying": {
@@ -129,14 +127,13 @@
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
-			"time": 500,
+			"time": 1000,
 			"target": [141, 1172, 556, 105],
 			"timeout": 3000
 		},
 		"next": [
-			"HandleRewardDialog",
 			"ChosenRadianceSoldOut",
-			"[JumpBack]ChosenRadianceFreeCollect"
+			"ChosenRadianceFreeCollect"
 		]
 	},
 	"__ChosenRadianceCollectshengshangqilei": {
@@ -149,14 +146,13 @@
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
-			"time": 500,
+			"time": 1000,
 			"target": [141, 1172, 556, 105],
 			"timeout": 3000
 		},
 		"next": [
-			"HandleRewardDialog",
 			"ChosenRadianceSoldOut",
-			"[JumpBack]ChosenRadianceFreeCollect"
+			"ChosenRadianceFreeCollect"
 		]
 	},
 	"__ChosenRadianceCollecthuahunyangu": {
@@ -169,14 +165,13 @@
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
-			"time": 500,
+			"time": 1000,
 			"target": [141, 1172, 556, 105],
 			"timeout": 3000
 		},
 		"next": [
-			"HandleRewardDialog",
 			"ChosenRadianceSoldOut",
-			"[JumpBack]ChosenRadianceFreeCollect"
+			"ChosenRadianceFreeCollect"
 		]
 	},
 	"__ChosenRadianceCollectzhimingshuangying": {
@@ -189,14 +184,13 @@
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
-			"time": 500,
+			"time": 1000,
 			"target": [141, 1172, 556, 105],
 			"timeout": 3000
 		},
 		"next": [
-			"HandleRewardDialog",
 			"ChosenRadianceSoldOut",
-			"[JumpBack]ChosenRadianceFreeCollect"
+			"ChosenRadianceFreeCollect"
 		]
 	},
 	"__ChosenRadianceCollectchishengmeixiao": {
@@ -209,14 +203,13 @@
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
-			"time": 500,
+			"time": 1000,
 			"target": [141, 1172, 556, 105],
 			"timeout": 3000
 		},
 		"next": [
-			"HandleRewardDialog",
 			"ChosenRadianceSoldOut",
-			"[JumpBack]ChosenRadianceFreeCollect"
+			"ChosenRadianceFreeCollect"
 		]
 	},
 	"__ChosenRadianceCollectzhixuzhe": {
@@ -229,14 +222,13 @@
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
-			"time": 500,
+			"time": 1000,
 			"target": [141, 1172, 556, 105],
 			"timeout": 3000
 		},
 		"next": [
-			"HandleRewardDialog",
 			"ChosenRadianceSoldOut",
-			"[JumpBack]ChosenRadianceFreeCollect"
+			"ChosenRadianceFreeCollect"
 		]
 	},
 	"__ChosenRadianceCollecthuanghunzhiyi": {
@@ -249,14 +241,13 @@
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
-			"time": 500,
+			"time": 1000,
 			"target": [141, 1172, 556, 105],
 			"timeout": 3000
 		},
 		"next": [
-			"HandleRewardDialog",
 			"ChosenRadianceSoldOut",
-			"[JumpBack]ChosenRadianceFreeCollect"
+			"ChosenRadianceFreeCollect"
 		]
 	},
 	"__ChosenRadianceCollectwenjiankunlun": {
@@ -269,14 +260,13 @@
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
-			"time": 500,
+			"time": 1000,
 			"target": [141, 1172, 556, 105],
 			"timeout": 3000
 		},
 		"next": [
-			"HandleRewardDialog",
 			"ChosenRadianceSoldOut",
-			"[JumpBack]ChosenRadianceFreeCollect"
+			"ChosenRadianceFreeCollect"
 		]
 	},
 	"__ChosenRadianceCollectbinghexixin": {
@@ -289,14 +279,13 @@
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
-			"time": 500,
+			"time": 1000,
 			"target": [141, 1172, 556, 105],
 			"timeout": 3000
 		},
 		"next": [
-			"HandleRewardDialog",
 			"ChosenRadianceSoldOut",
-			"[JumpBack]ChosenRadianceFreeCollect"
+			"ChosenRadianceFreeCollect"
 		]
 	},
 	"__ChosenRadianceCollectlongzhongniao": {
@@ -309,14 +298,13 @@
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
-			"time": 500,
+			"time": 1000,
 			"target": [141, 1172, 556, 105],
 			"timeout": 3000
 		},
 		"next": [
-			"HandleRewardDialog",
 			"ChosenRadianceSoldOut",
-			"[JumpBack]ChosenRadianceFreeCollect"
+			"ChosenRadianceFreeCollect"
 		]
 	},
 	"__ChosenRadianceCollectjingmoshengcai": {
@@ -329,14 +317,13 @@
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
-			"time": 500,
+			"time": 1000,
 			"target": [141, 1172, 556, 105],
 			"timeout": 3000
 		},
 		"next": [
-			"HandleRewardDialog",
 			"ChosenRadianceSoldOut",
-			"[JumpBack]ChosenRadianceFreeCollect"
+			"ChosenRadianceFreeCollect"
 		]
 	},
 	"__ChosenRadianceCollectfanhuazhizhu": {
@@ -349,14 +336,13 @@
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
-			"time": 500,
+			"time": 1000,
 			"target": [141, 1172, 556, 105],
 			"timeout": 3000
 		},
 		"next": [
-			"HandleRewardDialog",
 			"ChosenRadianceSoldOut",
-			"[JumpBack]ChosenRadianceFreeCollect"
+			"ChosenRadianceFreeCollect"
 		]
 	},
 	"__ChosenRadianceCollectxueji": {
@@ -369,14 +355,13 @@
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
-			"time": 500,
+			"time": 1000,
 			"target": [141, 1172, 556, 105],
 			"timeout": 3000
 		},
 		"next": [
-			"HandleRewardDialog",
 			"ChosenRadianceSoldOut",
-			"[JumpBack]ChosenRadianceFreeCollect"
+			"ChosenRadianceFreeCollect"
 		]
 	},
 	"__ChosenRadianceCollectqianlongzaiyuan": {
@@ -389,14 +374,13 @@
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
-			"time": 500,
+			"time": 1000,
 			"target": [141, 1172, 556, 105],
 			"timeout": 3000
 		},
 		"next": [
-			"HandleRewardDialog",
 			"ChosenRadianceSoldOut",
-			"[JumpBack]ChosenRadianceFreeCollect"
+			"ChosenRadianceFreeCollect"
 		]
 	},
 	"__ChosenRadianceCollectyumianluocha": {
@@ -409,33 +393,41 @@
 		"action": "Click",
 		"post_delay": 500,
 		"post_wait_freezes": {
-			"time": 500,
+			"time": 1000,
 			"target": [141, 1172, 556, 105],
 			"timeout": 3000
 		},
 		"next": [
-			"HandleRewardDialog",
 			"ChosenRadianceSoldOut",
-			"[JumpBack]ChosenRadianceFreeCollect"
+			"ChosenRadianceFreeCollect"
 		]
 	},
 	"ChosenRadianceFreeCollect": {
 		"desc": "免费领取",
 		"recognition": "OCR",
 		"expected": "免费领取|免费|领取",
-		"roi": [517, 244, 126, 95],
+		"roi": [527, 280, 102, 29],
+		"only_rec": true,
 		"action": "Click",
 		"post_wait_freezes": {
-			"time": 500,
+			"time": 1000,
 			"target": [0, 106, 691, 1022],
 			"timeout": 2000
-		}
+		},
+		"timeout": 5000,
+		"next": [
+			"HandleRewardDialog"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"ChosenRadianceSoldOut": {
 		"desc": "售罄",
 		"recognition": "OCR",
 		"expected": "售罄|售|罄",
-		"roi": [517, 244, 126, 95]
+		"roi": [549, 280, 62, 29],
+		"only_rec": true
 	},
 	"__SceneGamePlayLimitedPageHasChosenRadiance": {
 		"desc": "限时页面识别到天选曜惠",
@@ -448,9 +440,20 @@
 	},
 	"InChosenRadiancePage": {
 		"desc": "在天选曜惠页面",
-		"recognition": "OCR",
-		"expected": "免费领取",
-		"roi": [298, 139, 386, 948],
+		"recognition": "Or",
+		"any_of": [
+			{
+				"recognition": "OCR",
+				"expected": "天选曜惠|天选",
+				"roi": [234, 24, 426, 100],
+				"only_rec": true
+			},
+			{
+				"recognition": "OCR",
+				"expected": "免费领取",
+				"roi": [298, 139, 386, 948]
+			}
+		],
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0
