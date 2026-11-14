@@ -150,7 +150,7 @@
 			"[JumpBack]GhostHouseEvent",
 			"[JumpBack]AdventureEnd",
 			"[JumpBack]HandleBattleResult",
-			"[JumpBack]GhostHouseStartOut",
+			"[JumpBack]MazeStartOut",
 			"EnterGhostHouseNoTimes",
 			"[JumpBack]EnterGhostHouse",
 			"[JumpBack]LakeIsleGhostHouse"
@@ -507,21 +507,6 @@
 			"GotoLakeIsleArea",
 			"__ScenePrivateNextTrue"
 		]
-	},
-	"GhostHouseStartOut": {
-		"desc": "出发",
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0,
-		"recognition": "OCR",
-		"expected": "出发",
-		"roi": [196, 1067, 335, 205],
-		"action": "Click",
-		"post_wait_freezes": {
-			"time": 500,
-			"target": [196, 1067, 335, 205],
-			"timeout": 3000
-		}
 	},
 	"Broomstick": {
 		"desc": "飞天扫帚",
