@@ -183,6 +183,7 @@
 		"recognition": "OCR",
 		"roi": [191, 447, 309, 386],
 		"expected": "跨过去|过去|战斗|继续前进|继续|前进",
+		"order_by": "Vertical",
 		"action": "Click",
 		"post_wait_freezes": {
 			"time": 500,
@@ -254,8 +255,12 @@
 				"roi_offset": [-5, 94, 17, -30]
 			}
 		],
+		"box_index": 1,
 		"action": "Custom",
 		"custom_action": "AdjustPositionAndClick",
+		"custom_action_param": {
+			"target_offset": [0, -80, 0, 0]
+		},
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [158, 618, 372, 463],

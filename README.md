@@ -20,7 +20,7 @@ Powered by [MaaFramework](https://github.com/MaaXYZ/MaaFramework) & [MXU](https:
 
 ## 📖 使用须知
 
-这是一个**正在快速迭代**的项目，可能会有一些小 BUG 出没 🐛（我们会努力消灭它们的！）
+这是一个**正在快速迭代**的项目，可能会有一些小 BUG 出没 🐛（我会努力消灭它们的！）
 
 遇到问题？欢迎来提 [ISSUE](https://github.com/Halo629/MaaDxcb3/issues) 反馈，我们会第一时间处理！后续会陆续支持其他活动任务，敬请期待 ✨
 
@@ -78,13 +78,6 @@ Powered by [MaaFramework](https://github.com/MaaXYZ/MaaFramework) & [MXU](https:
 - 💬 **用户 QQ 群**: [1126541763](https://qm.qq.com/q/XliBHJk5Sa)
   使用问题、功能建议、闲聊摸鱼，欢迎来撩~
 
-## ☕ 赞助
-
-如果 MaaDxcb3 帮你省下了不少时间，不妨请开发者喝杯咖啡？
-
-你的支持是我们持续更新的最大动力！💖
-
-[<img width="200" alt="赞助我们" src="https://pic1.afdiancdn.com/static/img/welcome/button-sponsorme.png">](https://afdian.com/a/Halo629)
 
 ## 📄 License
 

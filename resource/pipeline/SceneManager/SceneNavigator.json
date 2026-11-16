@@ -10,6 +10,7 @@
 		},
 		"next": [
 			"InMainPage",
+			"[JumpBack]WelfareCollect",
 			"[JumpBack]HandleRewardDialog",
 			"[JumpBack]HandleMonthlyCardDialog",
 			"[JumpBack]__ScenePrivateCurrentEventExit",
@@ -334,7 +335,7 @@
 			}
 		],
 		"next": [
-			"SceneBack"
+			"TaskFail"
 		],
 		"focus": {"Node.Recognition.Succeeded": "大泽远征活动未开始"}
 	},

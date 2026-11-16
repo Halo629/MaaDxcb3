@@ -82,6 +82,7 @@
 				"recognition": "TemplateMatch",
 				"template": "items/MonthlyCardOptionalChest.png",
 				"roi": [30, 52, 688, 1004],
+				"green_mask": true,
 				"sub_name": "MonthlyCardOptionalChest",
 				"threshold": 0.8
 			},
@@ -98,7 +99,7 @@
 				"lower": [135, 170, 70],
 				"upper": [145, 190, 100],
 				"roi": "MonthlyCardOptionalChest",
-				"roi_offset": [5, 94, -96, -97],
+				"roi_offset": [3, 107, -104, -109],
 				"count": 20
 			}
 		],

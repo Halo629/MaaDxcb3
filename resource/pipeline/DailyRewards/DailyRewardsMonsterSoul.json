@@ -215,6 +215,7 @@
 	},
 	"MonsterSoulYexingEntry": {
 		"desc": "野性之魂",
+		"enabled": false,
 		"recognition": "And",
 		"all_of": [
 			"HasMonsterSoul-yexing",

@@ -370,6 +370,8 @@
 		"package": "com.leiting.dungeon3.jh.guopan"
 	},
 	"InGameCheck": {
+		"desc": "检查是否在游戏中",
+		"recognition": "Or",
 		"any_of": [
 			"HasSecretRealm",
 			"HasExpeditionTeam",
@@ -382,11 +384,9 @@
 			"InDialoguePage",
 			"DialogOption"
 		],
-		"desc": "检查是否在游戏中",
-		"post_delay": 0,
+		"post_delay": 1000,
 		"pre_delay": 0,
-		"rate_limit": 0,
-		"recognition": "Or"
+		"rate_limit": 0
 	},
 	"LoginPageClickPressAnyKey": {
 		"action": "Click",
@@ -447,17 +447,12 @@
 		"rate_limit": 0,
 		"timeout": 10000,
 		"next": [
-			"WelfareCollect",
-			"SceneEnterGameSuccess"
+			"InGameCheck",
+			"LoginPageClickStartGameButton"
 		],
 		"on_error": [
 			"__ScenePrivateNextTrue"
 		]
-	},
-	"SceneEnterGameSuccess": {
-		"desc": "进入游戏成功",
-		"recognition": "And",
-		"all_of": ["InGameCheck"]
 	},
 	"LoginPageHasSettingButton": {
 		"desc": "登录界面出现设置按钮",
@@ -497,7 +492,7 @@
 	"LoginPageEventsHandle": {
 		"recognition": "And",
 		"all_of": ["InLoginPage"],
-		"desc": "处理登录界面各种弹框/点击事件,知道开始游戏按钮出现",
+		"desc": "处理登录界面各种弹框/点击事件,直到开始游戏按钮出现",
 		"next": [
 			"LoginPageHasStartGameButton",
 			"[JumpBack]LoginPageCloseLoginAnnouncement",
