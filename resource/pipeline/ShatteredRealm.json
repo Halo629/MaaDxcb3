@@ -71,7 +71,7 @@
 		"roi": [159, 574, 400, 36],
 		"only_rec": true,
 		"focus": {
-			"Node.Recognition.Succeeded": "需要先通关破碎之境才能使用快速挑战"
+			"Node.Recognition.Succeeded": "破碎之境:需要先通关破碎之境才能使用快速挑战"
 		},
 		"next": [
 			"[JumpBack]ConfirmButton",

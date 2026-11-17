@@ -7,6 +7,7 @@
 		"max_hit": 1,
 		"next": [
 			"EndlessWealthIsleEntry",
+			"[JumpBack]__ScenePrivateStewardFindEndlessWealthIsle",
 			"[JumpBack]__SceneStewardEntryEndlessWealthIsle",
 			"__ScenePrivateStewardEndlessWealthIsleDone",
 			"[JumpBack]SceneEnterSteward"
@@ -59,8 +60,15 @@
 		"roi_offset": [0, -20, 400, 40],
 		"action": "Click",
 		"pre_delay": 0,
-		"post_wait_freezes": 500,
-		"rate_limit": 0
+		"post_delay": 2000,
+		"rate_limit": 0,
+		"timeout": 6000,
+		"next": [
+			"InEndlessWealthIslePage"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"InEndlessWealthIslePage": {
 		"desc": "在财富岛页面",
@@ -147,6 +155,7 @@
 		"post_delay": 0,
 		"rate_limit": 0,
 		"next": [
+			"EndlessWealthIsleSweepError",
 			"EndlessWealthIsleOneKeySweepComplete",
 			"EndlessWealthIsleOneKeySweepNotEnabled",
 			"EndlessWealthIsleAssignChallengeTimes",
@@ -156,6 +165,31 @@
 			"[JumpBack]__EndlessWealthIsleSwipeLeft",
 			"[JumpBack]__EndlessWealthIsleSwipeDown"
 		]
+	},
+	"EndlessWealthIsleSweepError": {
+		"desc": "财富岛未通关",
+		"recognition": "Or",
+		"any_of": [
+			{
+				"recognition": "OCR",
+				"expected": "成功|通关|解锁|难度",
+				"roi": [265, 550, 271, 34],
+				"only_rec": true
+			},
+			{
+				"recognition": "OCR",
+				"expected": "成功|通关|解锁|难度",
+				"roi": [269, 630, 260, 36],
+				"only_rec": true
+			}
+		],
+		"next": [
+			"[JumpBack]EndlessWealthIsleExitTemple",
+			"TaskFail"
+		],
+		"focus": {
+			"Node.Recognition.Succeeded": "无尽的财富岛:未通关所有难度,扫荡未解锁"
+		}
 	},
 	"EndlessWealthIsleOneKeySweepCheck": {
 		"desc": "检查是否开启一键扫荡功能",
@@ -233,11 +267,11 @@
 		"recognition": "And",
 		"all_of": ["EndlessWealthIsleOneKeySweepCheck"],
 		"next": [
-			"SceneBack",
-			"[JumpBack]PressEsc"
+			"[JumpBack]EndlessWealthIsleExitTemple",
+			"TaskFail"
 		],
 		"focus": {
-			"Node.Recognition.Succeeded": "一键扫荡未开启,目前仅支持一键扫荡"
+			"Node.Recognition.Succeeded": "一键扫荡未开启,目前仅支持大月卡一键扫荡"
 		}
 	},
 	"InOnekeySweepPage": {
@@ -285,8 +319,7 @@
 		"roi": [299, 1156, 127, 37],
 		"only_rec": true,
 		"next": [
-			"SceneBack",
-			"[JumpBack]PressEsc"
+			"[JumpBack]EndlessWealthIsleExitTemple"
 		]
 	},
 	"EndlessWealthIsleExitTemple": {

@@ -58,14 +58,15 @@
 		}
 	},
 	"__ScenePrivateStewardFindSkyreachTower": {
+		"max_hit": 1,
 		"recognition": "And",
 		"all_of": ["InStewardPage"],
 		"next": [
 			"__ScenePrivateStewardHasSkyreachTower",
 			"[JumpBack]__SkyreachTowerSwipeDownRetry",
-			"[JumpBack]__SkyreachTowerSwipeUpRetry"
-		],
-		"max_hit": 1
+			"[JumpBack]__SkyreachTowerSwipeUpRetry",
+			"__ScenePrivateStewardSkyreachTowerDone"
+		]
 	},
 	"__ScenePrivateStewardHasSkyreachTower": {
 		"desc": "管家页面识别通天塔",
