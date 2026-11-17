@@ -245,7 +245,7 @@
 			{
 				"recognition": "TemplateMatch",
 				"template": "activities/Common/Wraith.png",
-				"threshold": 0.6,
+				"threshold": 0.5,
 				"sub_name": "WraithPos"
 			},
 			{
@@ -259,7 +259,7 @@
 		"action": "Custom",
 		"custom_action": "AdjustPositionAndClick",
 		"custom_action_param": {
-			"target_offset": [0, -80, 0, 0]
+			"target_offset": [11, -74, -32, -2]
 		},
 		"post_wait_freezes": {
 			"time": 500,

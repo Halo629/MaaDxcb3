@@ -837,7 +837,6 @@
 			"InStewardPage",
 			"[JumpBack]_SceneEnterStewardPage",
 			"[JumpBack]_SceneExpandSideBar",
-			"StewardUnlock",
 			"[JumpBack]SceneEnterMainPage"
 		]
 	},
