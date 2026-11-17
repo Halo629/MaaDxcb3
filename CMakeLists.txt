@@ -26,7 +26,8 @@ set(MAA_ROOT "G:/workspace/maaframework/MAA-win-x86_64-v5.13.0" CACHE PATH "MaaF
 set(MEOJSON_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/third_party" CACHE PATH "meojson include dir")
 
 # ─── 源文件 ──────────────────────────────────────────────────────
-file(GLOB CUSTOM_SRCS
+# CONFIGURE_DEPENDS：新增 .cpp 后，构建时自动重新扫描目录，避免 file(GLOB) 只扫一次导致新文件不参与编译/链接
+file(GLOB CUSTOM_SRCS CONFIGURE_DEPENDS
     "src/*.cpp"
 )
 list(REMOVE_ITEM CUSTOM_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/src/Main.cpp")

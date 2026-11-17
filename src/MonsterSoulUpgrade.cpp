@@ -670,7 +670,7 @@ MaaBool findTargetMonsterSoul(
         if (g_startGridPos == -1 && curCount >= capacity) {
             LogUtils::info(fmt("背包魔魂已满(%1/%2)，开始升级魔魂", curCount, capacity));
         }
-        if (curCount < capacity - 11) {
+        if (curCount <= capacity - 11) {
             return false;
         }
     }
