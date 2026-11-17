@@ -71,6 +71,10 @@ static std::string escapeHtml(const std::string& s)
         case '>':
             out += "&gt;";
             break;
+        case '\n':
+            // 多行消息统一转成 <br>，避免 span 跨行后 </span> 作为裸文本漏到界面
+            out += "<br>";
+            break;
         default:
             out += c;
             break;

@@ -7,7 +7,9 @@
 		"max_hit": 1,
 		"next": [
 			"EndlessWealthIsleEntry",
-			"[JumpBack]SceneEnterEndlessWealthIsleFromSteward"
+			"[JumpBack]__SceneStewardEntryEndlessWealthIsle",
+			"__ScenePrivateStewardEndlessWealthIsleDone",
+			"[JumpBack]SceneEnterSteward"
 		],
 		"focus": {"Node.Recognition.Succeeded": "开始任务:无尽的财富岛"}
 	},
@@ -42,7 +44,7 @@
 		]
 	},
 	"__ScenePrivateStewardEndlessWealthIsleDone": {
-		"desc": "管家页面未找到财富岛",
+		"desc": "管家页面未找到到财富岛或者到财富岛任务已经完成",
 		"recognition": "And",
 		"all_of": ["InStewardPage"],
 		"pre_delay": 0,
@@ -50,18 +52,15 @@
 		"rate_limit": 0
 	},
 	"__ScenePrivateStewardGotoEndlessWealthIsle": {
-		"desc": "点击无尽的财富岛后面的前往进入比比奇页面",
+		"desc": "点击无尽的财富岛后面的前往进入财富岛页面",
 		"recognition": "OCR",
 		"expected": "前往",
 		"roi": "__SceneStewarHasYellowEndlessWealthIsle",
 		"roi_offset": [0, -20, 400, 40],
 		"action": "Click",
 		"pre_delay": 0,
-		"post_wait_freezes": 200,
-		"rate_limit": 0,
-		"next": [
-			"InEndlessWealthIslePage"
-		]
+		"post_wait_freezes": 500,
+		"rate_limit": 0
 	},
 	"InEndlessWealthIslePage": {
 		"desc": "在财富岛页面",

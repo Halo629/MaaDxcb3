@@ -695,19 +695,45 @@
 	},
 	"InPersonalInfoPage": {
 		"desc": "判断是否在个人信息页面",
-		"recognition": "Or",
-		"any_of": [
+		"recognition": "And",
+		"all_of": [
 			{
 				"recognition": "OCR",
 				"expected": "个人信息",
-				"roi": [152, 1130, 120, 42],
-				"only_rec": true
+				"roi": [153, 1130, 121, 38],
+				"only_rec": true,
+				"sub_name": "PersonalInfoPos"
 			},
 			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [12, 100, 100],
+				"upper": [20, 200, 255],
+				"roi": "PersonalInfoPos",
+				"count": 30
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0
+	},
+	"InSettingPage": {
+		"desc": "判断是否在设置页面",
+		"recognition": "And",
+		"all_of": [
+			{
 				"recognition": "OCR",
-				"expected": "生涯记录|生涯",
-				"roi": [305, 436, 107, 30],
-				"only_rec": true
+				"expected": "设置",
+				"roi": [461, 1130, 69, 36],
+				"only_rec": true,
+				"sub_name": "SettingPos"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [12, 100, 100],
+				"upper": [20, 200, 255],
+				"roi": "SettingPos",
+				"count": 30
 			}
 		],
 		"pre_delay": 0,

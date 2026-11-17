@@ -662,7 +662,7 @@ MaaBool findTargetMonsterSoul(
     MaaRect* outBox,
     MaaStringBuffer* outDetail)
 {
-    // 背包魔魂已满时，升级到背包容量以下就停止
+    // 背包魔魂已满时，升级到背包容量-11才停止
     if (g_mongsterSoulFullFlag) {
         int curCount = 0;
         int capacity = 0;
@@ -670,7 +670,7 @@ MaaBool findTargetMonsterSoul(
         if (g_startGridPos == -1 && curCount >= capacity) {
             LogUtils::info(fmt("背包魔魂已满(%1/%2)，开始升级魔魂", curCount, capacity));
         }
-        if (curCount < capacity) {
+        if (curCount < capacity - 11) {
             return false;
         }
     }

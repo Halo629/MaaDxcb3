@@ -77,7 +77,7 @@
 		"assets/tasks/WeeklySkyreachTower.json",
 		"assets/tasks/WeeklyNightmareMirror.json",
 		// group: activity_tasks
-		//荣光复铸/桂影长歌
+		//荣光复铸/桂影长歌/星夜之约
 		"assets/tasks/ActivityCollection1.json",
 		//引石化灵/萃石成英/织星成辉
 		"assets/tasks/AlchemyActivity.json",
@@ -113,8 +113,10 @@
 		"assets/tasks/BattlePlan.json",
 		//树枝活动：夏夜荷塘/颂礼幽廊
 		"assets/tasks/BranchActivity.json",
+		// 月影群岛
 		"assets/tasks/MoonlightIsles.json",
 		// group: other_tasks
+		"assets/tasks/RedeemCode.json",
 		"assets/tasks/ArcanePrison.json",
 		"assets/tasks/MonsterSoulUpgrade.json",
 		//"assets/tasks/RuneUpgrade.json",

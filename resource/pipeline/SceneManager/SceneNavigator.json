@@ -966,6 +966,7 @@
 		"recognition": "And",
 		"all_of": ["InCampfire"],
 		"action": "Click",
+		"target_offset": [108, 54, -220, -120],
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [193, 198, 371, 771],

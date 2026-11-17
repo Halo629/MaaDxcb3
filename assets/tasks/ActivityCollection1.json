@@ -28,15 +28,9 @@
 			"name": "OathOfStarryNight",
 			"label": "🌌星夜之约",
 			"entry": "OathOfStarryNightStart",
-			"pipeline_override": {
-                "ActivityCommonNotCompletedTaskEnable": {
-                    "attach": {
-                        "UseFoodEnable": true
-                    }
-                }
-            },
 			"group": ["activity_tasks"],
 			"option": [
+				"ActivityCollection1UseFood",
 				"ActivityCollection1Engrave"
 			]
 		}
@@ -104,6 +98,30 @@
 					"pipeline_override": {
 						"ActivityCommonNotCompletedTaskEnable": {
 							"attach": {"EngraveEquipmentEnable": false}
+						}
+					}
+				}
+			]
+		},
+		"ActivityCollection1UseFood": {
+			"type": "switch",
+			"label": "使用食物",
+			"description":"只会使用可生产的食物",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"ActivityCommonNotCompletedTaskEnable": {
+							"attach": {"UseFoodEnable": true}
+						}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"ActivityCommonNotCompletedTaskEnable": {
+							"attach": {"UseFoodEnable": false}
 						}
 					}
 				}

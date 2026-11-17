@@ -22,6 +22,7 @@ void registerCustomDarkSecretTreasure(MaaResource* res, void* user_data);
 void registerCustomBattleTimeTest(MaaResource* res, void* user_data);
 void registerCustomGreatMarshExpedition(MaaResource* res, void* user_data);
 void registerCustomExpressionRecognition(MaaResource* res, void* user_data);
+void registerCustomRedeemCode(MaaResource* res, void* user_data);
 
 void registerAllCustomRecognition(MaaResource* res, void* user_data)
 {
@@ -47,4 +48,5 @@ void registerAllCustomRecognition(MaaResource* res, void* user_data)
     registerCustomBattleTimeTest(res, user_data);
     registerCustomGreatMarshExpedition(res, user_data);
     registerCustomExpressionRecognition(res, user_data);
+    registerCustomRedeemCode(res, user_data);
 }
