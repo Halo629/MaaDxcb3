@@ -1,0 +1,159 @@
+{
+	"RedeemCodeStart": {
+		"desc": "兑换码兑换入口",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"[JumpBack]InputRedeemCodes",
+			"RedeemStart",
+			"[JumpBack]RedeemCodeEntry",
+			"[JumpBack]SceneEnterSettingPage"
+		]
+	},
+	"RedeemCodeButton": {
+		"desc": "兑换码按钮",
+		"recognition": "TemplateMatch",
+		"template": "common/RedeemCode.png",
+		"roi": [31, 189, 655, 631]
+	},
+	"RedeemCodeEntry": {
+		"desc": "点击兑换码进入兑换页面",
+		"recognition": "And",
+		"all_of": ["InSettingPage", "RedeemCodeButton"],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [31, 35, -63, -74],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [31, 189, 655, 631],
+			"timeout": 2000
+		}
+	},
+	"InRedeemPage": {
+		"desc": "在兑换礼品页面",
+		"recognition": "OCR",
+		"expected": "兑换礼品|换礼品|礼品",
+		"roi": [303, 495, 115, 32],
+		"only_rec": true,
+		"post_delay": 0
+	},
+	"RedeemStart": {
+		"desc": "开始兑换礼品",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InRedeemPage"],
+		"next": [
+			"[JumpBack]RedeemCodeInput",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"RedeemCode": {
+		"desc": "兑换礼包码",
+		"recognition": "OCR",
+		"expected": "兑换|兑|换",
+		"roi": [335, 706, 52, 31],
+		"only_rec": true,
+		"post_delay": 0,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [31, 189, 655, 631],
+			"timeout": 2000
+		},
+		"timeout": 5000,
+		"next": [
+			"[JumpBack]HandleRewardDialog",
+			"[JumpBack]ConfirmButton",
+			"RedeemComplete",
+			"ClearRedeemCode"
+		]
+	},
+	"InputRedeemCodeBox": {
+		"desc": "输入兑换码框",
+		"recognition": "OCR",
+		"expected": "请输入兑换码|输入兑换码|请输入|输入",
+		"roi": [182, 553, 141, 28],
+		"only_rec": true
+	},
+	"RedeemComplete": {
+		"desc": "礼包码已兑换完",
+		"recognition": "Custom",
+		"custom_recognition": "RedeemComplete",
+		"next": [
+			"SceneEnterMainPage"
+		]
+	},
+	"RedeemCodeInput": {
+		"desc": "请输入兑换码",
+		"recognition": "And",
+		"all_of": ["InputRedeemCodeBox"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [31, 189, 655, 631],
+			"timeout": 2000
+		},
+		"timeout": 5000,
+		"next": [
+			"InputSingleRedeemCode"
+		]
+	},
+	"InputSingleRedeemCode": {
+		"desc": "输入单个兑换码",
+		"action": "Custom",
+		"custom_action": "InputSingleRedeemCode",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [31, 189, 655, 631],
+			"timeout": 2000
+		},
+		"next": [
+			"RedeemCode"
+		]
+	},
+	"InputRedeemCodes": {
+		"desc": "输入兑换码",
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "InputRedeemCodes",
+		"attach": {"code": ""}
+	},
+	"RedeemCodeUsed": {
+		"desc": "cdkey已经被自己使用",
+		"recognition": "OCR",
+		"expected": "cdkey已经被自己使用|已经|使用|cdkey",
+		"roi": [241, 579, 240, 29],
+		"only_rec": true
+	},
+	"ClearRedeemCode": {
+		"desc": "清空兑换码输入框",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"target": [353, 557, 32, 18],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [31, 189, 655, 631],
+			"timeout": 2000
+		},
+		"timeout": 5000,
+		"next": [
+			"InputRedeemCodeBox",
+			"[JumpBack]DeleteUsedRedeemCode"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"DeleteUsedRedeemCode": {
+		"desc": "删除已经使用的兑换码",
+		"action": "ClickKey",
+		"key": 67,
+		"pre_delay": 0,
+		"post_delay": 0
+	}
+}
