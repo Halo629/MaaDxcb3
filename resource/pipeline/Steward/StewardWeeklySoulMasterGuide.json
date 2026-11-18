@@ -40,8 +40,8 @@
 		"next": [
 			"[JumpBack]ShatteredRealmStart",
 			"[JumpBack]ActivityCommonSoulTombSub",
-			"[JumpBack]ActivityCommonEngraveSub",
-			"[JumpBack]ActivityCommonReforgeSub",
+			"[JumpBack]EquipmentEngraveStart",
+			"[JumpBack]EquipmentReforgeStart",
 			"__ScenePrivateNextTrue"
 		]
 	},

@@ -1,15 +1,17 @@
 #include "Comm.h"
 
 #include <cctype>
+#include <cmath>
+#include <sstream>
 
 namespace
 {
 // ──── 表达式求值 ──────────────────────────────────────────────────
-// 求值结果：整数或布尔。表达式最终必须是布尔值。
+// 求值结果：数值或布尔。表达式最终必须是布尔值。
 struct ExprValue
 {
     bool isBool = false;
-    long long intVal = 0;
+    double numVal = 0;
     bool boolVal = false;
 };
 
@@ -230,7 +232,7 @@ private:
             if (!parseUnary(out) || out.isBool) {
                 return false;
             }
-            out.intVal = -out.intVal;
+            out.numVal = -out.numVal;
             return true;
         }
         if (consume('+')) {
@@ -250,14 +252,25 @@ private:
             return consume(')');
         }
         size_t start = pos_;
-        while (pos_ < s_.size() && std::isdigit((unsigned char)s_[pos_])) {
-            ++pos_;
+        bool seenDot = false;
+        while (pos_ < s_.size()) {
+            char c = s_[pos_];
+            if (std::isdigit((unsigned char)c)) {
+                ++pos_;
+            }
+            else if (c == '.' && !seenDot) {
+                seenDot = true;
+                ++pos_;
+            }
+            else {
+                break;
+            }
         }
         if (start == pos_) {
             return false;
         }
         out.isBool = false;
-        out.intVal = std::stoll(s_.substr(start, pos_ - start));
+        out.numVal = std::stod(s_.substr(start, pos_ - start));
         return true;
     }
 
@@ -268,25 +281,25 @@ private:
         }
         switch (op) {
         case '+':
-            l.intVal += r.intVal;
+            l.numVal += r.numVal;
             return true;
         case '-':
-            l.intVal -= r.intVal;
+            l.numVal -= r.numVal;
             return true;
         case '*':
-            l.intVal *= r.intVal;
+            l.numVal *= r.numVal;
             return true;
         case '/':
-            if (r.intVal == 0) {
+            if (r.numVal == 0) {
                 return false;
             }
-            l.intVal /= r.intVal;
+            l.numVal /= r.numVal;
             return true;
         case '%':
-            if (r.intVal == 0) {
+            if (r.numVal == 0) {
                 return false;
             }
-            l.intVal %= r.intVal;
+            l.numVal = std::fmod(l.numVal, r.numVal);
             return true;
         default:
             return false;
@@ -301,16 +314,16 @@ private:
         bool result = false;
         switch (op) {
         case 1:
-            result = l.intVal <= r.intVal;
+            result = l.numVal <= r.numVal;
             break;
         case 2:
-            result = l.intVal >= r.intVal;
+            result = l.numVal >= r.numVal;
             break;
         case 3:
-            result = l.intVal < r.intVal;
+            result = l.numVal < r.numVal;
             break;
         case 4:
-            result = l.intVal > r.intVal;
+            result = l.numVal > r.numVal;
             break;
         default:
             return false;
@@ -325,7 +338,7 @@ private:
         if (l.isBool != r.isBool) {
             return false;
         }
-        bool result = l.isBool ? (l.boolVal == r.boolVal) : (l.intVal == r.intVal);
+        bool result = l.isBool ? (l.boolVal == r.boolVal) : (l.numVal == r.numVal);
         l.isBool = true;
         l.boolVal = result;
         return true;
@@ -369,7 +382,7 @@ std::string normalizeNumberToken(const std::string& token)
 }
 
 // 解析 OCR 文本中的数值，支持 万/亿/K/M/B 缩写。
-bool parseOcrNumericValue(const std::string& text, long long& outValue)
+bool parseOcrNumericValue(const std::string& text, double& outValue)
 {
     std::string cleaned = trim(text);
     if (cleaned.empty()) {
@@ -430,12 +443,12 @@ bool parseOcrNumericValue(const std::string& text, long long& outValue)
     }
 
     double value = std::stod(normalized);
-    outValue = (long long)std::round(value * multiplier);
+    outValue = value * multiplier;
     return true;
 }
 
 // 从 OCR 识别 detail 对象（{all, filtered, best}）中提取数值。
-bool extractNumberFromOcrDetail(json::value& detail, long long& outValue)
+bool extractNumberFromOcrDetail(json::value& detail, double& outValue)
 {
     if (!detail.is_object()) {
         return false;
@@ -493,7 +506,7 @@ bool resolveAndBoxIndex(MaaContext* context, const char* nodeName, bool& isAnd, 
 }
 
 // 运行指定节点的识别，提取其中的 OCR 数值。
-bool runNumericRecognition(MaaContext* context, const MaaImageBuffer* image, const char* nodeName, long long& outValue)
+bool runNumericRecognition(MaaContext* context, const MaaImageBuffer* image, const char* nodeName, double& outValue)
 {
     auto* tasker = MaaContextGetTasker(context);
     auto recoId = MaaContextRunRecognition(context, nodeName, "{}", image);
@@ -533,8 +546,33 @@ bool runNumericRecognition(MaaContext* context, const MaaImageBuffer* image, con
     return extractNumberFromOcrDetail(j, outValue);
 }
 
-// 解析表达式中的 {节点名} 占位符，替换为对应 OCR 数值。
-bool resolveExpressionValues(MaaContext* context, const MaaImageBuffer* image, const std::string& expression, std::string& outResolved)
+// 把 double 转成字符串，去掉多余尾随 0，保证表达式可读（如 89.1 而不是 89.100000）。
+std::string doubleToString(double v)
+{
+    std::ostringstream oss;
+    oss << v;
+    return oss.str();
+}
+
+// 把 params 里的值转成字符串（数字转数值串，字符串原样），供表达式求值。
+std::string paramValueToString(const json::value& v)
+{
+    if (v.is_string()) {
+        return v.as_string();
+    }
+    if (v.is_number()) {
+        return doubleToString(v.as_double());
+    }
+    return "";
+}
+
+// 解析表达式中的 {名字} 占位符：优先取 params 里的同名参数，其次按节点名跑 OCR 取数值。
+bool resolveExpressionValues(
+    MaaContext* context,
+    const MaaImageBuffer* image,
+    const std::string& expression,
+    const json::value& params,
+    std::string& outResolved)
 {
     std::string result;
     size_t i = 0;
@@ -548,15 +586,21 @@ bool resolveExpressionValues(MaaContext* context, const MaaImageBuffer* image, c
         if (close == std::string::npos) {
             return false;
         }
-        std::string nodeName = trim(expression.substr(i + 1, close - i - 1));
-        if (nodeName.empty()) {
+        std::string name = trim(expression.substr(i + 1, close - i - 1));
+        if (name.empty()) {
             return false;
         }
-        long long value = 0;
-        if (!runNumericRecognition(context, image, nodeName.c_str(), value)) {
-            return false;
+
+        if (params.is_object() && params.contains(name)) {
+            result += paramValueToString(params.get(name, json::value("")));
         }
-        result += std::to_string(value);
+        else {
+            double value = 0;
+            if (!runNumericRecognition(context, image, name.c_str(), value)) {
+                return false;
+            }
+            result += doubleToString(value);
+        }
         i = close + 1;
     }
     outResolved = std::move(result);
@@ -585,7 +629,8 @@ bool resolveResultBox(MaaContext* context, const MaaImageBuffer* image, const ch
 // ──── 自定义识别：ExpressionRecognition ─────────────────────────
 // 计算由数字识别节点组成的布尔表达式。
 // custom_recognition_param:
-//   expression: string，必填，最终必须计算为布尔值。占位符 {节点名} 引用其他识别节点。
+//   expression: string，必填，最终必须计算为布尔值。占位符 {节点名} 引用其他识别节点，{参数名} 引用 params 里的值。
+//   params:     object，可选，命名参数（值可为数字或字符串），{参数名} 会被替换为对应值。
 //   box_node:   string，可选，命中后返回该节点的结果框；默认返回当前识别 ROI。
 MaaBool expressionRecognition(
     MaaContext* context,
@@ -602,13 +647,14 @@ MaaBool expressionRecognition(
     auto param = json::parse(customRecognitionParam ? customRecognitionParam : "{}").value_or(json::value {});
     std::string expression = param.is_object() ? param.get("expression", json::value("")).as_string() : "";
     std::string boxNode = param.is_object() ? param.get("box_node", json::value("")).as_string() : "";
+    json::value params = param.is_object() ? param.get("params", json::value(json::object {})) : json::value(json::object {});
     if (expression.empty()) {
         LogUtils::error("ExpressionRecognition: expression 缺失");
         return false;
     }
 
     std::string resolved;
-    if (!resolveExpressionValues(context, image, expression, resolved)) {
+    if (!resolveExpressionValues(context, image, expression, params, resolved)) {
         LogUtils::debug(fmt("ExpressionRecognition: 解析表达式值失败: %1", expression));
         return false;
     }

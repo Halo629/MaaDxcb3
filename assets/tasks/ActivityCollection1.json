@@ -2,7 +2,7 @@
 	"task": [
 		{
 			"name": "GloryRecast",
-			"label": "⚒️荣光复铸",
+			"label": "🔥荣光复铸",
 			"entry": "GloryRecastStart",
 			"group": ["activity_tasks"],
 			"option": [
@@ -65,6 +65,8 @@
 				{
 					"name": "Yes",
 					"pipeline_override": {
+						"ReforgeTaskStart": {"enabled": true},
+						"FirstRoleEquipmentReforge": {"enabled": true},
 						"ActivityCommonNotCompletedTaskEnable": {
 							"attach": {"ReforgeEquipmentEnable": true}
 						}
@@ -73,6 +75,7 @@
 				{
 					"name": "No",
 					"pipeline_override": {
+						"ReforgeTaskStart": {"enabled": false},
 						"ActivityCommonNotCompletedTaskEnable": {
 							"attach": {"ReforgeEquipmentEnable": false}
 						}
@@ -83,6 +86,7 @@
 		"ActivityCollection1Engrave": {
 			"type": "switch",
 			"label": "铭刻装备2次",
+			"description": "优先铭刻黄色装备，可选黄色腐蚀液不足时铭刻绿色装备",
 			"default_case": "Yes",
 			"cases": [
 				{
@@ -90,8 +94,10 @@
 					"pipeline_override": {
 						"ActivityCommonNotCompletedTaskEnable": {
 							"attach": {"EngraveEquipmentEnable": true}
-						}
-					}
+						},
+						"EngraveBtn": {"max_hit": 2}
+					},
+					"option": ["EngraveGreenEquipment"]
 				},
 				{
 					"name": "No",
@@ -106,7 +112,7 @@
 		"ActivityCollection1UseFood": {
 			"type": "switch",
 			"label": "使用食物",
-			"description":"只会使用可生产的食物",
+			"description": "只会使用可生产的食物",
 			"default_case": "Yes",
 			"cases": [
 				{

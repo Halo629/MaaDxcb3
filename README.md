@@ -40,7 +40,7 @@ Powered by [MaaFramework](https://github.com/MaaXYZ/MaaFramework) & [MXU](https:
 
 ### 🎪 活动任务
 
-- ⚒️ **荣光复铸**
+- 🔥 **荣光复铸**
 - 🥮 **桂影长歌**
 - 🪨 **引石化灵**
 - ⚗️ **点石成金**

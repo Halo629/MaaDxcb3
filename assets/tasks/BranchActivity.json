@@ -59,6 +59,8 @@
 				{
 					"name": "Yes",
 					"pipeline_override": {
+						"ReforgeTaskStart":{"enabled":true},
+						"FirstRoleEquipmentReforge": {"enabled": true},
 						"ActivityCommonNotCompletedTaskEnable": {
 							"attach": {"ReforgeEquipmentEnable": true}
 						}
@@ -67,6 +69,7 @@
 				{
 					"name": "No",
 					"pipeline_override": {
+						"ReforgeTaskStart":{"enabled":false},
 						"ActivityCommonNotCompletedTaskEnable": {
 							"attach": {"ReforgeEquipmentEnable": false}
 						}

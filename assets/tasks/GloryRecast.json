@@ -2,7 +2,7 @@
     "task": [
         {
             "name": "GloryRecast",
-            "label": "⚒️荣光复铸",
+            "label": "🔥荣光复铸",
             "entry": "GloryRecastStart",
             "group": [
                 "activity_tasks"

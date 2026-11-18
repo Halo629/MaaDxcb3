@@ -1,0 +1,121 @@
+{
+	"task": [
+		{
+			"name": "ReforgeEquipment",
+			"label": "⚒️重铸装备",
+			"description": "自动重铸装备",
+			"entry": "EquipmentReforgeStart",
+			"pipeline_override": {
+				"EquipmentReforgeStart": {"enabled": true},
+				"ReforgeToTargetStart": {"enabled": true}
+			},
+			"group": ["other_tasks"],
+			"option": [
+				"WeaponReforgeTarget",
+				"ArmorReforgeTarget",
+				"ReforgeTargetRole"
+			]
+		}
+	],
+	"option": {
+		"WeaponReforgeTarget": {
+			"type": "input",
+			"label": "武器重铸目标",
+			"inputs": [
+				{
+					"name": "WeaponReforgeTargetValue",
+					"label": "输入重铸目标，支持小数点",
+					"pipeline_type": "string",
+					"default": "99"
+				}
+			],
+			"pipeline_override": {
+				"WeaponReforgeQualified": {
+					"custom_recognition_param": {
+						"expression": "{ReforgeValue}>={target}",
+						"params": {
+							"target": "{WeaponReforgeTargetValue}"
+						}
+					}
+				}
+			}
+		},
+		"ArmorReforgeTarget": {
+			"type": "input",
+			"label": "防具重铸目标",
+			"inputs": [
+				{
+					"name": "ArmorReforgeTargetValue",
+					"label": "输入重铸目标，支持小数点",
+					"pipeline_type": "string",
+					"default": "95"
+				}
+			],
+			"pipeline_override": {
+				"ArmorReforgeQualified": {
+					"custom_recognition_param": {
+						"expression": "{ReforgeValue}>={target}",
+						"params": {
+							"target": "{ArmorReforgeTargetValue}"
+						}
+					}
+				}
+			}
+		},
+		"ReforgeTargetRole": {
+			"type": "select",
+			"label": "选择需要重铸的人物,从左往右，前排1,2,3，后排4,5,6",
+			"default_case": "all",
+			"cases": [
+				{
+					"name": "all",
+					"label": "所有人物",
+					"pipeline_override": {
+						"FirstRoleEquipmentReforge": {"enabled": true},
+						"SecondRoleEquipmentReforge": {"enabled": true},
+						"ThirdRoleEquipmentReforge": {"enabled": true},
+						"FourthRoleEquipmentReforge": {"enabled": true},
+						"FifthRoleEquipmentReforge": {"enabled": true},
+						"SixthRoleEquipmentReforge": {"enabled": true}
+					}
+				},
+				{
+					"name": "1号",
+					"pipeline_override": {
+						"FirstRoleEquipmentReforge": {"enabled": true}
+					}
+				},
+				{
+					"name": "2号",
+					"pipeline_override": {
+						"SecondRoleEquipmentReforge": {"enabled": true}
+					}
+				},
+				{
+					"name": "3号",
+					"pipeline_override": {
+						"ThirdRoleEquipmentReforge": {"enabled": true}
+					}
+				},
+				{
+					"name": "4号",
+					"pipeline_override": {
+						"FourthRoleEquipmentReforge": {"enabled": true}
+					}
+				},
+				{
+					"name": "5号",
+					"pipeline_override": {
+						"FifthRoleEquipmentReforge": {"enabled": true}
+					}
+				},
+				{
+					"name": "6号",
+					"pipeline_override": {
+						"SixthRoleEquipmentReforge": {"enabled": true}
+					}
+				}
+			]
+		}
+	}
+}

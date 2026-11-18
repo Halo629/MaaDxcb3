@@ -410,6 +410,7 @@
 		"StewardWeeklySoulMasterGuideEngraveEquipmentSub": {
 			"type": "switch",
 			"label": "铭刻1次装备",
+			"description": "优先铭刻黄色装备，可选黄色腐蚀液不足时铭刻绿色装备",
 			"default_case": "Yes",
 			"cases": [
 				{
@@ -418,8 +419,9 @@
 						"SoulMasterGuideWeeklyTaskEnable": {
 							"attach": {"EngraveEquipmentEnable": true}
 						},
-						"EngraveStart": {"max_hit": 1}
-					}
+						"EngraveBtn": {"max_hit": 1}
+					},
+					"option": ["EngraveGreenEquipment"]
 				},
 				{
 					"name": "No",
@@ -427,6 +429,25 @@
 						"SoulMasterGuideWeeklyTaskEnable": {
 							"attach": {"EngraveEquipmentEnable": false}
 						}
+					}
+				}
+			]
+		},
+		"EngraveGreenEquipment": {
+			"type": "switch",
+			"label": "黄色腐蚀液不足时铭刻绿色装备",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"SelectGreenEquipment": {"enabled": true}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"SelectGreenEquipment": {"enabled": false}
 					}
 				}
 			]

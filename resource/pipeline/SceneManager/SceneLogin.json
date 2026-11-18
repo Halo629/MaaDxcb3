@@ -483,7 +483,8 @@
 		"timeout": 10000,
 		"next": [
 			"InGameCheck",
-			"LoginPageClickStartGameButton"
+			"LoginPageClickStartGameButton",
+			"[JumpBack]LoginPageEventsHandle"
 		],
 		"on_error": [
 			"__ScenePrivateNextTrue"
@@ -529,9 +530,9 @@
 		"all_of": ["InLoginPage"],
 		"desc": "处理登录界面各种弹框/点击事件,直到开始游戏按钮出现",
 		"next": [
+			"[JumpBack]ConfirmButton",
 			"LoginPageHasStartGameButton",
 			"[JumpBack]LoginPageCloseLoginAnnouncement",
-			"[JumpBack]ConfirmButton",
 			"[JumpBack]LoginPageClickPressAnyKey",
 			"[JumpBack]GuopanClickEnterGame"
 		],

@@ -63,8 +63,8 @@ MaaBool soulMasterGuideWeeklyTasks(
     json::value overrideVal = json::object {
         { "ShatteredRealmStart", json::object { { "enabled", shatteredRealmEnable } } },
         { "ActivityCommonSoulTombSub", json::object { { "enabled", soulTombEnable } } },
-        { "ActivityCommonEngraveSub", json::object { { "enabled", engraveEnable } } },
-        { "ActivityCommonReforgeSub", json::object { { "enabled", reforgeEnable } } },
+        { "EquipmentEngraveStart", json::object { { "enabled", engraveEnable } } },
+        { "EquipmentReforgeStart", json::object { { "enabled", reforgeEnable } } },
     };
     MaaContextOverridePipeline(context, overrideVal.to_string().c_str());
 
@@ -233,15 +233,15 @@ MaaBool activityCommonTasks(
         overrideVal["ActivityCommonFoodPageUseFood"] = json::value(json::object { { "max_hit", foodMax } });
     }
     if (gateEngrave) {
-        overrideVal["ActivityCommonEngraveSub"] = json::value(json::object { { "enabled", engraveEnable } });
-        overrideVal["EngraveStart"] = json::value(json::object { { "max_hit", engraveMax } });
+        overrideVal["EquipmentEngraveStart"] = json::value(json::object { { "enabled", engraveEnable } });
+        overrideVal["EngraveBtn"] = json::value(json::object { { "max_hit", engraveMax } });
     }
     if (gateSoulTomb) {
         overrideVal["ActivityCommonSoulTombSub"] = json::value(json::object { { "enabled", soulTombEnable } });
         overrideVal["SoulTombLoop"] = json::value(json::object { { "max_hit", soulTombMax } });
     }
     if (gateReforge) {
-        overrideVal["ActivityCommonReforgeSub"] = json::value(json::object { { "enabled", reforgeEnable } });
+        overrideVal["EquipmentReforgeStart"] = json::value(json::object { { "enabled", reforgeEnable } });
         overrideVal["ReforgeConfirm"] = json::value(json::object { { "max_hit", reforgeMax } });
     }
     if (gateScroll) {

@@ -23,6 +23,130 @@
 			"[JumpBack]__ScenePrivatePressEscUntilExitGame"
 		]
 	},
+	"SceneEnterEngravePage": {
+		"desc": "从任意界面回到铭刻界面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InEngravePage",
+			"[JumpBack]CollapseSideBar",
+			"EquipmentEngraveEntry",
+			"[JumpBack]AlbedoEntry",
+			"[JumpBack]FindAlbedoSwipeDown",
+			"[JumpBack]FindAlbedoSwipeLeftInCampfire",
+			"[JumpBack]SceneEnterMainPage"
+		]
+	},
+	"InEngravePage": {
+		"desc": "在装备铭刻页面",
+		"recognition": "OCR",
+		"expected": "铭刻",
+		"roi": [321, 711, 76, 28],
+		"post_delay": 0
+	},
+	"AlbedoFound": {
+		"desc": "识别雅尔贝德",
+		"recognition": "OCR",
+		"expected": "雅尔贝德|雅尔|贝德",
+		"post_delay": 0,
+		"pre_delay": 0
+	},
+	"AlbedoEntry": {
+		"desc": "识别并点击雅尔贝德",
+		"recognition": "And",
+		"all_of": ["AlbedoFound"],
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"target_offset": [0, -50, 0, 0],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [0, 946, 720, 334],
+			"timeout": 10000
+		}
+	},
+	"EquipmentEngraveEntry": {
+		"desc": "进入装备铭刻页面",
+		"recognition": "TemplateMatch",
+		"template": "engrave/equipment_engrave.png",
+		"roi": [258, 772, 461, 121],
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [210, 540, 304, 281],
+			"timeout": 5000
+		}
+	},
+	"FindAlbedoSwipeDown": {
+		"recognition": "And",
+		"all_of": ["InCampfire"],
+		"max_hit": 1,
+		"action": "Swipe",
+		"begin": [450, 900],
+		"end": [450, 1100],
+		"duration": 300,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [222, 331, 281, 790],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"FindAlbedoSwipeLeft": {
+		"desc": "在主页营火处左滑，找到雅儿贝德",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Swipe",
+		"begin": [550, 900],
+		"end": [200, 900],
+		"duration": 200,
+		"max_hit": 2,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [222, 331, 281, 790],
+			"timeout": 2000
+		}
+	},
+	"FindAlbedoSwipeLeftInCampfire": {
+		"desc": "在主页营火处左滑，找到雅儿贝德",
+		"recognition": "And",
+		"all_of": ["InCampfire"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Swipe",
+		"begin": [550, 900],
+		"end": [200, 900],
+		"duration": 200,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [222, 331, 281, 790],
+			"timeout": 2000
+		},
+		"next": [
+			"AlbedoFound",
+			"[JumpBack]FindAlbedoSwipeLeft"
+		]
+	},
+	"SceneEnterTeamPage": {
+		"desc": "从任意界面回到编队界面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InTeamPage",
+			"[JumpBack]ReforgeEntry",
+			"[JumpBack]SceneEnterMainPage"
+		]
+	},
 	"SceneEnterMonsterSoulPage": {
 		"desc": "从任意界面回到魔魂刷取页面",
 		"pre_delay": 0,

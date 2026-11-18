@@ -260,7 +260,7 @@ static void battleCry(MaaContext* context, int cryColumn, int beanCountBeforeCry
         if (col.beginX != 0 || col.beginY != 0) {
             auto s = MaaControllerPostSwipe(ctrl, col.beginX, col.beginY, col.endX, col.endY, col.duration);
             MaaControllerWait(ctrl, s);
-            std::this_thread::sleep_for(std::chrono::milliseconds(200));
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
         }
         // 战吼后豆子没少，可能吼失败了，再吼一次
         int beanCountAfterCry = getBeanCount(context);

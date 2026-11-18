@@ -6,6 +6,17 @@
 		"action": "Click",
 		"post_delay": 3000
 	},
+	"__ScenePrivateReturnRiskFail": {
+		"desc": "返回冒险可能被弹框遮挡，点击后没有回到地图",
+		"recognition": "And",
+		"all_of": ["__ScenePrivateReturnRisk"],
+		"post_delay": 0,
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"PressEsc"
+		]
+	},
 	"__ScenePrivateReturnSecretRealm": {
 		"recognition": "OCR",
 		"expected": "返回秘境|秘境",

@@ -1,0 +1,680 @@
+{
+	"EquipmentReforgeStart": {
+		"desc": "重铸装备",
+		"enabled": false,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"ReforgeTaskStart",
+			"ReforgeToTargetStart",
+			"[JumpBack]SceneEnterTeamPage"
+		]
+	},
+	"ReforgeTaskStart": {
+		"desc": "重铸任务入口",
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InTeamPage"],
+		"next": [
+			"[JumpBack]FirstRoleEquipmentReforge",
+			"ReforgeEquiment",
+			"[JumpBack]RefiningLinking",
+			"[JumpBack]ReforgeClickRefine",
+			"[JumpBack]ReforgeClickReforge",
+			"[JumpBack]SelectArmorEquipment",
+			"ReforgeFail"
+		]
+	},
+	"ReforgeToTargetStart": {
+		"desc": "重铸装备到目标数值入口",
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InTeamPage"],
+		"next": [
+			"InSelectRebornPage",
+			"[JumpBack]RefiningLinking",
+			"[JumpBack]QuickReforgeEquiment",
+			"[JumpBack]ReforgeClickRefine",
+			"[JumpBack]ReforgeClickReforge",
+			"[JumpBack]ReforgeSelectWeapon",
+			"[JumpBack]SelectArmorEquipment",
+			"[JumpBack]FirstRoleEquipmentReforge",
+			"[JumpBack]SecondRoleEquipmentReforge",
+			"[JumpBack]ThirdRoleEquipmentReforge",
+			"[JumpBack]FourthRoleEquipmentReforge",
+			"[JumpBack]FifthRoleEquipmentReforge",
+			"[JumpBack]SixthRoleEquipmentReforge",
+			"ReforgeDone"
+		]
+	},
+	"SelectArmorEquipment": {
+		"desc": "选择防具",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InRoleEquipmentPage"],
+		"anchor": {
+			"ReforgeQualifiedAnchor": "ArmorReforgeQualified"
+		},
+		"next": [
+			"ReforgeSelectHelmet",
+			"ReforgeSelectArmor",
+			"ReforgeSelectHands",
+			"ReforgeSelectBelt",
+			"ReforgeSelectRing",
+			"ReforgeSelectBoot",
+			"PressEsc"
+		]
+	},
+	"InRoleEquipmentPage": {
+		"desc": "在人物装备页面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "common/UnloadEquipment.png",
+		"roi": [382, 1080, 332, 94]
+	},
+	"ReforgeEquiment": {
+		"desc": "重铸",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["ReforgeConfirmButton"],
+		"next": [
+			"[JumpBack]HighPerfectionRateNotice",
+			"[JumpBack]ReforgeConfirm",
+			"[JumpBack]ReforgeSelectSilverCoin",
+			"ReforgeDone"
+		]
+	},
+	"QuickReforgeEquiment": {
+		"desc": "快速重铸",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["ReforgeConfirmButton"],
+		"next": [
+			"[Anchor]ReforgeQualifiedAnchor",
+			"[JumpBack]HighPerfectionRateNotice",
+			"[JumpBack]QuickReforgeConfirm",
+			"[JumpBack]ReforgeSelectSilverCoin"
+		]
+	},
+	"ReforgeEntry": {
+		"desc": "点击远征队",
+		"recognition": "And",
+		"all_of": ["HasExpeditionTeam"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [260, 540, 200, 200],
+			"timeout": 2000
+		}
+	},
+	"InTeamPage": {
+		"desc": "在编队页面",
+		"recognition": "OCR",
+		"expected": "编队",
+		"roi": [167, 1119, 57, 32],
+		"only_rec": true,
+		"post_delay": 0,
+		"pre_delay": 0
+	},
+	"InRolePage": {
+		"desc": "在角色界面",
+		"recognition": "TemplateMatch",
+		"template": "common/RoleTactic.png",
+		"roi": [614, 107, 104, 313],
+		"post_delay": 0,
+		"pre_delay": 0
+	},
+	"InSelectRebornPage": {
+		"desc": "在选择再生者界面",
+		"recognition": "OCR",
+		"expected": "请选择你的再生者|选择你的|选择|再生者",
+		"roi": [240, 129, 237, 39],
+		"only_rec": true,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"next": [
+			"SceneEnterMainPage"
+		]
+	},
+	"ClearSelectEquipmentHitCount": {
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": [
+				"ReforgeSelectWeapon",
+				"ReforgeSelectHelmet",
+				"ReforgeSelectArmor",
+				"ReforgeSelectHands",
+				"ReforgeSelectBelt",
+				"ReforgeSelectRing",
+				"ReforgeSelectBoot"
+			]
+		}
+	},
+	"FirstRoleEquipmentReforge": {
+		"desc": "选择第一个人物",
+		"enabled": false,
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InTeamPage"],
+		"action": "Click",
+		"target": [146, 348, 48, 108],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [260, 540, 200, 200],
+			"timeout": 2000
+		},
+		"next": [
+			"ClearSelectEquipmentHitCount"
+		]
+	},
+	"SecondRoleEquipmentReforge": {
+		"desc": "选择第二个人物",
+		"max_hit": 1,
+		"enabled": false,
+		"recognition": "And",
+		"all_of": ["InTeamPage"],
+		"action": "Click",
+		"target": [326, 364, 64, 59],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [260, 540, 200, 200],
+			"timeout": 2000
+		},
+		"next": [
+			"ClearSelectEquipmentHitCount"
+		]
+	},
+	"ThirdRoleEquipmentReforge": {
+		"desc": "选择第三个人物",
+		"max_hit": 1,
+		"enabled": false,
+		"recognition": "And",
+		"all_of": ["InTeamPage"],
+		"action": "Click",
+		"target": [527, 353, 59, 60],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [260, 540, 200, 200],
+			"timeout": 2000
+		},
+		"next": [
+			"ClearSelectEquipmentHitCount"
+		]
+	},
+	"FourthRoleEquipmentReforge": {
+		"desc": "选择第四个人物",
+		"max_hit": 1,
+		"enabled": false,
+		"recognition": "And",
+		"all_of": ["InTeamPage"],
+		"action": "Click",
+		"target": [140, 723, 61, 58],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [260, 540, 200, 200],
+			"timeout": 2000
+		},
+		"next": [
+			"ClearSelectEquipmentHitCount"
+		]
+	},
+	"FifthRoleEquipmentReforge": {
+		"desc": "选择第五个人物",
+		"max_hit": 1,
+		"enabled": false,
+		"recognition": "And",
+		"all_of": ["InTeamPage"],
+		"action": "Click",
+		"target": [337, 741, 53, 52],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [260, 540, 200, 200],
+			"timeout": 2000
+		},
+		"next": [
+			"ClearSelectEquipmentHitCount"
+		]
+	},
+	"SixthRoleEquipmentReforge": {
+		"desc": "选择第六个人物",
+		"max_hit": 1,
+		"enabled": false,
+		"recognition": "And",
+		"all_of": ["InTeamPage"],
+		"action": "Click",
+		"target": [525, 731, 48, 52],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [260, 540, 200, 200],
+			"timeout": 2000
+		},
+		"next": [
+			"ClearSelectEquipmentHitCount"
+		]
+	},
+	"ReforgeSelectWeapon": {
+		"desc": "选择武器进行重铸",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InRoleEquipmentPage"],
+		"action": "Click",
+		"target": [438, 928, 51, 67],
+		"anchor": {
+			"ReforgeQualifiedAnchor": "WeaponReforgeQualified"
+		},
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [260, 540, 200, 200],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ReforgeSelectHelmet": {
+		"desc": "选择头盔进行重铸",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["NoHelmet"],
+		"inverse": true,
+		"action": "Click",
+		"target": [562, 878, 32, 27],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [260, 540, 200, 200],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ReforgeSelectArmor": {
+		"desc": "选择护甲进行重铸",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["NoArmor"],
+		"inverse": true,
+		"action": "Click",
+		"target": [650, 885, 30, 22],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [73, 308, 574, 690],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ReforgeSelectHands": {
+		"desc": "选择护手进行重铸",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["NoHands"],
+		"inverse": true,
+		"action": "Click",
+		"target": [557, 956, 32, 28],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [73, 308, 574, 690],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ReforgeSelectBelt": {
+		"desc": "选择腰带进行重铸",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["NoBelt"],
+		"inverse": true,
+		"action": "Click",
+		"target": [646, 963, 33, 24],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [73, 308, 574, 690],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ReforgeSelectRing": {
+		"desc": "选择戒指进行重铸",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["NoRing"],
+		"inverse": true,
+		"action": "Click",
+		"target": [560, 1039, 29, 30],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [73, 308, 574, 690],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ReforgeSelectBoot": {
+		"desc": "选择鞋子进行重铸",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["NoBoot"],
+		"inverse": true,
+		"action": "Click",
+		"target": [646, 1046, 30, 25],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [73, 308, 574, 690],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"RefineButton": {
+		"desc": "精炼按钮",
+		"rate_limit": 0,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"recognition": "TemplateMatch",
+		"template": "common/Refine.png",
+		"roi": [56, 849, 623, 299]
+	},
+	"ReforgeButton": {
+		"desc": "重铸按钮",
+		"rate_limit": 0,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"recognition": "TemplateMatch",
+		"template": "common/Reforge.png",
+		"roi": [56, 849, 623, 299]
+	},
+	"ReforgePageEntry": {
+		"desc": "进入页面",
+		"recognition": "And",
+		"all_of": ["RefineButton"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [73, 308, 574, 690],
+			"timeout": 2000
+		},
+		"next": [
+			"ClickReforge"
+		]
+	},
+	"ReforgeClickReforge": {
+		"desc": "点击重铸按钮进入重铸页面",
+		"recognition": "And",
+		"all_of": ["ReforgeButton"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [73, 308, 574, 690],
+			"timeout": 2000
+		}
+	},
+	"ReforgeClickRefine": {
+		"desc": "点击精炼按钮进入重铸页面",
+		"recognition": "And",
+		"all_of": ["RefineButton"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [73, 308, 574, 690],
+			"timeout": 2000
+		},
+		"next": [
+			"ClickReforge"
+		]
+	},
+	"RefiningLinking": {
+		"desc": "精炼联结中,无法重铸",
+		"recognition": "TemplateMatch",
+		"template": "common/RefiningLinking.png",
+		"roi": [404, 636, 218, 540],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"PressEsc"
+		]
+	},
+	"ClickReforge": {
+		"desc": "点击重铸",
+		"recognition": "OCR",
+		"expected": "重铸",
+		"roi": [424, 695, 165, 390],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [73, 308, 574, 690],
+			"timeout": 1000
+		}
+	},
+	"ReforgeConfirmButton": {
+		"desc": "确认重铸按钮",
+		"rate_limit": 0,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"recognition": "TemplateMatch",
+		"template": "common/ReforgeConfirm.png",
+		"roi": [122, 974, 480, 184]
+	},
+	"ReforgeConfirm": {
+		"desc": "确认重铸",
+		"max_hit": 10,
+		"rate_limit": 0,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"recognition": "And",
+		"all_of": [
+			"ReforgeConfirmButton",
+			"ReforgeUseSilverConfirm"
+		],
+		"action": "Click",
+		"target_offset": [92, 10, -188, -22],
+		"post_wait_freezes": {
+			"time": 300,
+			"timeout": 2000,
+			"target": [165, 356, 419, 628]
+		}
+	},
+	"QuickReforgeConfirm": {
+		"desc": "快速确认重铸",
+		"rate_limit": 0,
+		"pre_delay": 0,
+		"post_delay": 100,
+		"recognition": "And",
+		"all_of": [
+			"ReforgeConfirmButton",
+			"ReforgeUseSilverConfirm"
+		],
+		"target_offset": [92, 10, -188, -22],
+		"action": "Click"
+	},
+	"ReforgeValue": {
+		"desc": "重铸数值",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "完美度(\\d+(\\.\\d+)?)%",
+		"roi": [296, 213, 126, 24],
+		"only_rec": true
+	},
+	"ArmorReforgeQualified": {
+		"desc": "防具重铸达标",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "Custom",
+		"custom_recognition": "ExpressionRecognition",
+		"custom_recognition_param": {
+			"expression": "{ReforgeValue}>={target}",
+			"params": {
+				"target": 90
+			}
+		},
+		"next": [
+			"[JumpBack]CancelButton",
+			"[JumpBack]ReforgeQuitCurEquipment",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"WeaponReforgeQualified": {
+		"desc": "武器重铸达标",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "Custom",
+		"custom_recognition": "ExpressionRecognition",
+		"custom_recognition_param": {
+			"expression": "{ReforgeValue}>={target}",
+			"params": {
+				"target": 95
+			}
+		},
+		"next": [
+			"[JumpBack]CancelButton",
+			"[JumpBack]ReforgeQuitCurEquipment",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"ReforgeQuitCurEquipment": {
+		"desc": "退出当前装备重铸",
+		"recognition": "Or",
+		"any_of": [
+			"ReforgeConfirmButton",
+			"RefineButton",
+			"ReforgeButton"
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"PressEsc"
+		]
+	},
+	"HighPerfectionRateNotice": {
+		"desc": "完美度较高时的弹框确认",
+		"recognition": "TemplateMatch",
+		"roi": [418, 674, 152, 111],
+		"template": "button/confirm_btn.png",
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 500
+	},
+	"ReforgeDone": {
+		"desc": "完成重铸",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"SceneEnterMainPage"
+		]
+	},
+	"ReforgeFail": {
+		"desc": "重铸失败",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"SceneEnterMainPage"
+		],
+		"focus": {
+			"Node.Recognition.Succeeded": "装备重铸失败:第一个人物的所有装备都处于联结状态"
+		}
+	},
+	"ReforgeSilverCoin": {
+		"desc": "重铸银币",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "common/ReforgeSilverCoin.png",
+		"roi": [78, 704, 184, 223]
+	},
+	"ReforgeUseSilverConfirm": {
+		"desc": "重铸前确认使用银币重铸",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"ReforgeSilverCoin",
+			{
+				"recognition": "TemplateMatch",
+				"template": "common/ReforgeSelectCurrency.png",
+				"roi": "ReforgeSilverCoin",
+				"roi_offset": [-80, -11, 40, 16]
+			}
+		]
+	},
+	"ReforgeSelectSilverCoin": {
+		"desc": "选择银币重铸",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["ReforgeSilverCoin", "ReforgeConfirmButton"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"timeout": 2000,
+			"target": [165, 356, 419, 628]
+		}
+	}
+}

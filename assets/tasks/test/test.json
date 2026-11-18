@@ -3,8 +3,40 @@
 		{
 			"name": "BlessingStatisticTest",
 			"label": "🧪测试祝福统计",
-			"entry": "BlessingCraftStart",
-			"group": ["other_tasks"]
+			"entry": "EquipmentEngraveStart",
+			"pipeline_override": {
+				"EquipmentEngraveStart": {"enabled": true}
+			},
+			"group": ["other_tasks"],
+			"option": ["EngraveTest"]
 		}
-	]
+	],
+	"option": {
+		"EngraveTest": {
+			"type": "switch",
+			"label": "铭刻装备2次",
+			"description": "优先铭刻黄色装备，可选黄色腐蚀液不足时铭刻绿色装备",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"ActivityCommonNotCompletedTaskEnable": {
+							"attach": {"EngraveEquipmentEnable": true}
+						},
+						"EngraveBtn": {"max_hit": 2}
+					},
+					"option": ["EngraveGreenEquipment"]
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"ActivityCommonNotCompletedTaskEnable": {
+							"attach": {"EngraveEquipmentEnable": false}
+						}
+					}
+				}
+			]
+		}
+	}
 }

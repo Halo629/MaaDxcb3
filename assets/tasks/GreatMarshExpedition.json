@@ -81,7 +81,7 @@
 					"name": "BlessingXiaoshou",
 					"label": "枭兽",
 					"pipeline_override": {
-						"TargetBlessingCraftXiaoshouStart": {
+						"TargetBlessingCraftStart": {
 							"attach": {"target": "枭兽"}
 						}
 					}
@@ -91,7 +91,7 @@
 					"label": "月痕",
 					"pipeline_override": {
 						"AdjustSoulTombStartLevel": {
-							"TargetBlessingCraftXiaoshouStart": {
+							"TargetBlessingCraftStart": {
 								"attach": {"target": "月痕"}
 							}
 						}

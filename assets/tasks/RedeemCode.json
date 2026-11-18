@@ -1,33 +1,31 @@
 {
-    "task": [
-        {
-            "name": "RedeemCode",
-            "label": "🔑兑换码",
-            "description":"多个兑换码用/分割",
-            "entry": "RedeemCodeStart",
-            "group": [
-                "other_tasks"
-            ],
-            "option": ["RedeemCodeInput"]
-        }
-    ],
-    "option": { "RedeemCodeInput": {
-            "type": "input",
-            "label": "兑换码",
-            "inputs": [
-                {
-                    "name": "RedeemCodeInputValue",
-                    "label": "输入兑换码",
-                    "pipeline_type": "string",
-                    "default": ""
-                }
-            ],
-            "pipeline_override": {
-                "InputRedeemCodes": {
-                    "attach": {
-                        "code": "{RedeemCodeInputValue}"
-                    }
-                }
-            }
-        }}
+	"task": [
+		{
+			"name": "RedeemCode",
+			"label": "🔑兑换码",
+			"description": "多个兑换码用/分割",
+			"entry": "RedeemCodeStart",
+			"group": ["other_tasks"],
+			"option": ["RedeemCodeInput"]
+		}
+	],
+	"option": {
+		"RedeemCodeInput": {
+			"type": "input",
+			"label": "兑换码",
+			"inputs": [
+				{
+					"name": "RedeemCodeInputValue",
+					"label": "输入兑换码",
+					"pipeline_type": "string",
+					"default": ""
+				}
+			],
+			"pipeline_override": {
+				"InputRedeemCodes": {
+					"attach": {"code": "{RedeemCodeInputValue}"}
+				}
+			}
+		}
+	}
 }

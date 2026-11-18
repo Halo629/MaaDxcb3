@@ -1,0 +1,342 @@
+{
+	"EquipmentEngraveStart": {
+		"desc": "铭刻装备",
+		"enabled": false,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"EngraveStart",
+			"[JumpBack]SceneEnterEngravePage"
+		]
+	},
+	"EngraveStart": {
+		"desc": "装备铭刻入口",
+		"recognition": "And",
+		"all_of": [
+			"InEngravePage",
+			{
+				"recognition": "TemplateMatch",
+				"roi": [278, 220, 163, 176],
+				"template": "engrave/select_equipment.png"
+			}
+		],
+		"box_index": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [111, 206, 492, 295],
+			"timeout": 5000
+		},
+		"next": [
+			"[JumpBack]EngraveEquipmentOrderByQualityStart",
+			"SelectYellowEquipmentAndEngrave",
+			"[JumpBack]SwipeUpInBagEquipmentTab",
+			"[JumpBack]SwipeDownInBagEquipmentTab",
+			"[JumpBack]SelectEngraveEquipmentInBag"
+		]
+	},
+	"EngraveEquipmentAlreadyOrderByQuality": {
+		"desc": "已按照品质排序",
+		"recognition": "OCR",
+		"expected": "品质排序|品质",
+		"roi": [507, 516, 103, 32],
+		"only_rec": true
+	},
+	"EngraveEquipmentOrderByQualityStart": {
+		"desc": "选择品质排序入口",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"timeout": 5000,
+		"next": [
+			"EngraveEquipmentAlreadyOrderByQuality",
+			"[JumpBack]EngraveEquipmentSelectOrderByQuality"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"EngraveEquipmentSelectOrder": {
+		"desc": "选择排序方式",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"target": [507, 516, 103, 32],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [436, 484, 193, 424],
+			"timeout": 2000
+		}
+	},
+	"EngraveEquipmentSelectOrderByQuality": {
+		"desc": "选择品质排序",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "品质排序|品质",
+		"roi": [485, 566, 107, 40],
+		"only_rec": true,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [436, 484, 193, 424],
+			"timeout": 2000
+		},
+		"timeout": 5000,
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"EquipmentGrade": {
+		"desc": "装备级别",
+		"recognition": "TemplateMatch",
+		"template": [
+			"common/GradeA.png",
+			"common/GradeB.png",
+			"common/GradeC.png"
+		],
+		"roi": [76, 533, 568, 508],
+		"order_by": "Vertical",
+		"green_mask": true,
+		"post_delay": 0,
+		"pre_delay": 0
+	},
+	"SelectYellowEquipmentAndEngrave": {
+		"desc": "选择黄色装备并铭刻",
+		"recognition": "And",
+		"all_of": [
+			"EquipmentGrade",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [12, 100, 60],
+				"upper": [20, 255, 255],
+				"roi": "EquipmentGrade",
+				"roi_offset": [2, 97, -6, -7],
+				"count": 50
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [40, -40, 14, -1],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [76, 533, 568, 508],
+			"timeout": 2000
+		},
+		"next": [
+			"[JumpBack]EngraveBtn",
+			"[JumpBack]SelectGreenEquipment",
+			"EngraveNoEnoughEtchantAndQuit",
+			"[JumpBack]SelectButton",
+			"EngraveDone"
+		]
+	},
+	"InBagEquipmentTab": {
+		"desc": "在背包装备页签",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"roi": [433, 1062, 109, 41],
+				"expected": "背包装备|背包",
+				"only_rec": true,
+				"sub_name": "BagEquipment"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [12, 100, 100],
+				"upper": [20, 200, 255],
+				"roi": "BagEquipment",
+				"count": 50
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InRebornEquipmentTab": {
+		"desc": "在再生者装备页签",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"roi": [167, 1068, 127, 30],
+				"expected": "再生者装备|再生者",
+				"only_rec": true,
+				"sub_name": "RebornEquipment"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [12, 100, 100],
+				"upper": [20, 200, 255],
+				"roi": "RebornEquipment",
+				"count": 50
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"SwipeUpInBagEquipmentTab": {
+		"desc": "在背包装备页签上滑",
+		"max_hit": 3,
+		"recognition": "And",
+		"all_of": ["InBagEquipmentTab"],
+		"action": "Swipe",
+		"begin": [350, 950],
+		"end": [350, 250],
+		"duration": 100,
+		"repeat": 4,
+		"repeat_delay": 500,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		}
+	},
+	"SwipeDownInBagEquipmentTab": {
+		"desc": "在背包装备页签下滑",
+		"max_hit": 10,
+		"recognition": "And",
+		"all_of": ["InBagEquipmentTab"],
+		"action": "Swipe",
+		"begin": [350, 650],
+		"end": [350, 850],
+		"duration": 500,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [97, 560, 541, 443],
+			"timeout": 2000
+		}
+	},
+	"SelectEngraveEquipmentInBag": {
+		"desc": "选择背包装备",
+		"recognition": "OCR",
+		"roi": [433, 1062, 109, 41],
+		"expected": "背包装备|背包",
+		"only_rec": true,
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [111, 206, 492, 295],
+			"timeout": 5000
+		}
+	},
+	"SelectButton": {
+		"desc": "选择装备按钮",
+		"recognition": "TemplateMatch",
+		"template": "button/select_btn.png",
+		"roi": [391, 1161, 244, 97],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [118, 741, 493, 152],
+			"timeout": 5000
+		},
+		"next": [
+			"SelectButton",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"EngraveBtn": {
+		"desc": "铭刻按钮",
+		"max_hit": 2,
+		"recognition": "TemplateMatch",
+		"template": "engrave/engrave.png",
+		"roi": [472, 1074, 192, 109],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [114, 724, 509, 169],
+			"timeout": 5000
+		}
+	},
+	"EngraveNoEnoughEtchant": {
+		"desc": "腐蚀液不足",
+		"recognition": "And",
+		"all_of": [
+			"EngraveBtn",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [0, 0, 20],
+				"upper": [0, 0, 24],
+				"roi": "EngraveBtn",
+				"count": 500
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"SelectGreenEquipment": {
+		"desc": "选择绿色装备",
+		"enabled": false,
+		"recognition": "And",
+		"all_of": ["EngraveNoEnoughEtchant"],
+		"action": "Click",
+		"target": [326, 260, 62, 41],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [114, 724, 509, 169],
+			"timeout": 2000
+		},
+		"next": [
+			"selectFirstEquipment"
+		]
+	},
+	"selectFirstEquipment": {
+		"desc": "选择第一件绿色装备",
+		"action": "Click",
+		"target": [130, 608, 44, 35],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [114, 724, 509, 169],
+			"timeout": 2000
+		}
+	},
+	"EngraveNoEnoughEtchantAndQuit": {
+		"desc": "腐蚀液不足,退出铭刻",
+		"recognition": "And",
+		"all_of": ["EngraveNoEnoughEtchant"],
+		"focus": {"Node.Recognition.Succeeded": "腐蚀液不足,退出铭刻"}
+	},
+	"EngraveDone": {
+		"desc": "完成铭刻",
+		"recognition": "OCR",
+		"expected": "离开",
+		"roi": [69, 990, 179, 264],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [260, 540, 200, 200],
+			"timeout": 2000
+		},
+		"next": [
+			"[JumpBack]ConfirmButton",
+			"__ScenePrivateNextTrue"
+		]
+	}
+}
