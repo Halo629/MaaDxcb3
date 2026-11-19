@@ -1,0 +1,358 @@
+{
+	"ShatteredRealmStart": {
+		"desc": "破碎之境入口",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"[JumpBack]ShatteredRealmQuickChallenge",
+			"ShatteredRealmRuneUpgradeStart",
+			"ShatteredRealmDone",
+			"[JumpBack]SceneEnterShatteredRealm"
+		]
+	},
+	"ShatteredRealmAncientBugColor": {
+		"desc": "异域古虫数量白色区域",
+		"recognition": "ColorMatch",
+		"method": 40,
+		"lower": [0, 0, 100],
+		"upper": [255, 50, 255],
+		"roi": [592, 28, 74, 30],
+		"count": 3,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ShatteredRealmAncientBugCount": {
+		"desc": "异域古虫数量",
+		"recognition": "And",
+		"all_of": [
+			"ShatteredRealmAncientBugColor",
+			{
+				"recognition": "OCR",
+				"expected": ["[1-9]\\d*"],
+				"roi": "ShatteredRealmAncientBugColor",
+				"only_rec": true
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ShatteredRealmQuickChallenge": {
+		"desc": "破碎之境快速挑战",
+		"recognition": "And",
+		"all_of": [
+			"InShatteredRealm",
+			"ShatteredRealmHasQuickChallenge",
+			"ShatteredRealmAncientBugCount"
+		],
+		"box_index": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [136, 475, 444, 305],
+			"timeout": 2000
+		},
+		"next": [
+			"ShatteredRealmQuickChallengeError",
+			"HandleRewardDialog",
+			"[JumpBack]ConfirmButton"
+		]
+	},
+	"ShatteredRealmQuickChallengeError": {
+		"desc": "需要先通关破碎之境才能使用快速挑战",
+		"recognition": "OCR",
+		"expected": "需要先通关破碎之境才能使用快速挑战|需要|通关",
+		"roi": [159, 574, 400, 36],
+		"only_rec": true,
+		"focus": {
+			"Node.Recognition.Succeeded": "破碎之境:需要先通关破碎之境才能使用快速挑战"
+		},
+		"next": [
+			"[JumpBack]ConfirmButton",
+			"TaskFail"
+		]
+	},
+	"ShatteredRealmHasQuickChallenge": {
+		"desc": "有快速挑战",
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/QuickChallenge.png",
+		"roi": [560, 873, 103, 134],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"ShatteredRealmRuneUpgradeStart": {
+		"desc": "符文升级入口",
+		"enabled": false,
+		"recognition": "And",
+		"all_of": ["InShatteredRealm"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"[JumpBack]RuneUnlockStart",
+			"RuneUpgradeStart",
+			"[JumpBack]RuneUpgradePageEntry",
+			"[JumpBack]RuneWorkshopEntry"
+		]
+	},
+	"RuneUpgradeAddRune": {
+		"desc": "添加符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InRuneWorkshopRuneUpgradePage"],
+		"action": "Click",
+		"target": [335, 389, 55, 53],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [175, 267, 356, 563],
+			"timeout": 2000
+		}
+	},
+	"RuneWorkshopEntry": {
+		"desc": "进入符文工坊",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "符文工坊|符文|工坊",
+		"roi": [588, 1187, 102, 32],
+		"only_rec": true,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [585, 1170, 105, 61],
+			"timeout": 2000
+		}
+	},
+	"RuneUpgradePageEntry": {
+		"desc": "进入符文升级页面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "符文升级|升级",
+		"roi": [383, 1216, 119, 41],
+		"only_rec": true,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [375, 1204, 128, 63],
+			"timeout": 2000
+		}
+	},
+	"InRuneSelectPage": {
+		"desc": "在选择符文页面",
+		"recognition": "OCR",
+		"expected": "选择要升级的符文|选择|升级|符文",
+		"roi": [244, 181, 227, 53]
+	},
+	"RuneUpgradeSkipAnimEntry": {
+		"desc": "跳过动画入口",
+		"max_hit": 1,
+		"next": [
+			"RuneUpgradeAnimSkiped",
+			"[JumpBack]RuneUpgradeSkipAnim"
+		]
+	},
+	"RuneUpgradeAnimSkiped": {
+		"desc": "跳过动画已勾选",
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/SkipAnim.png",
+		"roi": [507, 1086, 157, 88]
+	},
+	"RuneUpgradeSkipAnim": {
+		"desc": "跳过动画",
+		"recognition": "OCR",
+		"expected": "跳过动画|跳过|动画",
+		"roi": [507, 1086, 157, 88],
+		"action": "Click",
+		"post_delay": 500
+	},
+	"FanaticalFaithCount": {
+		"desc": "狂热的信仰数量",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "ShatteredRealm/FanaticalFaith.png",
+				"roi": [518, 0, 202, 178],
+				"sub_name": "FanaticalFaithPos"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 20],
+				"upper": [35, 80, 255],
+				"roi": "FanaticalFaithPos",
+				"roi_offset": [46, 12, 65, -19],
+				"count": 10,
+				"sub_name": "FanaticalFaithColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "FanaticalFaithColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "FanaticalFaithCountSub"
+			}
+		],
+		"box_index": 2
+	},
+	"FanaticalFaithCountEnoughBuyRune": {
+		"desc": "狂热的信仰数量足够买符文(>=800)",
+		"recognition": "Or",
+		"any_of": [
+			{
+				"recognition": "And",
+				"all_of": [
+					"FanaticalFaithCount",
+					{
+						"recognition": "Custom",
+						"custom_recognition": "ExpressionRecognition",
+						"custom_recognition_param": {"expression": "{FanaticalFaithCount}>=800"}
+					}
+				]
+			},
+			{
+				"recognition": "And",
+				"all_of": [
+					{
+						"recognition": "TemplateMatch",
+						"template": "ShatteredRealm/FanaticalFaith.png",
+						"roi": [518, 0, 202, 178],
+						"sub_name": "FanaticalFaithPos"
+					},
+					{
+						"recognition": "ColorMatch",
+						"method": 40,
+						"lower": [15, 20, 20],
+						"upper": [35, 80, 255],
+						"roi": "FanaticalFaithPos",
+						"roi_offset": [46, 12, 65, -19],
+						"count": 10,
+						"sub_name": "FanaticalFaithColor"
+					},
+					{
+						"recognition": "OCR",
+						"roi": "FanaticalFaithColor",
+						"expected": "万|亿",
+						"roi_offset": [-2, -2, 4, 4],
+						"only_rec": true,
+						"sub_name": "FanaticalFaithCountSub"
+					}
+				]
+			}
+		]
+	},
+	"ShatteredRealmBuyRune": {
+		"desc": "购买符文",
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/FanaticalFaith.png",
+		"roi": [130, 686, 194, 325],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 300,
+			"target": [130, 686, 194, 325],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog"
+		]
+	},
+	"RuneSelectPageSwipeUp": {
+		"desc": "符文选择页面上滑",
+		"action": "Swipe",
+		"begin": [520, 850],
+		"end": [520, 200],
+		"duration": 200,
+		"max_hit": 1,
+		"post_wait_freezes": {
+			"time": 200,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		}
+	},
+	"ShatteredRealmDone": {
+		"desc": "破碎之境已完成",
+		"recognition": "And",
+		"all_of": ["InShatteredRealm"]
+	},
+	"InRuneWorkshopCollectionPage": {
+		"desc": "在符文工坊藏品页面",
+		"recognition": "And",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"expected": "藏品",
+				"roi": [257, 1218, 72, 36],
+				"only_rec": true,
+				"sub_name": "CollectionPos"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [12, 100, 100],
+				"upper": [20, 200, 255],
+				"roi": "CollectionPos",
+				"count": 30
+			}
+		]
+	},
+	"InSelectRuneUpgradePage": {
+		"desc": "在选择升级符文页面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "选择要升级的符文|升级|选择",
+		"roi": [241, 192, 234, 36],
+		"only_rec": true
+	},
+	"InRuneWorkshopRuneUpgradePage": {
+		"desc": "在符文工坊符文升级页面",
+		"recognition": "And",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"all_of": [
+			{
+				"recognition": "OCR",
+				"expected": "符文升级|升级",
+				"roi": [381, 1216, 118, 39],
+				"only_rec": true,
+				"sub_name": "CollectionPos"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [12, 100, 100],
+				"upper": [20, 200, 255],
+				"roi": "CollectionPos",
+				"count": 30
+			}
+		]
+	},
+	"InRuneWorkshop": {
+		"desc": "在符文工坊",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "Or",
+		"any_of": [
+			"InRuneWorkshopCollectionPage",
+			"InRuneWorkshopRuneUpgradePage"
+		]
+	}
+}

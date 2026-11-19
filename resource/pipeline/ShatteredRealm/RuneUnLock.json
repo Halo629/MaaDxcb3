@@ -1,0 +1,1412 @@
+{
+	"UnlockRuneRenjiaStart": {
+		"desc": "解锁刃甲符文入口",
+		"max_hit": 1,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneRenjia"],
+		"next": [
+			"RuneRenjiaLocked",
+			"[JumpBack]UnlockRuneRenjia"
+		]
+	},
+	"UnlockRuneRenjia": {
+		"desc": "解锁刃甲符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneRenjia"],
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [130, 686, 194, 325],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]UnlockRuneButton"
+		]
+	},
+	"RuneRenjia": {
+		"desc": "刃甲符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/Renjia.png",
+		"roi": [22, 230, 678, 802],
+		"green_mask": true
+	},
+	"RuneRenjiaLocked": {
+		"desc": "刃甲符文已解锁",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"RuneRenjia",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [10, 150, 0],
+				"upper": [30, 255, 255],
+				"roi": "RuneRenjia",
+				"count": 50
+			}
+		]
+	},
+	"UnlockRuneXunjiStart": {
+		"desc": "解锁迅击符文入口",
+		"max_hit": 1,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneXunji"],
+		"next": [
+			"RuneXunjiLocked",
+			"[JumpBack]UnlockRuneXunji"
+		]
+	},
+	"UnlockRuneXunji": {
+		"desc": "解锁迅击符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneXunji"],
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [130, 686, 194, 325],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]UnlockRuneButton"
+		]
+	},
+	"RuneXunji": {
+		"desc": "迅击符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/Xunji.png",
+		"roi": [22, 230, 678, 802],
+		"green_mask": true
+	},
+	"RuneXunjiLocked": {
+		"desc": "迅击符文已解锁",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"RuneXunji",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [10, 150, 0],
+				"upper": [30, 255, 255],
+				"roi": "RuneXunji",
+				"count": 50
+			}
+		]
+	},
+	"UnlockRuneKuangreStart": {
+		"desc": "解锁狂热符文入口",
+		"max_hit": 1,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneKuangre"],
+		"next": [
+			"RuneKuangreLocked",
+			"[JumpBack]UnlockRuneKuangre"
+		]
+	},
+	"UnlockRuneKuangre": {
+		"desc": "解锁狂热符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneKuangre"],
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [130, 686, 194, 325],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]UnlockRuneButton"
+		]
+	},
+	"RuneKuangre": {
+		"desc": "狂热符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/Kuangre.png",
+		"roi": [22, 230, 678, 802],
+		"green_mask": true
+	},
+	"RuneKuangreLocked": {
+		"desc": "狂热符文已解锁",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"RuneKuangre",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [10, 150, 0],
+				"upper": [30, 255, 255],
+				"roi": "RuneKuangre",
+				"count": 50
+			}
+		]
+	},
+	"UnlockRuneSijiStart": {
+		"desc": "解锁伺机符文入口",
+		"max_hit": 1,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneSiji"],
+		"next": [
+			"RuneSijiLocked",
+			"[JumpBack]UnlockRuneSiji"
+		]
+	},
+	"UnlockRuneSiji": {
+		"desc": "解锁伺机符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneSiji"],
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [130, 686, 194, 325],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]UnlockRuneButton"
+		]
+	},
+	"RuneSiji": {
+		"desc": "伺机符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/Siji.png",
+		"roi": [22, 230, 678, 802],
+		"green_mask": true
+	},
+	"RuneSijiLocked": {
+		"desc": "伺机符文已解锁",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"RuneSiji",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [10, 150, 0],
+				"upper": [30, 255, 255],
+				"roi": "RuneSiji",
+				"count": 50
+			}
+		]
+	},
+	"UnlockRuneLeitingStart": {
+		"desc": "解锁雷霆符文入口",
+		"max_hit": 1,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneLeiting"],
+		"next": [
+			"RuneLeitingLocked",
+			"[JumpBack]UnlockRuneLeiting"
+		]
+	},
+	"UnlockRuneLeiting": {
+		"desc": "解锁雷霆符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneLeiting"],
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [130, 686, 194, 325],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]UnlockRuneButton"
+		]
+	},
+	"RuneLeiting": {
+		"desc": "雷霆符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/Leiting.png",
+		"roi": [22, 230, 678, 802],
+		"green_mask": true
+	},
+	"RuneLeitingLocked": {
+		"desc": "雷霆符文已解锁",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"RuneLeiting",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [10, 150, 0],
+				"upper": [30, 255, 255],
+				"roi": "RuneLeiting",
+				"count": 50
+			}
+		]
+	},
+	"UnlockRuneSonggeStart": {
+		"desc": "解锁颂歌符文入口",
+		"max_hit": 1,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneSongge"],
+		"next": [
+			"RuneSonggeLocked",
+			"[JumpBack]UnlockRuneSongge"
+		]
+	},
+	"UnlockRuneSongge": {
+		"desc": "解锁颂歌符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneSongge"],
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [130, 686, 194, 325],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]UnlockRuneButton"
+		]
+	},
+	"RuneSongge": {
+		"desc": "颂歌符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/Songge.png",
+		"roi": [22, 230, 678, 802],
+		"green_mask": true
+	},
+	"RuneSonggeLocked": {
+		"desc": "颂歌符文已解锁",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"RuneSongge",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [10, 150, 0],
+				"upper": [30, 255, 255],
+				"roi": "RuneSongge",
+				"count": 50
+			}
+		]
+	},
+	"UnlockRuneShenghenStart": {
+		"desc": "解锁圣痕符文入口",
+		"max_hit": 1,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneShenghen"],
+		"next": [
+			"RuneShenghenLocked",
+			"[JumpBack]UnlockRuneShenghen"
+		]
+	},
+	"UnlockRuneShenghen": {
+		"desc": "解锁圣痕符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneShenghen"],
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [130, 686, 194, 325],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]UnlockRuneButton"
+		]
+	},
+	"RuneShenghen": {
+		"desc": "圣痕符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/Shenghen.png",
+		"roi": [22, 230, 678, 802],
+		"green_mask": true
+	},
+	"RuneShenghenLocked": {
+		"desc": "圣痕符文已解锁",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"RuneShenghen",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [10, 150, 0],
+				"upper": [30, 255, 255],
+				"roi": "RuneShenghen",
+				"count": 50
+			}
+		]
+	},
+	"UnlockRuneJiushuStart": {
+		"desc": "解锁救赎符文入口",
+		"max_hit": 1,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneJiushu"],
+		"next": [
+			"RuneJiushuLocked",
+			"[JumpBack]UnlockRuneJiushu"
+		]
+	},
+	"UnlockRuneJiushu": {
+		"desc": "解锁救赎符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneJiushu"],
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [130, 686, 194, 325],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]UnlockRuneButton"
+		]
+	},
+	"RuneJiushu": {
+		"desc": "救赎符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/Jiushu.png",
+		"roi": [22, 230, 678, 802],
+		"green_mask": true
+	},
+	"RuneJiushuLocked": {
+		"desc": "救赎符文已解锁",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"RuneJiushu",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [10, 150, 0],
+				"upper": [30, 255, 255],
+				"roi": "RuneJiushu",
+				"count": 50
+			}
+		]
+	},
+	"UnlockRuneFusuStart": {
+		"desc": "解锁复苏符文入口",
+		"max_hit": 1,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneFusu"],
+		"next": [
+			"RuneFusuLocked",
+			"[JumpBack]UnlockRuneFusu"
+		]
+	},
+	"UnlockRuneFusu": {
+		"desc": "解锁复苏符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneFusu"],
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [130, 686, 194, 325],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]UnlockRuneButton"
+		]
+	},
+	"RuneFusu": {
+		"desc": "复苏符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/Fusu.png",
+		"roi": [22, 230, 678, 802],
+		"green_mask": true
+	},
+	"RuneFusuLocked": {
+		"desc": "复苏符文已解锁",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"RuneFusu",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [10, 150, 0],
+				"upper": [30, 255, 255],
+				"roi": "RuneFusu",
+				"count": 50
+			}
+		]
+	},
+	"UnlockRuneWudongStart": {
+		"desc": "解锁舞动符文入口",
+		"max_hit": 1,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneWudong"],
+		"next": [
+			"RuneWudongLocked",
+			"[JumpBack]UnlockRuneWudong"
+		]
+	},
+	"UnlockRuneWudong": {
+		"desc": "解锁舞动符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneWudong"],
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [130, 686, 194, 325],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]UnlockRuneButton"
+		]
+	},
+	"RuneWudong": {
+		"desc": "舞动符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/Wudong.png",
+		"roi": [22, 230, 678, 802],
+		"green_mask": true
+	},
+	"RuneWudongLocked": {
+		"desc": "舞动符文已解锁",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"RuneWudong",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [10, 150, 0],
+				"upper": [30, 255, 255],
+				"roi": "RuneWudong",
+				"count": 50
+			}
+		]
+	},
+	"UnlockRunePoshiStart": {
+		"desc": "解锁破势符文入口",
+		"max_hit": 1,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RunePoshi"],
+		"next": [
+			"RunePoshiLocked",
+			"[JumpBack]UnlockRunePoshi"
+		]
+	},
+	"UnlockRunePoshi": {
+		"desc": "解锁破势符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RunePoshi"],
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [130, 686, 194, 325],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]UnlockRuneButton"
+		]
+	},
+	"RunePoshi": {
+		"desc": "破势符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/Poshi.png",
+		"roi": [22, 230, 678, 802],
+		"green_mask": true
+	},
+	"RunePoshiLocked": {
+		"desc": "破势符文已解锁",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"RunePoshi",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [10, 150, 0],
+				"upper": [30, 255, 255],
+				"roi": "RunePoshi",
+				"count": 50
+			}
+		]
+	},
+	"UnlockRuneCaijueStart": {
+		"desc": "解锁裁决符文入口",
+		"max_hit": 1,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneCaijue"],
+		"next": [
+			"RuneCaijueLocked",
+			"[JumpBack]UnlockRuneCaijue"
+		]
+	},
+	"UnlockRuneCaijue": {
+		"desc": "解锁裁决符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneCaijue"],
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [130, 686, 194, 325],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]UnlockRuneButton"
+		]
+	},
+	"RuneCaijue": {
+		"desc": "裁决符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/Caijue.png",
+		"roi": [22, 230, 678, 802],
+		"green_mask": true
+	},
+	"RuneCaijueLocked": {
+		"desc": "裁决符文已解锁",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"RuneCaijue",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [10, 150, 0],
+				"upper": [30, 255, 255],
+				"roi": "RuneCaijue",
+				"count": 50
+			}
+		]
+	},
+	"UnlockRuneNingjingStart": {
+		"desc": "解锁宁静符文入口",
+		"max_hit": 1,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneNingjing"],
+		"next": [
+			"RuneNingjingLocked",
+			"[JumpBack]UnlockRuneNingjing"
+		]
+	},
+	"UnlockRuneNingjing": {
+		"desc": "解锁宁静符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneNingjing"],
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [130, 686, 194, 325],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]UnlockRuneButton"
+		]
+	},
+	"RuneNingjing": {
+		"desc": "宁静符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/Ningjing.png",
+		"roi": [22, 230, 678, 802],
+		"green_mask": true
+	},
+	"RuneNingjingLocked": {
+		"desc": "宁静符文已解锁",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"RuneNingjing",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [10, 150, 0],
+				"upper": [30, 255, 255],
+				"roi": "RuneNingjing",
+				"count": 50
+			}
+		]
+	},
+	"UnlockRuneZhuilieStart": {
+		"desc": "解锁追猎符文入口",
+		"max_hit": 1,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneZhuilie"],
+		"next": [
+			"RuneZhuilieLocked",
+			"[JumpBack]UnlockRuneZhuilie"
+		]
+	},
+	"UnlockRuneZhuilie": {
+		"desc": "解锁追猎符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneZhuilie"],
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [130, 686, 194, 325],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]UnlockRuneButton"
+		]
+	},
+	"RuneZhuilie": {
+		"desc": "追猎符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/Zhuilie.png",
+		"roi": [22, 230, 678, 802],
+		"green_mask": true
+	},
+	"RuneZhuilieLocked": {
+		"desc": "追猎符文已解锁",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"RuneZhuilie",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [10, 150, 0],
+				"upper": [30, 255, 255],
+				"roi": "RuneZhuilie",
+				"count": 50
+			}
+		]
+	},
+	"UnlockRuneZhanyiStart": {
+		"desc": "解锁战意符文入口",
+		"max_hit": 1,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneZhanyi"],
+		"next": [
+			"RuneZhanyiLocked",
+			"[JumpBack]UnlockRuneZhanyi"
+		]
+	},
+	"UnlockRuneZhanyi": {
+		"desc": "解锁战意符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneZhanyi"],
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [130, 686, 194, 325],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]UnlockRuneButton"
+		]
+	},
+	"RuneZhanyi": {
+		"desc": "战意符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/Zhanyi.png",
+		"roi": [22, 230, 678, 802],
+		"green_mask": true
+	},
+	"RuneZhanyiLocked": {
+		"desc": "战意符文已解锁",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"RuneZhanyi",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [10, 150, 0],
+				"upper": [30, 255, 255],
+				"roi": "RuneZhanyi",
+				"count": 50
+			}
+		]
+	},
+	"UnlockRuneYumoStart": {
+		"desc": "解锁驭魔符文入口",
+		"max_hit": 1,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneYumo"],
+		"next": [
+			"RuneYumoLocked",
+			"[JumpBack]UnlockRuneYumo"
+		]
+	},
+	"UnlockRuneYumo": {
+		"desc": "解锁驭魔符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneYumo"],
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [130, 686, 194, 325],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]UnlockRuneButton"
+		]
+	},
+	"RuneYumo": {
+		"desc": "驭魔符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/Yumo.png",
+		"roi": [22, 230, 678, 802],
+		"green_mask": true
+	},
+	"RuneYumoLocked": {
+		"desc": "驭魔符文已解锁",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"RuneYumo",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [10, 150, 0],
+				"upper": [30, 255, 255],
+				"roi": "RuneYumo",
+				"count": 50
+			}
+		]
+	},
+	"UnlockRuneWuzhouStart": {
+		"desc": "解锁巫咒符文入口",
+		"max_hit": 1,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneWuzhou"],
+		"next": [
+			"RuneWuzhouLocked",
+			"[JumpBack]UnlockRuneWuzhou"
+		]
+	},
+	"UnlockRuneWuzhou": {
+		"desc": "解锁巫咒符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneWuzhou"],
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [130, 686, 194, 325],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]UnlockRuneButton"
+		]
+	},
+	"RuneWuzhou": {
+		"desc": "巫咒符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/Wuzhou.png",
+		"roi": [22, 230, 678, 802],
+		"green_mask": true
+	},
+	"RuneWuzhouLocked": {
+		"desc": "巫咒符文已解锁",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"RuneWuzhou",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [10, 150, 0],
+				"upper": [30, 255, 255],
+				"roi": "RuneWuzhou",
+				"count": 50
+			}
+		]
+	},
+	"UnlockRuneJiliStart": {
+		"desc": "解锁激励符文入口",
+		"max_hit": 1,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneJili"],
+		"next": [
+			"RuneJiliLocked",
+			"[JumpBack]UnlockRuneJili"
+		]
+	},
+	"UnlockRuneJili": {
+		"desc": "解锁激励符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneJili"],
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [130, 686, 194, 325],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]UnlockRuneButton"
+		]
+	},
+	"RuneJili": {
+		"desc": "激励符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/Jili.png",
+		"roi": [22, 230, 678, 802],
+		"green_mask": true
+	},
+	"RuneJiliLocked": {
+		"desc": "激励符文已解锁",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"RuneJili",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [10, 150, 0],
+				"upper": [30, 255, 255],
+				"roi": "RuneJili",
+				"count": 50
+			}
+		]
+	},
+	"UnlockRuneXishengStart": {
+		"desc": "解锁牺牲符文入口",
+		"max_hit": 1,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneXisheng"],
+		"next": [
+			"RuneXishengLocked",
+			"[JumpBack]UnlockRuneXisheng"
+		]
+	},
+	"UnlockRuneXisheng": {
+		"desc": "解锁牺牲符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneXisheng"],
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [130, 686, 194, 325],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]UnlockRuneButton"
+		]
+	},
+	"RuneXisheng": {
+		"desc": "牺牲符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/Xisheng.png",
+		"roi": [22, 230, 678, 802],
+		"green_mask": true
+	},
+	"RuneXishengLocked": {
+		"desc": "牺牲符文已解锁",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"RuneXisheng",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [10, 150, 0],
+				"upper": [30, 255, 255],
+				"roi": "RuneXisheng",
+				"count": 50
+			}
+		]
+	},
+	"UnlockRuneFunengStart": {
+		"desc": "解锁赋能符文入口",
+		"max_hit": 1,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneFuneng"],
+		"next": [
+			"RuneFunengLocked",
+			"[JumpBack]UnlockRuneFuneng"
+		]
+	},
+	"UnlockRuneFuneng": {
+		"desc": "解锁赋能符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneFuneng"],
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [130, 686, 194, 325],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]UnlockRuneButton"
+		]
+	},
+	"RuneFuneng": {
+		"desc": "赋能符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/Funeng.png",
+		"roi": [22, 230, 678, 802],
+		"green_mask": true
+	},
+	"RuneFunengLocked": {
+		"desc": "赋能符文已解锁",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"RuneFuneng",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [10, 150, 0],
+				"upper": [30, 255, 255],
+				"roi": "RuneFuneng",
+				"count": 50
+			}
+		]
+	},
+	"UnlockRuneJingnengStart": {
+		"desc": "解锁晶能符文入口",
+		"max_hit": 1,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneJingneng"],
+		"next": [
+			"RuneJingnengLocked",
+			"[JumpBack]UnlockRuneJingneng"
+		]
+	},
+	"UnlockRuneJingneng": {
+		"desc": "解锁晶能符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneJingneng"],
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [130, 686, 194, 325],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]UnlockRuneButton"
+		]
+	},
+	"RuneJingneng": {
+		"desc": "晶能符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/Jingneng.png",
+		"roi": [22, 230, 678, 802],
+		"green_mask": true
+	},
+	"RuneJingnengLocked": {
+		"desc": "晶能符文已解锁",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"RuneJingneng",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [10, 150, 0],
+				"upper": [30, 255, 255],
+				"roi": "RuneJingneng",
+				"count": 50
+			}
+		]
+	},
+	"UnlockRuneShuangxiangStart": {
+		"desc": "解锁双向符文入口",
+		"max_hit": 1,
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneShuangxiang"],
+		"next": [
+			"RuneShuangxiangLocked",
+			"[JumpBack]UnlockRuneShuangxiang"
+		]
+	},
+	"UnlockRuneShuangxiang": {
+		"desc": "解锁双向符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["RuneShuangxiang"],
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [130, 686, 194, 325],
+			"timeout": 2000
+		},
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]UnlockRuneButton"
+		]
+	},
+	"RuneShuangxiang": {
+		"desc": "双向符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/Shuangxiang.png",
+		"roi": [22, 230, 678, 802],
+		"green_mask": true
+	},
+	"RuneShuangxiangLocked": {
+		"desc": "双向符文已解锁",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"RuneShuangxiang",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [10, 150, 0],
+				"upper": [30, 255, 255],
+				"roi": "RuneShuangxiang",
+				"count": 50
+			}
+		]
+	},
+	"UnlockRuneButton": {
+		"desc": "购买符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/BuyRune.png",
+		"roi": [71, 758, 314, 256],
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [130, 686, 194, 325],
+			"timeout": 2000
+		}
+	},
+	"RuneUnlockStart": {
+		"desc": "符文解锁入口",
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InRuneWorkshopCollectionPage",
+			"FanaticalFaithCountEnoughBuyRune"
+		],
+		"next": [
+			"[JumpBack]UnlockRuneRenjiaStart",
+			"[JumpBack]UnlockRuneXunjiStart",
+			"[JumpBack]UnlockRuneKuangreStart",
+			"[JumpBack]UnlockRuneSijiStart",
+			"[JumpBack]UnlockRuneLeitingStart",
+			"[JumpBack]UnlockRuneSonggeStart",
+			"[JumpBack]UnlockRuneShenghenStart",
+			"[JumpBack]UnlockRuneJiushuStart",
+			"[JumpBack]UnlockRuneFusuStart",
+			"[JumpBack]UnlockRuneWudongStart",
+			"[JumpBack]UnlockRunePoshiStart",
+			"[JumpBack]UnlockRuneCaijueStart",
+			"[JumpBack]UnlockRuneNingjingStart",
+			"[JumpBack]UnlockRuneZhuilieStart",
+			"[JumpBack]UnlockRuneZhanyiStart",
+			"[JumpBack]UnlockRuneYumoStart",
+			"[JumpBack]UnlockRuneWuzhouStart",
+			"[JumpBack]UnlockRuneJiliStart",
+			"[JumpBack]UnlockRuneXishengStart",
+			"[JumpBack]UnlockRuneFunengStart",
+			"[JumpBack]UnlockRuneJingnengStart",
+			"[JumpBack]UnlockRuneShuangxiangStart",
+			"[JumpBack]UnlockRuneSwipeUp",
+			"UnlockRuneDone"
+		]
+	},
+	"UnlockRuneSwipeUp": {
+		"desc": "符文解锁上滑",
+		"max_hit": 1,
+		"action": "Swipe",
+		"begin": [360, 950],
+		"end": [360, 400],
+		"duration": 300,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [45, 140, 630, 825],
+			"timeout": 3000
+		}
+	},
+	"UnlockRuneDone": {"desc": "符文解锁完成"}
+}

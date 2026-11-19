@@ -12,7 +12,6 @@ void registerCustomCelestialIsle(MaaResource* res, void* user_data);
 void registerCustomRecipe(MaaResource* res, void* user_data);
 void registerCustomFoodFestival(MaaResource* res, void* user_data);
 void registerCustomEndlessWealthIsle(MaaResource* res, void* user_data);
-void registerCustomRuneWorkshop(MaaResource* res, void* user_data);
 void registerCustomHuntingGroundFeast(MaaResource* res, void* user_data);
 void registerCustomArcaneCell(MaaResource* res, void* user_data);
 void registerCustomTreasureSage(MaaResource* res, void* user_data);
@@ -23,6 +22,7 @@ void registerCustomBattleTimeTest(MaaResource* res, void* user_data);
 void registerCustomGreatMarshExpedition(MaaResource* res, void* user_data);
 void registerCustomExpressionRecognition(MaaResource* res, void* user_data);
 void registerCustomRedeemCode(MaaResource* res, void* user_data);
+void registerCustomRuneUpgrade(MaaResource* res, void* user_data);
 
 void registerAllCustomRecognition(MaaResource* res, void* user_data)
 {
@@ -37,7 +37,6 @@ void registerAllCustomRecognition(MaaResource* res, void* user_data)
     registerCustomRecipe(res, user_data);
     registerCustomFoodFestival(res, user_data);
     registerCustomEndlessWealthIsle(res, user_data);
-    registerCustomRuneWorkshop(res, user_data);
     registerCustomHuntingGroundFeast(res, user_data);
     registerCustomArcaneCell(res, user_data);
     registerCustomComm(res, user_data);
@@ -49,4 +48,5 @@ void registerAllCustomRecognition(MaaResource* res, void* user_data)
     registerCustomGreatMarshExpedition(res, user_data);
     registerCustomExpressionRecognition(res, user_data);
     registerCustomRedeemCode(res, user_data);
+    registerCustomRuneUpgrade(res, user_data);
 }

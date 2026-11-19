@@ -86,7 +86,6 @@
                 }
             }
         },
-        
         "LowerFailReduce": {
             "type": "switch",
             "label": "连续失败后降低10级挑战难度",

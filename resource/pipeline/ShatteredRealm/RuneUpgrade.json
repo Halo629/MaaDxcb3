@@ -1,0 +1,1913 @@
+{
+	"RuneUpgradeStart": {
+		"desc": "符文升级开始",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InRuneWorkshopRuneUpgradePage"],
+		"next": [
+			"[JumpBack]RuneUpgradeSkipAnimEntry",
+			"FaloAidCountNotEnough",
+			"[JumpBack]UpgradeRenjiaEntry",
+			"[JumpBack]UpgradeXunjiEntry",
+			"[JumpBack]UpgradeKuangreEntry",
+			"[JumpBack]UpgradeSijiEntry",
+			"[JumpBack]UpgradeLeitingEntry",
+			"[JumpBack]UpgradeSonggeEntry",
+			"[JumpBack]UpgradeShenghenEntry",
+			"[JumpBack]UpgradeJiushuEntry",
+			"[JumpBack]UpgradeFusuEntry",
+			"[JumpBack]UpgradeWudongEntry",
+			"[JumpBack]UpgradePoshiEntry",
+			"[JumpBack]UpgradeCaijueEntry",
+			"[JumpBack]UpgradeNingjingEntry",
+			"[JumpBack]UpgradeZhuilieEntry",
+			"[JumpBack]UpgradeZhanyiEntry",
+			"[JumpBack]UpgradeYumoEntry",
+			"[JumpBack]UpgradeWuzhouEntry",
+			"[JumpBack]UpgradeJiliEntry",
+			"[JumpBack]UpgradeXishengEntry",
+			"[JumpBack]UpgradeFunengEntry",
+			"[JumpBack]UpgradeJingnengEntry",
+			"[JumpBack]UpgradeShuangxiangEntry",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"RuneUpgradeDone": {
+		"recognition": "And",
+		"all_of": ["InRuneSelectPage"]
+	},
+	"FaloAidCountNotEnough": {
+		"desc": "法洛的援助不足",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "Custom",
+		"custom_recognition": "ExpressionRecognition",
+		"custom_recognition_param": {"expression": "{FaloAidCount}==0"}
+	},
+	"MagnetNotEnough": {
+		"desc": "磁石不足",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "Custom",
+		"custom_recognition": "ExpressionRecognition",
+		"custom_recognition_param": {"expression": "{MagnetCount}==0"}
+	},
+	"RenjiaMaxLevel": {
+		"desc": "刃甲符文已满级",
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneRenjia",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "RuneMaxLevel",
+				"custom_recognition_param": {"target_rune": "刃甲"}
+			}
+		]
+	},
+	"XunjiMaxLevel": {
+		"desc": "迅击符文已满级",
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneXunji",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "RuneMaxLevel",
+				"custom_recognition_param": {"target_rune": "迅击"}
+			}
+		]
+	},
+	"KuangreMaxLevel": {
+		"desc": "狂热符文已满级",
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneKuangre",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "RuneMaxLevel",
+				"custom_recognition_param": {"target_rune": "狂热"}
+			}
+		]
+	},
+	"SijiMaxLevel": {
+		"desc": "伺机符文已满级",
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneSiji",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "RuneMaxLevel",
+				"custom_recognition_param": {"target_rune": "伺机"}
+			}
+		]
+	},
+	"LeitingMaxLevel": {
+		"desc": "雷霆符文已满级",
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneLeiting",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "RuneMaxLevel",
+				"custom_recognition_param": {"target_rune": "雷霆"}
+			}
+		]
+	},
+	"SonggeMaxLevel": {
+		"desc": "颂歌符文已满级",
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneSongge",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "RuneMaxLevel",
+				"custom_recognition_param": {"target_rune": "颂歌"}
+			}
+		]
+	},
+	"ShenghenMaxLevel": {
+		"desc": "圣痕符文已满级",
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneShenghen",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "RuneMaxLevel",
+				"custom_recognition_param": {"target_rune": "圣痕"}
+			}
+		]
+	},
+	"JiushuMaxLevel": {
+		"desc": "救赎符文已满级",
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneJiushu",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "RuneMaxLevel",
+				"custom_recognition_param": {"target_rune": "救赎"}
+			}
+		]
+	},
+	"FusuMaxLevel": {
+		"desc": "复苏符文已满级",
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneFusu",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "RuneMaxLevel",
+				"custom_recognition_param": {"target_rune": "复苏"}
+			}
+		]
+	},
+	"WudongMaxLevel": {
+		"desc": "舞动符文已满级",
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneWudong",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "RuneMaxLevel",
+				"custom_recognition_param": {"target_rune": "舞动"}
+			}
+		]
+	},
+	"PoshiMaxLevel": {
+		"desc": "破势符文已满级",
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RunePoshi",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "RuneMaxLevel",
+				"custom_recognition_param": {"target_rune": "破势"}
+			}
+		]
+	},
+	"CaijueMaxLevel": {
+		"desc": "裁决符文已满级",
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneCaijue",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "RuneMaxLevel",
+				"custom_recognition_param": {"target_rune": "裁决"}
+			}
+		]
+	},
+	"NingjingMaxLevel": {
+		"desc": "宁静符文已满级",
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneNingjing",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "RuneMaxLevel",
+				"custom_recognition_param": {"target_rune": "宁静"}
+			}
+		]
+	},
+	"ZhuilieMaxLevel": {
+		"desc": "追猎符文已满级",
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneZhuilie",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "RuneMaxLevel",
+				"custom_recognition_param": {"target_rune": "追猎"}
+			}
+		]
+	},
+	"ZhanyiMaxLevel": {
+		"desc": "战意符文已满级",
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneZhanyi",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "RuneMaxLevel",
+				"custom_recognition_param": {"target_rune": "战意"}
+			}
+		]
+	},
+	"YumoMaxLevel": {
+		"desc": "驭魔符文已满级",
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneYumo",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "RuneMaxLevel",
+				"custom_recognition_param": {"target_rune": "驭魔"}
+			}
+		]
+	},
+	"WuzhouMaxLevel": {
+		"desc": "巫咒符文已满级",
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneWuzhou",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "RuneMaxLevel",
+				"custom_recognition_param": {"target_rune": "巫咒"}
+			}
+		]
+	},
+	"JiliMaxLevel": {
+		"desc": "激励符文已满级",
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneJili",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "RuneMaxLevel",
+				"custom_recognition_param": {"target_rune": "激励"}
+			}
+		]
+	},
+	"XishengMaxLevel": {
+		"desc": "牺牲符文已满级",
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneXisheng",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "RuneMaxLevel",
+				"custom_recognition_param": {"target_rune": "牺牲"}
+			}
+		]
+	},
+	"FunengMaxLevel": {
+		"desc": "赋能符文已满级",
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneFuneng",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "RuneMaxLevel",
+				"custom_recognition_param": {"target_rune": "赋能"}
+			}
+		]
+	},
+	"JingnengMaxLevel": {
+		"desc": "晶能符文已满级",
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneJingneng",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "RuneMaxLevel",
+				"custom_recognition_param": {"target_rune": "晶能"}
+			}
+		]
+	},
+	"ShuangxiangMaxLevel": {
+		"desc": "双向符文已满级",
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneShuangxiang",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "RuneMaxLevel",
+				"custom_recognition_param": {"target_rune": "双向"}
+			}
+		]
+	},
+	"RenjiaNotMaxLevel": {
+		"desc": "刃甲符文未满级",
+		"recognition": "Custom",
+		"custom_recognition": "RuneCanUpgradeCheck",
+		"custom_recognition_param": {"target_rune": "刃甲"}
+	},
+	"XunjiNotMaxLevel": {
+		"desc": "迅击符文未满级",
+		"recognition": "Custom",
+		"custom_recognition": "RuneCanUpgradeCheck",
+		"custom_recognition_param": {"target_rune": "迅击"}
+	},
+	"KuangreNotMaxLevel": {
+		"desc": "狂热符文未满级",
+		"recognition": "Custom",
+		"custom_recognition": "RuneCanUpgradeCheck",
+		"custom_recognition_param": {"target_rune": "狂热"}
+	},
+	"SijiNotMaxLevel": {
+		"desc": "伺机符文未满级",
+		"recognition": "Custom",
+		"custom_recognition": "RuneCanUpgradeCheck",
+		"custom_recognition_param": {"target_rune": "伺机"}
+	},
+	"LeitingNotMaxLevel": {
+		"desc": "雷霆符文未满级",
+		"recognition": "Custom",
+		"custom_recognition": "RuneCanUpgradeCheck",
+		"custom_recognition_param": {"target_rune": "雷霆"}
+	},
+	"SonggeNotMaxLevel": {
+		"desc": "颂歌符文未满级",
+		"recognition": "Custom",
+		"custom_recognition": "RuneCanUpgradeCheck",
+		"custom_recognition_param": {"target_rune": "颂歌"}
+	},
+	"ShenghenNotMaxLevel": {
+		"desc": "圣痕符文未满级",
+		"recognition": "Custom",
+		"custom_recognition": "RuneCanUpgradeCheck",
+		"custom_recognition_param": {"target_rune": "圣痕"}
+	},
+	"JiushuNotMaxLevel": {
+		"desc": "救赎符文未满级",
+		"recognition": "Custom",
+		"custom_recognition": "RuneCanUpgradeCheck",
+		"custom_recognition_param": {"target_rune": "救赎"}
+	},
+	"FusuNotMaxLevel": {
+		"desc": "复苏符文未满级",
+		"recognition": "Custom",
+		"custom_recognition": "RuneCanUpgradeCheck",
+		"custom_recognition_param": {"target_rune": "复苏"}
+	},
+	"WudongNotMaxLevel": {
+		"desc": "舞动符文未满级",
+		"recognition": "Custom",
+		"custom_recognition": "RuneCanUpgradeCheck",
+		"custom_recognition_param": {"target_rune": "舞动"}
+	},
+	"PoshiNotMaxLevel": {
+		"desc": "破势符文未满级",
+		"recognition": "Custom",
+		"custom_recognition": "RuneCanUpgradeCheck",
+		"custom_recognition_param": {"target_rune": "破势"}
+	},
+	"CaijueNotMaxLevel": {
+		"desc": "裁决符文未满级",
+		"recognition": "Custom",
+		"custom_recognition": "RuneCanUpgradeCheck",
+		"custom_recognition_param": {"target_rune": "裁决"}
+	},
+	"NingjingNotMaxLevel": {
+		"desc": "宁静符文未满级",
+		"recognition": "Custom",
+		"custom_recognition": "RuneCanUpgradeCheck",
+		"custom_recognition_param": {"target_rune": "宁静"}
+	},
+	"ZhuilieNotMaxLevel": {
+		"desc": "追猎符文未满级",
+		"recognition": "Custom",
+		"custom_recognition": "RuneCanUpgradeCheck",
+		"custom_recognition_param": {"target_rune": "追猎"}
+	},
+	"ZhanyiNotMaxLevel": {
+		"desc": "战意符文未满级",
+		"recognition": "Custom",
+		"custom_recognition": "RuneCanUpgradeCheck",
+		"custom_recognition_param": {"target_rune": "战意"}
+	},
+	"YumoNotMaxLevel": {
+		"desc": "驭魔符文未满级",
+		"recognition": "Custom",
+		"custom_recognition": "RuneCanUpgradeCheck",
+		"custom_recognition_param": {"target_rune": "驭魔"}
+	},
+	"WuzhouNotMaxLevel": {
+		"desc": "巫咒符文未满级",
+		"recognition": "Custom",
+		"custom_recognition": "RuneCanUpgradeCheck",
+		"custom_recognition_param": {"target_rune": "巫咒"}
+	},
+	"JiliNotMaxLevel": {
+		"desc": "激励符文未满级",
+		"recognition": "Custom",
+		"custom_recognition": "RuneCanUpgradeCheck",
+		"custom_recognition_param": {"target_rune": "激励"}
+	},
+	"XishengNotMaxLevel": {
+		"desc": "牺牲符文未满级",
+		"recognition": "Custom",
+		"custom_recognition": "RuneCanUpgradeCheck",
+		"custom_recognition_param": {"target_rune": "牺牲"}
+	},
+	"FunengNotMaxLevel": {
+		"desc": "赋能符文未满级",
+		"recognition": "Custom",
+		"custom_recognition": "RuneCanUpgradeCheck",
+		"custom_recognition_param": {"target_rune": "赋能"}
+	},
+	"JingnengNotMaxLevel": {
+		"desc": "晶能符文未满级",
+		"recognition": "Custom",
+		"custom_recognition": "RuneCanUpgradeCheck",
+		"custom_recognition_param": {"target_rune": "晶能"}
+	},
+	"ShuangxiangNotMaxLevel": {
+		"desc": "双向符文未满级",
+		"recognition": "Custom",
+		"custom_recognition": "RuneCanUpgradeCheck",
+		"custom_recognition_param": {"target_rune": "双向"}
+	},
+	"RuneLevel": {
+		"desc": "符文等级",
+		"recognition": "OCR",
+		"roi_offset": [-2, -2, 4, 4],
+		"only_rec": true
+	},
+	"RuneLevelColor": {
+		"recognition": "ColorMatch",
+		"method": 40,
+		"lower": [15, 20, 80],
+		"upper": [20, 50, 255],
+		"roi_offset": [75, 98, -69, -95],
+		"count": 10
+	},
+	"FaloAidCount": {
+		"desc": "法洛的援助数量",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "ShatteredRealm/FaloAid.png",
+				"roi": [527, 0, 176, 146],
+				"sub_name": "FaloAidPos"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 20],
+				"upper": [35, 80, 255],
+				"roi": "FaloAidPos",
+				"roi_offset": [47, 14, 59, -27],
+				"count": 10,
+				"sub_name": "FaloAidColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "FaloAidColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2
+	},
+	"MagnetCount": {
+		"desc": "塔莱辛磁石数量",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "ShatteredRealm/Magnet.png",
+				"roi": [527, 0, 176, 146],
+				"sub_name": "MagnetPos"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 20],
+				"upper": [35, 80, 255],
+				"roi": "MagnetPos",
+				"roi_offset": [47, 13, 50, -23],
+				"count": 10,
+				"sub_name": "MagnetColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "MagnetColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2
+	},
+	"RuneLevelInUpgradePage": {
+		"desc": "符文升级页面的等级",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [18, 150, 200],
+				"upper": [22, 255, 255],
+				"roi": [246, 600, 218, 45],
+				"count": 50,
+				"sub_name": "RuneLevelColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "RuneLevelColor",
+				"expected": "等级[:：]([0-9]|[1-4][0-9])",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"sub_name": "RuneLevelSub"
+			}
+		],
+		"box_index": 1
+	},
+	"RuneLevelMax": {
+		"desc": "符文满级",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [18, 150, 200],
+				"upper": [22, 255, 255],
+				"roi": [246, 600, 218, 45],
+				"count": 50,
+				"sub_name": "RuneLevelColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "RuneLevelColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"expected": "满级|满"
+			}
+		]
+	},
+	"UpgradeRenjiaEntry": {
+		"desc": "升级刃甲符文入口",
+		"enabled": false,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": [
+				"SelectRuneSwipeUp",
+				"SelectRuneSwipeDown",
+				"UseMagnetToRaiseSuccessRate"
+			]
+		},
+		"next": [
+			"RenjiaMaxLevel",
+			"UpgradeRenjia",
+			"[JumpBack]SelectRuneSwipeUp",
+			"[JumpBack]SelectRuneSwipeDown",
+			"RuneUpgradeDone",
+			"[JumpBack]RuneUpgradeAddRune"
+		]
+	},
+	"UpgradeRenjia": {
+		"desc": "升级刃甲符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneRenjia",
+			"RenjiaNotMaxLevel"
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		},
+		"next": [
+			"RuneLevelMax",
+			"UseMagnetCannotReach100SuccessRate",
+			"[JumpBack]UpgradeDirectly",
+			"[JumpBack]UpgradeByMagnet"
+		]
+	},
+	"UpgradeXunjiEntry": {
+		"desc": "升级迅击符文入口",
+		"enabled": false,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": [
+				"SelectRuneSwipeUp",
+				"SelectRuneSwipeDown",
+				"UseMagnetToRaiseSuccessRate"
+			]
+		},
+		"next": [
+			"XunjiMaxLevel",
+			"UpgradeXunji",
+			"[JumpBack]SelectRuneSwipeUp",
+			"[JumpBack]SelectRuneSwipeDown",
+			"RuneUpgradeDone",
+			"[JumpBack]RuneUpgradeAddRune"
+		]
+	},
+	"UpgradeXunji": {
+		"desc": "升级迅击符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneXunji",
+			"XunjiNotMaxLevel"
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		},
+		"next": [
+			"RuneLevelMax",
+			"UseMagnetCannotReach100SuccessRate",
+			"[JumpBack]UpgradeDirectly",
+			"[JumpBack]UpgradeByMagnet"
+		]
+	},
+	"UpgradeKuangreEntry": {
+		"desc": "升级狂热符文入口",
+		"enabled": false,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": [
+				"SelectRuneSwipeUp",
+				"SelectRuneSwipeDown",
+				"UseMagnetToRaiseSuccessRate"
+			]
+		},
+		"next": [
+			"KuangreMaxLevel",
+			"UpgradeKuangre",
+			"[JumpBack]SelectRuneSwipeUp",
+			"[JumpBack]SelectRuneSwipeDown",
+			"RuneUpgradeDone",
+			"[JumpBack]RuneUpgradeAddRune"
+		]
+	},
+	"UpgradeKuangre": {
+		"desc": "升级狂热符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneKuangre",
+			"KuangreNotMaxLevel"
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		},
+		"next": [
+			"RuneLevelMax",
+			"UseMagnetCannotReach100SuccessRate",
+			"[JumpBack]UpgradeDirectly",
+			"[JumpBack]UpgradeByMagnet"
+		]
+	},
+	"UpgradeSijiEntry": {
+		"desc": "升级伺机符文入口",
+		"enabled": false,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": [
+				"SelectRuneSwipeUp",
+				"SelectRuneSwipeDown",
+				"UseMagnetToRaiseSuccessRate"
+			]
+		},
+		"next": [
+			"SijiMaxLevel",
+			"UpgradeSiji",
+			"[JumpBack]SelectRuneSwipeUp",
+			"[JumpBack]SelectRuneSwipeDown",
+			"RuneUpgradeDone",
+			"[JumpBack]RuneUpgradeAddRune"
+		]
+	},
+	"UpgradeSiji": {
+		"desc": "升级伺机符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneSiji",
+			"SijiNotMaxLevel"
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		},
+		"next": [
+			"RuneLevelMax",
+			"UseMagnetCannotReach100SuccessRate",
+			"[JumpBack]UpgradeDirectly",
+			"[JumpBack]UpgradeByMagnet"
+		]
+	},
+	"UpgradeLeitingEntry": {
+		"desc": "升级雷霆符文入口",
+		"enabled": false,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": [
+				"SelectRuneSwipeUp",
+				"SelectRuneSwipeDown",
+				"UseMagnetToRaiseSuccessRate"
+			]
+		},
+		"next": [
+			"LeitingMaxLevel",
+			"UpgradeLeiting",
+			"[JumpBack]SelectRuneSwipeUp",
+			"[JumpBack]SelectRuneSwipeDown",
+			"RuneUpgradeDone",
+			"[JumpBack]RuneUpgradeAddRune"
+		]
+	},
+	"UpgradeLeiting": {
+		"desc": "升级雷霆符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneLeiting",
+			"LeitingNotMaxLevel"
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		},
+		"next": [
+			"RuneLevelMax",
+			"UseMagnetCannotReach100SuccessRate",
+			"[JumpBack]UpgradeDirectly",
+			"[JumpBack]UpgradeByMagnet"
+		]
+	},
+	"UpgradeSonggeEntry": {
+		"desc": "升级颂歌符文入口",
+		"enabled": false,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": [
+				"SelectRuneSwipeUp",
+				"SelectRuneSwipeDown",
+				"UseMagnetToRaiseSuccessRate"
+			]
+		},
+		"next": [
+			"SonggeMaxLevel",
+			"UpgradeSongge",
+			"[JumpBack]SelectRuneSwipeUp",
+			"[JumpBack]SelectRuneSwipeDown",
+			"RuneUpgradeDone",
+			"[JumpBack]RuneUpgradeAddRune"
+		]
+	},
+	"UpgradeSongge": {
+		"desc": "升级颂歌符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneSongge",
+			"SonggeNotMaxLevel"
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		},
+		"next": [
+			"RuneLevelMax",
+			"UseMagnetCannotReach100SuccessRate",
+			"[JumpBack]UpgradeDirectly",
+			"[JumpBack]UpgradeByMagnet"
+		]
+	},
+	"UpgradeShenghenEntry": {
+		"desc": "升级圣痕符文入口",
+		"enabled": false,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": [
+				"SelectRuneSwipeUp",
+				"SelectRuneSwipeDown",
+				"UseMagnetToRaiseSuccessRate"
+			]
+		},
+		"next": [
+			"ShenghenMaxLevel",
+			"UpgradeShenghen",
+			"[JumpBack]SelectRuneSwipeUp",
+			"[JumpBack]SelectRuneSwipeDown",
+			"RuneUpgradeDone",
+			"[JumpBack]RuneUpgradeAddRune"
+		]
+	},
+	"UpgradeShenghen": {
+		"desc": "升级圣痕符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneShenghen",
+			"ShenghenNotMaxLevel"
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		},
+		"next": [
+			"RuneLevelMax",
+			"UseMagnetCannotReach100SuccessRate",
+			"[JumpBack]UpgradeDirectly",
+			"[JumpBack]UpgradeByMagnet"
+		]
+	},
+	"UpgradeJiushuEntry": {
+		"desc": "升级救赎符文入口",
+		"enabled": false,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": [
+				"SelectRuneSwipeUp",
+				"SelectRuneSwipeDown",
+				"UseMagnetToRaiseSuccessRate"
+			]
+		},
+		"next": [
+			"JiushuMaxLevel",
+			"UpgradeJiushu",
+			"[JumpBack]SelectRuneSwipeUp",
+			"[JumpBack]SelectRuneSwipeDown",
+			"RuneUpgradeDone",
+			"[JumpBack]RuneUpgradeAddRune"
+		]
+	},
+	"UpgradeJiushu": {
+		"desc": "升级救赎符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneJiushu",
+			"JiushuNotMaxLevel"
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		},
+		"next": [
+			"RuneLevelMax",
+			"UseMagnetCannotReach100SuccessRate",
+			"[JumpBack]UpgradeDirectly",
+			"[JumpBack]UpgradeByMagnet"
+		]
+	},
+	"UpgradeFusuEntry": {
+		"desc": "升级复苏符文入口",
+		"enabled": false,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": [
+				"SelectRuneSwipeUp",
+				"SelectRuneSwipeDown",
+				"UseMagnetToRaiseSuccessRate"
+			]
+		},
+		"next": [
+			"FusuMaxLevel",
+			"UpgradeFusu",
+			"[JumpBack]SelectRuneSwipeUp",
+			"[JumpBack]SelectRuneSwipeDown",
+			"RuneUpgradeDone",
+			"[JumpBack]RuneUpgradeAddRune"
+		]
+	},
+	"UpgradeFusu": {
+		"desc": "升级复苏符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneFusu",
+			"FusuNotMaxLevel"
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		},
+		"next": [
+			"RuneLevelMax",
+			"UseMagnetCannotReach100SuccessRate",
+			"[JumpBack]UpgradeDirectly",
+			"[JumpBack]UpgradeByMagnet"
+		]
+	},
+	"UpgradeWudongEntry": {
+		"desc": "升级舞动符文入口",
+		"enabled": false,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": [
+				"SelectRuneSwipeUp",
+				"SelectRuneSwipeDown",
+				"UseMagnetToRaiseSuccessRate"
+			]
+		},
+		"next": [
+			"WudongMaxLevel",
+			"UpgradeWudong",
+			"[JumpBack]SelectRuneSwipeUp",
+			"[JumpBack]SelectRuneSwipeDown",
+			"RuneUpgradeDone",
+			"[JumpBack]RuneUpgradeAddRune"
+		]
+	},
+	"UpgradeWudong": {
+		"desc": "升级舞动符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneWudong",
+			"WudongNotMaxLevel"
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		},
+		"next": [
+			"RuneLevelMax",
+			"UseMagnetCannotReach100SuccessRate",
+			"[JumpBack]UpgradeDirectly",
+			"[JumpBack]UpgradeByMagnet"
+		]
+	},
+	"UpgradePoshiEntry": {
+		"desc": "升级破势符文入口",
+		"enabled": false,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": [
+				"SelectRuneSwipeUp",
+				"SelectRuneSwipeDown",
+				"UseMagnetToRaiseSuccessRate"
+			]
+		},
+		"next": [
+			"PoshiMaxLevel",
+			"UpgradePoshi",
+			"[JumpBack]SelectRuneSwipeUp",
+			"[JumpBack]SelectRuneSwipeDown",
+			"RuneUpgradeDone",
+			"[JumpBack]RuneUpgradeAddRune"
+		]
+	},
+	"UpgradePoshi": {
+		"desc": "升级破势符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RunePoshi",
+			"PoshiNotMaxLevel"
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		},
+		"next": [
+			"RuneLevelMax",
+			"UseMagnetCannotReach100SuccessRate",
+			"[JumpBack]UpgradeDirectly",
+			"[JumpBack]UpgradeByMagnet"
+		]
+	},
+	"UpgradeCaijueEntry": {
+		"desc": "升级裁决符文入口",
+		"enabled": false,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": [
+				"SelectRuneSwipeUp",
+				"SelectRuneSwipeDown",
+				"UseMagnetToRaiseSuccessRate"
+			]
+		},
+		"next": [
+			"CaijueMaxLevel",
+			"UpgradeCaijue",
+			"[JumpBack]SelectRuneSwipeUp",
+			"[JumpBack]SelectRuneSwipeDown",
+			"RuneUpgradeDone",
+			"[JumpBack]RuneUpgradeAddRune"
+		]
+	},
+	"UpgradeCaijue": {
+		"desc": "升级裁决符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneCaijue",
+			"CaijueNotMaxLevel"
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		},
+		"next": [
+			"RuneLevelMax",
+			"UseMagnetCannotReach100SuccessRate",
+			"[JumpBack]UpgradeDirectly",
+			"[JumpBack]UpgradeByMagnet"
+		]
+	},
+	"UpgradeNingjingEntry": {
+		"desc": "升级宁静符文入口",
+		"enabled": false,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": [
+				"SelectRuneSwipeUp",
+				"SelectRuneSwipeDown",
+				"UseMagnetToRaiseSuccessRate"
+			]
+		},
+		"next": [
+			"NingjingMaxLevel",
+			"UpgradeNingjing",
+			"[JumpBack]SelectRuneSwipeUp",
+			"[JumpBack]SelectRuneSwipeDown",
+			"RuneUpgradeDone",
+			"[JumpBack]RuneUpgradeAddRune"
+		]
+	},
+	"UpgradeNingjing": {
+		"desc": "升级宁静符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneNingjing",
+			"NingjingNotMaxLevel"
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		},
+		"next": [
+			"RuneLevelMax",
+			"UseMagnetCannotReach100SuccessRate",
+			"[JumpBack]UpgradeDirectly",
+			"[JumpBack]UpgradeByMagnet"
+		]
+	},
+	"UpgradeZhuilieEntry": {
+		"desc": "升级追猎符文入口",
+		"enabled": false,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": [
+				"SelectRuneSwipeUp",
+				"SelectRuneSwipeDown",
+				"UseMagnetToRaiseSuccessRate"
+			]
+		},
+		"next": [
+			"ZhuilieMaxLevel",
+			"UpgradeZhuilie",
+			"[JumpBack]SelectRuneSwipeUp",
+			"[JumpBack]SelectRuneSwipeDown",
+			"RuneUpgradeDone",
+			"[JumpBack]RuneUpgradeAddRune"
+		]
+	},
+	"UpgradeZhuilie": {
+		"desc": "升级追猎符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneZhuilie",
+			"ZhuilieNotMaxLevel"
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		},
+		"next": [
+			"RuneLevelMax",
+			"UseMagnetCannotReach100SuccessRate",
+			"[JumpBack]UpgradeDirectly",
+			"[JumpBack]UpgradeByMagnet"
+		]
+	},
+	"UpgradeZhanyiEntry": {
+		"desc": "升级战意符文入口",
+		"enabled": false,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": [
+				"SelectRuneSwipeUp",
+				"SelectRuneSwipeDown",
+				"UseMagnetToRaiseSuccessRate"
+			]
+		},
+		"next": [
+			"ZhanyiMaxLevel",
+			"UpgradeZhanyi",
+			"[JumpBack]SelectRuneSwipeUp",
+			"[JumpBack]SelectRuneSwipeDown",
+			"RuneUpgradeDone",
+			"[JumpBack]RuneUpgradeAddRune"
+		]
+	},
+	"UpgradeZhanyi": {
+		"desc": "升级战意符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneZhanyi",
+			"ZhanyiNotMaxLevel"
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		},
+		"next": [
+			"RuneLevelMax",
+			"UseMagnetCannotReach100SuccessRate",
+			"[JumpBack]UpgradeDirectly",
+			"[JumpBack]UpgradeByMagnet"
+		]
+	},
+	"UpgradeYumoEntry": {
+		"desc": "升级驭魔符文入口",
+		"enabled": false,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": [
+				"SelectRuneSwipeUp",
+				"SelectRuneSwipeDown",
+				"UseMagnetToRaiseSuccessRate"
+			]
+		},
+		"next": [
+			"YumoMaxLevel",
+			"UpgradeYumo",
+			"[JumpBack]SelectRuneSwipeUp",
+			"[JumpBack]SelectRuneSwipeDown",
+			"RuneUpgradeDone",
+			"[JumpBack]RuneUpgradeAddRune"
+		]
+	},
+	"UpgradeYumo": {
+		"desc": "升级驭魔符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneYumo",
+			"YumoNotMaxLevel"
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		},
+		"next": [
+			"RuneLevelMax",
+			"UseMagnetCannotReach100SuccessRate",
+			"[JumpBack]UpgradeDirectly",
+			"[JumpBack]UpgradeByMagnet"
+		]
+	},
+	"UpgradeWuzhouEntry": {
+		"desc": "升级巫咒符文入口",
+		"enabled": false,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": [
+				"SelectRuneSwipeUp",
+				"SelectRuneSwipeDown",
+				"UseMagnetToRaiseSuccessRate"
+			]
+		},
+		"next": [
+			"WuzhouMaxLevel",
+			"UpgradeWuzhou",
+			"[JumpBack]SelectRuneSwipeUp",
+			"[JumpBack]SelectRuneSwipeDown",
+			"RuneUpgradeDone",
+			"[JumpBack]RuneUpgradeAddRune"
+		]
+	},
+	"UpgradeWuzhou": {
+		"desc": "升级巫咒符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneWuzhou",
+			"WuzhouNotMaxLevel"
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		},
+		"next": [
+			"RuneLevelMax",
+			"UseMagnetCannotReach100SuccessRate",
+			"[JumpBack]UpgradeDirectly",
+			"[JumpBack]UpgradeByMagnet"
+		]
+	},
+	"UpgradeJiliEntry": {
+		"desc": "升级激励符文入口",
+		"enabled": false,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": [
+				"SelectRuneSwipeUp",
+				"SelectRuneSwipeDown",
+				"UseMagnetToRaiseSuccessRate"
+			]
+		},
+		"next": [
+			"JiliMaxLevel",
+			"UpgradeJili",
+			"[JumpBack]SelectRuneSwipeUp",
+			"[JumpBack]SelectRuneSwipeDown",
+			"RuneUpgradeDone",
+			"[JumpBack]RuneUpgradeAddRune"
+		]
+	},
+	"UpgradeJili": {
+		"desc": "升级激励符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneJili",
+			"JiliNotMaxLevel"
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		},
+		"next": [
+			"RuneLevelMax",
+			"UseMagnetCannotReach100SuccessRate",
+			"[JumpBack]UpgradeDirectly",
+			"[JumpBack]UpgradeByMagnet"
+		]
+	},
+	"UpgradeXishengEntry": {
+		"desc": "升级牺牲符文入口",
+		"enabled": false,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": [
+				"SelectRuneSwipeUp",
+				"SelectRuneSwipeDown",
+				"UseMagnetToRaiseSuccessRate"
+			]
+		},
+		"next": [
+			"XishengMaxLevel",
+			"UpgradeXisheng",
+			"[JumpBack]SelectRuneSwipeUp",
+			"[JumpBack]SelectRuneSwipeDown",
+			"RuneUpgradeDone",
+			"[JumpBack]RuneUpgradeAddRune"
+		]
+	},
+	"UpgradeXisheng": {
+		"desc": "升级牺牲符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneXisheng",
+			"XishengNotMaxLevel"
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		},
+		"next": [
+			"RuneLevelMax",
+			"UseMagnetCannotReach100SuccessRate",
+			"[JumpBack]UpgradeDirectly",
+			"[JumpBack]UpgradeByMagnet"
+		]
+	},
+	"UpgradeFunengEntry": {
+		"desc": "升级赋能符文入口",
+		"enabled": false,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": [
+				"SelectRuneSwipeUp",
+				"SelectRuneSwipeDown",
+				"UseMagnetToRaiseSuccessRate"
+			]
+		},
+		"next": [
+			"FunengMaxLevel",
+			"UpgradeFuneng",
+			"[JumpBack]SelectRuneSwipeUp",
+			"[JumpBack]SelectRuneSwipeDown",
+			"RuneUpgradeDone",
+			"[JumpBack]RuneUpgradeAddRune"
+		]
+	},
+	"UpgradeFuneng": {
+		"desc": "升级赋能符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneFuneng",
+			"FunengNotMaxLevel"
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		},
+		"next": [
+			"RuneLevelMax",
+			"UseMagnetCannotReach100SuccessRate",
+			"[JumpBack]UpgradeDirectly",
+			"[JumpBack]UpgradeByMagnet"
+		]
+	},
+	"UpgradeJingnengEntry": {
+		"desc": "升级晶能符文入口",
+		"enabled": false,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": [
+				"SelectRuneSwipeUp",
+				"SelectRuneSwipeDown",
+				"UseMagnetToRaiseSuccessRate"
+			]
+		},
+		"next": [
+			"JingnengMaxLevel",
+			"UpgradeJingneng",
+			"[JumpBack]SelectRuneSwipeUp",
+			"[JumpBack]SelectRuneSwipeDown",
+			"RuneUpgradeDone",
+			"[JumpBack]RuneUpgradeAddRune"
+		]
+	},
+	"UpgradeJingneng": {
+		"desc": "升级晶能符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneJingneng",
+			"JingnengNotMaxLevel"
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		},
+		"next": [
+			"RuneLevelMax",
+			"UseMagnetCannotReach100SuccessRate",
+			"[JumpBack]UpgradeDirectly",
+			"[JumpBack]UpgradeByMagnet"
+		]
+	},
+	"UpgradeShuangxiangEntry": {
+		"desc": "升级双向符文入口",
+		"enabled": false,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": [
+				"SelectRuneSwipeUp",
+				"SelectRuneSwipeDown",
+				"UseMagnetToRaiseSuccessRate"
+			]
+		},
+		"next": [
+			"ShuangxiangMaxLevel",
+			"UpgradeShuangxiang",
+			"[JumpBack]SelectRuneSwipeUp",
+			"[JumpBack]SelectRuneSwipeDown",
+			"RuneUpgradeDone",
+			"[JumpBack]RuneUpgradeAddRune"
+		]
+	},
+	"UpgradeShuangxiang": {
+		"desc": "升级双向符文",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InSelectRuneUpgradePage",
+			"RuneShuangxiang",
+			"ShuangxiangNotMaxLevel"
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [50, 45, -89, -91],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		},
+		"next": [
+			"RuneLevelMax",
+			"UseMagnetCannotReach100SuccessRate",
+			"[JumpBack]UpgradeDirectly",
+			"[JumpBack]UpgradeByMagnet"
+		]
+	},
+	"RuneLevelBelowMagnetLevel": {
+		"desc": "符文等级低于磁石使用阈值",
+		"recognition": "Custom",
+		"custom_recognition": "ExpressionRecognition",
+		"custom_recognition_param": {
+			"expression": "{RuneLevelInUpgradePage}<{target}",
+			"params": {
+				"target": 38
+			}
+		}
+	},
+	"RuneLevelReachMagnetLevel": {
+		"desc": "符文等级达到磁石使用阈值",
+		"recognition": "Custom",
+		"custom_recognition": "ExpressionRecognition",
+		"custom_recognition_param": {
+			"expression": "{RuneLevelInUpgradePage}>={target}",
+			"params": {
+				"target": 38
+			}
+		}
+	},
+	"UpgradeDirectly": {
+		"desc": "直接升级",
+		"recognition": "And",
+		"all_of": [
+			"RuneLevelBelowMagnetLevel",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "ExpressionRecognition",
+				"custom_recognition_param": {"expression": "{FaloAidCount}>0"}
+			}
+		],
+		"next": [
+			"[JumpBack]ClearMagnet",
+			"ClickUpgradeButton"
+		]
+	},
+	"ClearMagnet": {
+		"desc": "不使用磁石，如果上一个使用了，需要清掉",
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/ReduceMagnet.png",
+		"roi": [384, 919, 65, 55],
+		"target_offset": [15, 15, -29, -28],
+		"action": "LongPress",
+		"duration": 2000,
+		"pre_delay": 0,
+		"post_delay": 500
+	},
+	"UpgradeByMagnet": {
+		"desc": "用磁石升级",
+		"recognition": "And",
+		"all_of": [
+			"RuneLevelReachMagnetLevel",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "ExpressionRecognition",
+				"custom_recognition_param": {"expression": "{FaloAidCount}>0"}
+			},
+			{
+				"recognition": "Custom",
+				"custom_recognition": "ExpressionRecognition",
+				"custom_recognition_param": {"expression": "{MagnetCount}>0"}
+			}
+		],
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["UseMagnetToRaiseSuccessRate"]
+		},
+		"next": [
+			"MagnetNotEnough",
+			"ClickUpgradeButtonAfterUseMagnet",
+			"UseMagnetCannotReach100SuccessRate",
+			"[JumpBack]UseMagnetToRaiseSuccessRate",
+			"[JumpBack]ClickUpgradeButton"
+		]
+	},
+	"MagnetPos": {
+		"desc": "识别塔莱辛磁石",
+		"post_delay": 0,
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/UseMagnet.png",
+		"roi": [207, 924, 358, 176],
+		"green_mask": true
+	},
+	"UseMagnetToRaiseSuccessRate": {
+		"desc": "使用磁石提升成功率",
+		"max_hit": 5,
+		"post_delay": 200,
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["MagnetPos"],
+		"action": "LongPress",
+		"duration": 2000,
+		"target_offset": [41, 49, -76, -94]
+	},
+	"UseMagnetCannotReach100SuccessRate": {
+		"desc": "使用磁石达到上限",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [15, 20, 80],
+				"upper": [20, 50, 255],
+				"roi": [344, 1033, 77, 25],
+				"count": 10,
+				"sub_name": "MagnetColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "MagnetColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"expected": "^(\\d+)/\\1$",
+				"only_rec": true
+			}
+		]
+	},
+	"Upgrade100SuccessRate": {
+		"desc": "100%升级成功率",
+		"post_delay": 0,
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"roi": [265, 899, 189, 29],
+		"expected": "升级成功率[:：]100%|100%",
+		"only_rec": true
+	},
+	"ClickUpgradeButton": {
+		"desc": "点击升级按钮",
+		"post_delay": 300,
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "ShatteredRealm/Upgrade.png",
+		"roi": [233, 1100, 255, 69],
+		"action": "Click",
+		"target_offset": [112, 24, -226, -53]
+	},
+	"ClickUpgradeButtonAfterUseMagnet": {
+		"desc": "使用磁石后点击升级按钮",
+		"post_delay": 0,
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"Upgrade100SuccessRate",
+			{
+				"recognition": "TemplateMatch",
+				"template": "ShatteredRealm/Upgrade.png",
+				"roi": [233, 1100, 255, 69]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [112, 24, -226, -53],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [136, 475, 444, 305],
+			"timeout": 2000
+		}
+	},
+	"SelectRuneSwipeUp": {
+		"desc": "选择符文上滑",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InRuneSelectPage"],
+		"action": "Swipe",
+		"begin": [360, 900],
+		"end": [360, 400],
+		"duration": 100,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [45, 140, 630, 825],
+			"timeout": 3000
+		}
+	},
+	"SelectRuneSwipeDown": {
+		"desc": "选择符文下滑",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InRuneSelectPage"],
+		"action": "Swipe",
+		"begin": [360, 400],
+		"end": [360, 900],
+		"duration": 100,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [45, 140, 630, 825],
+			"timeout": 3000
+		}
+	}
+}

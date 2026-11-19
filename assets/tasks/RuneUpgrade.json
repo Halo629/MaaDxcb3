@@ -1,47 +1,456 @@
 {
-    "task": [
-        {
-            "name": "RuneUpgrade",
-            "label": "🔣升级符文",
-            "entry": "ShatteredRealmStart",
-            "group": [
-                "other_tasks"
-            ],
-            "option": [
-                "Mode",
-                "Runes"
-            ],
-            "pipeline_override": {
-                "ShatteredRealmRuneUpgradeStart": {
-                    "enabled": true
-                }
-            }
-        }
-    ],
-    "option": {
-        "Mode": {
-            "type": "input",
-            "label": "模式",
-            "inputs": [
-                {
-                    "name": "ModeValue",
-                    "label": "模式",
-                    "pipeline_type": "string",
-                    "default": "all"
-                }
-            ]
-        },
-        "Runes": {
-            "type": "input",
-            "label": "符文(JSON 数组)",
-            "inputs": [
-                {
-                    "name": "RunesValue",
-                    "label": "符文(JSON 数组)",
-                    "pipeline_type": "string",
-                    "default": "[]"
-                }
-            ]
-        }
-    }
+	"task": [
+		{
+			"name": "RuneUpgrade",
+			"label": "🔣升级符文",
+			"description": "需解锁破碎之境快速挑战",
+			"entry": "ShatteredRealmStart",
+			"group": ["other_tasks"],
+			"option": [
+				"QuickChallengeCount",
+				"UseMagnetLevel",
+				"AutoUnlockRune",
+				"SelectUpgradeRune"
+			],
+			"pipeline_override": {
+				"ShatteredRealmRuneUpgradeStart": {"enabled": true}
+			}
+		}
+	],
+	"option": {
+		"QuickChallengeCount": {
+			"type": "select",
+			"label": "升级前快速挑战破碎之境次数",
+			"default_case": "MaxCount",
+			"cases": [
+				{
+					"name": "MaxCount",
+					"label": "最大次数",
+					"description": "将消耗所有异域古虫进行快速挑战"
+				},
+				{
+					"name": "SpecifiedCount",
+					"label": "指定次数",
+					"option": ["SpecifiedCountValue"]
+				}
+			]
+		},
+		"SpecifiedCountValue": {
+			"type": "input",
+			"label": "指定次数",
+			"inputs": [
+				{
+					"name": "SpecifiedCountInputValue",
+					"label": "输入次数",
+					"pipeline_type": "int",
+					"default": "50",
+					"verify": "^\\d+$",
+					"pattern_msg": "次数需为大于等于 0 的整数"
+				}
+			],
+			"pipeline_override": {
+				"ShatteredRealmQuickChallenge": {"max_hit": "{SpecifiedCountInputValue}"}
+			}
+		},
+		"UseMagnetLevel": {
+			"type": "input",
+			"label": "使用塔莱辛磁石等级",
+			"inputs": [
+				{
+					"name": "UseMagnetLevelValue",
+					"label": "多少级开始使用塔莱辛磁石",
+					"pipeline_type": "string",
+					"default": "38",
+					"verify": "^([1-9]|[1-4][0-9])$",
+					"pattern_msg": "等级需在 1 到 49 之间"
+				}
+			],
+			"pipeline_override": {
+				"RuneLevelBelowMagnetLevel": {
+					"custom_recognition_param": {
+						"expression": "{RuneLevelInUpgradePage}<{target}",
+						"params": {
+							"target": "{UseMagnetLevelValue}"
+						}
+					}
+				},
+				"RuneLevelReachMagnetLevel": {
+					"custom_recognition_param": {
+						"expression": "{RuneLevelInUpgradePage}>={target}",
+						"params": {
+							"target": "{UseMagnetLevelValue}"
+						}
+					}
+				}
+			}
+		},
+		"AutoUnlockRune": {
+			"type": "checkbox",
+			"label": "选择需要购买的符文",
+			"default_case": [
+				"Renjia",
+				"Xunji",
+				"Kuangre",
+				"Siji",
+				"Leiting",
+				"Songge",
+				"Shenghen",
+				"Jiushu",
+				"Fusu",
+				"Wudong",
+				"Poshi",
+				"Caijue",
+				"Ningjing",
+				"Zhuilie",
+				"Zhanyi",
+				"Yumo",
+				"Wuzhou",
+				"Jili",
+				"Xisheng",
+				"Funeng",
+				"Jingneng",
+				"Shuangxiang"
+			],
+			"cases": [
+				{
+					"name": "Renjia",
+					"label": "刃甲",
+					"pipeline_override": {
+						"UnlockRuneRenjiaStart": {"enabled": true}
+					}
+				},
+				{
+					"name": "Xunji",
+					"label": "迅击",
+					"pipeline_override": {
+						"UnlockRuneXunjiStart": {"enabled": true}
+					}
+				},
+				{
+					"name": "Kuangre",
+					"label": "狂热",
+					"pipeline_override": {
+						"UnlockRuneKuangreStart": {"enabled": true}
+					}
+				},
+				{
+					"name": "Siji",
+					"label": "伺机",
+					"pipeline_override": {
+						"UnlockRuneSijiStart": {"enabled": true}
+					}
+				},
+				{
+					"name": "Leiting",
+					"label": "雷霆",
+					"pipeline_override": {
+						"UnlockRuneLeitingStart": {"enabled": true}
+					}
+				},
+				{
+					"name": "Songge",
+					"label": "颂歌",
+					"pipeline_override": {
+						"UnlockRuneSonggeStart": {"enabled": true}
+					}
+				},
+				{
+					"name": "Shenghen",
+					"label": "圣痕",
+					"pipeline_override": {
+						"UnlockRuneShenghenStart": {"enabled": true}
+					}
+				},
+				{
+					"name": "Jiushu",
+					"label": "救赎",
+					"pipeline_override": {
+						"UnlockRuneJiushuStart": {"enabled": true}
+					}
+				},
+				{
+					"name": "Fusu",
+					"label": "复苏",
+					"pipeline_override": {
+						"UnlockRuneFusuStart": {"enabled": true}
+					}
+				},
+				{
+					"name": "Wudong",
+					"label": "舞动",
+					"pipeline_override": {
+						"UnlockRuneWudongStart": {"enabled": true}
+					}
+				},
+				{
+					"name": "Poshi",
+					"label": "破势",
+					"pipeline_override": {
+						"UnlockRunePoshiStart": {"enabled": true}
+					}
+				},
+				{
+					"name": "Caijue",
+					"label": "裁决",
+					"pipeline_override": {
+						"UnlockRuneCaijueStart": {"enabled": true}
+					}
+				},
+				{
+					"name": "Ningjing",
+					"label": "宁静",
+					"pipeline_override": {
+						"UnlockRuneNingjingStart": {"enabled": true}
+					}
+				},
+				{
+					"name": "Zhuilie",
+					"label": "追猎",
+					"pipeline_override": {
+						"UnlockRuneZhuilieStart": {"enabled": true}
+					}
+				},
+				{
+					"name": "Zhanyi",
+					"label": "战意",
+					"pipeline_override": {
+						"UnlockRuneZhanyiStart": {"enabled": true}
+					}
+				},
+				{
+					"name": "Yumo",
+					"label": "驭魔",
+					"pipeline_override": {
+						"UnlockRuneYumoStart": {"enabled": true}
+					}
+				},
+				{
+					"name": "Wuzhou",
+					"label": "巫咒",
+					"pipeline_override": {
+						"UnlockRuneWuzhouStart": {"enabled": true}
+					}
+				},
+				{
+					"name": "Jili",
+					"label": "激励",
+					"pipeline_override": {
+						"UnlockRuneJiliStart": {"enabled": true}
+					}
+				},
+				{
+					"name": "Xisheng",
+					"label": "牺牲",
+					"pipeline_override": {
+						"UnlockRuneXishengStart": {"enabled": true}
+					}
+				},
+				{
+					"name": "Funeng",
+					"label": "赋能",
+					"pipeline_override": {
+						"UnlockRuneFunengStart": {"enabled": true}
+					}
+				},
+				{
+					"name": "Jingneng",
+					"label": "晶能",
+					"pipeline_override": {
+						"UnlockRuneJingnengStart": {"enabled": true}
+					}
+				},
+				{
+					"name": "Shuangxiang",
+					"label": "双向",
+					"pipeline_override": {
+						"UnlockRuneShuangxiangStart": {"enabled": true}
+					}
+				}
+			]
+		},
+		"SelectUpgradeRune": {
+			"type": "checkbox",
+			"label": "选择需要升级的符文",
+			"default_case": [
+				"Renjia",
+				"Xunji",
+				"Kuangre",
+				"Siji",
+				"Leiting",
+				"Songge",
+				"Shenghen",
+				"Jiushu",
+				"Fusu",
+				"Wudong",
+				"Poshi",
+				"Caijue",
+				"Ningjing",
+				"Zhuilie",
+				"Zhanyi",
+				"Yumo",
+				"Wuzhou",
+				"Jili",
+				"Xisheng",
+				"Funeng",
+				"Jingneng",
+				"Shuangxiang"
+			],
+			"cases": [
+				{
+					"name": "Renjia",
+					"label": "刃甲",
+					"pipeline_override": {
+						"UpgradeRenjiaEntry": {"enabled": true}
+					}
+				},
+				{
+					"name": "Xunji",
+					"label": "迅击",
+					"pipeline_override": {
+						"UpgradeXunjiEntry": {"enabled": true}
+					}
+				},
+				{
+					"name": "Kuangre",
+					"label": "狂热",
+					"pipeline_override": {
+						"UpgradeKuangreEntry": {"enabled": true}
+					}
+				},
+				{
+					"name": "Siji",
+					"label": "伺机",
+					"pipeline_override": {
+						"UpgradeSijiEntry": {"enabled": true}
+					}
+				},
+				{
+					"name": "Leiting",
+					"label": "雷霆",
+					"pipeline_override": {
+						"UpgradeLeitingEntry": {"enabled": true}
+					}
+				},
+				{
+					"name": "Songge",
+					"label": "颂歌",
+					"pipeline_override": {
+						"UpgradeSonggeEntry": {"enabled": true}
+					}
+				},
+				{
+					"name": "Shenghen",
+					"label": "圣痕",
+					"pipeline_override": {
+						"UpgradeShenghenEntry": {"enabled": true}
+					}
+				},
+				{
+					"name": "Jiushu",
+					"label": "救赎",
+					"pipeline_override": {
+						"UpgradeJiushuEntry": {"enabled": true}
+					}
+				},
+				{
+					"name": "Fusu",
+					"label": "复苏",
+					"pipeline_override": {
+						"UpgradeFusuEntry": {"enabled": true}
+					}
+				},
+				{
+					"name": "Wudong",
+					"label": "舞动",
+					"pipeline_override": {
+						"UpgradeWudongEntry": {"enabled": true}
+					}
+				},
+				{
+					"name": "Poshi",
+					"label": "破势",
+					"pipeline_override": {
+						"UpgradePoshiEntry": {"enabled": true}
+					}
+				},
+				{
+					"name": "Caijue",
+					"label": "裁决",
+					"pipeline_override": {
+						"UpgradeCaijueEntry": {"enabled": true}
+					}
+				},
+				{
+					"name": "Ningjing",
+					"label": "宁静",
+					"pipeline_override": {
+						"UpgradeNingjingEntry": {"enabled": true}
+					}
+				},
+				{
+					"name": "Zhuilie",
+					"label": "追猎",
+					"pipeline_override": {
+						"UpgradeZhuilieEntry": {"enabled": true}
+					}
+				},
+				{
+					"name": "Zhanyi",
+					"label": "战意",
+					"pipeline_override": {
+						"UpgradeZhanyiEntry": {"enabled": true}
+					}
+				},
+				{
+					"name": "Yumo",
+					"label": "驭魔",
+					"pipeline_override": {
+						"UpgradeYumoEntry": {"enabled": true}
+					}
+				},
+				{
+					"name": "Wuzhou",
+					"label": "巫咒",
+					"pipeline_override": {
+						"UpgradeWuzhouEntry": {"enabled": true}
+					}
+				},
+				{
+					"name": "Jili",
+					"label": "激励",
+					"pipeline_override": {
+						"UpgradeJiliEntry": {"enabled": true}
+					}
+				},
+				{
+					"name": "Xisheng",
+					"label": "牺牲",
+					"pipeline_override": {
+						"UpgradeXishengEntry": {"enabled": true}
+					}
+				},
+				{
+					"name": "Funeng",
+					"label": "赋能",
+					"pipeline_override": {
+						"UpgradeFunengEntry": {"enabled": true}
+					}
+				},
+				{
+					"name": "Jingneng",
+					"label": "晶能",
+					"pipeline_override": {
+						"UpgradeJingnengEntry": {"enabled": true}
+					}
+				},
+				{
+					"name": "Shuangxiang",
+					"label": "双向",
+					"pipeline_override": {
+						"UpgradeShuangxiangEntry": {"enabled": true}
+					}
+				}
+			]
+		}
+	}
 }

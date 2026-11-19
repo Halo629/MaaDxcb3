@@ -124,7 +124,8 @@
 		"assets/tasks/MonsterSoulUpgrade.json",
 		// 装备重铸
 		"assets/tasks/ReforgeEquipment.json",
-		//"assets/tasks/RuneUpgrade.json",
+		// 符文升级
+		"assets/tasks/RuneUpgrade.json",
 		// 魂墓
 		"assets/tasks/SoulTomb.json",
 		"assets/tasks/RecipeUnlock.json",
