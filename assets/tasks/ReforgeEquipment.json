@@ -20,13 +20,15 @@
 	"option": {
 		"WeaponReforgeTarget": {
 			"type": "input",
-			"label": "武器重铸目标",
+			"label": "武器重铸目标完美度",
 			"inputs": [
 				{
 					"name": "WeaponReforgeTargetValue",
-					"label": "输入重铸目标，支持小数点",
+					"label": "输入重铸目标完美度，支持小数点",
 					"pipeline_type": "string",
-					"default": "99"
+					"default": "99",
+					"verify": "^(9[0-9](\\.[0-9]+)?|100(\\.0+)?)$",
+					"pattern_msg": "重铸目标完美度需在 90 到 100 之间"
 				}
 			],
 			"pipeline_override": {
@@ -42,13 +44,15 @@
 		},
 		"ArmorReforgeTarget": {
 			"type": "input",
-			"label": "防具重铸目标",
+			"label": "防具重铸目标完美度",
 			"inputs": [
 				{
 					"name": "ArmorReforgeTargetValue",
-					"label": "输入重铸目标，支持小数点",
+					"label": "输入重铸目标完美度，支持小数点",
 					"pipeline_type": "string",
-					"default": "95"
+					"default": "95",
+					"verify": "^(9[0-9](\\.[0-9]+)?|100(\\.0+)?)$",
+					"pattern_msg": "重铸目标完美度需在 90 到 100 之间"
 				}
 			],
 			"pipeline_override": {
@@ -63,54 +67,55 @@
 			}
 		},
 		"ReforgeTargetRole": {
-			"type": "select",
-			"label": "选择需要重铸的人物,从左往右，前排1,2,3，后排4,5,6",
-			"default_case": "all",
+			"type": "checkbox",
+			"label": "选择需要重铸的人物，从左往右，前排1,2,3，后排4,5,6",
+			"default_case": [
+				"FirstRole",
+				"SecondRole",
+				"ThirdRole",
+				"FourthRole",
+				"FifthRole",
+				"SixthRole"
+			],
 			"cases": [
 				{
-					"name": "all",
-					"label": "所有人物",
-					"pipeline_override": {
-						"FirstRoleEquipmentReforge": {"enabled": true},
-						"SecondRoleEquipmentReforge": {"enabled": true},
-						"ThirdRoleEquipmentReforge": {"enabled": true},
-						"FourthRoleEquipmentReforge": {"enabled": true},
-						"FifthRoleEquipmentReforge": {"enabled": true},
-						"SixthRoleEquipmentReforge": {"enabled": true}
-					}
-				},
-				{
-					"name": "1号",
+					"name": "FirstRole",
+					"label": "1号位",
 					"pipeline_override": {
 						"FirstRoleEquipmentReforge": {"enabled": true}
 					}
 				},
 				{
-					"name": "2号",
+					"name": "SecondRole",
+					"label": "2号位",
 					"pipeline_override": {
 						"SecondRoleEquipmentReforge": {"enabled": true}
 					}
 				},
 				{
-					"name": "3号",
+					"name": "ThirdRole",
+					"label": "3号位",
 					"pipeline_override": {
 						"ThirdRoleEquipmentReforge": {"enabled": true}
 					}
 				},
 				{
-					"name": "4号",
+					"name": "FourthRole",
+					"label": "4号位",
 					"pipeline_override": {
 						"FourthRoleEquipmentReforge": {"enabled": true}
 					}
 				},
 				{
-					"name": "5号",
+					"name": "FifthRole",
+					"label": "5号位",
 					"pipeline_override": {
 						"FifthRoleEquipmentReforge": {"enabled": true}
 					}
 				},
 				{
-					"name": "6号",
+					"name": "SixthRole",
+					"label": "6号位",
 					"pipeline_override": {
 						"SixthRoleEquipmentReforge": {"enabled": true}
 					}

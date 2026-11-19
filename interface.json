@@ -116,11 +116,16 @@
 		// 月影群岛
 		"assets/tasks/MoonlightIsles.json",
 		// group: other_tasks
+		// 兑换码
 		"assets/tasks/RedeemCode.json",
+		// 奥术监考
 		"assets/tasks/ArcanePrison.json",
+		// 魔魂升级
 		"assets/tasks/MonsterSoulUpgrade.json",
+		// 装备重铸
 		"assets/tasks/ReforgeEquipment.json",
 		//"assets/tasks/RuneUpgrade.json",
+		// 魂墓
 		"assets/tasks/SoulTomb.json",
 		"assets/tasks/RecipeUnlock.json",
 		//instance_tasks

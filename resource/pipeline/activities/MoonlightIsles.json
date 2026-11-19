@@ -147,6 +147,7 @@
 		"rate_limit": 0,
 		"max_hit": 1,
 		"next": [
+			"[JumpBack]GhostHouseCollectCandy",
 			"[JumpBack]GhostHouseEvent",
 			"[JumpBack]AdventureEnd",
 			"[JumpBack]HandleBattleResult",
@@ -193,32 +194,48 @@
 	},
 	"EnterGhostHouseNoTimes": {
 		"desc": "进入鬼屋无次数",
-		"recognition": "OCR",
-		"expected": "0/2|0/|012",
-		"roi": [94, 611, 259, 33],
-		"only_rec": true,
+		"recognition": "Or",
+		"any_of": [
+			{
+				"recognition": "OCR",
+				"expected": "剩余挑战次数\\s*[:：]\\s*0/2",
+				"roi": [74, 529, 341, 198]
+			},
+			{
+				"recognition": "OCR",
+				"expected": "0/2|0/|012",
+				"roi": [74, 529, 341, 198]
+			}
+		],
 		"next": [
 			"[JumpBack]MoonlightIslesLeaveOption",
 			"SceneEnterMainPage"
 		]
 	},
+	"GhostHouseCollectCandy": {
+		"desc": "收集糖果",
+		"recognition": "OCR",
+		"expected": "收集糖果|收集|糖果",
+		"roi": [185, 629, 336, 502],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [158, 618, 372, 463],
+			"timeout": 2000
+		},
+		"timeout": 4000,
+		"next": [
+			"HandleRewardDialog"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
+	},
 	"EnterGhostHouse": {
 		"desc": "进入鬼屋",
-		"recognition": "And",
-		"all_of": [
-			{
-				"recognition": "OCR",
-				"expected": "2/2|2/|212|1/2|1/|112",
-				"roi": [89, 564, 262, 34],
-				"only_rec": true
-			},
-			{
-				"recognition": "OCR",
-				"expected": "进入.*鬼屋",
-				"roi": [247, 714, 196, 241]
-			}
-		],
-		"box_index": 1,
+		"recognition": "OCR",
+		"expected": "进入.*鬼屋",
+		"roi": [247, 714, 196, 241],
 		"action": "Click",
 		"post_wait_freezes": {
 			"time": 500,

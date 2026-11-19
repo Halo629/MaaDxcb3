@@ -22,6 +22,7 @@
 		"all_of": ["InTeamPage"],
 		"next": [
 			"[JumpBack]FirstRoleEquipmentReforge",
+			"[JumpBack]RoleNotWearEquipment",
 			"ReforgeEquiment",
 			"[JumpBack]RefiningLinking",
 			"[JumpBack]ReforgeClickRefine",
@@ -44,6 +45,7 @@
 			"[JumpBack]QuickReforgeEquiment",
 			"[JumpBack]ReforgeClickRefine",
 			"[JumpBack]ReforgeClickReforge",
+			"[JumpBack]RoleNotWearEquipment",
 			"[JumpBack]ReforgeSelectWeapon",
 			"[JumpBack]SelectArmorEquipment",
 			"[JumpBack]FirstRoleEquipmentReforge",
@@ -121,17 +123,31 @@
 		"rate_limit": 0,
 		"action": "Click",
 		"post_wait_freezes": {
-			"time": 500,
+			"time": 800,
 			"target": [260, 540, 200, 200],
 			"timeout": 2000
-		}
+		},
+		"timeout": 3000,
+		"next": [
+			"InExpeditionTeamPage"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"InExpeditionTeamPage": {
+		"desc": "在远征队页面",
+		"recognition": "TemplateMatch",
+		"template": "main_page_icon/InExpeditionTeam.png",
+		"roi": [10, 1179, 133, 101],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
 	},
 	"InTeamPage": {
 		"desc": "在编队页面",
-		"recognition": "OCR",
-		"expected": "编队",
-		"roi": [167, 1119, 57, 32],
-		"only_rec": true,
+		"recognition": "TemplateMatch",
+		"template": "main_page_icon/Team.png",
 		"post_delay": 0,
 		"pre_delay": 0
 	},
@@ -290,6 +306,18 @@
 			"ClearSelectEquipmentHitCount"
 		]
 	},
+	"RoleNotWearEquipment": {
+		"desc": "人物没穿戴装备",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "common/Wear.png",
+		"roi": [84, 939, 540, 257],
+		"next": [
+			"PressEsc"
+		]
+	},
 	"ReforgeSelectWeapon": {
 		"desc": "选择武器进行重铸",
 		"max_hit": 1,
@@ -429,23 +457,6 @@
 		"template": "common/Reforge.png",
 		"roi": [56, 849, 623, 299]
 	},
-	"ReforgePageEntry": {
-		"desc": "进入页面",
-		"recognition": "And",
-		"all_of": ["RefineButton"],
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0,
-		"action": "Click",
-		"post_wait_freezes": {
-			"time": 500,
-			"target": [73, 308, 574, 690],
-			"timeout": 2000
-		},
-		"next": [
-			"ClickReforge"
-		]
-	},
 	"ReforgeClickReforge": {
 		"desc": "点击重铸按钮进入重铸页面",
 		"recognition": "And",
@@ -475,6 +486,24 @@
 		},
 		"next": [
 			"ClickReforge"
+		],
+		"timeout": 5000,
+		"on_error": [
+			"ReforgeClickRefine"
+		]
+	},
+	"EquipmentNotRefined": {
+		"desc": "装备未精炼，无法重铸",
+		"recognition": "OCR",
+		"expected": "装备还未精炼|未精炼|暂时无法|无法|重铸",
+		"roi": [203, 529, 311, 31],
+		"only_rec": true,
+		"pre_delay": 0,
+		"post_delay": 200,
+		"rate_limit": 0,
+		"next": [
+			"[JumpBack]ReforgeQuitCurEquipment",
+			"__ScenePrivateNextTrue"
 		]
 	},
 	"RefiningLinking": {
@@ -495,14 +524,21 @@
 		"expected": "重铸",
 		"roi": [424, 695, 165, 390],
 		"pre_delay": 0,
-		"post_delay": 0,
+		"post_delay": 100,
 		"rate_limit": 0,
 		"action": "Click",
-		"post_wait_freezes": {
-			"time": 500,
-			"target": [73, 308, 574, 690],
-			"timeout": 1000
-		}
+		"next": [
+			"EquipmentNotRefined",
+			"InReforgePage"
+		]
+	},
+	"InReforgePage": {
+		"desc": "在重铸页面",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["ReforgeConfirmButton"]
 	},
 	"ReforgeConfirmButton": {
 		"desc": "确认重铸按钮",
