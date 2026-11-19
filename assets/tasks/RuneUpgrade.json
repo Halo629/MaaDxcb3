@@ -85,6 +85,26 @@
 			}
 		},
 		"AutoUnlockRune": {
+			"type": "switch",
+			"label": "购买符文",
+			"default_case": "No",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"RuneUnlockStart": {"enabled": true}
+					},
+					"option": ["SelectUnlockRune"]
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"RuneUnlockStart": {"enabled": false}
+					}
+				}
+			]
+		},
+		"SelectUnlockRune": {
 			"type": "checkbox",
 			"label": "选择需要购买的符文",
 			"default_case": [
