@@ -1359,6 +1359,7 @@
 	},
 	"RuneUnlockStart": {
 		"desc": "符文解锁入口",
+		"max_hit": 1,
 		"enabled": false,
 		"pre_delay": 0,
 		"post_delay": 0,
@@ -1393,7 +1394,10 @@
 			"[JumpBack]UnlockRuneShuangxiangStart",
 			"[JumpBack]UnlockRuneSwipeUp",
 			"__ScenePrivateNextTrue"
-		]
+		],
+		"focus": {
+			"Node.Recognition.Succeeded": "开始识别购买符文,请耐心等待..."
+		}
 	},
 	"UnlockRuneSwipeUp": {
 		"desc": "符文解锁上滑",
