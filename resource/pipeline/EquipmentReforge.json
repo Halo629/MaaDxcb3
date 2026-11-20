@@ -129,7 +129,7 @@
 		},
 		"timeout": 3000,
 		"next": [
-			"InExpeditionTeamPage"
+			"InTeamPage"
 		],
 		"on_error": [
 			"__ScenePrivateNextTrue"
