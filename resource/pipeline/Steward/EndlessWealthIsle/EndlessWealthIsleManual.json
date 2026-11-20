@@ -1,0 +1,92 @@
+{
+	"EndlessWealthIsleManualStart": {
+		"desc": "手动财富岛入口",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["EndlessWealthIsleOneKeySweepNotEnable"],
+		"next": [
+			"[JumpBack]UnlockSimpleLevel",
+			"[JumpBack]UnlockHardLevel",
+			"[JumpBack]UnlockNightmareLevel"
+		]
+	},
+	"UnlockSimpleLevel": {
+		"desc": "解锁简单难度",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InRuinedTemple"],
+		"next": [
+			"[JumpBack]ClickSimpleLevel",
+			"[JumpBack]MazeStartOut",
+			"[JumpBack]ClickMarchButton"
+		]
+	},
+	"SimpleLevelCheck": {"desc": "在冒险中检查是否简单难度"},
+	"UnlockHardLevel": {
+		"desc": "解锁困难难度",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1
+	},
+	"UnlockNightmareLevel": {
+		"desc": "解锁噩梦难度",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1
+	},
+	"ClickMarchButton": {
+		"desc": "点击出征按钮",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "EndlessWealthIsle/March.png",
+		"roi": [180, 1011, 383, 236],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [104, 272, 515, 733],
+			"timeout": 2000
+		}
+	},
+	"ClickSimpleLevel": {
+		"desc": "点击简单难度",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InRuinedTemple"],
+		"action": "Click",
+		"target": [87, 720, 112, 79],
+		"pre_delay": 0,
+		"post_delay": 500,
+		"rate_limit": 0
+	},
+	"ClickHardLevel": {
+		"desc": "点击困难难度",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InRuinedTemple"],
+		"action": "Click",
+		"target": [310, 718, 94, 71],
+		"pre_delay": 0,
+		"post_delay": 500,
+		"rate_limit": 0
+	},
+	"ClickNightmareLevel": {
+		"desc": "点击噩梦难度",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InRuinedTemple"],
+		"action": "Click",
+		"target": [527, 737, 88, 43],
+		"pre_delay": 0,
+		"post_delay": 500,
+		"rate_limit": 0
+	}
+}

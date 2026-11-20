@@ -96,7 +96,19 @@
 		"desc": "判断是否在迷宫",
 		"recognition": "TemplateMatch",
 		"roi": [345, 4, 354, 104],
-		"template": "maze/quit_maze.png",
+		"template": [
+			"maze/quit_maze.png",
+			"maze/Abandon.png"
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"InAdventure": {
+		"desc": "判断是否在冒险中",
+		"recognition": "TemplateMatch",
+		"roi": [345, 4, 354, 104],
+		"template": "maze/Abandon.png",
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0

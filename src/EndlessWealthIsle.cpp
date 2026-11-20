@@ -182,75 +182,8 @@ static bool findSealStone(MaaContext* context, int num, MaaRect* outBox)
 
 } // namespace
 
-MaaBool endlessWealthIsleExchangeRewards(
-    MaaContext* context,
-    MaaTaskId taskId,
-    const char* nodeName,
-    const char* customActionName,
-    const char* customActionParam,
-    MaaRecoId recoId,
-    const MaaRect* box,
-    void* transArg)
-{
-    bool claimed[15] = { };
-
-    for (int num = 1; num <= 14; ++num) {
-        if (claimed[num]) {
-            continue;
-        }
-        if (num == 5) {
-            auto* ctrl = MaaTaskerGetController(MaaContextGetTasker(context));
-            auto swId = MaaControllerPostSwipe(ctrl, 200, 400, 400, 400, 200);
-            MaaControllerWait(ctrl, swId);
-            postWaitFreezes(context);
-        }
-        MaaRect stoneBox;
-        if (!findSealStone(context, num, &stoneBox)) {
-            continue;
-        }
-
-        for (int retry = 0; retry < 5; ++retry) {
-            auto* ctrl = MaaTaskerGetController(MaaContextGetTasker(context));
-            auto cid = MaaControllerPostClick(ctrl, stoneBox.x, stoneBox.y);
-            MaaControllerWait(ctrl, cid);
-            if (waitUntilRecognitionSuccess(
-                    context,
-                    "rewardBox",
-                    R"({"rewardBox":{"recognition":"OCR","expected":"奖励","roi":[331,345,59,44]}})",
-                    nullptr,
-                    nullptr,
-                    3000)) {
-                break;
-            }
-        }
-        if (!checkSealReward(context, num)) {
-            auto* ctrl = MaaTaskerGetController(MaaContextGetTasker(context));
-            auto escId = MaaControllerPostClickKey(ctrl, 111);
-            MaaControllerWait(ctrl, escId);
-            Sleep(300);
-            continue;
-        }
-        MaaRect openBox;
-        if (waitUntilRecognitionSuccess(
-                context,
-                "openBtn",
-                R"({"openBtn":{"recognition":"OCR","expected":"开启","roi":[311,860,100,74]}})",
-                &openBox,
-                nullptr)) {
-            auto* ctrl = MaaTaskerGetController(MaaContextGetTasker(context));
-            auto openCid = MaaControllerPostClick(ctrl, openBox.x + openBox.width / 2, openBox.y + openBox.height / 2);
-            MaaControllerWait(ctrl, openCid);
-            MaaContextRunTask(context, "HandleRewardDialog", "{}");
-        }
-        claimed[num] = true;
-    }
-
-    LogUtils::info("财富岛: 奖励兑换完成");
-    return true;
-}
 
 void registerCustomEndlessWealthIsle(MaaResource* resource, void* userData)
 {
     registerCustomAction(resource, "EndlessWealthIsleAssignChallengeTimes", endlessWealthIsleAssignChallengeTimes, userData);
-    registerCustomAction(resource, "EndlessWealthIsleExchangeRewards", endlessWealthIsleExchangeRewards, userData);
 }

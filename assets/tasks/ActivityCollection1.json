@@ -60,6 +60,7 @@
 		"ActivityCollection1Reforge": {
 			"type": "switch",
 			"label": "装备重铸10次",
+			"description":"仅选择1号位人物装备，从头依次尝试，重铸满足次数后退出",
 			"default_case": "Yes",
 			"cases": [
 				{

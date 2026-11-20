@@ -1,0 +1,93 @@
+{
+	"EndlessWealthIsleSweep": {
+		"desc": "财富之岛扫荡",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"EndlessWealthIsleSweepError",
+			"EndlessWealthIsleOneKeySweepComplete",
+			"EndlessWealthIsleAssignChallengeTimes",
+			"[JumpBack]EndlessWealthIsleClickOneKeySweep",
+			"[JumpBack]EndlessWealthIsleEnterTemple",
+			"[JumpBack]EndlessWealthIsleRuinedTempleEntry",
+			"[JumpBack]__EndlessWealthIsleSwipeLeft",
+			"[JumpBack]__EndlessWealthIsleSwipeDown"
+		]
+	},
+	"EndlessWealthIsleSweepError": {
+		"desc": "财富岛未通关",
+		"recognition": "Or",
+		"any_of": [
+			{
+				"recognition": "OCR",
+				"expected": "成功|通关|解锁|难度",
+				"roi": [265, 550, 271, 34],
+				"only_rec": true
+			},
+			{
+				"recognition": "OCR",
+				"expected": "成功|通关|解锁|难度",
+				"roi": [269, 630, 260, 36],
+				"only_rec": true
+			}
+		],
+		"next": [
+			"[JumpBack]EndlessWealthIsleExitTemple",
+			"TaskFail"
+		],
+		"focus": {
+			"Node.Recognition.Succeeded": "无尽的财富岛:未通关所有难度,扫荡未解锁"
+		}
+	},
+	"EndlessWealthIsleOneKeySweepNotEnable": {
+		"desc": "一键扫荡功能未开启",
+		"recognition": "OCR",
+		"expected": "进阶月卡|进阶|解锁|扫荡|功能",
+		"roi": [183, 1188, 373, 47]
+	},
+	"InOnekeySweepPage": {
+		"desc": "在一键扫荡页面",
+		"recognition": "OCR",
+		"expected": "一键扫荡|一键|扫荡",
+		"roi": [300, 325, 122, 56]
+	},
+	"EndlessWealthIsleClickOneKeySweep": {
+		"desc": "点击一键扫荡",
+		"recognition": "OCR",
+		"expected": "一键扫荡|一键|扫荡",
+		"roi": [597, 1054, 99, 110],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [597, 1054, 99, 110],
+			"timeout": 3000
+		}
+	},
+	"EndlessWealthIsleAssignChallengeTimes": {
+		"desc": "分配挑战次数",
+		"recognition": "And",
+		"all_of": ["InOnekeySweepPage"],
+		"action": "Custom",
+		"custom_action": "EndlessWealthIsleAssignChallengeTimes",
+		"next": [
+			"EndlessWealthIsleExitTemple",
+			"[JumpBack]HandleRewardDialog",
+			"[JumpBack]ConfirmButton"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"EndlessWealthIsleOneKeySweepComplete": {
+		"desc": "已完成扫荡",
+		"recognition": "OCR",
+		"expected": "已完成扫荡|已完成",
+		"roi": [299, 1156, 127, 37],
+		"only_rec": true,
+		"next": [
+			"[JumpBack]EndlessWealthIsleExitTemple"
+		]
+	}
+}

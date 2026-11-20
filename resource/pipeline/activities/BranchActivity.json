@@ -42,7 +42,8 @@
 		"recognition": "TemplateMatch",
 		"template": [
 			"activities/BranchActivity/SummerLotusPondIcon.png",
-			"activities/BranchActivity/OdeFulSecludedCorridorIcon.png"
+			"activities/BranchActivity/OdeFulSecludedCorridorIcon.png",
+			"activities/BranchActivity/HoardGoldInSeclusionIcon.png"
 		],
 		"roi": [15, 69, 701, 997],
 		"action": "Click",

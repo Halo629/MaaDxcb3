@@ -19,12 +19,23 @@
 				"BranchActivitySoulTomb",
 				"BranchActivityReforge"
 			]
+		},
+		{
+			"name": "HoardGoldInSeclusion",
+			"label": "❄️卧雪囤金",
+			"entry": "BranchActivityStart",
+			"group": ["activity_tasks"],
+			"option": [
+				"BranchActivitySoulTomb",
+				"BranchActivityReforge"
+			]
 		}
 	],
 	"option": {
 		"BranchActivitySoulTomb": {
 			"type": "switch",
 			"label": "挑战1次魂墓",
+			"description":"会自动识别是否需要挑战，且进入战斗后会立即退出",
 			"default_case": "Yes",
 			"cases": [
 				{
@@ -54,6 +65,7 @@
 		"BranchActivityReforge": {
 			"type": "switch",
 			"label": "装备重铸1次",
+			"description":"会自动识别是否需要重铸。重铸时仅选择1号位人物装备，从头盔依次尝试，重铸满足次数后退出",
 			"default_case": "Yes",
 			"cases": [
 				{

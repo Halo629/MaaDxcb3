@@ -4,7 +4,7 @@
 			"name": "GreatMarshExpedition",
 			"label": "🗺️大泽远征",
 			"entry": "GreatMarshExpeditionStart",
-			"group": ["activity_tasks"],
+			"group": ["guild_activity"],
 			"option": [
 				"GreatMarshExpeditionFinalBossChallenge",
 				"GreatMarshExpeditionIllusionChallenge",

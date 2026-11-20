@@ -1,434 +1,4 @@
 {
-	"StewardEndlessWealthIsleSub": {
-		"desc": "无尽的财富岛",
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0,
-		"max_hit": 1,
-		"next": [
-			"EndlessWealthIsleEntry",
-			"[JumpBack]__ScenePrivateStewardFindEndlessWealthIsle",
-			"[JumpBack]__SceneStewardEntryEndlessWealthIsle",
-			"__ScenePrivateStewardEndlessWealthIsleDone",
-			"[JumpBack]SceneEnterSteward"
-		],
-		"focus": {"Node.Recognition.Succeeded": "开始任务:无尽的财富岛"}
-	},
-	"__SceneStewarHasYellowEndlessWealthIsle": {
-		"desc": "在管家页面识别黄色的无尽的财富岛",
-		"recognition": "And",
-		"all_of": [
-			"InStewardPage",
-			{
-				"recognition": "ColorMatch",
-				"method": 40,
-				"lower": [20, 50, 50],
-				"upper": [35, 255, 255],
-				"roi": "__ScenePrivateStewardHasEndlessWealthIsle",
-				"count": 20
-			}
-		],
-		"box_index": 1,
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0
-	},
-	"__SceneStewardEntryEndlessWealthIsle": {
-		"desc": "在管家页面进入无尽的财富岛",
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0,
-		"recognition": "And",
-		"all_of": ["__SceneStewarHasYellowEndlessWealthIsle"],
-		"next": [
-			"__ScenePrivateStewardGotoEndlessWealthIsle"
-		]
-	},
-	"__ScenePrivateStewardEndlessWealthIsleDone": {
-		"desc": "管家页面未找到到财富岛或者到财富岛任务已经完成",
-		"recognition": "And",
-		"all_of": ["InStewardPage"],
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0
-	},
-	"__ScenePrivateStewardGotoEndlessWealthIsle": {
-		"desc": "点击无尽的财富岛后面的前往进入财富岛页面",
-		"recognition": "OCR",
-		"expected": "前往",
-		"roi": "__SceneStewarHasYellowEndlessWealthIsle",
-		"roi_offset": [0, -20, 400, 40],
-		"action": "Click",
-		"pre_delay": 0,
-		"post_delay": 2000,
-		"rate_limit": 0,
-		"timeout": 6000,
-		"next": [
-			"InEndlessWealthIslePage"
-		],
-		"on_error": [
-			"__ScenePrivateNextTrue"
-		]
-	},
-	"InEndlessWealthIslePage": {
-		"desc": "在财富岛页面",
-		"recognition": "OCR",
-		"expected": "无尽财富之岛|财富之岛|无尽财富",
-		"roi": [99, 68, 155, 34],
-		"only_rec": true
-	},
-	"__ScenePrivateStewardFindEndlessWealthIsle": {
-		"recognition": "And",
-		"all_of": ["InStewardPage"],
-		"max_hit": 1,
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0,
-		"next": [
-			"__ScenePrivateStewardHasEndlessWealthIsle",
-			"[JumpBack]__EndlessWealthIsleSwipeDownRetry",
-			"[JumpBack]__EndlessWealthIsleSwipeUpRetry"
-		]
-	},
-	"__ScenePrivateStewardHasEndlessWealthIsle": {
-		"desc": "管家页面识别无尽的财富岛",
-		"recognition": "OCR",
-		"expected": "无尽的财富岛|财富岛",
-		"roi": [94, 261, 525, 748],
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0
-	},
-	"__EndlessWealthIsleSwipeDownRetry": {
-		"max_hit": 1,
-		"action": "Swipe",
-		"begin": [450, 400],
-		"end": [450, 800],
-		"duration": 200,
-		"post_wait_freezes": {
-			"time": 500,
-			"target": [104, 272, 515, 733],
-			"timeout": 8000
-		},
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0
-	},
-	"__EndlessWealthIsleSwipeUpRetry": {
-		"max_hit": 1,
-		"action": "Swipe",
-		"begin": [450, 800],
-		"end": [450, 400],
-		"duration": 200,
-		"post_wait_freezes": {
-			"time": 500,
-			"target": [104, 272, 515, 733],
-			"timeout": 8000
-		},
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0
-	},
-	"EndlessWealthIsleEntry": {
-		"desc": "财富之岛入口",
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0,
-		"recognition": "And",
-		"all_of": ["InEndlessWealthIslePage"],
-		"action": "Custom",
-		"custom_action": "ClearHitCount",
-		"custom_action_param": {
-			"nodes": ["ZoomInMax"]
-		},
-		"next": [
-			"[JumpBack]ZoomInMax",
-			"[JumpBack]CollapseSideBar",
-			"[JumpBack]EndlessWealthIsleSweep",
-			"EndlessWealthIsleExchangeRewardsStart"
-		]
-	},
-	"EndlessWealthIsleSweep": {
-		"desc": "财富之岛扫荡",
-		"max_hit": 1,
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0,
-		"next": [
-			"EndlessWealthIsleSweepError",
-			"EndlessWealthIsleOneKeySweepComplete",
-			"EndlessWealthIsleOneKeySweepNotEnabled",
-			"EndlessWealthIsleAssignChallengeTimes",
-			"[JumpBack]EndlessWealthIsleClickOneKeySweep",
-			"[JumpBack]EndlessWealthIsleEnterTemple",
-			"[JumpBack]EndlessWealthIsleRuinedTempleEntry",
-			"[JumpBack]__EndlessWealthIsleSwipeLeft",
-			"[JumpBack]__EndlessWealthIsleSwipeDown"
-		]
-	},
-	"EndlessWealthIsleSweepError": {
-		"desc": "财富岛未通关",
-		"recognition": "Or",
-		"any_of": [
-			{
-				"recognition": "OCR",
-				"expected": "成功|通关|解锁|难度",
-				"roi": [265, 550, 271, 34],
-				"only_rec": true
-			},
-			{
-				"recognition": "OCR",
-				"expected": "成功|通关|解锁|难度",
-				"roi": [269, 630, 260, 36],
-				"only_rec": true
-			}
-		],
-		"next": [
-			"[JumpBack]EndlessWealthIsleExitTemple",
-			"TaskFail"
-		],
-		"focus": {
-			"Node.Recognition.Succeeded": "无尽的财富岛:未通关所有难度,扫荡未解锁"
-		}
-	},
-	"EndlessWealthIsleOneKeySweepCheck": {
-		"desc": "检查是否开启一键扫荡功能",
-		"recognition": "OCR",
-		"expected": "进阶月卡|进阶|解锁",
-		"roi": [183, 1188, 373, 47]
-	},
-	"__EndlessWealthIsleSwipeLeft": {
-		"desc": "向左滑动",
-		"action": "Swipe",
-		"begin": [500, 1100],
-		"end": [300, 1100],
-		"duration": 200,
-		"max_hit": 2,
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0,
-		"post_wait_freezes": {
-			"time": 500,
-			"target": [104, 272, 515, 733],
-			"timeout": 3000
-		}
-	},
-	"__EndlessWealthIsleSwipeDown": {
-		"desc": "向下滑动",
-		"action": "Swipe",
-		"begin": [470, 350],
-		"end": [470, 550],
-		"duration": 200,
-		"max_hit": 2,
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0,
-		"post_wait_freezes": {
-			"time": 500,
-			"target": [104, 272, 515, 733],
-			"timeout": 3000
-		}
-	},
-	"InRuinedTemple": {
-		"desc": "在破败神殿",
-		"recognition": "OCR",
-		"expected": "破败神殿|破败|神殿",
-		"roi": [300, 112, 118, 54]
-	},
-	"EndlessWealthIsleRuinedTempleEntry": {
-		"desc": "进入破败神殿",
-		"recognition": "OCR",
-		"expected": "破败神殿|破败|神殿",
-		"action": "Custom",
-		"custom_action": "AdjustPositionAndClick",
-		"custom_action_param": {
-			"target_offset": [40, -60, 0, 0]
-		},
-		"post_wait_freezes": {
-			"time": 500,
-			"target": [128, 529, 587, 487],
-			"timeout": 8000
-		}
-	},
-	"EndlessWealthIsleEnterTemple": {
-		"desc": "进入神殿",
-		"recognition": "OCR",
-		"expected": "进入神殿|进入",
-		"roi": [276, 674, 161, 303],
-		"action": "Click",
-		"post_wait_freezes": {
-			"time": 500,
-			"target": [276, 674, 161, 303],
-			"timeout": 3000
-		}
-	},
-	"EndlessWealthIsleOneKeySweepNotEnabled": {
-		"desc": "一键扫荡未开启",
-		"recognition": "And",
-		"all_of": ["EndlessWealthIsleOneKeySweepCheck"],
-		"next": [
-			"[JumpBack]EndlessWealthIsleExitTemple",
-			"TaskFail"
-		],
-		"focus": {
-			"Node.Recognition.Succeeded": "一键扫荡未开启,目前仅支持大月卡一键扫荡"
-		}
-	},
-	"InOnekeySweepPage": {
-		"desc": "在一键扫荡页面",
-		"recognition": "OCR",
-		"expected": "一键扫荡|一键|扫荡",
-		"roi": [300, 325, 122, 56]
-	},
-	"EndlessWealthIsleClickOneKeySweep": {
-		"desc": "点击一键扫荡",
-		"recognition": "OCR",
-		"expected": "一键扫荡|一键|扫荡",
-		"roi": [597, 1054, 99, 110],
-		"action": "Click",
-		"post_wait_freezes": {
-			"time": 500,
-			"target": [597, 1054, 99, 110],
-			"timeout": 3000
-		}
-	},
-	"EndlessWealthIsleChallengeCount": {
-		"desc": "挑战次数",
-		"recognition": "OCR",
-		"roi": [477, 388, 32, 50]
-	},
-	"EndlessWealthIsleAssignChallengeTimes": {
-		"desc": "分配挑战次数",
-		"recognition": "And",
-		"all_of": ["InOnekeySweepPage"],
-		"action": "Custom",
-		"custom_action": "EndlessWealthIsleAssignChallengeTimes",
-		"next": [
-			"EndlessWealthIsleExitTemple",
-			"[JumpBack]HandleRewardDialog",
-			"[JumpBack]ConfirmButton"
-		],
-		"on_error": [
-			"__ScenePrivateNextTrue"
-		]
-	},
-	"EndlessWealthIsleOneKeySweepComplete": {
-		"desc": "已完成扫荡",
-		"recognition": "OCR",
-		"expected": "已完成扫荡|已完成",
-		"roi": [299, 1156, 127, 37],
-		"only_rec": true,
-		"next": [
-			"[JumpBack]EndlessWealthIsleExitTemple"
-		]
-	},
-	"EndlessWealthIsleExitTemple": {
-		"desc": "离开神殿",
-		"recognition": "And",
-		"all_of": ["InRuinedTemple"],
-		"action": "ClickKey",
-		"key": 111,
-		"post_wait_freezes": {
-			"time": 300,
-			"target": [271, 315, 285, 756],
-			"timeout": 3000
-		}
-	},
-	"EndlessWealthIsleExchangeRewards": {
-		"desc": "兑换封印石奖励",
-		"action": "Custom",
-		"custom_action": "EndlessWealthIsleExchangeRewards",
-		"next": [
-			"SceneBack"
-		]
-	},
-	"EndlessWealthIsleEnterTempleDone": {"desc": "进入神殿完成"},
-	"EndlessWealthIsleNightmareLevelEnabled": {
-		"desc": "检查噩梦难度是否开放",
-		"recognition": "OCR",
-		"expected": "天|小时|分钟|开放",
-		"roi": [482, 777, 180, 92]
-	},
-	"EndlessWealthIsleExchangeRewardsSwipeLeft": {
-		"desc": "兑换奖励向左滑动",
-		"action": "Swipe",
-		"begin": [500, 1100],
-		"end": [300, 1100],
-		"duration": 300,
-		"max_hit": 1,
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0,
-		"post_wait_freezes": {
-			"time": 500,
-			"target": [104, 272, 515, 733],
-			"timeout": 2000
-		}
-	},
-	"EndlessWealthIsleExchangeRewardsSwipeRight": {
-		"desc": "兑换奖励向右滑动",
-		"action": "Swipe",
-		"begin": [300, 1100],
-		"end": [500, 1100],
-		"duration": 300,
-		"max_hit": 1,
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0,
-		"post_wait_freezes": {
-			"time": 500,
-			"target": [104, 272, 515, 733],
-			"timeout": 2000
-		}
-	},
-	"EndlessWealthIsleExchangeRewardsSwipeRight2": {
-		"desc": "兑换奖励向右滑动2",
-		"action": "Swipe",
-		"begin": [300, 1100],
-		"end": [500, 1100],
-		"duration": 300,
-		"max_hit": 1,
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0,
-		"post_wait_freezes": {
-			"time": 500,
-			"target": [104, 272, 515, 733],
-			"timeout": 2000
-		}
-	},
-	"EndlessWealthIsleExchangeRewardsSwipeDown": {
-		"desc": "兑换奖励向下滑动",
-		"action": "Swipe",
-		"begin": [450, 650],
-		"end": [450, 950],
-		"duration": 300,
-		"max_hit": 1,
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0,
-		"post_wait_freezes": {
-			"time": 500,
-			"target": [104, 272, 515, 733],
-			"timeout": 2000
-		}
-	},
-	"EndlessWealthIsleExchangeRewardsSwipeDown2": {
-		"desc": "兑换奖励向下滑动2",
-		"action": "Swipe",
-		"begin": [450, 650],
-		"end": [450, 950],
-		"duration": 300,
-		"max_hit": 1,
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0,
-		"post_wait_freezes": {
-			"time": 500,
-			"target": [104, 272, 515, 733],
-			"timeout": 2000
-		}
-	},
 	"EndlessWealthIsleExchangeRewardsStart": {
 		"desc": "兑换封印石奖励入口",
 		"recognition": "And",
@@ -1044,5 +614,85 @@
 		"next": [
 			"ExchangeReward"
 		]
+	},
+	"EndlessWealthIsleExchangeRewardsSwipeLeft": {
+		"desc": "兑换奖励向左滑动",
+		"action": "Swipe",
+		"begin": [500, 1100],
+		"end": [300, 1100],
+		"duration": 300,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [104, 272, 515, 733],
+			"timeout": 2000
+		}
+	},
+	"EndlessWealthIsleExchangeRewardsSwipeRight": {
+		"desc": "兑换奖励向右滑动",
+		"action": "Swipe",
+		"begin": [300, 1100],
+		"end": [500, 1100],
+		"duration": 300,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [104, 272, 515, 733],
+			"timeout": 2000
+		}
+	},
+	"EndlessWealthIsleExchangeRewardsSwipeRight2": {
+		"desc": "兑换奖励向右滑动2",
+		"action": "Swipe",
+		"begin": [300, 1100],
+		"end": [500, 1100],
+		"duration": 300,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [104, 272, 515, 733],
+			"timeout": 2000
+		}
+	},
+	"EndlessWealthIsleExchangeRewardsSwipeDown": {
+		"desc": "兑换奖励向下滑动",
+		"action": "Swipe",
+		"begin": [450, 650],
+		"end": [450, 950],
+		"duration": 300,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [104, 272, 515, 733],
+			"timeout": 2000
+		}
+	},
+	"EndlessWealthIsleExchangeRewardsSwipeDown2": {
+		"desc": "兑换奖励向下滑动2",
+		"action": "Swipe",
+		"begin": [450, 650],
+		"end": [450, 950],
+		"duration": 300,
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [104, 272, 515, 733],
+			"timeout": 2000
+		}
 	}
 }

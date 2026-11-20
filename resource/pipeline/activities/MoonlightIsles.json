@@ -183,7 +183,7 @@
 		"desc": "鬼屋选项",
 		"recognition": "OCR",
 		"roi": [191, 447, 309, 386],
-		"expected": "跨过去|过去|战斗|继续前进|继续|前进",
+		"expected": "打开|战斗|继续前进|继续|前进",
 		"order_by": "Vertical",
 		"action": "Click",
 		"post_wait_freezes": {
@@ -215,7 +215,7 @@
 	"GhostHouseCollectCandy": {
 		"desc": "收集糖果",
 		"recognition": "OCR",
-		"expected": "收集糖果|收集|糖果",
+		"expected": "收集糖果|收集|糖果|收|集",
 		"roi": [185, 629, 336, 502],
 		"action": "Click",
 		"post_wait_freezes": {
@@ -234,8 +234,8 @@
 	"EnterGhostHouse": {
 		"desc": "进入鬼屋",
 		"recognition": "OCR",
-		"expected": "进入.*鬼屋",
-		"roi": [247, 714, 196, 241],
+		"expected": "进入.*鬼屋|进入|进",
+		"roi": [249, 653, 221, 368],
 		"action": "Click",
 		"post_wait_freezes": {
 			"time": 500,

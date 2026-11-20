@@ -45,6 +45,11 @@
 			"default_expand": true
 		},
 		{
+			"name": "guild_activity",
+			"label": "公会活动",
+			"default_expand": true
+		},
+		{
 			"name": "activity_tasks",
 			"label": "活动任务",
 			"default_expand": true
@@ -62,31 +67,36 @@
 	],
 	"task": [],
 	"import": [
-		"assets/tasks/WeeklyScheduleOption.json",
-		"assets/tasks/Common.json",
+		"assets/tasks/CommonConfig/WeeklyScheduleOption.json",
+		"assets/tasks/CommonConfig/Common.json",
 		// group: pre_tasks
-		"assets/tasks/LaunchGame.json",
+		"assets/tasks/CommonConfig/LaunchGame.json",
 		// group: daily_tasks
-		"assets/tasks/StewardTasks.json",
 		"assets/tasks/DailyRewards.json",
+		"assets/tasks/StewardTasks.json",
 		// group: weekly_tasks
-		"assets/tasks/WeeklyCarriageShop.json",
-		"assets/tasks/WeeklyTreasureShop.json",
-		"assets/tasks/WeeklyFormation.json",
-		"assets/tasks/WeeklyRealmHub.json",
-		"assets/tasks/WeeklySkyreachTower.json",
-		"assets/tasks/WeeklyNightmareMirror.json",
+		"assets/WeeklyTask/WeeklyCarriageShop.json",
+		"assets/WeeklyTask/WeeklyTreasureShop.json",
+		"assets/WeeklyTask/WeeklyFormation.json",
+		"assets/WeeklyTask/WeeklyRealmHub.json",
+		"assets/WeeklyTask/WeeklySkyreachTower.json",
+		"assets/WeeklyTask/WeeklyNightmareMirror.json",
+		//instance_tasks
+		"assets/tasks/InstanceTask/InstanceWildBullValley.json",
+		// group: guild_activity
+		//大泽远征
+		"assets/tasks/GuildActivity/GreatMarshExpedition.json",
+		//庇护所之围
+		"assets/tasks/GuildActivity/SiegeOfTheSanctuary.json",
 		// group: activity_tasks
 		//荣光复铸/桂影长歌/星夜之约
 		"assets/tasks/ActivityCollection1.json",
 		//引石化灵/萃石成英/织星成辉
 		"assets/tasks/AlchemyActivity.json",
-		// 点石成金
-		"assets/tasks/TransmutationCircle.json",
 		//飞艇珍奇
 		"assets/tasks/AirshipTreasure.json",
 		//天界岛
-		//"assets/tasks/CelestialIsle.json",
+		//"assets/tasks/MapActivity/CelestialIsle.json",
 		//天选曜惠
 		"assets/tasks/ChosenRadiance.json",
 		//宫廷棋
@@ -95,10 +105,6 @@
 		"assets/tasks/FoodFestival.json",
 		//地精飞艇
 		"assets/tasks/GoblinAirship.json",
-		//大泽远征
-		"assets/tasks/GreatMarshExpedition.json",
-		//庇护所之围
-		"assets/tasks/SiegeOfTheSanctuary.json",
 		//铭心礼遇
 		"assets/tasks/HeartGift.json",
 		//猎场盛宴
@@ -108,34 +114,30 @@
 		//溯回之筳
 		"assets/tasks/RetraceBanquet.json",
 		//掠影之境
-		"assets/tasks/ShadowMirror.json",
+		"assets/tasks/MapActivity/ShadowMirror.json",
 		//战斗计划
 		"assets/tasks/BattlePlan.json",
 		//树枝活动：夏夜荷塘/颂礼幽廊
 		"assets/tasks/BranchActivity.json",
 		// 月影群岛
-		"assets/tasks/MoonlightIsles.json",
+		"assets/tasks/MapActivity/MoonlightIsles.json",
 		// group: other_tasks
 		// 兑换码
-		"assets/tasks/RedeemCode.json",
+		"assets/tasks/OtherTask/RedeemCode.json",
 		// 奥术监考
-		"assets/tasks/ArcanePrison.json",
+		"assets/tasks/OtherTask/ArcanePrison.json",
 		// 魔魂升级
-		"assets/tasks/MonsterSoulUpgrade.json",
+		"assets/tasks/OtherTask/MonsterSoulUpgrade.json",
 		// 装备重铸
-		"assets/tasks/ReforgeEquipment.json",
+		"assets/tasks/OtherTask/ReforgeEquipment.json",
 		// 符文升级
-		"assets/tasks/RuneUpgrade.json",
+		"assets/tasks/OtherTask/RuneUpgrade.json",
 		// 魂墓
-		"assets/tasks/SoulTomb.json",
-		"assets/tasks/RecipeUnlock.json",
-		//instance_tasks
-		"assets/tasks/InstanceWildBullValley.json",
+		"assets/tasks/OtherTask/SoulTomb.json",
+		"assets/tasks/OtherTask/RecipeUnlock.json",
 		// preset
 		"assets/tasks/preset/SingleServer.json",
-		"assets/tasks/preset/MultiServer.json",
-		// pretask
-		"assets/tasks/pretasks/LaunchEmulator.json"
+		"assets/tasks/preset/MultiServer.json"
 		// test
 		// "assets/tasks/test/TestMoveToPoint.json",
 		// "assets/tasks/test/BattleTimeTest.json"
