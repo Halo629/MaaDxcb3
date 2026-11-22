@@ -1,0 +1,207 @@
+{
+	"EndlessWealthIsleManualSweepAndExchangeStart": {
+		"desc": "财富之岛手动扫荡及兑换入口",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"EndlessWealthIsleManualSweepError",
+			"EndlessWealthIsleManualSweepAndExchange",
+			"[JumpBack]RuinedTempleEntry"
+		]
+	},
+	"EndlessWealthIsleManualSweepError": {
+		"desc": "财富之岛手动扫荡错误",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InRuinedTemple",
+			{
+				"recognition": "Custom",
+				"custom_recognition": "EndlessWealthIsleRemainCountCheck"
+			}
+		],
+		"next": [
+			"[JumpBack]EndlessWealthIsleExitTemple",
+			"__ScenePrivateNextTrue"
+		],
+		"focus": {
+			"Node.Recognition.Succeeded": "财富岛手动扫荡终止，仅在已使用次数为3时扫荡(即仅用了3次用于解锁三个难度)"
+		}
+	},
+	"EndlessWealthIsleManualSweepAndExchange": {
+		"desc": "财富之岛手动扫荡及兑换",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InRuinedTemple"],
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": [
+				"ClickSimpleLevel",
+				"ClickHardLevel",
+				"ClickNightmareLevel"
+			]
+		},
+		"next": [
+			"[JumpBack]EndlessWealthIsleManualSweepSimpleLevel",
+			"[JumpBack]EndlessWealthIsleManualSweepHardLevel",
+			"[JumpBack]EndlessWealthIsleManualSweepNightmareLevel",
+			"EndlessWealthIsleManualSweepDone"
+		]
+	},
+	"EndlessWealthIsleManualSweepDone": {
+		"desc": "扫荡完成",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["EndlessWealthIsleNoRemainCount"],
+		"next": [
+			"[JumpBack]EndlessWealthIsleExitTemple",
+			"EndlessWealthIsleExchangeRewardsStart"
+		]
+	},
+	"EndlessWealthIsleManualSweepSimpleLevel": {
+		"desc": "扫荡简单难度",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["EndlessWealthIsleHasRemainCount"],
+		"max_hit": 8,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["ClickQuickChallengeButton"]
+		},
+		"next": [
+			"[JumpBack]ClickSimpleLevel",
+			"[JumpBack]ClickQuickChallengeButton",
+			"EndlessWealthIsleManualSweepConfirm"
+		]
+	},
+	"EndlessWealthIsleManualSweepHardLevel": {
+		"desc": "扫荡困难难度",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["EndlessWealthIsleHasRemainCount"],
+		"max_hit": 4,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["ClickQuickChallengeButton"]
+		},
+		"next": [
+			"[JumpBack]ClickHardLevel",
+			"[JumpBack]ClickQuickChallengeButton",
+			"EndlessWealthIsleManualSweepConfirm"
+		]
+	},
+	"EndlessWealthIsleManualSweepNightmareLevel": {
+		"desc": "扫荡噩梦难度",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["EndlessWealthIsleHasRemainCount"],
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["ClickQuickChallengeButton"]
+		},
+		"next": [
+			"[JumpBack]ClickNightmareLevel",
+			"[JumpBack]ClickQuickChallengeButton",
+			"EndlessWealthIsleManualSweepConfirm"
+		]
+	},
+	"EndlessWealthIsleManualSweepConfirm": {
+		"desc": "扫荡确认",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["CurrentLevelAlreadyUnlocked"],
+		"next": [
+			"[JumpBack]ConfirmButton",
+			"HandleRewardDialog"
+		]
+	},
+	"EndlessWealthIsleSweepNightmareLevelOnlyStart": {
+		"desc": "财富之岛仅扫荡噩梦难度入口",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"EndlessWealthIsleSweepNightmareLevelOnly",
+			"EndlessWealthIsleSweepNightmareLevelOnlyDone",
+			"[JumpBack]RuinedTempleEntry"
+		]
+	},
+	"EndlessWealthIsleSweepNightmareLevelOnlyDone": {
+		"recognition": "And",
+		"all_of": ["InRuinedTemple"],
+		"next": [
+			"[JumpBack]EndlessWealthIsleExitTemple",
+			"EndlessWealthIsleExchangeRewardsStart"
+		]
+	},
+	"EndlessWealthIsleSweepNightmareLevelOnly": {
+		"desc": "财富之岛仅扫荡噩梦难度(对扫荡次数做二次校验)",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InRuinedTemple",
+			"EndlessWealthIsleSweepCountUsedOver36"
+		],
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["ClickNightmareLevel"]
+		},
+		"next": [
+			"[JumpBack]EndlessWealthIsleManualSweepNightmareLevel",
+			"EndlessWealthIsleManualSweepDone"
+		]
+	},
+	"EndlessWealthIsleRemainCount": {
+		"desc": "无尽财富岛剩余次数",
+		"recognition": "OCR",
+		"roi": [257, 1158, 213, 35],
+		"only_rec": true,
+		"expected": "剩余次数[（(]\\d+.\\d+[)）]"
+	},
+	"EndlessWealthIsleHasRemainCount": {
+		"desc": "无尽财富岛扫荡剩余次数大于0",
+		"recognition": "OCR",
+		"roi": [257, 1158, 213, 35],
+		"only_rec": true,
+		"expected": "剩余次数[（(][1-9]\\d*.\\d+[)）]"
+	},
+	"EndlessWealthIsleNoRemainCount": {
+		"desc": "无尽财富岛扫荡剩余次数等于0",
+		"recognition": "OCR",
+		"roi": [257, 1158, 213, 35],
+		"only_rec": true,
+		"expected": "剩余次数[（(]0.\\d+[)）]"
+	},
+	"EndlessWealthIsleSweepCountUsedOver36": {
+		"desc": "无尽财富岛扫荡次数满足1≤x≤6，37≤y≤42",
+		"recognition": "OCR",
+		"roi": [257, 1158, 213, 35],
+		"only_rec": true,
+		"expected": "剩余次数[（(]([1-6]).(3[7-9]|4[0-2])[)）]"
+	}
+}

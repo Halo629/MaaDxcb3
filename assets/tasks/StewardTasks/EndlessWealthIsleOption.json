@@ -1,0 +1,55 @@
+{
+	"option": {
+		"EndlessWealthIsleFailRetryCount": {
+			"type": "input",
+			"label": "通关失败时重试次数",
+			"description": "29层会校验贪婪印记，不足90会退出重试，退出或者失败不会消耗次数。",
+			"inputs": [
+				{
+					"name": "EndlessWealthIsleFailRetryCountValueInput",
+					"pipeline_type": "int",
+					"label": "重试次数",
+					"verify": "^(0|[1-9]|1[0-9]|20)$",
+					"default": "5",
+					"pattern_msg": "需填写0-20的整数"
+				}
+			],
+			"pipeline_override": {
+				"AdventureRetry": {
+					"max_hit": "{EndlessWealthIsleFailRetryCountValueInput}"
+				}
+			}
+		},
+		"EndlessWealthIsleStrategy": {
+			"type": "select",
+			"label": "选择财富岛方案",
+			"default_case": "AdvancedMonthlyCard",
+			"cases": [
+				{
+					"name": "AdvancedMonthlyCard",
+					"label": "大月卡",
+					"pipeline_override": {
+						"EndlessWealthIsleAdvancedMonthlyCardEntry": {"enabled": true}
+					}
+				},
+				{
+					"name": "UnlockAllLevel",
+					"label": "仅通关三个难度",
+					"pipeline_override": {
+						"EndlessWealthIsleUnlockOnly": {"enabled": true}
+					},
+					"option": ["EndlessWealthIsleFailRetryCount"]
+				},
+				{
+					"name": "UnlockAndExchange",
+					"label": "通关+扫荡+自动兑换",
+					"pipeline_override": {
+						"EndlessWealthIsleUnlockAndExchange": {"enabled": true},
+						"EndlessWealthIsleSweepNightmareLevelInLastTwoDays": {"enabled": true}
+					},
+					"option": ["EndlessWealthIsleFailRetryCount"]
+				}
+			]
+		}
+	}
+}

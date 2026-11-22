@@ -6,7 +6,6 @@
 			"description":"通天塔兑换",
             "entry": "WeeklySkyreachTowerStart",
             "option": [
-                "WeeklySchedule",
                 "SkyreachTowerBuyDivineShadeSoul"
             ],
             "group": [

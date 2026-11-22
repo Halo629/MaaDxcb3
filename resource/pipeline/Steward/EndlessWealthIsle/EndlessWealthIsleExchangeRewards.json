@@ -1,8 +1,6 @@
 {
 	"EndlessWealthIsleExchangeRewardsStart": {
 		"desc": "兑换封印石奖励入口",
-		"recognition": "And",
-		"all_of": ["InEndlessWealthIslePage"],
 		"max_hit": 1,
 		"next": [
 			"[JumpBack]HandleRewardDialog",
@@ -24,7 +22,8 @@
 			"[JumpBack]EndlessWealthIsleExchangeStone12",
 			"[JumpBack]EndlessWealthIsleExchangeRewardsSwipeLeft",
 			"[JumpBack]EndlessWealthIsleExchangeStone13",
-			"EndlessWealthIsleExchangeStone14"
+			"EndlessWealthIsleExchangeStone14",
+			"[JumpBack]EndlessWealthIsleExitTemple"
 		],
 		"on_error": [
 			"EndlessWealthIsleExchangeRewardsError"
@@ -240,8 +239,8 @@
 		"max_hit": 1,
 		"recognition": "TemplateMatch",
 		"template": "EndlessWealthIsle/SealStone5.png",
-		"roi": [31, 441, 509, 365],
-		"order_by": "Score",
+		"roi": [119, 508, 341, 669],
+		"order_by": "Horizontal",
 		"action": "Click",
 		"target_offset": [18, 71, -59, -126],
 		"post_wait_freezes": {
@@ -250,7 +249,21 @@
 			"timeout": 8000
 		},
 		"next": [
-			"ExchangeSealStone5Reward"
+			"ExchangeSealStone5Reward",
+			"EndlessWealthIsleExchangeStone5ExchangeFailed"
+		]
+	},
+	"EndlessWealthIsleExchangeStone5ExchangeFailed": {
+		"desc": "封印石5奖励检查失败",
+		"max_hit": 3,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["EndlessWealthIsleExchangeStone5"]
+		},
+		"next": [
+			"[JumpBack]LeaveButton",
+			"__ScenePrivateNextTrue"
 		]
 	},
 	"SealStone5RewardCheck": {
@@ -506,7 +519,7 @@
 		"max_hit": 1,
 		"recognition": "TemplateMatch",
 		"template": "EndlessWealthIsle/SealStone12.png",
-		"roi": [0, 380, 717, 695],
+		"roi": [170, 284, 550, 600],
 		"order_by": "Score",
 		"action": "Click",
 		"target_offset": [43, 57, -76, -123],

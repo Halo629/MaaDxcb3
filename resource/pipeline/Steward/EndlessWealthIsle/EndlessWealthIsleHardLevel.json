@@ -1,0 +1,88 @@
+{
+	"UnlockHardLevel": {
+		"desc": "解锁困难难度",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InRuinedTemple"],
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": [
+				"ClickHardLevel",
+				"ClickQuickChallengeButton",
+				"AdventureRetry"
+			]
+		},
+		"anchor": {"QuitAndRetryAnchor": "QuitAndRetryHardLevel"},
+		"timeout": 8000,
+		"next": [
+			"[JumpBack]ClickHardLevel",
+			"[JumpBack]ClickQuickChallengeButton",
+			"CurrentLevelAlreadyUnlocked",
+			"[JumpBack]MazeStartOut",
+			"[JumpBack]ClickMarchButton",
+			"HardLevelStart"
+		],
+		"on_error": [
+			"AdventureRetry"
+		],
+		"focus": {"Node.Recognition.Succeeded": "开始困难难度"}
+	},
+	"HardLevelStart": {
+		"desc": "开始困难难度",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["HardLevelCheck"],
+		"timeout": 5000,
+		"next": [
+			"HandleAdventureEvents"
+		],
+		"on_error": [
+			"AdventureRetry"
+		]
+	},
+	"QuitAndRetryHardLevel": {
+		"desc": "退出重进困难难度",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["UnlockHardLevel"]
+		},
+		"next": [
+			"AdventureExit",
+			"AdventureEnd"
+		]
+	},
+	"HardLevelCheck": {
+		"desc": "在冒险中检查是否困难难度",
+		"recognition": "And",
+		"all_of": [
+			"InAdventure",
+			{
+				"recognition": "OCR",
+				"expected": "破败神殿.*困难|困难",
+				"roi": [44, 29, 240, 49],
+				"only_rec": true
+			}
+		]
+	},
+	"ClickHardLevel": {
+		"desc": "点击困难难度",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InRuinedTemple"],
+		"action": "Click",
+		"target": [310, 718, 94, 71],
+		"pre_delay": 500,
+		"post_delay": 500,
+		"rate_limit": 0
+	}
+}

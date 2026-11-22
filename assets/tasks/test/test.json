@@ -9,6 +9,12 @@
 			},
 			"group": ["other_tasks"],
 			"option": ["EngraveTest"]
+		},
+		{
+			"name": "EndlessWealthIsleTest",
+			"label": "财富岛测试",
+			"entry": "EndlessWealthIsleAdvancedMonthlyCardEntry",
+			"group": ["other_tasks"]
 		}
 	],
 	"option": {

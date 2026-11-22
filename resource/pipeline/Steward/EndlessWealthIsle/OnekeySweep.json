@@ -1,7 +1,40 @@
 {
-	"EndlessWealthIsleSweep": {
-		"desc": "财富之岛扫荡",
+	"EndlessWealthIsleAdvancedMonthlyCardSweepAndExchangeStart": {
+		"desc": "财富之岛大月卡扫荡及兑换奖励入口",
 		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"EndlessWealthIsleAdvancedMonthlyCardSweepNotEnabled",
+			"EndlessWealthIsleOneKeySweepAndExchange",
+			"[JumpBack]RuinedTempleEntry"
+		]
+	},
+	"EndlessWealthIsleAdvancedMonthlyCardSweepNotEnabled": {
+		"desc": "一键扫荡功能未开启",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InRuinedTemple",
+			{
+				"recognition": "OCR",
+				"expected": "进阶月卡|进阶|解锁|扫荡|功能",
+				"roi": [183, 1188, 373, 47]
+			}
+		],
+		"next": [
+			"[JumpBack]EndlessWealthIsleExitTemple",
+			"__ScenePrivateNextTrue"
+		],
+		"focus": {"Node.Recognition.Succeeded": "一键扫荡功能未开启"}
+	},
+	"EndlessWealthIsleOneKeySweepAndExchange": {
+		"desc": "财富之岛一键扫荡及兑换",
+		"recognition": "And",
+		"all_of": ["InRuinedTemple"],
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
@@ -9,12 +42,18 @@
 			"EndlessWealthIsleSweepError",
 			"EndlessWealthIsleOneKeySweepComplete",
 			"EndlessWealthIsleAssignChallengeTimes",
-			"[JumpBack]EndlessWealthIsleClickOneKeySweep",
-			"[JumpBack]EndlessWealthIsleEnterTemple",
-			"[JumpBack]EndlessWealthIsleRuinedTempleEntry",
-			"[JumpBack]__EndlessWealthIsleSwipeLeft",
-			"[JumpBack]__EndlessWealthIsleSwipeDown"
+			"[JumpBack]EndlessWealthIsleClickOneKeySweep"
+		],
+		"on_error": [
+			"EndlessWealthIsleOneKeySweepError"
 		]
+	},
+	"EndlessWealthIsleOneKeySweepError": {
+		"desc": "一键扫荡出错",
+		"next": [
+			"EndlessWealthIsleExitTemple"
+		],
+		"focus": {"Node.Recognition.Succeeded": "无尽的财富岛一键扫荡出错"}
 	},
 	"EndlessWealthIsleSweepError": {
 		"desc": "财富岛未通关",
@@ -40,12 +79,6 @@
 		"focus": {
 			"Node.Recognition.Succeeded": "无尽的财富岛:未通关所有难度,扫荡未解锁"
 		}
-	},
-	"EndlessWealthIsleOneKeySweepNotEnable": {
-		"desc": "一键扫荡功能未开启",
-		"recognition": "OCR",
-		"expected": "进阶月卡|进阶|解锁|扫荡|功能",
-		"roi": [183, 1188, 373, 47]
 	},
 	"InOnekeySweepPage": {
 		"desc": "在一键扫荡页面",
@@ -87,7 +120,8 @@
 		"roi": [299, 1156, 127, 37],
 		"only_rec": true,
 		"next": [
-			"[JumpBack]EndlessWealthIsleExitTemple"
+			"[JumpBack]EndlessWealthIsleExitTemple",
+			"EndlessWealthIsleExchangeRewardsStart"
 		]
 	}
 }

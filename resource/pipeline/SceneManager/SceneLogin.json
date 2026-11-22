@@ -483,6 +483,7 @@
 		"timeout": 10000,
 		"next": [
 			"InGameCheck",
+			"[JumpBack]HandleDialogue",
 			"LoginPageClickStartGameButton",
 			"[JumpBack]LoginPageEventsHandle"
 		],

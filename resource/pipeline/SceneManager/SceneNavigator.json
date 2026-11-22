@@ -917,19 +917,6 @@
 		"pre_delay": 0,
 		"post_delay": 0
 	},
-	"SceneEnterEndlessWealthIsleFromSteward": {
-		"desc": "从管家界面回到无尽财富之岛界面",
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0,
-		"next": [
-			"InEndlessWealthIslePage",
-			"[JumpBack]__ScenePrivateStewardFindEndlessWealthIsle",
-			"[JumpBack]__SceneStewardEntryEndlessWealthIsle",
-			"__ScenePrivateStewardEndlessWealthIsleDone",
-			"[JumpBack]SceneEnterSteward"
-		]
-	},
 	"StewardUnlock": {
 		"desc": "管家未解锁",
 		"recognition": "And",

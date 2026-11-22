@@ -2,6 +2,7 @@
 
 #include <cctype>
 #include <cmath>
+#include <iomanip>
 #include <sstream>
 
 namespace
@@ -550,7 +551,7 @@ bool runNumericRecognition(MaaContext* context, const MaaImageBuffer* image, con
 std::string doubleToString(double v)
 {
     std::ostringstream oss;
-    oss << v;
+    oss << std::setprecision(15) << v;
     return oss.str();
 }
 

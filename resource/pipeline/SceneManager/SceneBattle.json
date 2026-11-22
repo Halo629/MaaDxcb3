@@ -238,7 +238,37 @@
 			"time": 1000,
 			"target": [158, 278, 395, 539],
 			"timeout": 3000
-		}
+		},
+		"next": [
+			"AdventureEnd",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"AdventureTerminate": {
+		"desc": "冒险终止",
+		"recognition": "Or",
+		"any_of": [
+			{
+				"recognition": "OCR",
+				"expected": "冒险终止|终止",
+				"roi": [258, 112, 206, 56],
+				"only_rec": true
+			},
+			{
+				"recognition": "TemplateMatch",
+				"template": "battle/AdventureTerminate.png",
+				"roi": [196, 68, 314, 144]
+			}
+		]
+	},
+	"AdventureDialogOption": {
+		"desc": "冒险对话框",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"recognition": "TemplateMatch",
+		"template": "battle/AdventureDialogOption.png",
+		"roi": [87, 382, 566, 529],
+		"green_mask": true
 	},
 	"GoBattle": {
 		"desc": "战斗前出发页面",
@@ -257,9 +287,19 @@
 	},
 	"BattleResultFail": {
 		"desc": "战斗失败",
-		"recognition": "OCR",
-		"expected": "失败",
-		"roi": [295, 263, 127, 118]
+		"recognition": "Or",
+		"any_of": [
+			{
+				"recognition": "OCR",
+				"expected": "失败",
+				"roi": [295, 263, 127, 118]
+			},
+			{
+				"recognition": "TemplateMatch",
+				"template": "battle/BattleFailed.png",
+				"roi": [268, 264, 175, 102]
+			}
+		]
 	},
 	"XiaoqingSkill": {
 		"desc": "小青技能",
@@ -296,9 +336,19 @@
 	},
 	"BattleResultVictory": {
 		"desc": "战斗胜利",
-		"recognition": "OCR",
-		"expected": "胜利",
-		"roi": [295, 263, 127, 118]
+		"recognition": "Or",
+		"any_of": [
+			{
+				"recognition": "OCR",
+				"expected": "胜利",
+				"roi": [295, 263, 127, 118]
+			},
+			{
+				"recognition": "TemplateMatch",
+				"template": "battle/BattleVictory.png",
+				"roi": [252, 250, 234, 134]
+			}
+		]
 	},
 	"BattleStartOut": {
 		"desc": "战斗出发",

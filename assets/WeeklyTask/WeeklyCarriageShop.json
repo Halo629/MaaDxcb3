@@ -22,8 +22,7 @@
 			"default_case": [
 				"BuyEmblemChest",
 				"BuyTimeBondFragment",
-				"BuyStarsprigTwig",
-				"BuyOuroborosRing"
+				"BuyStarsprigTwig"
 			],
             "cases": [
 				{

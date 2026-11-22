@@ -1,0 +1,90 @@
+{
+	"UnlockNightmareLevel": {
+		"desc": "解锁噩梦难度",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InRuinedTemple"],
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": [
+				"ClickNightmareLevel",
+				"ClickQuickChallengeButton",
+				"AdventureRetry"
+			]
+		},
+		"anchor": {
+			"QuitAndRetryAnchor": "QuitAndRetryNightmareLevel"
+		},
+		"timeout": 8000,
+		"next": [
+			"[JumpBack]ClickNightmareLevel",
+			"[JumpBack]ClickQuickChallengeButton",
+			"CurrentLevelAlreadyUnlocked",
+			"[JumpBack]MazeStartOut",
+			"[JumpBack]ClickMarchButton",
+			"NightmareLevelStart"
+		],
+		"on_error": [
+			"AdventureRetry"
+		],
+		"focus": {"Node.Recognition.Succeeded": "开始噩梦难度"}
+	},
+	"NightmareLevelStart": {
+		"desc": "开始噩梦难度",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["NightmareLevelCheck"],
+		"timeout": 5000,
+		"next": [
+			"HandleAdventureEvents"
+		],
+		"on_error": [
+			"AdventureRetry"
+		]
+	},
+	"QuitAndRetryNightmareLevel": {
+		"desc": "退出重进噩梦难度",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["UnlockNightmareLevel"]
+		},
+		"next": [
+			"AdventureExit",
+			"AdventureEnd"
+		]
+	},
+	"NightmareLevelCheck": {
+		"desc": "在冒险中检查是否噩梦难度",
+		"recognition": "And",
+		"all_of": [
+			"InAdventure",
+			{
+				"recognition": "OCR",
+				"expected": "破败神殿.*噩梦|噩梦",
+				"roi": [44, 29, 240, 49],
+				"only_rec": true
+			}
+		]
+	},
+	"ClickNightmareLevel": {
+		"desc": "点击噩梦难度",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InRuinedTemple"],
+		"action": "Click",
+		"target": [527, 737, 88, 43],
+		"pre_delay": 500,
+		"post_delay": 500,
+		"rate_limit": 0
+	}
+}

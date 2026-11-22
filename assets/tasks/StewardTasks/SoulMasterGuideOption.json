@@ -1,0 +1,127 @@
+{
+	"option": {
+		"StewardWeeklySoulMasterGuideShatteredRealmSub": {
+			"type": "switch",
+			"label": "挑战1次破碎之境",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"SoulMasterGuideWeeklyTaskEnable": {
+							"attach": {"ShatteredRealmEnable": true}
+						},
+						"ShatteredRealmQuickChallenge": {"max_hit": 1}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"SoulMasterGuideWeeklyTaskEnable": {
+							"attach": {"ShatteredRealmEnable": false}
+						}
+					}
+				}
+			]
+		},
+		"StewardWeeklySoulMasterGuideSoulTombSub": {
+			"type": "switch",
+			"label": "成功挑战5次灵魂之墓",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"SoulMasterGuideWeeklyTaskEnable": {
+							"attach": {"SoulTombEnable": true}
+						},
+						"SoulTombWeeklyCompleted": {"enabled": true}
+					},
+					"option": [
+						"ChallengeCount",
+						"ChallengeStartLevel",
+						"LowerFailReduce"
+					]
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"SoulMasterGuideWeeklyTaskEnable": {
+							"attach": {"SoulTombEnable": false}
+						},
+						"SoulTombWeeklyCompleted": {"enabled": false}
+					}
+				}
+			]
+		},
+		"StewardWeeklySoulMasterGuideReforgeEquipmentSub": {
+			"type": "switch",
+			"label": "重铸2次装备",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"SoulMasterGuideWeeklyTaskEnable": {
+							"attach": {"ReforgeEquipmentEnable": true}
+						},
+						"ReforgeConfirm": {"max_hit": 2}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"SoulMasterGuideWeeklyTaskEnable": {
+							"attach": {"ReforgeEquipmentEnable": false}
+						}
+					}
+				}
+			]
+		},
+		"StewardWeeklySoulMasterGuideEngraveEquipmentSub": {
+			"type": "switch",
+			"label": "铭刻1次装备",
+			"description": "优先铭刻黄色装备，可选黄色腐蚀液不足时铭刻绿色装备",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"SoulMasterGuideWeeklyTaskEnable": {
+							"attach": {"EngraveEquipmentEnable": true}
+						},
+						"EngraveBtn": {"max_hit": 1}
+					},
+					"option": ["EngraveGreenEquipment"]
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"SoulMasterGuideWeeklyTaskEnable": {
+							"attach": {"EngraveEquipmentEnable": false}
+						}
+					}
+				}
+			]
+		},
+		"EngraveGreenEquipment": {
+			"type": "switch",
+			"label": "黄色腐蚀液不足时铭刻绿色装备",
+			"default_case": "Yes",
+			"cases": [
+				{
+					"name": "Yes",
+					"pipeline_override": {
+						"SelectGreenEquipment": {"enabled": true}
+					}
+				},
+				{
+					"name": "No",
+					"pipeline_override": {
+						"SelectGreenEquipment": {"enabled": false}
+					}
+				}
+			]
+		}
+	}
+}

@@ -1,45 +1,648 @@
 {
-	"EndlessWealthIsleManualStart": {
-		"desc": "手动财富岛入口",
+	"EndlessWealthIsleUnlockStart": {
+		"desc": "财富岛解锁难度入口",
+		"max_hit": 1,
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"recognition": "And",
-		"all_of": ["EndlessWealthIsleOneKeySweepNotEnable"],
 		"next": [
 			"[JumpBack]UnlockSimpleLevel",
 			"[JumpBack]UnlockHardLevel",
-			"[JumpBack]UnlockNightmareLevel"
+			"UnlockNightmareLevel",
+			"[JumpBack]RuinedTempleEntry"
 		]
 	},
-	"UnlockSimpleLevel": {
-		"desc": "解锁简单难度",
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0,
-		"max_hit": 1,
+	"UnlockAllLevel": {
+		"desc": "所有难度已达成贪婪印记90+",
 		"recognition": "And",
-		"all_of": ["InRuinedTemple"],
+		"all_of": ["InRuinedTemple"]
+	},
+	"CurrentLevelAlreadyUnlocked": {
+		"desc": "当前难度已解锁(贪婪印记90+)",
+		"recognition": "OCR",
+		"expected": "当前难度最佳成绩.*(9\\d|100)|贪婪印记(9\\d|100)|9\\d|100",
+		"roi": [149, 551, 422, 86],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
 		"next": [
-			"[JumpBack]ClickSimpleLevel",
-			"[JumpBack]MazeStartOut",
-			"[JumpBack]ClickMarchButton"
+			"[JumpBack]CancelButton",
+			"__ScenePrivateNextTrue"
+		],
+		"focus": {"Node.Recognition.Succeeded": "当前难度已贪婪印记90+通关"}
+	},
+	"ClickQuickChallengeButton": {
+		"desc": "快速挑战按钮",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "EndlessWealthIsle/QuickChallenge.png",
+		"roi": [3, 1042, 213, 127],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [128, 527, 461, 134],
+			"timeout": 2000
+		}
+	},
+	"CurrentLevelNoChallengeRecord": {
+		"desc": "当前难度未通关",
+		"recognition": "OCR",
+		"expected": "暂无当前难度的挑战记录|暂无|挑战记录|必须通关|使用",
+		"roi": [149, 551, 422, 86],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"[JumpBack]ConfirmButton",
+			"__ScenePrivateNextTrue"
 		]
 	},
-	"SimpleLevelCheck": {"desc": "在冒险中检查是否简单难度"},
-	"UnlockHardLevel": {
-		"desc": "解锁困难难度",
+	"AdventureRetry": {
+		"desc": "战斗重试(战斗失败，或者29层时贪婪印记未达到90+)",
+		"max_hit": 5,
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"max_hit": 1
+		"recognition": "Or",
+		"any_of": [
+			"AdventureTerminate",
+			{
+				"recognition": "And",
+				"all_of": [
+					{
+						"recognition": "Custom",
+						"custom_recognition": "ExpressionRecognition",
+						"custom_recognition_param": {"expression": "{CurrentFloor}>=29"}
+					},
+					{
+						"recognition": "Custom",
+						"custom_recognition": "ExpressionRecognition",
+						"custom_recognition_param": {"expression": "{GreedSeal}<90"}
+					}
+				]
+			}
+		],
+		"next": [
+			"[Anchor]QuitAndRetryAnchor",
+			"AdventureExit",
+			"AdventureEnd"
+		],
+		"focus": {
+			"Node.Recognition.Succeeded": "未90+贪婪印记通关，重试中..."
+		}
 	},
-	"UnlockNightmareLevel": {
-		"desc": "解锁噩梦难度",
+	"CurrentFloor": {
+		"desc": "当前层数",
+		"recognition": "OCR",
+		"expected": "第(\\d+)层",
+		"roi": [126, 98, 74, 28],
+		"only_rec": true
+	},
+	"HandleAdventureEvents": {
+		"desc": "冒险事件处理",
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"max_hit": 1
+		"next": [
+			"[JumpBack]BattleAI",
+			"[JumpBack]BattleEnd",
+			"[JumpBack]HandleRewardDialog",
+			"AdventureRetry",
+			"[JumpBack]DiscardCurseEventEntry",
+			"[JumpBack]GreedSealEvent",
+			"[JumpBack]AdventureCommonEvent",
+			"[JumpBack]AdventureEventFallback",
+			"AdventureEnd"
+		]
+	},
+	"AdventureCommonEvent": {
+		"desc": "冒险公共事件",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"GreedSeal",
+			"AdventureDialogOption",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"roi": "AdventureDialogOption",
+				"lower": [10, 25, 100],
+				"upper": [20, 40, 255],
+				"count": 10,
+				"sub_name": "AdventureDialogOptionTextColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "AdventureDialogOptionTextColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"expected": "进入神殿|神殿|战斗|继续前进|突进向前|突进|向前|继续|离开|驱散|阴影|获得一项诅咒|获得|那就来试试看吧|试试|收下金币|触碰雕像|触碰|雕像|致歉|沉默|不语|接受|饮下泉水|饮下|拔除|小憩|一会|闪身躲避",
+				"order_by": "Vertical"
+			}
+		],
+		"box_index": 3,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [128, 527, 461, 134],
+			"timeout": 2000
+		}
+	},
+	"GreedSeal100": {
+		"desc": "贪婪印记100",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "Custom",
+				"custom_recognition": "ExpressionRecognition",
+				"custom_recognition_param": {"expression": "{GreedSeal}>=100"}
+			},
+			"AdventureDialogOption",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"roi": "AdventureDialogOption",
+				"lower": [10, 25, 100],
+				"upper": [20, 40, 255],
+				"count": 10,
+				"sub_name": "AdventureDialogOptionTextColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "AdventureDialogOptionTextColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"expected": "绕开它|绕开|单纯是冒险|沉默|不语|单纯|进入地洞",
+				"order_by": "Vertical"
+			}
+		],
+		"box_index": 3
+	},
+	"GreedSealOver90": {
+		"desc": "贪婪印记90+",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "Custom",
+				"custom_recognition": "ExpressionRecognition",
+				"custom_recognition_param": {"expression": "{GreedSeal}>=90"}
+			},
+			"AdventureDialogOption",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"roi": "AdventureDialogOption",
+				"lower": [10, 25, 100],
+				"upper": [20, 40, 255],
+				"count": 10,
+				"sub_name": "AdventureDialogOptionTextColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "AdventureDialogOptionTextColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"expected": "驱赶|破除诅咒|破除|进入地洞|沉默|不语",
+				"order_by": "Vertical"
+			}
+		],
+		"box_index": 3
+	},
+	"GreedSealLess90": {
+		"desc": "贪婪印记小于90",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "Custom",
+				"custom_recognition": "ExpressionRecognition",
+				"custom_recognition_param": {"expression": "{GreedSeal}<90"}
+			},
+			"AdventureDialogOption",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"roi": "AdventureDialogOption",
+				"lower": [10, 25, 100],
+				"upper": [20, 40, 255],
+				"count": 10,
+				"sub_name": "AdventureDialogOptionTextColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "AdventureDialogOptionTextColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"expected": "夺走|开启一个灵龛|再开启|开启|无尽的财宝|财宝|拾取金币|拾取|无视地洞|仍愿冒险|爬下",
+				"order_by": "Vertical"
+			}
+		],
+		"box_index": 3
+	},
+	"AdventureEventFallback": {
+		"desc": "冒险事件兜底选项",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["AdventureDialogOption"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [241, 455, 263, 341],
+			"timeout": 2000
+		}
+	},
+	"GreedSealEvent": {
+		"desc": "贪婪印记事件决策",
+		"recognition": "Or",
+		"any_of": [
+			"GreedSeal100",
+			"GreedSealOver90",
+			"GreedSealLess90"
+		],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [241, 455, 263, 341],
+			"timeout": 2000
+		}
+	},
+	"DiscardButton": {
+		"desc": "丢弃按钮",
+		"recognition": "TemplateMatch",
+		"template": "battle/Discard.png",
+		"roi": [431, 150, 228, 1073],
+		"order_by": "Vertical",
+		"pre_delay": 0,
+		"post_delay": 0
+	},
+	"CurseCountOverFour": {
+		"desc": "诅咒个数>=4(在第四个诅咒位置识别丢弃按钮),需要上滑一次",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "battle/Discard.png",
+		"roi": [431, 150, 228, 1073],
+		"order_by": "Vertical",
+		"index": 3,
+		"action": "Swipe",
+		"begin": [350, 800],
+		"end": [350, 400],
+		"duration": 200,
+		"max_hit": 1,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [96, 342, 513, 524],
+			"timeout": 5000
+		}
+	},
+	"DiscardCurseWangzhehuiyin": {
+		"desc": "丢弃亡者回音(最高优先级)",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["CurseWangzhehuiyin"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [241, 455, 263, 341],
+			"timeout": 2000
+		}
+	},
+	"DiscardCurseEventEntry": {
+		"desc": "丢弃诅咒事件入口",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"recognition": "And",
+		"all_of": ["DiscardButton"],
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["CurseCountOverFour"]
+		},
+		"next": [
+			"DiscardCurseWangzhehuiyin",
+			"[JumpBack]CurseCountOverFour",
+			"DiscardCurseDecide"
+		]
+	},
+	"DiscardCurseDecide": {
+		"desc": "丢弃诅咒事件决策",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "Or",
+		"any_of": [
+			"CurseWangzhehuiyin",
+			"CurseLinghunguanchuan",
+			"CurseXuruowuli",
+			"CurseWujinheian",
+			"CursePanshanqianxing",
+			"CurseFuhuaixueye",
+			"CurseTongganjiabei",
+			"CurseSiwangdingbiao",
+			"DiscardButton"
+		],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [241, 455, 263, 341],
+			"timeout": 2000
+		}
+	},
+	"CurseWangzhehuiyin": {
+		"desc": "诅咒亡者回音",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"DiscardButton",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"roi": "DiscardButton",
+				"roi_offset": [-306, -32, 66, 7],
+				"lower": [20, 150, 50],
+				"upper": [25, 255, 255],
+				"count": 10,
+				"sub_name": "CurseColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "CurseColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"expected": "亡者回音|亡者|回音",
+				"sub_name": "CursePos"
+			},
+			{
+				"recognition": "TemplateMatch",
+				"template": "battle/Discard.png",
+				"roi": "CursePos",
+				"roi_offset": [229, -8, 108, 75]
+			}
+		],
+		"box_index": 3
+	},
+	"CurseLinghunguanchuan": {
+		"desc": "诅咒灵魂贯穿",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"DiscardButton",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"roi": "DiscardButton",
+				"roi_offset": [-306, -32, 66, 7],
+				"lower": [20, 150, 50],
+				"upper": [25, 255, 255],
+				"count": 10,
+				"sub_name": "CurseColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "CurseColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"expected": "灵魂贯穿|灵魂|贯穿",
+				"sub_name": "CursePos"
+			},
+			{
+				"recognition": "TemplateMatch",
+				"template": "battle/Discard.png",
+				"roi": "CursePos",
+				"roi_offset": [229, -8, 108, 75]
+			}
+		],
+		"box_index": 3
+	},
+	"CurseWujinheian": {
+		"desc": "诅咒无尽黑暗",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"DiscardButton",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"roi": "DiscardButton",
+				"roi_offset": [-306, -32, 66, 7],
+				"lower": [20, 150, 50],
+				"upper": [25, 255, 255],
+				"count": 10,
+				"sub_name": "CurseColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "CurseColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"expected": "无尽黑暗|黑暗",
+				"sub_name": "CursePos"
+			},
+			{
+				"recognition": "TemplateMatch",
+				"template": "battle/Discard.png",
+				"roi": "CursePos",
+				"roi_offset": [229, -8, 108, 75]
+			}
+		],
+		"box_index": 3
+	},
+	"CurseSiwangdingbiao": {
+		"desc": "诅咒死亡定标",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"DiscardButton",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"roi": "DiscardButton",
+				"roi_offset": [-306, -32, 66, 7],
+				"lower": [20, 150, 50],
+				"upper": [25, 255, 255],
+				"count": 10,
+				"sub_name": "CurseColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "CurseColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"expected": "死亡定标|死亡",
+				"sub_name": "CursePos"
+			},
+			{
+				"recognition": "TemplateMatch",
+				"template": "battle/Discard.png",
+				"roi": "CursePos",
+				"roi_offset": [229, -8, 108, 75]
+			}
+		],
+		"box_index": 3
+	},
+	"CursePanshanqianxing": {
+		"desc": "诅咒蹒跚前行",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"DiscardButton",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"roi": "DiscardButton",
+				"roi_offset": [-306, -32, 66, 7],
+				"lower": [20, 150, 50],
+				"upper": [25, 255, 255],
+				"count": 10,
+				"sub_name": "CurseColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "CurseColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"expected": "蹒跚前行|蹒跚|前行",
+				"sub_name": "CursePos"
+			},
+			{
+				"recognition": "TemplateMatch",
+				"template": "battle/Discard.png",
+				"roi": "CursePos",
+				"roi_offset": [229, -8, 108, 75]
+			}
+		],
+		"box_index": 3
+	},
+	"CurseTongganjiabei": {
+		"desc": "诅咒痛感加倍",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"DiscardButton",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"roi": "DiscardButton",
+				"roi_offset": [-306, -32, 66, 7],
+				"lower": [20, 150, 50],
+				"upper": [25, 255, 255],
+				"count": 10,
+				"sub_name": "CurseColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "CurseColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"expected": "痛感加倍|痛感|加倍",
+				"sub_name": "CursePos"
+			},
+			{
+				"recognition": "TemplateMatch",
+				"template": "battle/Discard.png",
+				"roi": "CursePos",
+				"roi_offset": [229, -8, 108, 75]
+			}
+		],
+		"box_index": 3
+	},
+	"CurseXuruowuli": {
+		"desc": "诅咒虚弱无力",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"DiscardButton",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"roi": "DiscardButton",
+				"roi_offset": [-306, -32, 66, 7],
+				"lower": [20, 150, 50],
+				"upper": [25, 255, 255],
+				"count": 10,
+				"sub_name": "CurseColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "CurseColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"expected": "虚弱无力|虚弱|无力",
+				"sub_name": "CursePos"
+			},
+			{
+				"recognition": "TemplateMatch",
+				"template": "battle/Discard.png",
+				"roi": "CursePos",
+				"roi_offset": [229, -8, 108, 75]
+			}
+		],
+		"box_index": 3
+	},
+	"CurseFuhuaixueye": {
+		"desc": "诅咒腐坏血液",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"DiscardButton",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"roi": "DiscardButton",
+				"roi_offset": [-306, -32, 66, 7],
+				"lower": [20, 150, 50],
+				"upper": [25, 255, 255],
+				"count": 10,
+				"sub_name": "CurseColor"
+			},
+			{
+				"recognition": "OCR",
+				"roi": "CurseColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true,
+				"expected": "腐坏血液|腐坏|血液",
+				"sub_name": "CursePos"
+			},
+			{
+				"recognition": "TemplateMatch",
+				"template": "battle/Discard.png",
+				"roi": "CursePos",
+				"roi_offset": [229, -8, 108, 75]
+			}
+		],
+		"box_index": 3
+	},
+	"GreedSeal": {
+		"desc": "贪婪印记",
+		"recognition": "OCR",
+		"roi": [333, 203, 56, 28],
+		"only_rec": true
 	},
 	"ClickMarchButton": {
 		"desc": "点击出征按钮",
@@ -55,38 +658,5 @@
 			"target": [104, 272, 515, 733],
 			"timeout": 2000
 		}
-	},
-	"ClickSimpleLevel": {
-		"desc": "点击简单难度",
-		"max_hit": 1,
-		"recognition": "And",
-		"all_of": ["InRuinedTemple"],
-		"action": "Click",
-		"target": [87, 720, 112, 79],
-		"pre_delay": 0,
-		"post_delay": 500,
-		"rate_limit": 0
-	},
-	"ClickHardLevel": {
-		"desc": "点击困难难度",
-		"max_hit": 1,
-		"recognition": "And",
-		"all_of": ["InRuinedTemple"],
-		"action": "Click",
-		"target": [310, 718, 94, 71],
-		"pre_delay": 0,
-		"post_delay": 500,
-		"rate_limit": 0
-	},
-	"ClickNightmareLevel": {
-		"desc": "点击噩梦难度",
-		"max_hit": 1,
-		"recognition": "And",
-		"all_of": ["InRuinedTemple"],
-		"action": "Click",
-		"target": [527, 737, 88, 43],
-		"pre_delay": 0,
-		"post_delay": 500,
-		"rate_limit": 0
 	}
 }

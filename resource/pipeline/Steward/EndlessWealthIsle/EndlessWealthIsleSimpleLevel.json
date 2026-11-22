@@ -1,0 +1,88 @@
+{
+	"UnlockSimpleLevel": {
+		"desc": "解锁简单难度",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InRuinedTemple"],
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": [
+				"ClickSimpleLevel",
+				"ClickQuickChallengeButton",
+				"AdventureRetry"
+			]
+		},
+		"anchor": {"QuitAndRetryAnchor": "QuitAndRetrySimpleLevel"},
+		"timeout": 8000,
+		"next": [
+			"[JumpBack]ClickSimpleLevel",
+			"[JumpBack]ClickQuickChallengeButton",
+			"CurrentLevelAlreadyUnlocked",
+			"[JumpBack]MazeStartOut",
+			"[JumpBack]ClickMarchButton",
+			"SimpleLevelStart"
+		],
+		"on_error": [
+			"AdventureRetry"
+		],
+		"focus": {"Node.Recognition.Succeeded": "开始简单难度"}
+	},
+	"SimpleLevelStart": {
+		"desc": "开始简单难度",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["SimpleLevelCheck"],
+		"timeout": 5000,
+		"next": [
+			"HandleAdventureEvents"
+		],
+		"on_error": [
+			"AdventureRetry"
+		]
+	},
+	"QuitAndRetrySimpleLevel": {
+		"desc": "退出重进简单难度",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["UnlockSimpleLevel"]
+		},
+		"next": [
+			"AdventureExit",
+			"AdventureEnd"
+		]
+	},
+	"SimpleLevelCheck": {
+		"desc": "在冒险中检查是否简单难度",
+		"recognition": "And",
+		"all_of": [
+			"InAdventure",
+			{
+				"recognition": "OCR",
+				"expected": "破败神殿.*简单|简单",
+				"roi": [44, 29, 240, 49],
+				"only_rec": true
+			}
+		]
+	},
+	"ClickSimpleLevel": {
+		"desc": "点击简单难度",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InRuinedTemple"],
+		"action": "Click",
+		"target": [87, 720, 112, 79],
+		"pre_delay": 500,
+		"post_delay": 500,
+		"rate_limit": 0
+	}
+}

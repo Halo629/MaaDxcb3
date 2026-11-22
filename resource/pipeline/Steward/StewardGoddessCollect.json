@@ -15,7 +15,7 @@
 	"DailyGoddessCollectEntry": {
 		"desc": "在主页有女神像",
 		"recognition": "And",
-		"all_of": ["InCampfire", "HasGoddessIcon"],
+		"all_of": ["InMainPage", "HasGoddessIcon"],
 		"pre_delay": 200,
 		"post_delay": 500,
 		"box_index": 1,

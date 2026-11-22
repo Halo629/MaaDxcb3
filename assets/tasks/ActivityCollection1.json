@@ -3,7 +3,7 @@
 		{
 			"name": "GloryRecast",
 			"label": "🔥荣光复铸",
-			"entry": "GloryRecastStart",
+			"entry": "ActivityCollection1",
 			"group": ["activity_tasks"],
 			"option": [
 				"ActivityCollection1SoulTomb",
@@ -15,7 +15,7 @@
 		{
 			"name": "MoonlitBallad",
 			"label": "🥮桂影长歌",
-			"entry": "MoonlitBalladStart",
+			"entry": "ActivityCollection1",
 			"group": ["activity_tasks"],
 			"option": [
 				"ActivityCollection1SoulTomb",
@@ -27,7 +27,7 @@
 		{
 			"name": "OathOfStarryNight",
 			"label": "🌌星夜之约",
-			"entry": "OathOfStarryNightStart",
+			"entry": "ActivityCollection1",
 			"group": ["activity_tasks"],
 			"option": [
 				"ActivityCollection1UseFood",

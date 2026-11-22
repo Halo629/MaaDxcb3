@@ -1,0 +1,54 @@
+{
+	"option": {
+		"DailyCarriageShopBuyItems": {
+			"type": "checkbox",
+			"label": "购买商品",
+			"description": "勾选需要购买的商品",
+			"default_case": [
+				"BuyWandererHourglass",
+				"BuyOre",
+				"BuyFoodItems",
+				"BuyFoodPoints",
+				"BuyWrapedSoul"
+			],
+			"cases": [
+				{
+					"name": "BuyWandererHourglass",
+					"label": "物品页购买旅者沙钟",
+					"pipeline_override": {
+						"CarriageShopBuyWandererHourglassStart": {"enabled": true}
+					}
+				},
+				{
+					"name": "BuyOre",
+					"label": "物品页购买矿原石",
+					"pipeline_override": {
+						"CarriageShopBuyOreItemStart": {"enabled": true}
+					}
+				},
+				{
+					"name": "BuyFoodItems",
+					"label": "物品页购买美食积分商品",
+					"pipeline_override": {
+						"CarriageShopBuyFoodPointsItemStart": {"enabled": true}
+					}
+				},
+				{
+					"name": "BuyFoodPoints",
+					"label": "食物页购买美食积分",
+					"pipeline_override": {
+						"CarriageShopBuyFoodPointsStart": {"enabled": true}
+					}
+				},
+				{
+					"name": "BuyWrapedSoul",
+					"label": "魂墓页购买扭动之魂",
+					"pipeline_override": {
+						"CarriageShopSoulTombPageBuyEntry": {"enabled": true},
+						"CarriageShopBuyWarpedSoul": {"enabled": true}
+					}
+				}
+			]
+		}
+	}
+}

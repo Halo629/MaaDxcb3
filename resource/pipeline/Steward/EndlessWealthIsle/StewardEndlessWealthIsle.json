@@ -5,92 +5,325 @@
 		"post_delay": 0,
 		"rate_limit": 0,
 		"max_hit": 1,
+		"anchor": {
+			"StewardPageHasTargetTaskAnchor": "StewarHasYellowEndlessWealthIsle"
+		},
 		"next": [
-			"EndlessWealthIsleEntry",
-			"[JumpBack]__ScenePrivateStewardFindEndlessWealthIsle",
-			"[JumpBack]__SceneStewardEntryEndlessWealthIsle",
-			"__ScenePrivateStewardEndlessWealthIsleDone",
+			"[JumpBack]StewardPageFindTargetTask",
+			"StewardPageEndlessWealthIsleTaskFound",
+			"StewardPageEndlessWealthIsleTaskNotFound",
 			"[JumpBack]SceneEnterSteward"
 		],
 		"focus": {"Node.Recognition.Succeeded": "开始任务:无尽的财富岛"}
 	},
-	"__SceneStewarHasYellowEndlessWealthIsle": {
-		"desc": "在管家页面识别黄色的无尽的财富岛",
+	"StewardPageEndlessWealthIsleTaskFound": {
+		"desc": "管家页面找到无尽的财富岛任务",
 		"recognition": "And",
 		"all_of": [
 			"InStewardPage",
+			"StewarHasYellowEndlessWealthIsle"
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"EndlessWealthIsleAdvancedMonthlyCardEntry",
+			"EndlessWealthIsleUnlockOnly",
+			"EndlessWealthIsleSweepNightmareLevelInLastTwoDays",
+			"EndlessWealthIsleUnlockAndExchange",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"StewardPageEndlessWealthIsleTaskNotFound": {
+		"desc": "管家页面未找到无尽的财富岛任务",
+		"recognition": "And",
+		"all_of": ["InStewardPage"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"EndlessWealthIsleAdvancedMonthlyCardEntry": {
+		"desc": "无尽的财富岛大月卡入口",
+		"enabled": false,
+		"pre_delay": 500,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["EndlessWealthIsleNotChallenge"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 1000,
+			"target": [276, 674, 161, 303],
+			"timeout": 4000
+		},
+		"next": [
+			"[JumpBack]EndlessWealthIsleZoomInMaxAndCollapseSideBar",
+			"EndlessWealthIsleAdvancedMonthlyCardSweepAndExchangeStart"
+		]
+	},
+	"EndlessWealthIsleUnlockOnly": {
+		"desc": "无尽的财富岛仅通关",
+		"enabled": false,
+		"pre_delay": 500,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["EndlessWealthIsleNightmareLevelEnabled"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 1000,
+			"target": [276, 674, 161, 303],
+			"timeout": 4000
+		},
+		"next": [
+			"[JumpBack]EndlessWealthIsleZoomInMaxAndCollapseSideBar",
+			"EndlessWealthIsleUnlockStart"
+		]
+	},
+	"EndlessWealthIsleUnlockAndExchange": {
+		"desc": "无尽的财富岛通关+扫荡+兑换",
+		"enabled": false,
+		"pre_delay": 500,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["EndlessWealthIsleNightmareLevelEnabled"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 1000,
+			"target": [276, 674, 161, 303],
+			"timeout": 4000
+		},
+		"next": [
+			"[JumpBack]EndlessWealthIsleZoomInMaxAndCollapseSideBar",
+			"[JumpBack]EndlessWealthIsleUnlockStart",
+			"EndlessWealthIsleManualSweepAndExchangeStart"
+		]
+	},
+	"EndlessWealthIsleSweepNightmareLevelInLastTwoDays": {
+		"desc": "无尽的财富岛最后两天仅扫荡噩梦难度",
+		"enabled": false,
+		"pre_delay": 500,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["EndlessWealthIsleLastTwoDay"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 1000,
+			"target": [276, 674, 161, 303],
+			"timeout": 4000
+		},
+		"next": [
+			"[JumpBack]EndlessWealthIsleSweepNightmareLevelOnlyStart",
+			"[JumpBack]EndlessWealthIsleExitTemple",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"EndlessWealthIsleNotChallenge": {
+		"desc": "无尽的财富岛未挑战(0/x)",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "button/Goto.png",
+				"roi": [483, 277, 139, 674],
+				"sub_name": "GotoButton"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "财富岛\\s*[\\(（]0",
+				"roi": "GotoButton",
+				"roi_offset": [-403, -10, 301, 22],
+				"sub_name": "EndlessWealthIsle"
+			},
 			{
 				"recognition": "ColorMatch",
 				"method": 40,
 				"lower": [20, 50, 50],
 				"upper": [35, 255, 255],
-				"roi": "__ScenePrivateStewardHasEndlessWealthIsle",
+				"roi": "EndlessWealthIsle",
 				"count": 20
+			},
+			{
+				"recognition": "TemplateMatch",
+				"template": "button/Goto.png",
+				"roi": "EndlessWealthIsle",
+				"roi_offset": [0, -20, 400, 40]
 			}
 		],
-		"box_index": 1,
+		"box_index": 3,
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0
 	},
-	"__SceneStewardEntryEndlessWealthIsle": {
-		"desc": "在管家页面进入无尽的财富岛",
+	"EndlessWealthIsleNightmareLevelEnabled": {
+		"desc": "无尽的财富岛已解锁噩梦难度(x/36+)",
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
 		"recognition": "And",
-		"all_of": ["__SceneStewarHasYellowEndlessWealthIsle"],
-		"next": [
-			"__ScenePrivateStewardGotoEndlessWealthIsle"
-		]
-	},
-	"__ScenePrivateStewardEndlessWealthIsleDone": {
-		"desc": "管家页面未找到到财富岛或者到财富岛任务已经完成",
-		"recognition": "And",
-		"all_of": ["InStewardPage"],
-		"pre_delay": 0,
-		"post_delay": 0,
-		"rate_limit": 0
-	},
-	"__ScenePrivateStewardGotoEndlessWealthIsle": {
-		"desc": "点击无尽的财富岛后面的前往进入财富岛页面",
-		"recognition": "OCR",
-		"expected": "前往",
-		"roi": "__SceneStewarHasYellowEndlessWealthIsle",
-		"roi_offset": [0, -20, 400, 40],
-		"action": "Click",
-		"pre_delay": 0,
-		"post_delay": 2000,
-		"rate_limit": 0,
-		"timeout": 6000,
-		"next": [
-			"InEndlessWealthIslePage"
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "button/Goto.png",
+				"roi": [483, 277, 139, 674],
+				"sub_name": "GotoButton"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "财富岛\\s*[\\(（].*?(3[6-9]|4[0-2])\\s*[\\)）]",
+				"roi": "GotoButton",
+				"roi_offset": [-403, -10, 301, 22],
+				"sub_name": "EndlessWealthIsle"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 50, 50],
+				"upper": [35, 255, 255],
+				"roi": "EndlessWealthIsle",
+				"count": 20
+			},
+			{
+				"recognition": "TemplateMatch",
+				"template": "button/Goto.png",
+				"roi": "EndlessWealthIsle",
+				"roi_offset": [0, -20, 400, 40]
+			}
 		],
-		"on_error": [
-			"__ScenePrivateNextTrue"
-		]
+		"box_index": 3
+	},
+	"EndlessWealthIsleNightmareLevelEnabledAndNotChallenge": {
+		"desc": "无尽的财富岛已解锁噩梦难度且未挑战(0/36+)",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "button/Goto.png",
+				"roi": [483, 277, 139, 674],
+				"sub_name": "GotoButton"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "财富岛\\s*[\\(（]\\s*0.*?(3[6-9]|4[0-2])\\s*[\\)）]",
+				"roi": "GotoButton",
+				"roi_offset": [-403, -10, 301, 22],
+				"sub_name": "EndlessWealthIsle"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 50, 50],
+				"upper": [35, 255, 255],
+				"roi": "EndlessWealthIsle",
+				"count": 20
+			},
+			{
+				"recognition": "TemplateMatch",
+				"template": "button/Goto.png",
+				"roi": "EndlessWealthIsle",
+				"roi_offset": [0, -20, 400, 40]
+			}
+		],
+		"box_index": 3
+	},
+	"EndlessWealthIsleLastTwoDay": {
+		"desc": "无尽的财富岛最后两天扫荡噩梦难度(36+/36+)",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "button/Goto.png",
+				"roi": [483, 277, 139, 674],
+				"sub_name": "GotoButton"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "财富岛\\s*[\\(（]\\s*(3[6-9]|4[0-2]).(3[6-9]|4[0-2])\\s*[\\)）]",
+				"roi": "GotoButton",
+				"roi_offset": [-403, -10, 301, 22],
+				"sub_name": "EndlessWealthIsle"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 50, 50],
+				"upper": [35, 255, 255],
+				"roi": "EndlessWealthIsle",
+				"count": 20
+			},
+			{
+				"recognition": "TemplateMatch",
+				"template": "button/Goto.png",
+				"roi": "EndlessWealthIsle",
+				"roi_offset": [0, -20, 400, 40]
+			}
+		],
+		"box_index": 3
+	},
+	"StewarHasYellowEndlessWealthIsle": {
+		"desc": "识别黄色的无尽的财富岛",
+		"recognition": "And",
+		"all_of": [
+			{
+				"recognition": "TemplateMatch",
+				"template": "button/Goto.png",
+				"roi": [483, 277, 139, 674],
+				"sub_name": "GotoButton"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "无尽的财富岛|财富岛",
+				"roi": "GotoButton",
+				"roi_offset": [-403, -10, 301, 22],
+				"sub_name": "EndlessWealthIsle"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 50, 50],
+				"upper": [35, 255, 255],
+				"roi": "EndlessWealthIsle",
+				"count": 20
+			},
+			{
+				"recognition": "TemplateMatch",
+				"template": "button/Goto.png",
+				"roi": "EndlessWealthIsle",
+				"roi_offset": [0, -20, 400, 40]
+			}
+		],
+		"box_index": 3,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
 	},
 	"InEndlessWealthIslePage": {
-		"desc": "在财富岛页面",
+		"desc": "在财富岛地图",
 		"recognition": "OCR",
 		"expected": "无尽财富之岛|财富之岛|无尽财富",
 		"roi": [99, 68, 155, 34],
 		"only_rec": true
 	},
-	"__ScenePrivateStewardFindEndlessWealthIsle": {
-		"recognition": "And",
-		"all_of": ["InStewardPage"],
-		"max_hit": 1,
+	"StewardPageFindEndlessWealthIsle": {
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
 		"next": [
-			"__ScenePrivateStewardHasEndlessWealthIsle",
+			"StewardHasEndlessWealthIsle",
 			"[JumpBack]__EndlessWealthIsleSwipeDownRetry",
-			"[JumpBack]__EndlessWealthIsleSwipeUpRetry"
+			"[JumpBack]__EndlessWealthIsleSwipeUpRetry",
+			"__ScenePrivateNextTrue"
 		]
 	},
-	"__ScenePrivateStewardHasEndlessWealthIsle": {
+	"StewardHasEndlessWealthIsle": {
 		"desc": "管家页面识别无尽的财富岛",
 		"recognition": "OCR",
 		"expected": "无尽的财富岛|财富岛",
@@ -129,8 +362,9 @@
 		"post_delay": 0,
 		"rate_limit": 0
 	},
-	"EndlessWealthIsleEntry": {
-		"desc": "财富之岛入口",
+	"EndlessWealthIsleZoomInMaxAndCollapseSideBar": {
+		"desc": "财富岛放大地图及收起侧边栏",
+		"max_hit": 1,
 		"pre_delay": 0,
 		"post_delay": 500,
 		"rate_limit": 0,
@@ -142,10 +376,22 @@
 			"nodes": ["ZoomInMax"]
 		},
 		"next": [
-			"[JumpBack]ZoomInMax",
 			"[JumpBack]CollapseSideBar",
-			"[JumpBack]EndlessWealthIsleSweep",
-			"EndlessWealthIsleExchangeRewardsStart"
+			"[JumpBack]ZoomInMax",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"RuinedTempleEntry": {
+		"desc": "进入破败神殿",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"InRuinedTemple",
+			"[JumpBack]EndlessWealthIsleEnterTemple",
+			"[JumpBack]EndlessWealthIsleRuinedTempleEntry",
+			"[JumpBack]__EndlessWealthIsleSwipeLeft",
+			"[JumpBack]__EndlessWealthIsleSwipeDown"
 		]
 	},
 	"__EndlessWealthIsleSwipeLeft": {
@@ -190,7 +436,7 @@
 	"EndlessWealthIsleRuinedTempleEntry": {
 		"desc": "进入破败神殿",
 		"recognition": "OCR",
-		"expected": "破败神殿|破败|神殿",
+		"expected": "破败神殿|破败|神殿|败神",
 		"action": "Custom",
 		"custom_action": "AdjustPositionAndClick",
 		"custom_action_param": {
@@ -226,11 +472,5 @@
 			"timeout": 3000
 		}
 	},
-	"EndlessWealthIsleEnterTempleDone": {"desc": "进入神殿完成"},
-	"EndlessWealthIsleNightmareLevelEnabled": {
-		"desc": "检查噩梦难度是否开放",
-		"recognition": "OCR",
-		"expected": "天|小时|分钟|开放",
-		"roi": [482, 777, 180, 92]
-	}
+	"EndlessWealthIsleEnterTempleDone": {"desc": "进入神殿完成"}
 }
