@@ -1,0 +1,93 @@
+{
+	"EternalNightSanctuaryCollectHolyDewStart": {
+		"desc": "永夜圣堂收集圣露入口",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"EternalNightSanctuaryCollectHolyDew",
+			"[JumpBack]SceneEnterEternalNightSanctuaryNoReset"
+		]
+	},
+	"HolySoulStatue": {
+		"desc": "圣魂雕像",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"recognition": "TemplateMatch",
+		"template": "daily/HolySoulStatue.png"
+	},
+	"EternalNightSanctuaryCollectHolyDew": {
+		"desc": "永夜圣堂收集圣露",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InEternalNightSanctuary"],
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["ZoomInMax"]
+		},
+		"next": [
+			"[JumpBack]CollapseSideBar",
+			"[JumpBack]ZoomInMax",
+			"ClickHolySoulStatueAndCollectHolyDew",
+			"[JumpBack]EternalNightSanctuarySwipeLeftDown"
+		]
+	},
+	"CollectHolyDew": {
+		"desc": "获取圣露",
+		"recognition": "OCR",
+		"expected": "获取圣露|获取|圣露",
+		"roi": [72, 679, 577, 287],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [329, 287, 254, 613],
+			"timeout": 8000
+		}
+	},
+	"ClickHolySoulStatueAndCollectHolyDew": {
+		"desc": "永夜圣堂点击圣魂雕像获取圣露",
+		"recognition": "And",
+		"all_of": [
+			"HolySoulStatue",
+			{
+				"recognition": "OCR",
+				"expected": "圣魂雕像|圣魂|雕像",
+				"roi": "HolySoulStatue",
+				"only_rec": true,
+				"roi_offset": [0, 328, -7, -330]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [42, -121, -67, 8],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [329, 287, 254, 613],
+			"timeout": 8000
+		},
+		"timeout": 10000,
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]CollectHolyDew",
+			"LeaveButton",
+			"ClickHolySoulStatueAndCollectHolyDew"
+		]
+	},
+	"EternalNightSanctuarySwipeLeftDown": {
+		"desc": "永夜圣堂左下滑",
+		"action": "Swipe",
+		"begin": [550, 300],
+		"end": [200, 700],
+		"duration": 200,
+		"max_hit": 2,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [329, 287, 254, 613],
+			"timeout": 2000
+		}
+	}
+}

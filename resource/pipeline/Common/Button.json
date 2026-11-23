@@ -83,7 +83,10 @@
 		"desc": "通用离开按钮",
 		"recognition": "TemplateMatch",
 		"roi": [0, 400, 720, 820],
-		"template": "button/leave_btn.png",
+		"template": [
+			"button/leave_btn.png",
+			"button/LeaveOption.png"
+		],
 		"order_by": "Score",
 		"action": "Click",
 		"post_wait_freezes": {

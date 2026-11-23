@@ -770,13 +770,19 @@
 		"desc": "在选择目的地页面识别源世界",
 		"recognition": "OCR",
 		"expected": "源世界|世界|源",
-		"roi": [45, 1023, 639, 29]
+		"roi": [25, 1014, 695, 39]
+	},
+	"SelectDestinationPageHasHeartRealm": {
+		"desc": "在选择目的地页面识别心之集域",
+		"recognition": "OCR",
+		"expected": "心之集域|心之|集域|之集",
+		"roi": [25, 1014, 695, 39]
 	},
 	"SelectDestinationPageHasNowadays": {
 		"desc": "在选择目的地页面识别当今",
 		"recognition": "OCR",
 		"expected": "当今",
-		"roi": [45, 1023, 639, 29]
+		"roi": [25, 1014, 695, 39]
 	},
 	"InNowadaysPage": {
 		"desc": "在当今选择地图界面",

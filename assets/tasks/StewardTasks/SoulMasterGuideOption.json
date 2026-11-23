@@ -64,7 +64,9 @@
 					"pipeline_override": {
 						"SoulMasterGuideWeeklyTaskEnable": {
 							"attach": {"ReforgeEquipmentEnable": true}
-						},
+						},	
+						"ReforgeTaskStart":{"enabled":true},
+						"FirstRoleEquipmentReforge": {"enabled": true},
 						"ReforgeConfirm": {"max_hit": 2}
 					}
 				},

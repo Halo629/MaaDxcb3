@@ -86,6 +86,58 @@
 		"post_delay": 0,
 		"rate_limit": 0
 	},
+	"HeartRealmMapEntry": {
+		"desc": "心之集域地图入口",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"HeartRealmMap",
+			"[JumpBack]SelectWordMapSwipeLeft",
+			"HeartRealmMapNotEnable"
+		]
+	},
+	"HeartRealmMap": {
+		"desc": "心之集域地图",
+		"recognition": "And",
+		"all_of": ["SelectDestinationPageHasHeartRealm"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [45, 1023, 639, 29],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"HeartRealmMapNotEnable": {
+		"desc": "心之集域地图未解锁",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"TaskFail"
+		],
+		"focus": {"Node.Recognition.Succeeded": "心之集域未解锁"}
+	},
+	"SelectWordMapSwipeLeft": {
+		"desc": "选择大地图时左滑",
+		"max_hit": 2,
+		"action": "Swipe",
+		"begin": [675, 1030],
+		"end": [80, 1030],
+		"duration": 200,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [45, 1023, 639, 29],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
 	"ClearOriginWorldMapMaxHit": {
 		"desc": "清除OriginWorldMap的max_hit,在重置源世界地图时调用",
 		"action": "Custom",
@@ -972,6 +1024,99 @@
 		"next": [
 			"EnterMoonlightIsles",
 			"[JumpBack]SceneEnterSelectDestination"
+		]
+	},
+	"SceneEnterEternalNightSanctuaryNoReset": {
+		"desc": "进入永夜圣堂(不重置地图)",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {
+			"SelectMapOrder": "SwitchMapListAscendingSort",
+			"SelectWorldMapAnchor": "HeartRealmMapEntry",
+			"SelectMiniMapAnchor": "MapListClickNightSanctuary",
+			"ResetMiniMapAnchor": "NoResetEternalNightSanctuary"
+		},
+		"next": [
+			"InEternalNightSanctuary",
+			"[JumpBack]SceneEnterSelectDestination"
+		]
+	},
+	"MapListClickNightSanctuary": {
+		"desc": "地图列表点击永夜圣堂",
+		"recognition": "And",
+		"all_of": [
+			"InSelectDestinationPage",
+			{
+				"recognition": "OCR",
+				"expected": "永夜圣堂|永夜|圣堂",
+				"roi": [205, 194, 363, 781]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 4000,
+		"rate_limit": 0
+	},
+	"InEternalNightSanctuary": {
+		"desc": "在永夜圣堂",
+		"recognition": "And",
+		"all_of": [
+			"MapNameColorMatch",
+			{
+				"recognition": "OCR",
+				"expected": "永夜圣堂|永夜|圣堂",
+				"roi": "MapNameColorMatch",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"EnterEternalNightSanctuary": {
+		"desc": "进入永夜圣堂",
+		"recognition": "And",
+		"all_of": ["InMap"],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"timeout": 6000,
+		"next": [
+			"InEternalNightSanctuary"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"MapListClickEternalNightSanctuary": {
+		"desc": "地图列表点击永夜圣堂",
+		"recognition": "And",
+		"all_of": [
+			"InSelectDestinationPage",
+			{
+				"recognition": "OCR",
+				"expected": "永夜圣堂|永夜|圣堂",
+				"roi": [205, 194, 363, 781]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 4000,
+		"rate_limit": 0
+	},
+	"NoResetEternalNightSanctuary": {
+		"desc": "不重置永夜圣堂",
+		"recognition": "Custom",
+		"custom_recognition": "CheckRoleInTargetMap",
+		"attach": {"map_name": "永夜圣堂|永夜|圣堂", "reset_flag": false},
+		"next": [
+			"EnterEternalNightSanctuary",
+			"[JumpBack]__ScenePrivateReturnRisk",
+			"[JumpBack]SceneBack"
 		]
 	}
 }

@@ -1,0 +1,10 @@
+{
+	"task": [
+		{
+			"name": "CollectHolyDew",
+			"label": "💧永夜圣堂获取魂火结晶",
+			"entry": "EternalNightSanctuaryCollectHolyDewStart",
+			"group": ["daily_tasks"]
+		}
+	]
+}

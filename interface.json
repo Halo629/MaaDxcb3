@@ -72,7 +72,8 @@
 		// group: pre_tasks
 		"assets/tasks/CommonConfig/LaunchGame.json",
 		// group: daily_tasks
-		"assets/tasks/DailyRewards.json",
+		"assets/tasks/DailyTasks/DailyRewards.json",
+		"assets/tasks/DailyTasks/HeartRealmTask.json",
 		"assets/tasks/StewardTasks/CarriageShopOption.json",
 		"assets/tasks/StewardTasks/SoulMasterGuideOption.json",
 		"assets/tasks/StewardTasks/EndlessWealthIsleOption.json",
@@ -140,10 +141,10 @@
 		"assets/tasks/OtherTask/RecipeUnlock.json",
 		// preset
 		"assets/tasks/preset/SingleServer.json",
-		"assets/tasks/preset/MultiServer.json",
+		"assets/tasks/preset/MultiServer.json"
 		// test
 		// "assets/tasks/test/TestMoveToPoint.json",
 		// "assets/tasks/test/BattleTimeTest.json"
-		"assets/tasks/test/test.json"
+		//"assets/tasks/test/test.json"
 	]
 }

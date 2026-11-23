@@ -355,9 +355,9 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
-		"recognition": "OCR",
-		"expected": "出发",
-		"roi": [196, 1067, 335, 205],
+		"recognition": "TemplateMatch",
+		"template": "button/StartOut.png",
+		"roi": [131, 988, 506, 237],
 		"action": "Click",
 		"post_wait_freezes": {
 			"time": 500,
