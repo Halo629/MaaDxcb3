@@ -47,10 +47,9 @@
 		"post_delay": 0,
 		"rate_limit": 0,
 		"next": [
-			"InMap",
-			"InMainPageArea",
-			"[JumpBack]MazeExitBattleResult",
-			"[JumpBack]MazeExitEndExplore"
+			"MazeExitResult",
+			"[JumpBack]MazeExitEndExplore",
+			"MazeExit"
 		]
 	},
 	"MazeExitEndExplore": {
@@ -67,19 +66,35 @@
 		"post_delay": 0,
 		"rate_limit": 0
 	},
-	"MazeExitBattleResult": {
+	"MazeExitResult": {
+		"desc": "迷宫结算",
+		"recognition": "And",
+		"all_of": ["InBattleResult"],
+		"pre_delay": 0,
+		"post_delay": 500,
+		"rate_limit": 0,
+		"next": [
+			"[Anchor]MazeResultRecordAnchor",
+			"[JumpBack]HandleMazeExitResult",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"HandleMazeExitResult": {
 		"desc": "处理战斗结算",
 		"recognition": "And",
 		"all_of": ["InBattleResult"],
 		"action": "Click",
 		"post_wait_freezes": {
 			"time": 1000,
-			"target": [84, 347, 543, 668],
-			"timeout": 3000
+			"target": [26, 214, 681, 845],
+			"timeout": 4000
 		},
 		"pre_delay": 0,
 		"post_delay": 0,
-		"rate_limit": 0
+		"rate_limit": 0,
+		"next": [
+			"__ScenePrivateNextTrue"
+		]
 	},
 	"PauseBattle": {
 		"desc": "暂停战斗",
@@ -347,6 +362,22 @@
 				"recognition": "TemplateMatch",
 				"template": "battle/BattleVictory.png",
 				"roi": [252, 250, 234, 134]
+			}
+		]
+	},
+	"MazeVictory": {
+		"desc": "迷宫结算胜利页面",
+		"recognition": "Or",
+		"any_of": [
+			{
+				"recognition": "OCR",
+				"expected": "胜利",
+				"roi": [289, 107, 145, 73]
+			},
+			{
+				"recognition": "TemplateMatch",
+				"template": "battle/MazeVictory.png",
+				"roi": [273, 92, 189, 127]
 			}
 		]
 	},

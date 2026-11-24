@@ -1,0 +1,218 @@
+{
+	"MazeSilverFarmStart": {
+		"desc": "迷宫刷银币入口",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "ClearSilverFarmRecord",
+		"next": [
+			"SupremeCourtSilverFarmStart",
+			"[JumpBack]SceneEnterSupremeCourtNoReset"
+		]
+	},
+	"SupremeCourtSwipeLeftDown": {
+		"desc": "至高之庭左下滑",
+		"post_delay": 0,
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"action": "Swipe",
+		"begin": [550, 800],
+		"end": [150, 1000],
+		"duration": 300,
+		"max_hit": 4,
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [353, 192, 328, 732],
+			"timeout": 2000
+		}
+	},
+	"SupremeCourtSilverFarmStart": {
+		"desc": "至高之庭刷银币入口",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InSupremeCourt"],
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["ZoomInMax"]
+		},
+		"timeout": 10000,
+		"next": [
+			"[JumpBack]CollapseSideBar",
+			"[JumpBack]ZoomInMax",
+			"TreasureHallFarmEntry",
+			"[JumpBack]SupremeCourtSwipeLeftDown",
+			"__ScenePrivateNextTrue"
+		],
+		"on_error": [
+			"TreasureHallNotFound"
+		]
+	},
+	"TreasureHallNotFound": {
+		"desc": "未识别到珍宝馆",
+		"focus": {
+			"Node.Recognition.Succeeded": "未识别到珍宝馆,请重置地图(仅一次其他地图)后重试"
+		}
+	},
+	"TreasureHallFarmEntry": {
+		"desc": "珍宝馆刷银币入口",
+		"post_delay": 0,
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["TreasureHallFound"],
+		"next": [
+			"[JumpBack]MazeFarmStart",
+			"[JumpBack]MazeStartOut",
+			"[JumpBack]HandleRewardDialog",
+			"[JumpBack]SceneEnterCuratorRoom",
+			"[JumpBack]SceneEnterTreasureHall",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"MazeFarmStart": {
+		"desc": "迷宫中刷银币",
+		"recognition": "And",
+		"all_of": ["InMazeCuratorRoom"],
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["RecordEnterMaze"]
+		},
+		"anchor": {
+			"MazeResultRecordAnchor": "SupremeCourtSilverFarmRecord"
+		},
+		"next": [
+			"[JumpBack]RecordEnterMaze",
+			"[JumpBack]MazeStartOut",
+			"[JumpBack]MazeEmptyFloor",
+			"[JumpBack]ClickMonsterFloor",
+			"MazeExit"
+		]
+	},
+	"InMazeCuratorRoom": {
+		"desc": "在馆长室迷宫中",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"recognition": "OCR",
+		"expected": "馆长室|馆长|长室",
+		"roi": [109, 30, 109, 44],
+		"only_rec": true
+	},
+	"InTreasureHallPage": {
+		"desc": "在珍宝馆页面",
+		"post_delay": 0,
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"recognition": "OCR",
+		"expected": "珍宝馆|珍宝",
+		"roi": [311, 306, 96, 34],
+		"only_rec": true
+	},
+	"TreasureHallFound": {
+		"desc": "找到珍宝馆",
+		"recognition": "And",
+		"all_of": [
+			"MazeCompleteStatus",
+			{
+				"recognition": "OCR",
+				"expected": "珍宝馆|珍宝|宝馆|珍|馆",
+				"roi": "MazeCompleteStatus",
+				"roi_offset": [34, 2, 40, -5],
+				"only_rec": true
+			}
+		],
+		"box_index": 1
+	},
+	"SceneEnterTreasureHall": {
+		"desc": "进入珍宝馆",
+		"recognition": "And",
+		"all_of": ["TreasureHallFound"],
+		"action": "Click",
+		"target_offset": [-31, -185, -35, 21],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [100, 303, 519, 322],
+			"timeout": 10000
+		}
+	},
+	"ClickMonsterFloor": {
+		"desc": "迷宫中点击怪物地板",
+		"pre_delay": 0,
+		"post_delay": 500,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "battle/monster_floor.png",
+		"threshold": 0.6,
+		"order_by": "Horizontal",
+		"action": "Click",
+		"next": [
+			"BattleAI",
+			"BattleEnd"
+		]
+	},
+	"RecordEnterMaze": {
+		"desc": "记录进入迷宫次数",
+		"max_hit": 1,
+		"action": "Custom",
+		"custom_action": "RecordEnterMaze"
+	},
+	"SceneEnterCuratorRoom": {
+		"desc": "进入馆长室",
+		"post_delay": 0,
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InTreasureHallPage",
+			{
+				"recognition": "TemplateMatch",
+				"template": "common/CuratorRoom.png",
+				"roi": [50, 697, 610, 313]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [69, 297, 561, 674],
+			"timeout": 2000
+		}
+	},
+	"SupremeCourtSilverFarmRecord": {
+		"desc": "至高之庭刷银币记录",
+		"action": "Custom",
+		"custom_action": "SupremeCourtSilverFarmRecord",
+		"timeout": 3000,
+		"next": [
+			"[JumpBack]HandleMazeExitResult",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"RewardSilver": {
+		"desc": "奖励银币识别",
+		"recognition": "TemplateMatch",
+		"template": "items/Silver.png",
+		"roi": [23, 364, 663, 482],
+		"green_mask": true
+	},
+	"SilverCountColor": {
+		"desc": "银币数量颜色",
+		"recognition": "ColorMatch",
+		"method": 40,
+		"lower": [15, 20, 120],
+		"upper": [20, 50, 255],
+		"roi_offset": [68, 97, -69, -100],
+		"count": 50
+	},
+	"SilverCountOcr": {
+		"desc": "银币数量OCR",
+		"recognition": "OCR",
+		"roi_offset": [-2, -2, 4, 4],
+		"only_rec": true
+	}
+}

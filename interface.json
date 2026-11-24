@@ -138,7 +138,9 @@
 		"assets/tasks/OtherTask/RuneUpgrade.json",
 		// 魂墓
 		"assets/tasks/OtherTask/SoulTomb.json",
+		// 解锁食谱
 		"assets/tasks/OtherTask/RecipeUnlock.json",
+		"assets/tasks/OtherTask/MazeSilverFarm.json",
 		// preset
 		"assets/tasks/preset/SingleServer.json",
 		"assets/tasks/preset/MultiServer.json"

@@ -90,24 +90,6 @@
 			}
 		]
 	},
-	"MazeCompleteStatus": {
-		"desc": "识别已完成的迷宫",
-		"recognition": "TemplateMatch",
-		"template": "common/MazeCompleteStatus.png",
-		"green_mask": true,
-		"post_delay": 0,
-		"pre_delay": 0,
-		"threshold": 0.6
-	},
-	"MazeIncompleteStatus": {
-		"desc": "识别未完成的迷宫",
-		"recognition": "TemplateMatch",
-		"template": "common/MazeIncompleteStatus.png",
-		"green_mask": true,
-		"post_delay": 0,
-		"pre_delay": 0,
-		"threshold": 0.6
-	},
 	"CompleteMazeNameRecg": {
 		"desc": "识别已完成迷宫名字",
 		"recognition": "And",

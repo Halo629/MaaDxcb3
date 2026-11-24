@@ -1073,5 +1073,76 @@
 		"on_error": [
 			"__ScenePrivateNextTrue"
 		]
+	},
+	"SceneEnterSupremeCourtNoReset": {
+		"desc": "进入至高之庭(不重置地图)",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {
+			"SelectMapOrder": "SwitchMapListAscendingSort",
+			"SelectMiniMapAnchor": "MapListClickSupremeCourt",
+			"ResetMiniMapAnchor": "NoResetSupremeCourt"
+		},
+		"next": [
+			"InSupremeCourt",
+			"[JumpBack]SceneEnterSelectDestination"
+		]
+	},
+	"MapListClickSupremeCourt": {
+		"desc": "地图列表点击至高之庭",
+		"recognition": "And",
+		"all_of": [
+			"InSelectDestinationPage",
+			{
+				"recognition": "OCR",
+				"expected": "至高之庭|至高",
+				"roi": [205, 194, 363, 781]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"pre_delay": 0,
+		"post_delay": 4000,
+		"rate_limit": 0,
+		"timeout": 10000,
+		"next": [
+			"InSupremeCourt"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"InSupremeCourt": {
+		"desc": "在至高之庭",
+		"recognition": "And",
+		"all_of": [
+			"MapNameColorMatch",
+			{
+				"recognition": "OCR",
+				"expected": "至高之庭|至高",
+				"roi": "MapNameColorMatch",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
+	},
+	"NoResetSupremeCourt": {
+		"desc": "不重置至高之庭",
+		"recognition": "Custom",
+		"custom_recognition": "CheckRoleInTargetMap",
+		"attach": {"map_name": "至高之庭|至高", "reset_flag": false},
+		"timeout": 10000,
+		"next": [
+			"InSupremeCourt",
+			"[JumpBack]__ScenePrivateReturnRisk",
+			"[JumpBack]SceneBack"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
 	}
 }

@@ -703,7 +703,7 @@
 		"desc": "判断是否在结束探索弹窗",
 		"recognition": "OCR",
 		"roi": [160, 667, 402, 143],
-		"expected": "结束探索",
+		"expected": "结束探索|结束",
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0

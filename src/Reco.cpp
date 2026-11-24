@@ -23,6 +23,7 @@ void registerCustomGreatMarshExpedition(MaaResource* res, void* user_data);
 void registerCustomExpressionRecognition(MaaResource* res, void* user_data);
 void registerCustomRedeemCode(MaaResource* res, void* user_data);
 void registerCustomRuneUpgrade(MaaResource* res, void* user_data);
+void registerCustomSilverFarm(MaaResource* res, void* user_data);
 
 void registerAllCustomRecognition(MaaResource* res, void* user_data)
 {
@@ -49,4 +50,5 @@ void registerAllCustomRecognition(MaaResource* res, void* user_data)
     registerCustomExpressionRecognition(res, user_data);
     registerCustomRedeemCode(res, user_data);
     registerCustomRuneUpgrade(res, user_data);
+    registerCustomSilverFarm(res, user_data);
 }

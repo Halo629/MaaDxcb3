@@ -1,0 +1,32 @@
+{
+	"task": [
+		{
+			"name": "SilverFarm",
+			"label": "💰刷银币",
+			"description": "将在至高之庭的珍宝馆-馆长室刷取",
+			"entry": "MazeSilverFarmStart",
+			"group": ["other_tasks"],
+			"option": ["FarmCount"]
+		}
+	],
+	"option": {
+		"FarmCount": {
+			"type": "input",
+			"label": "刷取次数",
+			"inputs": [
+				{
+					"name": "FarmCountInputValue",
+					"label": "输入次数",
+					"pipeline_type": "int",
+                    "verify": "^\\d+$",
+                    "default": "100"
+				}
+			],
+			"pipeline_override": {
+				"SceneEnterTreasureHall": {
+					"max_hit": "{FarmCountInputValue}"
+				}
+			}
+		}
+	}
+}
