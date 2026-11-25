@@ -31,27 +31,20 @@
 		"enabled": false,
 		"max_hit": 1,
 		"next": [
-			"CheckTargetServerIfInGame",
-			"InTargetServer",
-			"SwitchToTargetServerInLoginPage",
-			"[JumpBack]LoginPageEventsHandle",
-			"[JumpBack]SwitchServerRestartGame",
-			"[JumpBack]LaunchGame"
+			"SwitchServerInGame",
+			"SwitchServerInLoginPage"
 		],
 		"post_delay": 0,
 		"pre_delay": 0,
 		"rate_limit": 0
 	},
 	"SwitchServerInLoginPage": {
-		"desc": "在登录切换服务器",
-		"max_hit": 1,
+		"desc": "在登录页切换服务器",
 		"next": [
-			"CheckTargetServerIfInGame",
 			"InTargetServer",
 			"SwitchToTargetServerInLoginPage",
 			"[JumpBack]LoginPageEventsHandle",
-			"[JumpBack]SwitchServerRestartGame",
-			"[JumpBack]LaunchGame"
+			"[JumpBack]SwitchServerRestartGame"
 		],
 		"post_delay": 0,
 		"pre_delay": 0,
@@ -96,8 +89,6 @@
 	"SwitchServerRestartGame": {
 		"desc": "重启游戏",
 		"max_hit": 1,
-		"recognition": "Or",
-		"any_of": ["InLoginPage", "InGameCheck"],
 		"action": "Custom",
 		"custom_action": "SubTask",
 		"custom_action_param": {
@@ -116,16 +107,6 @@
 	},
 	"SwitchToTargetServerInLoginPage": {
 		"desc": "在登录页切换到目标服务器",
-		"recognition": "And",
-		"all_of": ["InLoginPage", "LoginPageHasStartGameButton"],
-		"next": [
-			"FindAndSwitchServerInServerList",
-			"[JumpBack]LoginSettingPageEntryServerListPage",
-			"[JumpBack]LoginPageEnterSettingPage"
-		]
-	},
-	"SwitchToTargetServerInGame": {
-		"desc": "在游戏中切换到目标服务器",
 		"recognition": "And",
 		"all_of": ["InLoginPage", "LoginPageHasStartGameButton"],
 		"next": [
@@ -314,9 +295,13 @@
 		"action": "Click",
 		"pre_delay": 0,
 		"post_delay": 500,
+		"timeout": 20000,
 		"next": [
 			"InTargetServer",
 			"[JumpBack]ConfirmButton"
+		],
+		"on_error": [
+			"SwitchServerInLoginPage"
 		]
 	},
 	"FindTargetServerSwipeUp": {
