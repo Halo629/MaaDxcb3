@@ -8,9 +8,12 @@
 		"custom_action_param": {
 			"nodes": ["__ScenePrivatePressEscUntilExitGame"]
 		},
+		"timeout": 10000,
 		"next": [
-			"InMainPage",
+			"[JumpBack]FormationCollectPopup",
+			"[JumpBack]SignIn",
 			"[JumpBack]WelfareCollect",
+			"InMainPage",
 			"[JumpBack]HandleRewardDialog",
 			"[JumpBack]HandleMonthlyCardDialog",
 			"[JumpBack]__ScenePrivateCurrentEventExit",
@@ -21,6 +24,9 @@
 			"[JumpBack]LoginPageClickStartGameButton",
 			"[JumpBack]LoginPageEventsHandle",
 			"[JumpBack]__ScenePrivatePressEscUntilExitGame"
+		],
+		"on_error": [
+			"PressEsc"
 		]
 	},
 	"SceneEnterEngravePage": {

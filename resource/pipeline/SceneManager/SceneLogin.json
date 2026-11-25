@@ -33,7 +33,7 @@
 		"next": [
 			"CheckTargetServerIfInGame",
 			"InTargetServer",
-			"SwitchToTargetServer",
+			"SwitchToTargetServerInLoginPage",
 			"[JumpBack]LoginPageEventsHandle",
 			"[JumpBack]SwitchServerRestartGame",
 			"[JumpBack]LaunchGame"
@@ -41,6 +41,57 @@
 		"post_delay": 0,
 		"pre_delay": 0,
 		"rate_limit": 0
+	},
+	"SwitchServerInLoginPage": {
+		"desc": "在登录切换服务器",
+		"max_hit": 1,
+		"next": [
+			"CheckTargetServerIfInGame",
+			"InTargetServer",
+			"SwitchToTargetServerInLoginPage",
+			"[JumpBack]LoginPageEventsHandle",
+			"[JumpBack]SwitchServerRestartGame",
+			"[JumpBack]LaunchGame"
+		],
+		"post_delay": 0,
+		"pre_delay": 0,
+		"rate_limit": 0
+	},
+	"SwitchServerInGame": {
+		"desc": "在游戏中切换服务器",
+		"recognition": "And",
+		"all_of": ["InGameCheck"],
+		"next": [
+			"CheckTargetServerIfInGame",
+			"InTargetServer",
+			"[JumpBack]FindAndSwitchServerInServerList",
+			"[JumpBack]LoginPageEventsHandle",
+			"[JumpBack]ServerListEntry",
+			"[JumpBack]SceneEnterSettingPage"
+		],
+		"post_delay": 0,
+		"pre_delay": 0,
+		"rate_limit": 0
+	},
+	"ServerListEntry": {
+		"desc": "点击服务器进入我的页面",
+		"recognition": "And",
+		"all_of": [
+			"InSettingPage",
+			{
+				"recognition": "TemplateMatch",
+				"template": "common/Server.png",
+				"roi": [31, 189, 655, 631]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"target_offset": [31, 35, -63, -74],
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [31, 189, 655, 631],
+			"timeout": 2000
+		}
 	},
 	"SwitchServerRestartGame": {
 		"desc": "重启游戏",
@@ -54,7 +105,27 @@
 		}
 	},
 	"SwitchToTargetServer": {
-		"desc": "切换到目标服务器",
+		"desc": "在登录页切换到目标服务器",
+		"recognition": "And",
+		"all_of": ["InLoginPage", "LoginPageHasStartGameButton"],
+		"next": [
+			"FindAndSwitchServerInServerList",
+			"[JumpBack]LoginSettingPageEntryServerListPage",
+			"[JumpBack]LoginPageEnterSettingPage"
+		]
+	},
+	"SwitchToTargetServerInLoginPage": {
+		"desc": "在登录页切换到目标服务器",
+		"recognition": "And",
+		"all_of": ["InLoginPage", "LoginPageHasStartGameButton"],
+		"next": [
+			"FindAndSwitchServerInServerList",
+			"[JumpBack]LoginSettingPageEntryServerListPage",
+			"[JumpBack]LoginPageEnterSettingPage"
+		]
+	},
+	"SwitchToTargetServerInGame": {
+		"desc": "在游戏中切换到目标服务器",
 		"recognition": "And",
 		"all_of": ["InLoginPage", "LoginPageHasStartGameButton"],
 		"next": [
@@ -469,6 +540,32 @@
 		"timeout": 5000,
 		"on_error": [
 			"__ScenePrivateNextTrue"
+		]
+	},
+	"SignIn": {
+		"desc": "签到",
+		"recognition": "OCR",
+		"expected": "签到",
+		"roi": [325, 1186, 72, 33],
+		"only_rec": true,
+		"action": "Click",
+		"post_delay": 500,
+		"timeout": 3000,
+		"next": [
+			"[JumpBack]HandleRewardDialog",
+			"__ScenePrivateNextTrue"
+		],
+		"on_error": [
+			"PressEsc"
+		]
+	},
+	"FormationCollectPopup": {
+		"desc": "关闭炼成阵探矿",
+		"recognition": "TemplateMatch",
+		"template": "common/GotoCollect.png",
+		"roi": [85, 272, 598, 942],
+		"next": [
+			"PressEsc"
 		]
 	},
 	"LoginPageClickStartGameButton": {

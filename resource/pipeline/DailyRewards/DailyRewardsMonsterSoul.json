@@ -166,7 +166,6 @@
 		"pre_delay": 0,
 		"rate_limit": 0,
 		"post_delay": 500,
-		"timeout": 10000,
 		"next": [
 			"HandleRewardDialog",
 			"[JumpBack]HandleBattleResult"
@@ -204,7 +203,6 @@
 		"pre_delay": 0,
 		"rate_limit": 0,
 		"post_delay": 500,
-		"timeout": 10000,
 		"next": [
 			"HandleRewardDialog",
 			"[JumpBack]HandleBattleResult"
@@ -242,7 +240,6 @@
 		"pre_delay": 0,
 		"rate_limit": 0,
 		"post_delay": 500,
-		"timeout": 10000,
 		"next": [
 			"HandleRewardDialog",
 			"[JumpBack]HandleBattleResult"
@@ -280,7 +277,6 @@
 		"pre_delay": 0,
 		"rate_limit": 0,
 		"post_delay": 500,
-		"timeout": 10000,
 		"next": [
 			"HandleRewardDialog",
 			"[JumpBack]HandleBattleResult"
@@ -318,7 +314,6 @@
 		"pre_delay": 0,
 		"rate_limit": 0,
 		"post_delay": 500,
-		"timeout": 10000,
 		"next": [
 			"HandleRewardDialog",
 			"[JumpBack]HandleBattleResult"
@@ -356,7 +351,6 @@
 		"pre_delay": 0,
 		"rate_limit": 0,
 		"post_delay": 500,
-		"timeout": 10000,
 		"next": [
 			"HandleRewardDialog",
 			"[JumpBack]HandleBattleResult"
@@ -394,7 +388,6 @@
 		"pre_delay": 0,
 		"rate_limit": 0,
 		"post_delay": 500,
-		"timeout": 10000,
 		"next": [
 			"HandleRewardDialog",
 			"[JumpBack]HandleBattleResult"
@@ -432,7 +425,6 @@
 		"pre_delay": 0,
 		"rate_limit": 0,
 		"post_delay": 500,
-		"timeout": 10000,
 		"next": [
 			"HandleRewardDialog",
 			"[JumpBack]HandleBattleResult"
@@ -470,7 +462,6 @@
 		"pre_delay": 0,
 		"rate_limit": 0,
 		"post_delay": 500,
-		"timeout": 10000,
 		"next": [
 			"HandleRewardDialog",
 			"[JumpBack]HandleBattleResult"
@@ -508,7 +499,6 @@
 		"pre_delay": 0,
 		"rate_limit": 0,
 		"post_delay": 500,
-		"timeout": 10000,
 		"next": [
 			"HandleRewardDialog",
 			"[JumpBack]HandleBattleResult"
@@ -546,7 +536,6 @@
 		"pre_delay": 0,
 		"rate_limit": 0,
 		"post_delay": 500,
-		"timeout": 10000,
 		"next": [
 			"HandleRewardDialog",
 			"[JumpBack]HandleBattleResult"
@@ -584,7 +573,6 @@
 		"pre_delay": 0,
 		"rate_limit": 0,
 		"post_delay": 500,
-		"timeout": 10000,
 		"next": [
 			"HandleRewardDialog",
 			"[JumpBack]HandleBattleResult"
@@ -622,7 +610,6 @@
 		"pre_delay": 0,
 		"rate_limit": 0,
 		"post_delay": 500,
-		"timeout": 10000,
 		"next": [
 			"HandleRewardDialog",
 			"[JumpBack]HandleBattleResult"
@@ -660,7 +647,6 @@
 		"pre_delay": 0,
 		"rate_limit": 0,
 		"post_delay": 500,
-		"timeout": 10000,
 		"next": [
 			"HandleRewardDialog",
 			"[JumpBack]HandleBattleResult"
@@ -698,7 +684,6 @@
 		"pre_delay": 0,
 		"rate_limit": 0,
 		"post_delay": 500,
-		"timeout": 10000,
 		"next": [
 			"HandleRewardDialog",
 			"[JumpBack]HandleBattleResult"
@@ -736,7 +721,6 @@
 		"pre_delay": 0,
 		"rate_limit": 0,
 		"post_delay": 500,
-		"timeout": 10000,
 		"next": [
 			"HandleRewardDialog",
 			"[JumpBack]HandleBattleResult"
@@ -774,7 +758,6 @@
 		"pre_delay": 0,
 		"rate_limit": 0,
 		"post_delay": 500,
-		"timeout": 10000,
 		"next": [
 			"HandleRewardDialog",
 			"[JumpBack]HandleBattleResult"
@@ -812,7 +795,6 @@
 		"pre_delay": 0,
 		"rate_limit": 0,
 		"post_delay": 500,
-		"timeout": 10000,
 		"next": [
 			"HandleRewardDialog",
 			"[JumpBack]HandleBattleResult"
@@ -850,7 +832,6 @@
 		"pre_delay": 0,
 		"rate_limit": 0,
 		"post_delay": 500,
-		"timeout": 10000,
 		"next": [
 			"HandleRewardDialog",
 			"[JumpBack]HandleBattleResult"
@@ -888,7 +869,6 @@
 		"pre_delay": 0,
 		"rate_limit": 0,
 		"post_delay": 500,
-		"timeout": 10000,
 		"next": [
 			"HandleRewardDialog",
 			"[JumpBack]HandleBattleResult"
