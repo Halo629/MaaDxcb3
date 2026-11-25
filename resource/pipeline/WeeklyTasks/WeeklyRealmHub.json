@@ -83,6 +83,7 @@
 				"template": "items/MonthlyCardOptionalChest.png",
 				"roi": [30, 52, 688, 1004],
 				"green_mask": true,
+				"order_by": "Vertical",
 				"sub_name": "MonthlyCardOptionalChest",
 				"threshold": 0.8
 			},
@@ -103,7 +104,7 @@
 				"count": 20
 			}
 		],
-		"box_index": 1
+		"box_index": 2
 	},
 	"BagItemPageClickMonthlyCardOptionalChest": {
 		"desc": "背包点击宝箱",
@@ -111,7 +112,7 @@
 		"recognition": "And",
 		"all_of": ["BagItemPageFindMonthlyCardOptionalChest"],
 		"action": "Click",
-		"target_offset": [15, -78, -29, 8],
+		"target_offset": [20, -20, 0, 0],
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [30, 52, 688, 1004],
