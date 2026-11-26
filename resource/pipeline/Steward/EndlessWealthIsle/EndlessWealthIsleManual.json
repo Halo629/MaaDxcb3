@@ -2,6 +2,8 @@
 	"EndlessWealthIsleUnlockStart": {
 		"desc": "财富岛解锁难度入口",
 		"max_hit": 1,
+		"recognition": "And",
+		"all_of": ["InEndlessWealthIslePage"],
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
