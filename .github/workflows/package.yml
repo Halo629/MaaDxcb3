@@ -125,9 +125,9 @@ jobs:
               echo "## What's Changed"
               PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || true)
               if [ -n "$PREV_TAG" ]; then
-                git log --pretty=format:"* %s @%an%n%b" "$PREV_TAG..HEAD"
+                git log --pretty=format:"* %s @%an%n%b" "$PREV_TAG..HEAD" | sed -e 's/^\([^*]\)/* \1/' -e '/^$/d'
               else
-                git log --pretty=format:"* %s @%an%n%b"
+                git log --pretty=format:"* %s @%an%n%b" | sed -e 's/^\([^*]\)/* \1/' -e '/^$/d'
               fi
             fi
             echo ""
