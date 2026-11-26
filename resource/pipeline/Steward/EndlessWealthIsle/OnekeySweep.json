@@ -41,7 +41,7 @@
 		"next": [
 			"EndlessWealthIsleSweepError",
 			"EndlessWealthIsleOneKeySweepComplete",
-			"EndlessWealthIsleAssignChallengeTimes",
+			"[JumpBack]EndlessWealthIsleAssignChallengeTimesAndSweep",
 			"[JumpBack]EndlessWealthIsleClickOneKeySweep"
 		],
 		"on_error": [
@@ -98,20 +98,294 @@
 			"timeout": 3000
 		}
 	},
-	"EndlessWealthIsleAssignChallengeTimes": {
-		"desc": "分配挑战次数",
+	"EndlessWealthIsleAssignChallengeTimesAndSweep": {
+		"desc": "分配挑战次数及扫荡",
 		"recognition": "And",
 		"all_of": ["InOnekeySweepPage"],
-		"action": "Custom",
-		"custom_action": "EndlessWealthIsleAssignChallengeTimes",
 		"next": [
-			"EndlessWealthIsleExitTemple",
-			"[JumpBack]HandleRewardDialog",
-			"[JumpBack]ConfirmButton"
-		],
-		"on_error": [
-			"__ScenePrivateNextTrue"
+			"[JumpBack]EndlessWealthIsleAssignSimpleLevelTimes",
+			"[JumpBack]EndlessWealthIsleAssignHardLevelTimes",
+			"[JumpBack]EndlessWealthIsleAssignNightmareLevelTimes",
+			"EndlessWealthIsleSweepConfirm"
 		]
+	},
+	"EndlessWealthIsleSweepConfirm": {
+		"desc": "确认扫荡",
+		"recognition": "And",
+		"all_of": [
+			"EndlessWealthIsleSimpleLevelTimesSatisfied",
+			"EndlessWealthIsleHardLevelTimesSatisfied",
+			"EndlessWealthIsleNightmareLevelTimesSatisfied"
+		],
+		"next": [
+			"HandleRewardDialog",
+			"[JumpBack]ConfirmButton"
+		]
+	},
+	"EndlessWealthIsleAssignSimpleLevelTimes": {
+		"desc": "分配简单难度挑战次数",
+		"post_delay": 0,
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"EndlessWealthIsleSimpleLevelTimesSatisfied",
+			"[JumpBack]EndlessWealthIsleAssignSimpleLevelTenTimes",
+			"[JumpBack]EndlessWealthIsleSubSimpleLevelOneTimes"
+		]
+	},
+	"EndlessWealthIsleAssignHardLevelTimes": {
+		"desc": "分配困难难度挑战次数",
+		"post_delay": 0,
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"EndlessWealthIsleHardLevelTimesSatisfied",
+			"[JumpBack]EndlessWealthIsleAssignHardLevelOneTimes"
+		]
+	},
+	"EndlessWealthIsleAssignNightmareLevelTimes": {
+		"desc": "分配噩梦难度挑战次数",
+		"post_delay": 0,
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"max_hit": 1,
+		"next": [
+			"EndlessWealthIsleNightmareLevelTimesSatisfied",
+			"[JumpBack]EndlessWealthIsleAssignNightmareLevelTenTimes"
+		]
+	},
+	"EndlessWealthIsleNightmareLevelTimesSatisfied": {
+		"desc": "噩梦难度挑战次数已满足(28次)",
+		"post_delay": 0,
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"EndlessWealthIsleAssignOneTime",
+			{
+				"recognition": "OCR",
+				"expected": "噩梦",
+				"only_rec": true,
+				"roi": "EndlessWealthIsleAssignOneTime",
+				"roi_offset": [-412, 9, 28, -17],
+				"sub_name": "LevelPos"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [12, 20, 80],
+				"upper": [15, 50, 255],
+				"roi": "LevelPos",
+				"roi_offset": [267, 2, -12, -3],
+				"count": 10,
+				"sub_name": "TimesColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "^28$",
+				"only_rec": true,
+				"roi": "TimesColor",
+				"roi_offset": [-2, -2, 4, 4]
+			}
+		]
+	},
+	"EndlessWealthIsleAssignNightmareLevelTenTimes": {
+		"desc": "增加10次噩梦难度挑战次数",
+		"max_hit": 4,
+		"recognition": "And",
+		"all_of": [
+			"EndlessWealthIsleAssignTenTime",
+			{
+				"recognition": "OCR",
+				"expected": "噩梦",
+				"only_rec": true,
+				"roi": "EndlessWealthIsleAssignTenTime",
+				"roi_offset": [-462, 8, 28, -13],
+				"sub_name": "LevelPos"
+			},
+			{
+				"recognition": "TemplateMatch",
+				"template": "EndlessWealthIsle/AddTen.png",
+				"roi": "LevelPos",
+				"roi_offset": [441, -14, 7, 30]
+			}
+		],
+		"box_index": 2,
+		"action": "Click",
+		"target_offset": [8, 22, -26, -40],
+		"pre_delay": 0,
+		"post_delay": 500
+	},
+	"EndlessWealthIsleHardLevelTimesSatisfied": {
+		"desc": "困难难度挑战次数已满足(5次)",
+		"post_delay": 0,
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"EndlessWealthIsleAssignOneTime",
+			{
+				"recognition": "OCR",
+				"expected": "困难",
+				"only_rec": true,
+				"roi": "EndlessWealthIsleAssignOneTime",
+				"roi_offset": [-412, 9, 28, -17],
+				"sub_name": "LevelPos"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [12, 20, 80],
+				"upper": [15, 50, 255],
+				"roi": "LevelPos",
+				"roi_offset": [267, 2, -12, -3],
+				"count": 10,
+				"sub_name": "TimesColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "^5$",
+				"only_rec": true,
+				"roi": "TimesColor",
+				"roi_offset": [-2, -2, 4, 4]
+			}
+		]
+	},
+	"EndlessWealthIsleSimpleLevelTimesSatisfied": {
+		"desc": "简单难度挑战次数已满足(9次)",
+		"post_delay": 0,
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"EndlessWealthIsleAssignOneTime",
+			{
+				"recognition": "OCR",
+				"expected": "普通",
+				"only_rec": true,
+				"roi": "EndlessWealthIsleAssignOneTime",
+				"roi_offset": [-412, 9, 28, -17],
+				"sub_name": "SimpleLevelPos"
+			},
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [12, 20, 80],
+				"upper": [15, 50, 255],
+				"roi": "SimpleLevelPos",
+				"roi_offset": [267, 2, -12, -3],
+				"count": 10,
+				"sub_name": "TimesColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "^9$",
+				"only_rec": true,
+				"roi": "TimesColor",
+				"roi_offset": [-2, -2, 4, 4]
+			}
+		]
+	},
+	"EndlessWealthIsleAssignSimpleLevelTenTimes": {
+		"desc": "增加10次简单难度挑战次数",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": [
+			"EndlessWealthIsleAssignTenTime",
+			{
+				"recognition": "OCR",
+				"expected": "普通",
+				"only_rec": true,
+				"roi": "EndlessWealthIsleAssignTenTime",
+				"roi_offset": [-462, 8, 28, -13],
+				"sub_name": "SimpleLevelPos"
+			},
+			{
+				"recognition": "TemplateMatch",
+				"template": "EndlessWealthIsle/AddTen.png",
+				"roi": "SimpleLevelPos",
+				"roi_offset": [441, -14, 7, 30]
+			}
+		],
+		"box_index": 2,
+		"action": "Click",
+		"target_offset": [8, 22, -26, -40],
+		"pre_delay": 0,
+		"post_delay": 500
+	},
+	"EndlessWealthIsleSubSimpleLevelOneTimes": {
+		"desc": "减少1次简单难度挑战次数",
+		"max_hit": 1,
+		"recognition": "And",
+		"all_of": [
+			"EndlessWealthIsleSubOneTime",
+			{
+				"recognition": "OCR",
+				"expected": "普通",
+				"only_rec": true,
+				"roi": "EndlessWealthIsleSubOneTime",
+				"roi_offset": [-137, 9, 26, -18],
+				"sub_name": "SimpleLevelPos"
+			},
+			{
+				"recognition": "TemplateMatch",
+				"template": "EndlessWealthIsle/SubOne.png",
+				"roi": "SimpleLevelPos",
+				"roi_offset": [125, -16, 13, 32]
+			}
+		],
+		"box_index": 2,
+		"action": "Click",
+		"target_offset": [14, 22, -19, -40],
+		"pre_delay": 0,
+		"post_delay": 500
+	},
+	"EndlessWealthIsleAssignHardLevelOneTimes": {
+		"desc": "增加困难难度1次挑战次数",
+		"max_hit": 5,
+		"recognition": "And",
+		"all_of": [
+			"EndlessWealthIsleAssignOneTime",
+			{
+				"recognition": "OCR",
+				"expected": "困难",
+				"only_rec": true,
+				"roi": "EndlessWealthIsleAssignOneTime",
+				"roi_offset": [-412, 9, 28, -17],
+				"sub_name": "HardLevelPos"
+			},
+			{
+				"recognition": "TemplateMatch",
+				"template": "EndlessWealthIsle/AddOne.png",
+				"roi": "HardLevelPos",
+				"roi_offset": [392, -14, 58, 28]
+			}
+		],
+		"box_index": 2,
+		"action": "Click",
+		"target_offset": [8, 21, -23, -43],
+		"pre_delay": 0,
+		"post_delay": 500
+	},
+	"EndlessWealthIsleAssignOneTime": {
+		"desc": "分配1次挑战次数",
+		"recognition": "TemplateMatch",
+		"template": "EndlessWealthIsle/AddOne.png",
+		"roi": [472, 383, 164, 406]
+	},
+	"EndlessWealthIsleSubOneTime": {
+		"desc": "减少1次挑战次数",
+		"recognition": "TemplateMatch",
+		"template": "EndlessWealthIsle/SubOne.png",
+		"roi": [176, 420, 124, 238]
+	},
+	"EndlessWealthIsleAssignTenTime": {
+		"desc": "分配10次挑战次数",
+		"recognition": "TemplateMatch",
+		"template": "EndlessWealthIsle/AddTen.png",
+		"roi": [472, 383, 164, 406]
 	},
 	"EndlessWealthIsleOneKeySweepComplete": {
 		"desc": "已完成扫荡",

@@ -529,6 +529,7 @@
 	},
 	"SignIn": {
 		"desc": "签到",
+		"max_hit": 1,
 		"recognition": "OCR",
 		"expected": "签到",
 		"roi": [325, 1186, 72, 33],
