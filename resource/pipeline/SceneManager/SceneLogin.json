@@ -57,7 +57,7 @@
 		"next": [
 			"CheckTargetServerIfInGame",
 			"InTargetServer",
-			"[JumpBack]FindAndSwitchServerInServerList",
+			"FindAndSwitchServerInServerList",
 			"[JumpBack]LoginPageEventsHandle",
 			"[JumpBack]ServerListEntry",
 			"[JumpBack]SceneEnterSettingPage"
@@ -295,7 +295,7 @@
 		"action": "Click",
 		"pre_delay": 0,
 		"post_delay": 500,
-		"timeout": 20000,
+		"timeout": 10000,
 		"next": [
 			"InTargetServer",
 			"[JumpBack]ConfirmButton"

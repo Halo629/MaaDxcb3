@@ -402,6 +402,7 @@
 		"recognition": "OCR",
 		"expected": "宫廷悬赏|宫廷|悬赏",
 		"roi": [290, 233, 127, 49],
+		"only_rec": true,
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0
