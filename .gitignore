@@ -13,7 +13,7 @@ cache/
 debug/
 
 # ===== 运行时配置 =====
-config/
+/config/
 resources/
 
 # ===== 预编译二进制 / SDK（从 release 下载）=====
