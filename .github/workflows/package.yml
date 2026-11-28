@@ -125,12 +125,12 @@ jobs:
               echo "## What's Changed"
               PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || true)
               if [ -n "$PREV_TAG" ]; then
-                git log --pretty=format:"%H" "$PREV_TAG..HEAD" | while read hash; do
+                git log --pretty=tformat:"%H" "$PREV_TAG..HEAD" | while read hash; do
                   author=$(git log -1 --pretty=format:%an "$hash")
                   git log -1 --pretty=format:"%s%n%b" "$hash" | awk -v a="$author" 'NF { print "* " $0 " @" a }'
                 done
               else
-                git log --pretty=format:"%H" | while read hash; do
+                git log --pretty=tformat:"%H" | while read hash; do
                   author=$(git log -1 --pretty=format:%an "$hash")
                   git log -1 --pretty=format:"%s%n%b" "$hash" | awk -v a="$author" 'NF { print "* " $0 " @" a }'
                 done
