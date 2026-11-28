@@ -3,13 +3,33 @@
 		{
 			"name": "SilverFarm",
 			"label": "💰刷银币",
-			"description": "将在至高之庭的珍宝馆-馆长室刷取",
 			"entry": "MazeSilverFarmStart",
 			"group": ["other_tasks"],
-			"option": ["FarmCount"]
+			"option": ["SelectFarmMaze", "FarmCount"]
 		}
 	],
 	"option": {
+		"SelectFarmMaze": {
+			"type": "select",
+			"label": "选择迷宫",
+			"default_case": "SupremeCourt",
+			"cases": [
+				{
+					"name": "SupremeCourt",
+					"label": "至高之庭珍宝馆-馆长室",
+					"pipeline_override": {
+						"SupremeCourtSilverFarm": {"enabled": true}
+					}
+				},
+				{
+					"name": "WildBullValley",
+					"label": "蛮牛谷-蛮牛谷军营",
+					"pipeline_override": {
+						"WildBullValleySilverFarm": {"enabled": true}
+					}
+				}
+			]
+		},
 		"FarmCount": {
 			"type": "input",
 			"label": "刷取次数",
@@ -18,14 +38,13 @@
 					"name": "FarmCountInputValue",
 					"label": "输入次数",
 					"pipeline_type": "int",
-                    "verify": "^\\d+$",
-                    "default": "100"
+					"verify": "^\\d+$",
+					"default": "100"
 				}
 			],
 			"pipeline_override": {
-				"SceneEnterTreasureHall": {
-					"max_hit": "{FarmCountInputValue}"
-				}
+				"SceneEnterTreasureHall": {"max_hit": "{FarmCountInputValue}"},
+				"WildBullValleyMoveToWildBullValleyCamp": {"max_hit": "{FarmCountInputValue}"}
 			}
 		}
 	}

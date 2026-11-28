@@ -45,12 +45,12 @@ public:
     static void registerAll(MaaResource* res, void* userData);
 
     // 供走位辅助函数（.cpp 匿名命名空间）访问
-    static std::map<std::string, json::value>& mapConfig() { return mapConfig_; }
-    static double walkCoef() { return walkCoef_; }
+    static std::map<std::string, json::value>& mapConfig() { return m_mapConfig; }
+    static double walkCoef() { return m_walkCoef; }
 
 private:
-    static std::map<std::string, json::value> mapConfig_;
-    static std::string lastMoveNode_;
-    static int lastMoveAttempts_;
-    static double walkCoef_;
+    static std::map<std::string, json::value> m_mapConfig;
+    static std::string m_lastMoveNode;
+    static int m_lastMoveAttempts;
+    static double m_walkCoef;
 };

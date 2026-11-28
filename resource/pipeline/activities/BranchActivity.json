@@ -103,7 +103,7 @@
 		"recognition": "And",
 		"all_of": ["InBranchActivityCelebrationPage"],
 		"pre_delay": 0,
-		"post_delay": 0,
+		"post_delay": 500,
 		"next": [
 			"[JumpBack]BranchActivityClickYellowCollect",
 			"BranchActivityDone"
@@ -116,14 +116,15 @@
 			{
 				"recognition": "OCR",
 				"expected": "一键领取|键领取|领取",
-				"roi": [105, 1093, 197, 58]
+				"roi": [32, 1045, 456, 127],
+				"sub_name": "Collect"
 			},
 			{
 				"recognition": "ColorMatch",
 				"method": 40,
-				"lower": [20, 80, 80],
+				"lower": [15, 80, 80],
 				"upper": [35, 255, 255],
-				"roi": [105, 1093, 197, 58],
+				"roi": "Collect",
 				"count": 50
 			}
 		],

@@ -10,11 +10,13 @@
 
 #include <cctype>
 #include <cstring>
+#include <iomanip>
+#include <sstream>
 
 namespace {
 
 
-bool extractNumberFromOcrDetail(json::value& detail, long long& outValue)
+bool extractNumberFromOcrDetail(json::value& detail, double& outValue)
 {
     if (!detail.is_object()) {
         return false;
@@ -65,7 +67,7 @@ bool resolveAndBoxIndex(MaaContext* context, const char* nodeName, bool& isAnd, 
     return true;
 }
 
-bool runNumericRecognition(MaaContext* context, const MaaImageBuffer* image, const char* nodeName, long long& outValue)
+bool runNumericRecognition(MaaContext* context, const MaaImageBuffer* image, const char* nodeName, double& outValue)
 {
     auto* tasker = MaaContextGetTasker(context);
     auto recoId = MaaContextRunRecognition(context, nodeName, "{}", image);
@@ -100,8 +102,26 @@ bool runNumericRecognition(MaaContext* context, const MaaImageBuffer* image, con
     return extractNumberFromOcrDetail(j, outValue);
 }
 
+std::string doubleToString(double v)
+{
+    std::ostringstream oss;
+    oss << std::setprecision(15) << v;
+    return oss.str();
+}
+
+std::string paramValueToString(const json::value& v)
+{
+    if (v.is_string()) {
+        return v.as_string();
+    }
+    if (v.is_number()) {
+        return doubleToString(v.as_double());
+    }
+    return "";
+}
+
 bool resolveExpressionValues(MaaContext* context, const MaaImageBuffer* image, const std::string& expression,
-                             std::string& outResolved)
+                             const json::value& params, std::string& outResolved)
 {
     std::string result;
     size_t i = 0;
@@ -115,15 +135,21 @@ bool resolveExpressionValues(MaaContext* context, const MaaImageBuffer* image, c
         if (close == std::string::npos) {
             return false;
         }
-        std::string nodeName = trim(expression.substr(i + 1, close - i - 1));
-        if (nodeName.empty()) {
+        std::string name = trim(expression.substr(i + 1, close - i - 1));
+        if (name.empty()) {
             return false;
         }
-        long long value = 0;
-        if (!runNumericRecognition(context, image, nodeName.c_str(), value)) {
-            return false;
+
+        if (params.is_object() && params.contains(name)) {
+            result += paramValueToString(params.get(name, json::value("")));
         }
-        result += std::to_string(value);
+        else {
+            double value = 0;
+            if (!runNumericRecognition(context, image, name.c_str(), value)) {
+                return false;
+            }
+            result += doubleToString(value);
+        }
         i = close + 1;
     }
     outResolved = std::move(result);
@@ -157,13 +183,14 @@ MaaBool ExpressionRecognizer::recognize(MaaContext* context, MaaTaskId taskId, c
     auto param = jsonutil::parse(customRecognitionParam ? customRecognitionParam : "{}");
     std::string expression = param.is_object() ? param.get("expression", json::value("")).as_string() : "";
     std::string boxNode = param.is_object() ? param.get("box_node", json::value("")).as_string() : "";
+    json::value params = param.is_object() ? param.get("params", json::value(json::object {})) : json::value(json::object {});
     if (expression.empty()) {
         LogUtils::error("ExpressionRecognition: expression 缺失");
         return false;
     }
 
     std::string resolved;
-    if (!resolveExpressionValues(context, image, expression, resolved)) {
+    if (!resolveExpressionValues(context, image, expression, params, resolved)) {
         LogUtils::debug(fmt("ExpressionRecognition: 解析表达式值失败: %1", expression));
         return false;
     }

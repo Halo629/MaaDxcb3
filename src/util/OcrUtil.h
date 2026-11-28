@@ -21,7 +21,7 @@ std::vector<Text> collectTexts(const json::value& detail);
 // 从文本列表取第一个数字，失败返回 false。
 bool extractNumber(const std::vector<Text>& texts, int& outValue);
 
-// 解析 OCR 文本中的数值，支持 万/亿/K/M/B 后缀。
-bool parseNumeric(const std::string& text, long long& outValue);
+// 解析 OCR 文本中的数值，支持 万/亿/K/M/B 后缀，保留小数。
+bool parseNumeric(const std::string& text, double& outValue);
 
 } // namespace ocr

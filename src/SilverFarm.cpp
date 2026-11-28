@@ -33,7 +33,7 @@ int extractNumberFromOcrDetail(const std::string& detail)
 } // namespace
 
 // 自定义动作：记录银币数量（遍历 RewardSilver 识别到的所有银币图标，逐个累加）
-MaaBool supremeCourtSilverFarmRecordAct(
+MaaBool silverFarmRecordAct(
     MaaContext* context,
     MaaTaskId taskId,
     const char* nodeName,
@@ -128,7 +128,7 @@ MaaBool recordEnterMazeAct(
 
 void registerCustomSilverFarm(MaaResource* res, void* userData)
 {
-    registerCustomAction(res, "SupremeCourtSilverFarmRecord", supremeCourtSilverFarmRecordAct, userData);
+    registerCustomAction(res, "SilverFarmRecord", silverFarmRecordAct, userData);
     registerCustomAction(res, "ClearSilverFarmRecord", clearSilverFarmRecordAct, userData);
     registerCustomAction(res, "RecordEnterMaze", recordEnterMazeAct, userData);
 }

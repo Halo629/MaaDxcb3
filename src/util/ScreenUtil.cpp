@@ -14,11 +14,11 @@
 
 namespace {
 
-constexpr int kScreenW = 720;
-constexpr int kScreenH = 1280;
+constexpr int g_screenW = 720;
+constexpr int g_screenH = 1280;
 
 // 720×1280 九宫格区域坐标
-constexpr MaaRect kScreenAreaBox[] = {
+constexpr MaaRect g_screenAreaBox[] = {
     { 0, 0, 240, 427 },      // ScreenArea_TopLeft
     { 240, 0, 240, 427 },    // ScreenArea_TopCenter
     { 480, 0, 240, 427 },    // ScreenArea_TopRight
@@ -31,9 +31,17 @@ constexpr MaaRect kScreenAreaBox[] = {
 };
 
 // 记住的滑动起点：本次移动内有效，避免每次都从屏幕中心滑又弹据点框
-bool g_hasSwipeStart = false;
-int g_swipeStartX = 0;
-int g_swipeStartY = 0;
+struct SwipeStartState {
+    bool hasStart = false;
+    int x = 0;
+    int y = 0;
+};
+
+SwipeStartState& swipeStart()
+{
+    static SwipeStartState state;
+    return state;
+}
 
 bool isStopping(MaaContext* context)
 {
@@ -124,16 +132,16 @@ std::vector<MaaRect> forbiddenAreas(MaaContext* context)
         forbidden.push_back({ 0, 0, rightX + 30, bottomY + 30 });
     }
 
-    forbidden.push_back({ 0, 0, 140, kScreenH });
-    forbidden.push_back({ 0, kScreenH - 110, kScreenW, 110 });
-    forbidden.push_back({ 0, 0, kScreenW, 160 });
-    forbidden.push_back({ kScreenW - 130, 0, 130, 365 });
+    forbidden.push_back({ 0, 0, 140, g_screenH });
+    forbidden.push_back({ 0, g_screenH - 110, g_screenW, 110 });
+    forbidden.push_back({ 0, 0, g_screenW, 160 });
+    forbidden.push_back({ g_screenW - 130, 0, 130, 365 });
     return forbidden;
 }
 
 bool isRectClickable(MaaContext* context, int x, int y, int w, int h)
 {
-    if (x < 0 || y < 0 || x + w > kScreenW || y + h > kScreenH) {
+    if (x < 0 || y < 0 || x + w > g_screenW || y + h > g_screenH) {
         return false;
     }
     for (auto& r : forbiddenAreas(context)) {
@@ -227,7 +235,7 @@ bool swipeWithOffsetRetry(MaaContext* context, int baseX, int baseY, int dx, int
             }
             int sx = baseX + d.first * step;
             int sy = baseY + d.second * step;
-            if (sx + dx < 0 || sy + dy < 0 || sx + dx >= kScreenW || sy + dy >= kScreenH) {
+            if (sx + dx < 0 || sy + dy < 0 || sx + dx >= g_screenW || sy + dy >= g_screenH) {
                 continue;
             }
             if (!screen::isClickable(context, sx, sy)) {
@@ -275,14 +283,15 @@ std::vector<std::pair<int, int>> computeEscapeDirs(int x, int y, int w, int h)
 
 void swipeVec(MaaContext* context, int dx, int dy, int duration)
 {
-    int baseX = g_hasSwipeStart ? g_swipeStartX : 360;
-    int baseY = g_hasSwipeStart ? g_swipeStartY : 900;
+    SwipeStartState& start = swipeStart();
+    int baseX = start.hasStart ? start.x : 360;
+    int baseY = start.hasStart ? start.y : 900;
 
     int sx = baseX, sy = baseY;
     if (swipeWithOffsetRetry(context, baseX, baseY, dx, dy, duration, &sx, &sy)) {
-        g_hasSwipeStart = true;
-        g_swipeStartX = sx;
-        g_swipeStartY = sy;
+        start.hasStart = true;
+        start.x = sx;
+        start.y = sy;
     }
 }
 
@@ -293,7 +302,7 @@ namespace screen {
 std::vector<MaaRect> clickableAreas(MaaContext* context)
 {
     std::vector<MaaRect> clickable;
-    clickable.push_back({ 0, 0, kScreenW, kScreenH });
+    clickable.push_back({ 0, 0, g_screenW, g_screenH });
     for (auto& cut : forbiddenAreas(context)) {
         clickable = subtractRects(clickable, cut);
     }
@@ -345,13 +354,13 @@ MaaRect adjustRectToClickable(MaaContext* context, const std::string& task,
         if (target.x < 0) {
             mx = 100;
         }
-        else if (target.x + target.width > kScreenW) {
+        else if (target.x + target.width > g_screenW) {
             mx = -100;
         }
         if (target.y < 0) {
             my = 100;
         }
-        else if (target.y + target.height > kScreenH) {
+        else if (target.y + target.height > g_screenH) {
             my = -100;
         }
 
@@ -408,9 +417,7 @@ MaaRect adjustRectToClickable(MaaContext* context, const std::string& task,
 
 void resetSwipeStart()
 {
-    g_hasSwipeStart = false;
-    g_swipeStartX = 0;
-    g_swipeStartY = 0;
+    swipeStart() = SwipeStartState {};
 }
 
 void swipeToward(MaaContext* context, int dx, int dy, int dist, int duration)
@@ -460,7 +467,7 @@ void waitFreezes(MaaContext* context, uint32_t areaMask, int waitTime, int timeo
     snprintf(param, sizeof(param), R"({"timeout": %d})", timeout);
     for (int i = 0; i < 9; ++i) {
         if (areaMask & (1u << i)) {
-            MaaContextWaitFreezes(context, waitTime, &kScreenAreaBox[i], param);
+            MaaContextWaitFreezes(context, waitTime, &g_screenAreaBox[i], param);
         }
     }
 }

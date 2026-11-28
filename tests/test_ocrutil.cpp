@@ -3,62 +3,69 @@
 
 TEST_CASE(parse_numeric_plain)
 {
-    long long v = 0;
+    double v = 0;
     CHECK(ocr::parseNumeric("12345", v));
-    CHECK_EQ(v, 12345);
+    CHECK_EQ(v, 12345.0);
+}
+
+TEST_CASE(parse_numeric_decimal)
+{
+    double v = 0;
+    CHECK(ocr::parseNumeric("89.1", v));
+    CHECK_EQ(v, 89.1);
 }
 
 TEST_CASE(parse_numeric_wan)
 {
-    long long v = 0;
+    double v = 0;
     CHECK(ocr::parseNumeric("1.2万", v));
-    CHECK_EQ(v, 12000);
+    CHECK_EQ(v, 12000.0);
 }
 
 TEST_CASE(parse_numeric_yi)
 {
-    long long v = 0;
+    double v = 0;
     CHECK(ocr::parseNumeric("3亿", v));
-    CHECK_EQ(v, 300000000LL);
+    CHECK_EQ(v, 300000000.0);
 }
 
 TEST_CASE(parse_numeric_suffix_k)
 {
-    long long v = 0;
+    double v = 0;
     CHECK(ocr::parseNumeric("5K", v));
-    CHECK_EQ(v, 5000);
+    CHECK_EQ(v, 5000.0);
 }
 
 TEST_CASE(parse_numeric_suffix_m)
 {
-    long long v = 0;
+    double v = 0;
     CHECK(ocr::parseNumeric("1.5M", v));
-    CHECK_EQ(v, 1500000);
+    CHECK_EQ(v, 1500000.0);
 }
 
 TEST_CASE(parse_numeric_suffix_b)
 {
-    long long v = 0;
+    double v = 0;
     CHECK(ocr::parseNumeric("2B", v));
-    CHECK_EQ(v, 2000000000LL);
+    CHECK_EQ(v, 2000000000.0);
 }
 
 TEST_CASE(parse_numeric_comma_thousands)
 {
-    long long v = 0;
+    double v = 0;
     CHECK(ocr::parseNumeric("1,234", v));
-    CHECK_EQ(v, 1234);
+    CHECK_EQ(v, 1234.0);
 }
 
 TEST_CASE(parse_numeric_empty)
 {
-    long long v = 0;
+    double v = 0;
     CHECK(!ocr::parseNumeric("", v));
 }
 
 TEST_CASE(parse_numeric_no_digit)
 {
-    long long v = 0;
+    double v = 0;
     CHECK(!ocr::parseNumeric("abc", v));
 }
 

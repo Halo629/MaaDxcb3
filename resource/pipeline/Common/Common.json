@@ -106,8 +106,8 @@
 		"expected": "失败",
 		"roi": [273, 388, 174, 90]
 	},
-	"HandleBattleVictoryDialog": {
-		"desc": "关闭战斗胜利弹框",
+	"HandleBattleDialog": {
+		"desc": "关闭战斗弹框",
 		"recognition": "Or",
 		"any_of": ["BattleVictoryDialog", "BattleFailDialog"],
 		"pre_delay": 0,

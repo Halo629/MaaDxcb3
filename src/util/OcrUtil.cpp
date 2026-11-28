@@ -128,7 +128,7 @@ bool extractNumber(const std::vector<Text>& texts, int& outValue)
     return false;
 }
 
-bool parseNumeric(const std::string& text, long long& outValue)
+bool parseNumeric(const std::string& text, double& outValue)
 {
     std::string cleaned;
     for (char c : text) {
@@ -192,7 +192,7 @@ bool parseNumeric(const std::string& text, long long& outValue)
         return false;
     }
     const double value = std::stod(normalized);
-    outValue = static_cast<long long>(std::round(value * multiplier));
+    outValue = value * multiplier;
     return true;
 }
 

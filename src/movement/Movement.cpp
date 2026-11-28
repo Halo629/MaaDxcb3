@@ -10,10 +10,10 @@
 
 #include <cmath>
 
-std::map<std::string, json::value> Movement::mapConfig_;
-std::string Movement::lastMoveNode_;
-int Movement::lastMoveAttempts_ = 0;
-double Movement::walkCoef_ = 5.0;
+std::map<std::string, json::value> Movement::m_mapConfig;
+std::string Movement::m_lastMoveNode;
+int Movement::m_lastMoveAttempts = 0;
+double Movement::m_walkCoef = 5.0;
 
 namespace {
 
@@ -59,8 +59,8 @@ bool readCharacterCoord(MaaContext* context, int& cx, int& cy, int dx = 0, int d
         return false;
     }
 
-    static const int kDirs[4][2] = { { 0, 1 }, { 0, -1 }, { -1, 0 }, { 1, 0 } };
-    for (const auto& d : kDirs) {
+    static const int g_dirs[4][2] = { { 0, 1 }, { 0, -1 }, { -1, 0 }, { 1, 0 } };
+    for (const auto& d : g_dirs) {
         for (int i = 0; i < 3; ++i) {
             if (isStopping(context)) {
                 return false;
@@ -442,11 +442,11 @@ MaaBool Movement::findTargetPoint(MaaContext* context, MaaTaskId taskId, const c
     auto offset = jsonutil::readIntArray(param.get("offset", json::value()), { 0, 0, 0, 0 });
 
     const std::string moveKey = nodeName ? nodeName : "";
-    if (lastMoveNode_ != moveKey) {
-        lastMoveNode_ = moveKey;
-        lastMoveAttempts_ = 0;
+    if (m_lastMoveNode != moveKey) {
+        m_lastMoveNode = moveKey;
+        m_lastMoveAttempts = 0;
     }
-    walkCoef_ = (lastMoveAttempts_++ == 0) ? 10.0 : 5.0;
+    m_walkCoef = (m_lastMoveAttempts++ == 0) ? 10.0 : 5.0;
 
     MaaRect box;
     if (!walkToTargetPoint(context, tx, ty, task, box, 5, dist)) {
@@ -482,7 +482,7 @@ MaaBool Movement::arrivedAtTargetPoint(MaaContext* context, MaaTaskId taskId, co
 
     bool arrived = cx >= px - offX && cx <= px + offX && cy >= py - offY && cy <= py + offY;
     if (arrived) {
-        lastMoveAttempts_ = 0;
+        m_lastMoveAttempts = 0;
     }
     return arrived;
 }

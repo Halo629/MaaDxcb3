@@ -27,7 +27,7 @@ namespace direction {
 // 罗盘方位文本 → 12 方位（支持"北偏东""正北""北"等）
 inline CompassDir parseDirection(const std::string& text)
 {
-    static const std::vector<std::pair<const char*, CompassDir>> kDirTable = {
+    static const std::vector<std::pair<const char*, CompassDir>> g_dirTable = {
         { "北偏东", CompassDir::NorthByEast }, { "北偏西", CompassDir::NorthByWest },
         { "东偏北", CompassDir::EastByNorth }, { "东偏南", CompassDir::EastBySouth },
         { "南偏东", CompassDir::SouthByEast }, { "南偏西", CompassDir::SouthByWest },
@@ -37,7 +37,7 @@ inline CompassDir parseDirection(const std::string& text)
         { "西", CompassDir::West },            { "北", CompassDir::North },
         { "东", CompassDir::East },            { "南", CompassDir::South },
     };
-    for (const auto& [kw, dir] : kDirTable) {
+    for (const auto& [kw, dir] : g_dirTable) {
         if (text.find(kw) != std::string::npos) {
             return dir;
         }

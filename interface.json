@@ -74,6 +74,7 @@
 		// group: daily_tasks
 		"assets/tasks/DailyTasks/DailyRewards.json",
 		"assets/tasks/StewardTasks/StewardTasks.json",
+		"assets/tasks/DailyTasks/DailySkyreachTower.json",
 		"assets/tasks/DailyTasks/HeartRealmTask.json",
 		"assets/tasks/StewardTasks/CarriageShopOption.json",
 		"assets/tasks/StewardTasks/SoulMasterGuideOption.json",

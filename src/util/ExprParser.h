@@ -1,19 +1,20 @@
 #pragma once
 
 #include <cctype>
+#include <cmath>
 #include <cstring>
 #include <string>
 #include <utility>
 
-// 表达式求值结果：整数或布尔，最终表达式必须是布尔。
+// 表达式求值结果：数值或布尔，最终表达式必须是布尔。
 struct ExprValue
 {
     bool isBool = false;
-    long long intVal = 0;
+    double numVal = 0;
     bool boolVal = false;
 };
 
-// 递归下降表达式求值器：算术 +-* /%，比较 < <= > >= == !=，逻辑 && || !，分组 ()，整数。
+// 递归下降表达式求值器：算术 +-* /%，比较 < <= > >= == !=，逻辑 && || !，分组 ()，浮点数。
 class ExprParser
 {
 public:
@@ -229,7 +230,7 @@ private:
             if (!parseUnary(out) || out.isBool) {
                 return false;
             }
-            out.intVal = -out.intVal;
+            out.numVal = -out.numVal;
             return true;
         }
         if (consume('+')) {
@@ -249,14 +250,25 @@ private:
             return consume(')');
         }
         size_t start = pos_;
-        while (pos_ < s_.size() && std::isdigit((unsigned char)s_[pos_])) {
-            ++pos_;
+        bool seenDot = false;
+        while (pos_ < s_.size()) {
+            char c = s_[pos_];
+            if (std::isdigit((unsigned char)c)) {
+                ++pos_;
+            }
+            else if (c == '.' && !seenDot) {
+                seenDot = true;
+                ++pos_;
+            }
+            else {
+                break;
+            }
         }
         if (start == pos_) {
             return false;
         }
         out.isBool = false;
-        out.intVal = std::stoll(s_.substr(start, pos_ - start));
+        out.numVal = std::stod(s_.substr(start, pos_ - start));
         return true;
     }
 
@@ -267,25 +279,25 @@ private:
         }
         switch (op) {
         case '+':
-            l.intVal += r.intVal;
+            l.numVal += r.numVal;
             return true;
         case '-':
-            l.intVal -= r.intVal;
+            l.numVal -= r.numVal;
             return true;
         case '*':
-            l.intVal *= r.intVal;
+            l.numVal *= r.numVal;
             return true;
         case '/':
-            if (r.intVal == 0) {
+            if (r.numVal == 0) {
                 return false;
             }
-            l.intVal /= r.intVal;
+            l.numVal /= r.numVal;
             return true;
         case '%':
-            if (r.intVal == 0) {
+            if (r.numVal == 0) {
                 return false;
             }
-            l.intVal %= r.intVal;
+            l.numVal = std::fmod(l.numVal, r.numVal);
             return true;
         default:
             return false;
@@ -300,16 +312,16 @@ private:
         bool result = false;
         switch (op) {
         case 1:
-            result = l.intVal <= r.intVal;
+            result = l.numVal <= r.numVal;
             break;
         case 2:
-            result = l.intVal >= r.intVal;
+            result = l.numVal >= r.numVal;
             break;
         case 3:
-            result = l.intVal < r.intVal;
+            result = l.numVal < r.numVal;
             break;
         case 4:
-            result = l.intVal > r.intVal;
+            result = l.numVal > r.numVal;
             break;
         default:
             return false;
@@ -324,7 +336,7 @@ private:
         if (l.isBool != r.isBool) {
             return false;
         }
-        bool result = l.isBool ? (l.boolVal == r.boolVal) : (l.intVal == r.intVal);
+        bool result = l.isBool ? (l.boolVal == r.boolVal) : (l.numVal == r.numVal);
         l.isBool = true;
         l.boolVal = result;
         return true;

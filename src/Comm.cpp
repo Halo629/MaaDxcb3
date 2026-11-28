@@ -769,7 +769,7 @@ bool findTextOnScreen(MaaContext* context, const MaaImageBuffer* img, const std:
     for (auto& m : mazes) {
         if (m.text.find(text) != std::string::npos) {
             outBox = m.box;
-            LogUtils::info(fmt("findTextOnScreen: 期望[%1] 识别到迷宫[%2]", text, m.text));
+            LogUtils::debug(fmt("findTextOnScreen: 期望[%1] 识别到迷宫[%2]", text, m.text));
             return true;
         }
     }
@@ -790,7 +790,7 @@ WalkStep walkStep(MaaContext* context, int tx, int ty, const std::string& task, 
 
     int cx = 0, cy = 0;
     if (!readCharacterCoord(context, cx, cy, lastDx, lastDy)) {
-        LogUtils::warn("walkStep: 读取人物坐标失败");
+        LogUtils::debug("walkStep: 读取人物坐标失败");
         return WalkStep::Error;
     }
 
@@ -804,10 +804,10 @@ WalkStep walkStep(MaaContext* context, int tx, int ty, const std::string& task, 
     if (slideDist < 80) {
         slideDist = 80;
     }
-    LogUtils::info(fmt("walkStep: 人物=(%1,%2) 目标=(%3,%4) 距离=%5 滑动=%6 系数=%7", cx, cy, tx, ty, (int)len, slideDist, g_walkCoef));
+    LogUtils::debug(fmt("walkStep: 人物=(%1,%2) 目标=(%3,%4) 距离=%5 滑动=%6 系数=%7", cx, cy, tx, ty, (int)len, slideDist, g_walkCoef));
 
     if (recognizeTask(context, task.c_str(), &outBox)) {
-        LogUtils::info("walkStep: 找到目标位置");
+        LogUtils::debug("walkStep: 找到目标位置");
         return WalkStep::Found;
     }
     // 已经到达目标附近（滑动视角不改变人物世界坐标，继续滑也只会原地重复）
@@ -818,7 +818,7 @@ WalkStep walkStep(MaaContext* context, int tx, int ty, const std::string& task, 
     swipeToward(context, dx, dy, slideDist);
 
     if (recognizeTask(context, task.c_str(), &outBox)) {
-        LogUtils::info("walkStep: 找到目标位置");
+        LogUtils::debug("walkStep: 找到目标位置");
         return WalkStep::Found;
     }
     return WalkStep::NotFound;
@@ -1055,7 +1055,7 @@ static void runDoor(MaaContext* context, int cx, int cy, int tx, int ty, const D
             swipeToward(context, door.x - cx, door.y - cy, dist);
         }
     }
-    LogUtils::info(fmt("walkToTargetPoint: 穿过[%1] 人物=(%2,%3) 目标=(%4,%5)", door.task, cx, cy, tx, ty));
+    LogUtils::debug(fmt("walkToTargetPoint: 穿过[%1] 人物=(%2,%3) 目标=(%4,%5)", door.task, cx, cy, tx, ty));
     runTaskAndWait(context, door.task);
 }
 
@@ -1254,7 +1254,7 @@ MaaBool findTargetPoint(
         g_lastMoveNode = moveKey;
         g_lastMoveAttempts = 0;
     }
-    g_walkCoef = (g_lastMoveAttempts++ == 0) ? 10.0 : 5.0;
+    g_walkCoef = (g_lastMoveAttempts++ == 0) ? 8.0 : 5.0;
 
     MaaRect box;
     if (!walkToTargetPoint(context, tx, ty, task, box, 5, dist)) {
@@ -1264,7 +1264,7 @@ MaaBool findTargetPoint(
         if (best.width <= 0 || best.height <= 0) {
             return false;
         }
-        LogUtils::info(fmt("findTargetPoint: 未识别到目标，返回可点击区域(%1,%2,%3,%4)供点击重试", best.x, best.y, best.width, best.height));
+        LogUtils::debug(fmt("findTargetPoint: 未识别到目标，返回可点击区域(%1,%2,%3,%4)供点击重试", best.x, best.y, best.width, best.height));
         *out_box = best;
         return true;
     }
@@ -1303,12 +1303,12 @@ MaaBool arrivedAtTargetPoint(
 
     bool arrived = cx >= px - offX && cx <= px + offX && cy >= py - offY && cy <= py + offY;
     if (arrived) {
-        LogUtils::info(fmt("arrivedAtTargetPoint: 已到达 人物=(%1,%2) 目标=(%3,%4)", cx, cy, px, py));
+        LogUtils::debug(fmt("arrivedAtTargetPoint: 已到达 人物=(%1,%2) 目标=(%3,%4)", cx, cy, px, py));
         // 到达成功：重置当前 MoveTo 的尝试次数，下次重新按首次大步长
         g_lastMoveAttempts = 0;
     }
     else {
-        LogUtils::info(fmt("arrivedAtTargetPoint: 未到达 人物=(%1,%2) 目标=(%3,%4) 容差=(%5,%6)", cx, cy, px, py, offX, offY));
+        LogUtils::debug(fmt("arrivedAtTargetPoint: 未到达 人物=(%1,%2) 目标=(%3,%4) 容差=(%5,%6)", cx, cy, px, py, offX, offY));
     }
     return arrived;
 }

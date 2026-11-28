@@ -121,7 +121,7 @@
 	"MazeEmptyFloor": {
 		"desc": "迷宫中点击空格子地板",
 		"pre_delay": 0,
-		"post_delay": 0,
+		"post_delay": 1000,
 		"rate_limit": 0,
 		"recognition": "Or",
 		"any_of": [
@@ -129,40 +129,55 @@
 				"recognition": "TemplateMatch",
 				"template": "battle/empty_floor1.png",
 				"roi": [53, 164, 648, 822],
-				"threshold": 0.8
+				"threshold": 0.8,
+				"order_by": "Horizontal"
 			},
 			{
 				"recognition": "TemplateMatch",
 				"template": "battle/empty_floor2.png",
 				"roi": [53, 164, 648, 822],
-				"threshold": 0.8
+				"threshold": 0.8,
+				"order_by": "Horizontal"
+			},
+			{
+				"recognition": "TemplateMatch",
+				"template": "battle/empty_floor3.png",
+				"roi": [53, 164, 648, 822],
+				"threshold": 0.8,
+				"order_by": "Horizontal"
 			}
 		],
 		"action": "Click",
 		"post_wait_freezes": {
 			"time": 500,
-			"target": [89, 227, 584, 758],
-			"timeout": 1000
+			"target": [12, 237, 695, 795],
+			"timeout": 2000
 		}
 	},
 	"MazeMonsterFloor": {
 		"desc": "迷宫中点击怪物地板",
+		"max_hit": 30,
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
 		"recognition": "TemplateMatch",
 		"template": "battle/monster_floor.png",
-		"roi": [53, 164, 648, 822],
+		"roi": [0, 216, 720, 723],
 		"threshold": 0.6,
+		"order_by": "Horizontal",
 		"action": "Click",
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [89, 227, 584, 758],
 			"timeout": 2000
 		},
+		"timeout": 5000,
 		"next": [
-			"BattleVictoryDialog",
+			"ShadowMirrorLootPopup",
 			"BattleFailDialog"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
 		]
 	},
 	"MazeStartOut": {

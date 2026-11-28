@@ -58,9 +58,15 @@
 		"desc": "掠影之境收集镜片",
 		"recognition": "And",
 		"all_of": ["InShadowMirrorPage"],
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["ShadowMirrorAvailableRecord"]
+		},
 		"next": [
 			"[JumpBack]ShadowMirrorAvailableRecord",
-			"ShadowMirrorCollectMirror"
+			"ShadowMirrorCollectMirrorInMinosIronWall",
+			"ShadowMirrorCollectMirrorInSoulTomb"
 		]
 	},
 	"ShadowMirrorCurrentPoints": {
@@ -70,7 +76,7 @@
 		"only_rec": true
 	},
 	"ShadowMirrorAvailableRecord": {
-		"desc": "读取次数后记录可获得镜片数量并回到游戏主页",
+		"desc": "读取次数后记录可获得镜片数量并返回",
 		"max_hit": 1,
 		"recognition": "And",
 		"all_of": ["ShadowMirrorAvailableCount"],
@@ -83,7 +89,8 @@
 			"AvailableCountRecord": true
 		},
 		"next": [
-			"SceneEnterMainPage"
+			"[JumpBack]SceneBack",
+			"__ScenePrivateNextTrue"
 		]
 	},
 	"ShadowMirrorCountColor": {
@@ -124,20 +131,30 @@
 			}
 		]
 	},
-	"ShadowMirrorCollectMirror": {
-		"desc": "收集镜片",
+	"ShadowMirrorCollectMirrorInMinosIronWall": {
+		"desc": "在米诺的铁壁之城收集镜片",
+		"enabled": false,
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"next": [
+			"ShadowMirrorMinosCastleEntry",
+			"[JumpBack]SceneEnterMinosIronWallNoReset"
+		]
+	},
+	"ShadowMirrorCollectMirrorInSoulTomb": {
+		"desc": "在魂墓收集镜片",
+		"enabled": false,
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
 		"anchor": {
-			"SelectMapOrder": "SwitchMapListAscendingSort",
-			"SelectWorldMapAnchor": "OriginWorldMap",
-			"SelectMiniMapAnchor": "ShadowMirrorClickMinosIronWall",
-			"ResetMiniMapAnchor": "ShadowMirrorResetMap"
+			"ShadowMirrorResultRecordAnchor": "ShadowMirrorLootRecord",
+			"ShadowMirrorExitAnchor": "ShadowMirrorFetchMirrorCountCheck"
 		},
 		"next": [
-			"ShadowMirrorMinosCastleEntry",
-			"[JumpBack]SceneEnterSelectDestination"
+			"ShadowMirrorFetchMirrorCountCheck",
+			"SoulTombStart"
 		]
 	},
 	"ShadowMirrorResetMap": {
@@ -197,12 +214,6 @@
 		"post_delay": 3000,
 		"rate_limit": 0
 	},
-	"InMinosIronWallMap": {
-		"desc": "在米诺的铁壁之城",
-		"recognition": "OCR",
-		"expected": "米诺的铁壁之城|米诺|铁壁之城",
-		"roi": [95, 61, 194, 45]
-	},
 	"ShadowMirrorMinosCastleEntry": {
 		"desc": "在米诺的铁壁之城地图进入米诺的城堡",
 		"recognition": "And",
@@ -210,17 +221,29 @@
 		"pre_delay": 0,
 		"post_delay": 0,
 		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["ShadowMirrorSwipeLeft"]
+		},
 		"next": [
-			"ShadowMirrorMinosCastleMazeExploreEntry",
+			"ShadowMirrorFetchMirrorCountCheck",
+			"[JumpBack]ShadowMirrorMinosCastleMazeExploreEntry",
 			"[JumpBack]MazeStartOut",
 			"[JumpBack]ShadowMirrorMinosCastleMazeEntry",
 			"[JumpBack]ShadowMirrorClickMinosCastle",
-			"[JumpBack]ShadowMirrorSwipeLeft",
+			"[JumpBack]ShadowMirrorSwipeLeft"
+		],
+		"timeout": 6000,
+		"on_error": [
 			"ShadowMirrorMapNotFound"
 		]
 	},
 	"ShadowMirrorMapNotFound": {
-		"desc": "未找到米诺的城堡,退出",
+		"desc": "未找到米诺的城堡或者进入次数达到上限(识别镜片出错),退出",
+		"focus": {
+			"Node.Recognition.Succeeded": "掠影之境出错，请检查镜片数量是否已达上限"
+		},
 		"next": [
 			"SceneEnterMainPage"
 		]
@@ -243,10 +266,34 @@
 	},
 	"ShadowMirrorClickMinosCastle": {
 		"desc": "点击米诺的城堡",
-		"recognition": "OCR",
-		"expected": "米诺的城堡|米诺|城堡",
-		"roi": [199, 277, 406, 894],
-		"action": "Click",
+		"max_hit": 5,
+		"recognition": "And",
+		"all_of": [
+			"MazeCompleteStatus",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 30, 80],
+				"upper": [30, 50, 255],
+				"roi": "MazeCompleteStatus",
+				"roi_offset": [29, 0, 80, 0],
+				"count": 30,
+				"sub_name": "CompleteMazeNameColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "米诺的城堡|城堡",
+				"roi": "CompleteMazeNameColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2,
+		"action": "Custom",
+		"custom_action": "AdjustPositionAndClick",
+		"custom_action_param": {
+			"target_offset": [0, -50, 0, 0]
+		},
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [167, 514, 354, 490],
@@ -265,7 +312,7 @@
 		"post_wait_freezes": {
 			"time": 500,
 			"target": [167, 514, 354, 490],
-			"timeout": 5000
+			"timeout": 2000
 		},
 		"pre_delay": 0,
 		"post_delay": 0,
@@ -273,45 +320,66 @@
 	},
 	"ShadowMirrorMinosCastleMazeExploreEntry": {
 		"desc": "探索迷宫搜获取镜片",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
 		"recognition": "And",
 		"all_of": ["InMaze", "InMinosCastleMaze"],
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["MazeMonsterFloor"]
+		},
 		"next": [
 			"ShadowMirrorFetchMirrorCountCheck",
-			"ShadowMirrorMinosCastleEntry",
+			"[JumpBack]CollapseTeam",
 			"[JumpBack]ShadowMirrorLootRecord",
 			"[JumpBack]MazeEmptyFloor",
 			"[JumpBack]MazeMonsterFloor",
-			"[JumpBack]MazeExit"
+			"MazeExit"
 		]
 	},
 	"ShadowMirrorLootRecord": {
 		"desc": "战利品记录",
-		"recognition": "And",
-		"all_of": ["ShadowMirrorLootPopup"],
+		"recognition": "Or",
+		"any_of": ["ShadowMirrorLootPopup", "BattleResultVictory"],
+		"pre_delay": 0,
+		"post_delay": 500,
+		"rate_limit": 0,
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["ShadowMirrorFetchMirrorRecord"]
+		},
 		"next": [
-			"ShadowMirrorFetchMirrorRecord",
-			"HandleBattleVictoryDialog"
+			"[JumpBack]ShadowMirrorFetchMirrorRecord",
+			"[JumpBack]HandleBattleDialog",
+			"[JumpBack]HandleBattleEnd",
+			"__ScenePrivateNextTrue"
 		]
 	},
 	"ShadowMirrorFetchMirrorRecord": {
 		"desc": "记录获取的镜片数量",
-		"recognition": "And",
-		"all_of": ["ShadowMirrorLootReward"],
+		"max_hit": 1,
+		"recognition": "Or",
+		"any_of": [
+			"ShadowMirrorLootRewardInMinosWall",
+			"ShadowMirrorLootRewardInSoulTomb"
+		],
 		"action": "Custom",
 		"custom_action": "ShadowMirrorRecord",
 		"custom_action_param": {
 			"LootRecord": true
-		},
-		"next": [
-			"HandleBattleVictoryDialog"
-		]
+		}
 	},
 	"ShadowMirrorFetchMirrorCountCheck": {
 		"desc": "掠影之境判断获取镜片是否已达上限",
 		"recognition": "Custom",
 		"custom_recognition": "ShadowMirrorCountCheck",
+		"post_delay": 500,
 		"next": [
-			"MazeExit"
+			"MazeExit",
+			"__ScenePrivateNextTrue"
 		]
 	},
 	"ShadowMirrorLootPopup": {
@@ -321,16 +389,23 @@
 		"roi": [310, 658, 101, 38]
 	},
 	"InMinosCastleMaze": {
-		"desc": "确认进入米诺的城堡迷宫",
+		"desc": "在米诺的城堡迷宫中",
 		"recognition": "OCR",
-		"expected": "米诺|城堡",
-		"roi": [70, 14, 185, 74]
+		"expected": "米诺的城堡|城堡",
+		"roi": [73, 30, 179, 44],
+		"only_rec": true
 	},
-	"ShadowMirrorLootReward": {
-		"desc": "检查是否获得镜片",
+	"ShadowMirrorLootRewardInMinosWall": {
+		"desc": "检查是否获得镜片(米诺)",
 		"recognition": "OCR",
 		"expected": "镜片|能量",
 		"roi": [153, 711, 479, 211]
+	},
+	"ShadowMirrorLootRewardInSoulTomb": {
+		"desc": "检查是否获得镜片(魂墓)",
+		"recognition": "OCR",
+		"expected": "镜片|能量",
+		"roi": [0, 378, 720, 314]
 	},
 	"ShadowMirrorComplete": {
 		"desc": "掠影之境活动已完成",

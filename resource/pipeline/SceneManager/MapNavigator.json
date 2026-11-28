@@ -30,6 +30,11 @@
 		"rate_limit": 0,
 		"recognition": "And",
 		"all_of": ["InSelectDestinationPage"],
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["DestinationPageSwipeUp"]
+		},
 		"next": [
 			"InMap",
 			"[JumpBack][Anchor]SelectMapOrder",
@@ -156,10 +161,10 @@
 	"SceneCollapseSideBar": {
 		"desc": "出发前往地图前收起侧边栏",
 		"recognition": "And",
-		"all_of": ["InCampfire", "HasCollapseIcon"],
-		"box_index": 1,
-		"action": "Click",
-		"post_delay": 500
+		"all_of": ["InCampfire", "CollapseSideBar"],
+		"next": [
+			"CollapseSideBar"
+		]
 	},
 	"ResetIsleOfTimesEnd": {
 		"desc": "重置时之尽头的孤岛",
@@ -1144,5 +1149,67 @@
 		"on_error": [
 			"__ScenePrivateNextTrue"
 		]
+	},
+	"SceneEnterMinosIronWallNoReset": {
+		"desc": "进入米诺的铁壁之城(不重置地图)",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"anchor": {
+			"SelectMapOrder": "SwitchMapListAscendingSort",
+			"SelectWorldMapAnchor": "OriginWorldMap",
+			"SelectMiniMapAnchor": "MapListClickMinosIronWall",
+			"ResetMiniMapAnchor": "NoResetMinosIronWall"
+		},
+		"next": [
+			"InMinosIronWallMap",
+			"[JumpBack]SceneEnterSelectDestination"
+		]
+	},
+	"MapListClickMinosIronWall": {
+		"desc": "地图列表点击至高之庭",
+		"recognition": "And",
+		"all_of": [
+			"InOriginWordPage",
+			{
+				"recognition": "OCR",
+				"expected": "米诺|铁壁",
+				"roi": [205, 194, 363, 781]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [167, 514, 354, 490],
+			"timeout": 2000
+		},
+		"pre_delay": 0,
+		"post_delay": 3000,
+		"rate_limit": 0,
+		"timeout": 10000,
+		"next": [
+			"InMinosIronWallMap"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"InMinosIronWallMap": {
+		"desc": "在米诺的铁壁之城",
+		"recognition": "And",
+		"all_of": [
+			"MapNameColorMatch",
+			{
+				"recognition": "OCR",
+				"expected": "米诺的铁壁之城|米诺|铁壁之城",
+				"roi": "MapNameColorMatch",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0
 	}
 }

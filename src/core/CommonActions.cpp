@@ -91,7 +91,7 @@ MaaBool CommonActions::saveConfig(MaaContext* context, MaaTaskId taskId, const c
                                   const char* customActionName, const char* customActionParam,
                                   MaaRecoId recoId, const MaaRect* box, void* transArg)
 {
-    Config::parseUserConfig(Config::nodeAttach(context, nodeName));
+    Config::instance().parseUserConfig(Config::instance().nodeAttach(context, nodeName));
     return true;
 }
 
@@ -192,7 +192,7 @@ MaaBool CommonActions::checkRoleInTargetMap(MaaContext* context, MaaTaskId taskI
     targetMap = param.get("map_name", json::value("")).as_string();
 
     if (targetMap.empty()) {
-        auto attach = Config::nodeAttach(context, nodeName);
+        auto attach = Config::instance().nodeAttach(context, nodeName);
         resetFlag = attach.get("reset_flag", json::value(true)).as_boolean();
         targetMap = attach.get("map_name", json::value("")).as_string();
     }

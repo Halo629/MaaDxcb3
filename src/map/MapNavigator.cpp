@@ -70,7 +70,7 @@ std::string MapNavigator::mapOfRole(MaaContext* context, MaaRect* outBox)
 
 std::string MapNavigator::currentMap(MaaContext* context)
 {
-    static const std::vector<std::pair<const char*, const char*>> kMapInTable = {
+    static const std::vector<std::pair<const char*, const char*>> g_mapInTable = {
         { "InIsleOfTimesEnd", "时之尽头的孤岛" },
         { "InCrescentCounty", "新月郡" },
         { "InGremid", "格雷米德" },
@@ -80,7 +80,7 @@ std::string MapNavigator::currentMap(MaaContext* context)
         { "InIserel", "伊瑟瑞尔" },
     };
     ScreenCap cap(context);
-    for (const auto& [inNode, name] : kMapInTable) {
+    for (const auto& [inNode, name] : g_mapInTable) {
         if (recog::run(context, cap.img, inNode, "{}", nullptr, nullptr)) {
             return name;
         }

@@ -1,13 +1,56 @@
 {
-    "task": [
-        {
-            "name": "ShadowMirror",
-            "label": "🪞掠影之境",
-            "description":"能量镜片将在源世界米诺的铁壁之城刷取，请确保解锁该地图并且能打过",
-            "entry": "ShadowMirrorStart",
-            "group": [
-                "activity_tasks"
-            ]
-        }
-    ]
+	"task": [
+		{
+			"name": "ShadowMirror",
+			"label": "🪞掠影之境",
+			"description": "推荐在源世界米诺的铁壁之城刷取，如果地图未解锁，可选在魂墓刷取",
+			"entry": "ShadowMirrorStart",
+			"group": ["activity_tasks"],
+			"option": ["SelectMirrorCollectMap"]
+		}
+	],
+	"option": {
+		"SelectMirrorCollectMap": {
+			"type": "select",
+			"label": "选择地图",
+			"default_case": "CollectMirrorInMinosIronWall",
+			"cases": [
+				{
+					"name": "CollectMirrorInMinosIronWall",
+					"label": "米诺的铁壁之城",
+					"pipeline_override": {
+						"ShadowMirrorCollectMirrorInMinosIronWall": {"enabled": true}
+					}
+				},
+				{
+					"name": "CollectMirrorInSoulTomb",
+					"label": "灵魂之墓",
+					"pipeline_override": {
+						"ShadowMirrorCollectMirrorInSoulTomb": {"enabled": true}
+					},
+					"option": [
+						"DisableBattleStrategy",
+						"ChallengeStartLevel",
+						"CollectMirrorMaxChallengeCount"
+					]
+				}
+			]
+		},
+		"CollectMirrorMaxChallengeCount": {
+			"type": "input",
+			"label": "最大挑战次数",
+			"inputs": [
+				{
+					"name": "MaxCountValue",
+					"label": "最大挑战次数",
+					"pipeline_type": "int",
+					"verify": "^\\d+$",
+					"default": "40"
+				}
+			],
+			"pipeline_override": {
+				"SoulTombLoop": {"max_hit": "{MaxCountValue}"}
+			}
+		}
+	}
 }

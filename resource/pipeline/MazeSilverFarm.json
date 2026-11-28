@@ -8,6 +8,200 @@
 		"action": "Custom",
 		"custom_action": "ClearSilverFarmRecord",
 		"next": [
+			"WildBullValleySilverFarm",
+			"SupremeCourtSilverFarm"
+		]
+	},
+	"WildBullValleySilverFarm": {
+		"desc": "蛮牛谷刷银币",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"enabled": false,
+		"next": [
+			"WildBullValleySilverFarmStart",
+			"[JumpBack]SceneEnterWildBullValleyNoReset"
+		]
+	},
+	"WildBullValleySilverFarmStart": {
+		"desc": "蛮牛谷刷银币入口",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InWildBullValley"],
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": ["ZoomInMax"]
+		},
+		"timeout": 10000,
+		"next": [
+			"[JumpBack]CollapseSideBar",
+			"[JumpBack]ZoomInMax",
+			"[JumpBack]WildBullValleyCampFarmEntry",
+			"[JumpBack]WildBullValleyMoveToWildBullValleyCamp",
+			"__ScenePrivateNextTrue"
+		],
+		"on_error": [
+			"WildBullValleyCampNotFound"
+		]
+	},
+	"WildBullValleyCampNotFound": {
+		"desc": "未识别到蛮牛谷军营",
+		"focus": {
+			"Node.Recognition.Succeeded": "未识别到蛮牛谷军营,请重置地图(进一次其他地图)后重试"
+		}
+	},
+	"WildBullValleyCampFarmEntry": {
+		"desc": "军营校场刷银币入口",
+		"post_delay": 0,
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["InWildBullValleyCamp"],
+		"next": [
+			"[JumpBack]WildBullValleyCampMazeFarmStart",
+			"[JumpBack]MazeStartOut",
+			"[JumpBack]HandleRewardDialog",
+			"[JumpBack]SceneEnterWildBullValleyCamp",
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"WildBullValleyCampMazeFarmStart": {
+		"desc": "军营校场迷宫中刷银币",
+		"recognition": "And",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"all_of": ["InWildBullValleyCampMaze"],
+		"action": "Custom",
+		"custom_action": "ClearHitCount",
+		"custom_action_param": {
+			"nodes": [
+				"RecordEnterMaze",
+				"WildBullValleyCampClickMazeEmptyFloor"
+			]
+		},
+		"anchor": {"MazeResultRecordAnchor": "SilverFarmRecord"},
+		"timeout": 5000,
+		"next": [
+			"[JumpBack]RecordEnterMaze",
+			"[JumpBack]MazeStartOut",
+			"[JumpBack]WildBullValleyCampClickMazeEmptyFloor",
+			"[JumpBack]ClickBossFloor",
+			"MazeExit",
+			"MazeExitResult"
+		]
+	},
+	"WildBullValleyCampClickMazeEmptyFloor": {
+		"desc": "在军营校场迷宫中点击空格子地板",
+		"max_hit": 1,
+		"pre_delay": 0,
+		"post_delay": 1000,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": ["MazeEmptyFloor"],
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [12, 237, 695, 795],
+			"timeout": 2000
+		}
+	},
+	"InWildBullValleyCampMaze": {
+		"desc": "在军营校场迷宫中",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"recognition": "OCR",
+		"expected": "军营校场|军营|校场",
+		"roi": [87, 28, 148, 46],
+		"only_rec": true
+	},
+	"SceneEnterWildBullValleyCamp": {
+		"desc": "进入军营校场",
+		"post_delay": 0,
+		"pre_delay": 0,
+		"rate_limit": 0,
+		"recognition": "And",
+		"all_of": [
+			"InWildBullValleyCamp",
+			{
+				"recognition": "TemplateMatch",
+				"template": "common/WildBullValleyCamp.png",
+				"roi": [46, 624, 594, 360]
+			}
+		],
+		"box_index": 1,
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [69, 297, 561, 674],
+			"timeout": 2000
+		}
+	},
+	"WildBullValleyMoveToWildBullValleyCamp": {
+		"desc": "移动到蛮牛谷军营",
+		"recognition": "Custom",
+		"custom_recognition": "findTargetPoint",
+		"custom_recognition_param": {
+			"point": [45, 55],
+			"task": "WildBullValleyCamp",
+			"offset": [112, -63, -50, 11]
+		},
+		"action": "Click",
+		"post_wait_freezes": {
+			"time": 500,
+			"target": [182, 475, 504, 659],
+			"timeout": 10000
+		},
+		"timeout": 15000,
+		"next": [
+			"InWildBullValleyCamp"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"InWildBullValleyCamp": {
+		"desc": "在蛮牛谷军营页面",
+		"recognition": "OCR",
+		"roi": [277, 303, 162, 39],
+		"expected": "蛮牛谷军营|军营",
+		"only_rec": true
+	},
+	"WildBullValleyCamp": {
+		"desc": "蛮牛谷军营",
+		"recognition": "And",
+		"all_of": [
+			"MazeCompleteStatus",
+			{
+				"recognition": "ColorMatch",
+				"method": 40,
+				"lower": [20, 30, 80],
+				"upper": [30, 50, 255],
+				"roi": "MazeCompleteStatus",
+				"roi_offset": [29, 0, 80, 0],
+				"count": 30,
+				"sub_name": "CompleteMazeNameColor"
+			},
+			{
+				"recognition": "OCR",
+				"expected": "蛮牛谷军营|军营",
+				"roi": "CompleteMazeNameColor",
+				"roi_offset": [-2, -2, 4, 4],
+				"only_rec": true
+			}
+		],
+		"box_index": 2
+	},
+	"SupremeCourtSilverFarm": {
+		"desc": "至高之庭刷银币",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
+		"enabled": false,
+		"next": [
 			"SupremeCourtSilverFarmStart",
 			"[JumpBack]SceneEnterSupremeCourtNoReset"
 		]
@@ -55,7 +249,7 @@
 	"TreasureHallNotFound": {
 		"desc": "未识别到珍宝馆",
 		"focus": {
-			"Node.Recognition.Succeeded": "未识别到珍宝馆,请重置地图(仅一次其他地图)后重试"
+			"Node.Recognition.Succeeded": "未识别到珍宝馆,请重置地图(进一次其他地图)后重试"
 		}
 	},
 	"TreasureHallFarmEntry": {
@@ -66,7 +260,7 @@
 		"recognition": "And",
 		"all_of": ["TreasureHallFound"],
 		"next": [
-			"[JumpBack]MazeFarmStart",
+			"[JumpBack]CuratorRoomMazeFarmStart",
 			"[JumpBack]MazeStartOut",
 			"[JumpBack]HandleRewardDialog",
 			"[JumpBack]SceneEnterCuratorRoom",
@@ -74,8 +268,11 @@
 			"__ScenePrivateNextTrue"
 		]
 	},
-	"MazeFarmStart": {
-		"desc": "迷宫中刷银币",
+	"CuratorRoomMazeFarmStart": {
+		"desc": "馆长室迷宫中刷银币",
+		"pre_delay": 0,
+		"post_delay": 0,
+		"rate_limit": 0,
 		"recognition": "And",
 		"all_of": ["InMazeCuratorRoom"],
 		"action": "Custom",
@@ -83,15 +280,14 @@
 		"custom_action_param": {
 			"nodes": ["RecordEnterMaze"]
 		},
-		"anchor": {
-			"MazeResultRecordAnchor": "SupremeCourtSilverFarmRecord"
-		},
+		"anchor": {"MazeResultRecordAnchor": "SilverFarmRecord"},
 		"next": [
 			"[JumpBack]RecordEnterMaze",
 			"[JumpBack]MazeStartOut",
 			"[JumpBack]MazeEmptyFloor",
 			"[JumpBack]ClickMonsterFloor",
-			"MazeExit"
+			"MazeExit",
+			"MazeExitResult"
 		]
 	},
 	"InMazeCuratorRoom": {
@@ -150,9 +346,32 @@
 		"threshold": 0.6,
 		"order_by": "Horizontal",
 		"action": "Click",
+		"timeout": 5000,
 		"next": [
 			"BattleAI",
 			"BattleEnd"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
+		]
+	},
+	"ClickBossFloor": {
+		"desc": "迷宫中点击Boss地板",
+		"pre_delay": 0,
+		"post_delay": 500,
+		"rate_limit": 0,
+		"recognition": "TemplateMatch",
+		"template": "battle/boss_floor.png",
+		"threshold": 0.6,
+		"action": "Click",
+		"timeout": 5000,
+		"next": [
+			"[JumpBack]BattleButton",
+			"BattleAI",
+			"BattleEnd"
+		],
+		"on_error": [
+			"__ScenePrivateNextTrue"
 		]
 	},
 	"RecordEnterMaze": {
@@ -183,10 +402,10 @@
 			"timeout": 2000
 		}
 	},
-	"SupremeCourtSilverFarmRecord": {
-		"desc": "至高之庭刷银币记录",
+	"SilverFarmRecord": {
+		"desc": "刷银币记录",
 		"action": "Custom",
-		"custom_action": "SupremeCourtSilverFarmRecord",
+		"custom_action": "SilverFarmRecord",
 		"timeout": 3000,
 		"next": [
 			"[JumpBack]HandleMazeExitResult",

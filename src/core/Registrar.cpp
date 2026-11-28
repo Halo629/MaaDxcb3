@@ -1,27 +1,30 @@
 #include "Registrar.h"
 
 #include "CommonActions.h"
-#include "module/ArcaneCellModule.h"
-#include "module/BattleModule.h"
-#include "module/BattleTimeTestModule.h"
-#include "module/CelestialIsleModule.h"
-#include "module/DarkSecretTreasureModule.h"
-#include "module/EndlessWealthIsleModule.h"
-#include "module/FerdinandModule.h"
-#include "module/FoodFestivalModule.h"
-#include "module/GreatMarshExpeditionModule.h"
-#include "module/GuildModule.h"
-#include "module/HuntingGroundFeastModule.h"
-#include "module/MonsterSoulUpgradeModule.h"
-#include "module/RecipeModule.h"
-#include "module/RuneWorkshopModule.h"
-#include "module/ServerModule.h"
-#include "module/ShadowMirrorModule.h"
-#include "module/ShopModule.h"
-#include "module/SoulTombModule.h"
-#include "module/StewardModule.h"
-#include "module/TreasureSageModule.h"
-#include "module/WeeklyScheduleModule.h"
+#include "module/OtherTasks/ArcaneCellModule.h"
+#include "module/Common/BattleModule.h"
+#include "module/OtherTasks/BattleTimeTestModule.h"
+#include "module/ActivityTasks/CelestialIsleModule.h"
+#include "module/ActivityTasks/DarkSecretTreasureModule.h"
+#include "module/DailyTasks/EndlessWealthIsleModule.h"
+#include "module/ActivityTasks/FerdinandModule.h"
+#include "module/ActivityTasks/FoodFestivalModule.h"
+#include "module/ActivityTasks/GreatMarshExpeditionModule.h"
+#include "module/ActivityTasks/GuildModule.h"
+#include "module/ActivityTasks/HuntingGroundFeastModule.h"
+#include "module/OtherTasks/MonsterSoulUpgradeModule.h"
+#include "module/OtherTasks/RecipeModule.h"
+#include "module/OtherTasks/RedeemCodeModule.h"
+#include "module/OtherTasks/RuneUpgradeModule.h"
+#include "module/OtherTasks/RuneWorkshopModule.h"
+#include "module/OtherTasks/ServerModule.h"
+#include "module/ActivityTasks/ShadowMirrorModule.h"
+#include "module/DailyTasks/ShopModule.h"
+#include "module/OtherTasks/SilverFarmModule.h"
+#include "module/OtherTasks/SoulTombModule.h"
+#include "module/DailyTasks/StewardModule.h"
+#include "module/ActivityTasks/TreasureSageModule.h"
+#include "module/WeeklyTasks/WeeklyScheduleModule.h"
 #include "movement/Movement.h"
 #include "recognizer/ExpressionRecognizer.h"
 
@@ -45,9 +48,12 @@ void registerAllCustomRecognition(MaaResource* res, void* userData)
     HuntingGroundFeastModule::registerAll(res, userData);
     MonsterSoulUpgradeModule::registerAll(res, userData);
     RecipeModule::registerAll(res, userData);
+    RedeemCodeModule::registerAll(res, userData);
+    RuneUpgradeModule::registerAll(res, userData);
     RuneWorkshopModule::registerAll(res, userData);
     ServerModule::registerAll(res, userData);
     ShadowMirrorModule::registerAll(res, userData);
+    SilverFarmModule::registerAll(res, userData);
     SoulTombModule::registerAll(res, userData);
     StewardModule::registerAll(res, userData);
     TreasureSageModule::registerAll(res, userData);

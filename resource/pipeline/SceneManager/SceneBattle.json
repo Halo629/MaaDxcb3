@@ -431,5 +431,13 @@
 			"ConfirmButton",
 			"QuitBattle"
 		]
+	},
+	"CollapseTeam": {
+		"desc": "收起编队",
+		"recognition": "TemplateMatch",
+		"template": "battle/CollapseTeam.png",
+		"roi": [282, 966, 156, 66],
+		"action": "Click",
+		"post_delay": 500
 	}
 }

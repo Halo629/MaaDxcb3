@@ -59,3 +59,59 @@ target_link_libraries(cpp-service PRIVATE
     MaaAgentServer
     MaaFramework
 )
+
+# ─── 优化代码（test 版，不影响 cpp-service）───────────────────────
+file(GLOB_RECURSE OPTIMIZED_SRCS CONFIGURE_DEPENDS
+    "src/module/*.cpp"
+    "src/util/*.cpp"
+    "src/core/*.cpp"
+    "src/config/*.cpp"
+    "src/map/*.cpp"
+    "src/movement/*.cpp"
+    "src/recognizer/*.cpp"
+)
+
+add_executable(cpp-service-test
+    src/LogUtils.cpp
+    ${OPTIMIZED_SRCS}
+)
+
+add_custom_command(TARGET cpp-service-test POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "$<TARGET_FILE:cpp-service-test>"
+        "${CMAKE_CURRENT_SOURCE_DIR}/agent/cpp-service-test.exe"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "$<TARGET_PDB_FILE:cpp-service-test>"
+        "${CMAKE_CURRENT_SOURCE_DIR}/agent/cpp-service-test.pdb"
+)
+
+target_include_directories(cpp-service-test PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    "${MAA_ROOT}/include"
+    ${MEOJSON_INCLUDE}
+)
+
+target_link_directories(cpp-service-test PRIVATE "${MAA_ROOT}/lib")
+
+target_link_libraries(cpp-service-test PRIVATE
+    MaaAgentServer
+    MaaFramework
+)
+
+# ─── 单元测试 ────────────────────────────────────────────────────
+enable_testing()
+add_executable(unit-tests
+    tests/test_main.cpp
+    tests/test_stringutil.cpp
+    tests/test_jsonutil.cpp
+    tests/test_ocrutil.cpp
+    tests/test_exprparser.cpp
+    tests/test_directionutil.cpp
+    src/util/OcrUtil.cpp
+)
+target_include_directories(unit-tests PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    "${MAA_ROOT}/include"
+    ${MEOJSON_INCLUDE}
+)
+add_test(NAME unit-tests COMMAND unit-tests)

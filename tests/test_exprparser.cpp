@@ -7,7 +7,16 @@ TEST_CASE(expr_arithmetic)
     ExprParser p("1+2*3");
     CHECK(p.parse(v));
     CHECK(!v.isBool);
-    CHECK_EQ(v.intVal, 7);
+    CHECK_EQ(v.numVal, 7.0);
+}
+
+TEST_CASE(expr_decimal)
+{
+    ExprValue v;
+    ExprParser p("1.5+2.5");
+    CHECK(p.parse(v));
+    CHECK(!v.isBool);
+    CHECK_EQ(v.numVal, 4.0);
 }
 
 TEST_CASE(expr_comparison_true)
@@ -42,7 +51,7 @@ TEST_CASE(expr_paren)
     ExprValue v;
     ExprParser p("(1+2)*3");
     CHECK(p.parse(v));
-    CHECK_EQ(v.intVal, 9);
+    CHECK_EQ(v.numVal, 9.0);
 }
 
 TEST_CASE(expr_modulo)
@@ -50,7 +59,7 @@ TEST_CASE(expr_modulo)
     ExprValue v;
     ExprParser p("10%3");
     CHECK(p.parse(v));
-    CHECK_EQ(v.intVal, 1);
+    CHECK_EQ(v.numVal, 1.0);
 }
 
 TEST_CASE(expr_invalid_trailing_op)

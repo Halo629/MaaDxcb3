@@ -38,15 +38,15 @@ bool run(MaaContext* context, const MaaImageBuffer* img, const char* entry,
 bool waitUntil(MaaContext* context, const char* entry, const char* detailJson,
                MaaRect* outBox, MaaStringBuffer* outDetail, int timeoutMs)
 {
-    const int kStepMs = 1000;
+    const int g_stepMs = 1000;
     int elapsed = 0;
     while (elapsed < timeoutMs) {
         ScreenCap cap(context);
         if (run(context, cap.img, entry, detailJson, outBox, outDetail)) {
             return true;
         }
-        Sleep(kStepMs);
-        elapsed += kStepMs;
+        Sleep(g_stepMs);
+        elapsed += g_stepMs;
     }
     return false;
 }

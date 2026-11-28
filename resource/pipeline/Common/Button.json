@@ -122,9 +122,20 @@
 	},
 	"BattleButton": {
 		"desc": "战斗按钮",
-		"recognition": "OCR",
-		"expected": "战斗",
-		"roi": [178, 714, 362, 245],
+		"recognition": "Or",
+		"any_of": [
+			{
+				"recognition": "OCR",
+				"expected": "战斗",
+				"roi": [178, 714, 362, 245]
+			},
+			{
+				"recognition": "TemplateMatch",
+				"template": "battle/BattleButton.png",
+				"roi": [0, 529, 720, 751]
+			}
+		],
+		"pre_delay": 0,
 		"action": "Click",
 		"post_delay": 500
 	}

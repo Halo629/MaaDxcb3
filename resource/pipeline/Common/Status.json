@@ -22,7 +22,8 @@
 		"recognition": "TemplateMatch",
 		"template": [
 			"main_page_icon/campfire.png",
-			"main_page_icon/campfire2.png"
+			"main_page_icon/campfire2.png",
+			"main_page_icon/campfire3.png"
 		],
 		"pre_delay": 0,
 		"post_delay": 0,

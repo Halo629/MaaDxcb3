@@ -75,7 +75,7 @@
                     "label": "等级 (1-2600)",
                     "pipeline_type": "int",
                     "verify": "^(?:[1-9]\\d{0,2}|1\\d{3}|2[0-5]\\d{2}|2600)$",
-                    "default": "1000"
+                    "default": "50"
                 }
             ],
             "pipeline_override": {
